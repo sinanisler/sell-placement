@@ -1,0 +1,908 @@
+# English (United States) translation of Woo Ad Image Upload.
+# The source strings are already English, so this catalogue simply mirrors them:
+# it exists so English wording can be adjusted without touching the plugin file.
+msgid ""
+msgstr ""
+"Project-Id-Version: Woo Ad Image Upload 0.6.0\n"
+"Report-Msgid-Bugs-To: https://geopard.digital/\n"
+"POT-Creation-Date: 2026-08-10 17:20+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: waiu-build\n"
+"X-Domain: woo-ad-image-upload\n"
+"PO-Revision-Date: 2026-08-10 17:20+0000\n"
+"Last-Translator: geopard.digital\n"
+"Language-Team: English\n"
+"Language: en_US\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: sell-placement.php:137
+msgid "Files, sizes & formats"
+msgstr "Files, sizes & formats"
+
+#: sell-placement.php:138
+msgid "What counts as an acceptable image. These rules are enforced on the server, so they hold however the file arrives."
+msgstr "What counts as an acceptable image. These rules are enforced on the server, so they hold however the file arrives."
+
+#: sell-placement.php:144
+msgid "Maximum file size (MB)"
+msgstr "Maximum file size (MB)"
+
+#: sell-placement.php:146
+msgid "Your server's own upload_max_filesize and post_max_size must be at least this high, or larger uploads fail before the plugin ever sees them."
+msgstr "Your server's own upload_max_filesize and post_max_size must be at least this high, or larger uploads fail before the plugin ever sees them."
+
+#: sell-placement.php:150
+msgid "Allowed formats"
+msgstr "Allowed formats"
+
+#: sell-placement.php:160
+msgid "Leave JPG and JPEG ticked together - they are the same format and files arrive under both extensions. If you untick everything, the defaults are used."
+msgstr "Leave JPG and JPEG ticked together - they are the same format and files arrive under both extensions. If you untick everything, the defaults are used."
+
+#: sell-placement.php:165
+msgid "Preview width (px)"
+msgstr "Preview width (px)"
+
+#: sell-placement.php:167
+msgid "How wide image previews are drawn, everywhere they appear. Height always follows the image."
+msgstr "How wide image previews are drawn, everywhere they appear. Height always follows the image."
+
+#: sell-placement.php:172
+msgid "Minimum width (px)"
+msgstr "Minimum width (px)"
+
+#: sell-placement.php:174 sell-placement.php:181 sell-placement.php:188
+#: sell-placement.php:195
+msgid "0 for no limit."
+msgstr "0 for no limit."
+
+#: sell-placement.php:179
+msgid "Minimum height (px)"
+msgstr "Minimum height (px)"
+
+#: sell-placement.php:186
+msgid "Maximum width (px)"
+msgstr "Maximum width (px)"
+
+#: sell-placement.php:193
+msgid "Maximum height (px)"
+msgstr "Maximum height (px)"
+
+#: sell-placement.php:199
+msgid "Format hint under the picker"
+msgstr "Format hint under the picker"
+
+#: sell-placement.php:200
+msgid "{formats} - up to {max_size}"
+msgstr "{formats} - up to {max_size}"
+
+#: sell-placement.php:207
+msgid "Product page"
+msgstr "Product page"
+
+#: sell-placement.php:208
+msgid "What the buyer sees on the product itself, before adding to the cart."
+msgstr "What the buyer sees on the product itself, before adding to the cart."
+
+#: sell-placement.php:212
+msgid "Mode question"
+msgstr "Mode question"
+
+#: sell-placement.php:213
+msgid "How would you like to provide the image?"
+msgstr "How would you like to provide the image?"
+
+#: sell-placement.php:214
+msgid "Only shown when the product offers more than one way to provide the image."
+msgstr "Only shown when the product offers more than one way to provide the image."
+
+#: sell-placement.php:218
+msgid "Heading when there is no choice"
+msgstr "Heading when there is no choice"
+
+#: sell-placement.php:219 sell-placement.php:307
+msgid "Upload your image"
+msgstr "Upload your image"
+
+#: sell-placement.php:223
+msgid "\"Upload now\" option"
+msgstr "\"Upload now\" option"
+
+#: sell-placement.php:224
+msgid "I'll upload it now"
+msgstr "I'll upload it now"
+
+#: sell-placement.php:228
+msgid "\"Upload now\" hint"
+msgstr "\"Upload now\" hint"
+
+#: sell-placement.php:229
+msgid "Checked instantly before you add to cart"
+msgstr "Checked instantly before you add to cart"
+
+#: sell-placement.php:233
+msgid "\"Upload later\" option"
+msgstr "\"Upload later\" option"
+
+#: sell-placement.php:234
+msgid "I'll upload it later"
+msgstr "I'll upload it later"
+
+#: sell-placement.php:238
+msgid "\"Upload later\" hint"
+msgstr "\"Upload later\" hint"
+
+#: sell-placement.php:239
+msgid "We email you a private upload link after payment"
+msgstr "We email you a private upload link after payment"
+
+#: sell-placement.php:243
+msgid "\"Gift\" option"
+msgstr "\"Gift\" option"
+
+#: sell-placement.php:244
+msgid "It's a gift"
+msgstr "It's a gift"
+
+#: sell-placement.php:248
+msgid "\"Gift\" hint"
+msgstr "\"Gift\" hint"
+
+#: sell-placement.php:249
+msgid "We email them a private upload link"
+msgstr "We email them a private upload link"
+
+#: sell-placement.php:253
+msgid "Drop-zone text (product page)"
+msgstr "Drop-zone text (product page)"
+
+#: sell-placement.php:254
+msgid "Drop your artwork here or"
+msgstr "Drop your artwork here or"
+
+#: sell-placement.php:255
+msgid "The \"browse\" link below is appended to this."
+msgstr "The \"browse\" link below is appended to this."
+
+#: sell-placement.php:259
+msgid "\"Browse\" link text"
+msgstr "\"Browse\" link text"
+
+#: sell-placement.php:260
+msgid "browse"
+msgstr "browse"
+
+#: sell-placement.php:264
+msgid "Camera button (phones only)"
+msgstr "Camera button (phones only)"
+
+#: sell-placement.php:265
+msgid "Take a photo"
+msgstr "Take a photo"
+
+#: sell-placement.php:269
+msgid "While the image is being checked"
+msgstr "While the image is being checked"
+
+#: sell-placement.php:270
+msgid "Checking your image…"
+msgstr "Checking your image…"
+
+#: sell-placement.php:274
+msgid "When the image passes"
+msgstr "When the image passes"
+
+#: sell-placement.php:275
+msgid "Image looks good — you're ready to go."
+msgstr "Image looks good — you're ready to go."
+
+#: sell-placement.php:279
+msgid "\"Choose a different image\" button"
+msgstr "\"Choose a different image\" button"
+
+#: sell-placement.php:280 sell-placement.php:347
+msgid "Choose a different image"
+msgstr "Choose a different image"
+
+#: sell-placement.php:284
+msgid "\"Upload later\" explanation"
+msgstr "\"Upload later\" explanation"
+
+#: sell-placement.php:285
+msgid "Nothing to do now - once your payment goes through we'll email you a private link to upload your image."
+msgstr "Nothing to do now - once your payment goes through we'll email you a private link to upload your image."
+
+#: sell-placement.php:289
+msgid "Recipient email placeholder"
+msgstr "Recipient email placeholder"
+
+#: sell-placement.php:290
+msgid "Recipient's email address"
+msgstr "Recipient's email address"
+
+#: sell-placement.php:294
+msgid "Recipient email hint"
+msgstr "Recipient email hint"
+
+#: sell-placement.php:295
+msgid "We'll email them a private link to upload their image after you check out."
+msgstr "We'll email them a private link to upload their image after you check out."
+
+#: sell-placement.php:301
+msgid "Upload link page"
+msgstr "Upload link page"
+
+#: sell-placement.php:302
+msgid "The page behind the private link, used both by buyers who chose \"upload later\" and by gift recipients. The image is checked and previewed here, then attached to the order only once it is confirmed."
+msgstr "The page behind the private link, used both by buyers who chose \"upload later\" and by gift recipients. The image is checked and previewed here, then attached to the order only once it is confirmed."
+
+#: sell-placement.php:306
+msgid "Heading"
+msgstr "Heading"
+
+#: sell-placement.php:311
+msgid "Intro - buyer's own link"
+msgstr "Intro - buyer's own link"
+
+#: sell-placement.php:312
+msgid "This is the private link for your order. Choose a file below - we'll check it right away, and you can confirm it before it's sent."
+msgstr "This is the private link for your order. Choose a file below - we'll check it right away, and you can confirm it before it's sent."
+
+#: sell-placement.php:316
+msgid "Intro - gift recipient"
+msgstr "Intro - gift recipient"
+
+#: sell-placement.php:317
+msgid "You've been sent this link to upload your own image. Choose a file below - we'll check it right away, and you can confirm it before it's sent."
+msgstr "You've been sent this link to upload your own image. Choose a file below - we'll check it right away, and you can confirm it before it's sent."
+
+#: sell-placement.php:321
+msgid "Drop-zone text"
+msgstr "Drop-zone text"
+
+#: sell-placement.php:322
+msgid "Drop your image here or"
+msgstr "Drop your image here or"
+
+#: sell-placement.php:326
+msgid "When the chosen image passes its checks"
+msgstr "When the chosen image passes its checks"
+
+#: sell-placement.php:327
+msgid "Image checked - please confirm it below."
+msgstr "Image checked - please confirm it below."
+
+#: sell-placement.php:331
+msgid "Confirm step heading"
+msgstr "Confirm step heading"
+
+#: sell-placement.php:332
+msgid "Is this the right image?"
+msgstr "Is this the right image?"
+
+#: sell-placement.php:336
+msgid "Confirm step explanation"
+msgstr "Confirm step explanation"
+
+#: sell-placement.php:337
+msgid "Take a proper look before you send it. Nothing is attached to your order until you confirm, so you can swap it for another file as many times as you like."
+msgstr "Take a proper look before you send it. Nothing is attached to your order until you confirm, so you can swap it for another file as many times as you like."
+
+#: sell-placement.php:341
+msgid "Confirm button"
+msgstr "Confirm button"
+
+#: sell-placement.php:342
+msgid "Yes, use this image"
+msgstr "Yes, use this image"
+
+#: sell-placement.php:346
+msgid "Change button"
+msgstr "Change button"
+
+#: sell-placement.php:351
+msgid "While the confirmation is saving"
+msgstr "While the confirmation is saving"
+
+#: sell-placement.php:352
+msgid "Saving your image…"
+msgstr "Saving your image…"
+
+#: sell-placement.php:356
+msgid "Success heading"
+msgstr "Success heading"
+
+#: sell-placement.php:357
+msgid "Thank you!"
+msgstr "Thank you!"
+
+#: sell-placement.php:361
+msgid "Success message"
+msgstr "Success message"
+
+#: sell-placement.php:362
+msgid "Your image has been saved and your order is complete. We'll be in touch if we need anything else."
+msgstr "Your image has been saved and your order is complete. We'll be in touch if we need anything else."
+
+#: sell-placement.php:366
+msgid "Heading when the link does not work"
+msgstr "Heading when the link does not work"
+
+#: sell-placement.php:367
+msgid "Upload link problem"
+msgstr "Upload link problem"
+
+#: sell-placement.php:371
+msgid "Fallback \"Upload image\" button"
+msgstr "Fallback \"Upload image\" button"
+
+#: sell-placement.php:372
+msgid "Upload image"
+msgstr "Upload image"
+
+#: sell-placement.php:373
+msgid "Only seen by visitors with JavaScript switched off."
+msgstr "Only seen by visitors with JavaScript switched off."
+
+#: sell-placement.php:379
+msgid "Order pages & cart"
+msgstr "Order pages & cart"
+
+#: sell-placement.php:380
+msgid "The uploader shown on the order-received page and in My Account, plus the lines that appear against the item in the cart."
+msgstr "The uploader shown on the order-received page and in My Account, plus the lines that appear against the item in the cart."
+
+#: sell-placement.php:384
+msgid "Panel heading"
+msgstr "Panel heading"
+
+#: sell-placement.php:385
+msgid "We still need your image"
+msgstr "We still need your image"
+
+#: sell-placement.php:389
+msgid "Panel intro"
+msgstr "Panel intro"
+
+#: sell-placement.php:390
+msgid "Upload it right here - no need to wait for the email. It's checked the moment you choose it, and you confirm it before it's sent."
+msgstr "Upload it right here - no need to wait for the email. It's checked the moment you choose it, and you confirm it before it's sent."
+
+#: sell-placement.php:394
+msgid "Private-link prompt"
+msgstr "Private-link prompt"
+
+#: sell-placement.php:395
+msgid "Prefer to do it later or from another device?"
+msgstr "Prefer to do it later or from another device?"
+
+#: sell-placement.php:399
+msgid "Private-link text"
+msgstr "Private-link text"
+
+#: sell-placement.php:400
+msgid "Use your private upload link"
+msgstr "Use your private upload link"
+
+#: sell-placement.php:404
+msgid "Waiting on a gift recipient"
+msgstr "Waiting on a gift recipient"
+
+#: sell-placement.php:405
+msgid "Waiting on the image from {email} - we've emailed them a private upload link."
+msgstr "Waiting on the image from {email} - we've emailed them a private upload link."
+
+#: sell-placement.php:410
+msgid "Cart label - image provided"
+msgstr "Cart label - image provided"
+
+#: sell-placement.php:411
+msgid "Your uploaded image"
+msgstr "Your uploaded image"
+
+#: sell-placement.php:415
+msgid "Cart link - view image"
+msgstr "Cart link - view image"
+
+#: sell-placement.php:416
+msgid "View image"
+msgstr "View image"
+
+#: sell-placement.php:420
+msgid "Cart label - image still to come"
+msgstr "Cart label - image still to come"
+
+#: sell-placement.php:421
+msgid "Image upload"
+msgstr "Image upload"
+
+#: sell-placement.php:425
+msgid "Cart value - gift"
+msgstr "Cart value - gift"
+
+#: sell-placement.php:426
+msgid "Gift - upload link will be emailed to {email}"
+msgstr "Gift - upload link will be emailed to {email}"
+
+#: sell-placement.php:431
+msgid "Cart value - upload later"
+msgstr "Cart value - upload later"
+
+#: sell-placement.php:432
+msgid "You'll upload your image after checkout - we'll email you a private link."
+msgstr "You'll upload your image after checkout - we'll email you a private link."
+
+#: sell-placement.php:436
+msgid "Order line label - the image"
+msgstr "Order line label - the image"
+
+#: sell-placement.php:437
+msgid "Uploaded image"
+msgstr "Uploaded image"
+
+#: sell-placement.php:438
+msgid "Shown against the item on the order, in order emails and in wp-admin. Changing it affects new orders only; orders already placed keep the wording they were created with."
+msgstr "Shown against the item on the order, in order emails and in wp-admin. Changing it affects new orders only; orders already placed keep the wording they were created with."
+
+#: sell-placement.php:442
+msgid "Order line label - upload status"
+msgstr "Order line label - upload status"
+
+#: sell-placement.php:443
+msgid "Upload status"
+msgstr "Upload status"
+
+#: sell-placement.php:447
+msgid "Order line label - gift recipient"
+msgstr "Order line label - gift recipient"
+
+#: sell-placement.php:448
+msgid "Gift recipient"
+msgstr "Gift recipient"
+
+#: sell-placement.php:452
+msgid "Status - waiting on the recipient"
+msgstr "Status - waiting on the recipient"
+
+#: sell-placement.php:453
+msgid "Pending - awaiting upload from recipient"
+msgstr "Pending - awaiting upload from recipient"
+
+#: sell-placement.php:457
+msgid "Status - waiting on the customer"
+msgstr "Status - waiting on the customer"
+
+#: sell-placement.php:458
+msgid "Pending - awaiting upload from customer"
+msgstr "Pending - awaiting upload from customer"
+
+#: sell-placement.php:462
+msgid "Status - image received"
+msgstr "Status - image received"
+
+#: sell-placement.php:463 sell-placement.php:3160
+msgid "Uploaded"
+msgstr "Uploaded"
+
+#: sell-placement.php:469
+msgid "Emails"
+msgstr "Emails"
+
+#: sell-placement.php:470
+msgid "The upload-link emails, the block added to WooCommerce's own order emails, and the notification you receive when an image arrives."
+msgstr "The upload-link emails, the block added to WooCommerce's own order emails, and the notification you receive when an image arrives."
+
+#: sell-placement.php:474
+msgid "Gift recipient - subject"
+msgstr "Gift recipient - subject"
+
+#: sell-placement.php:475
+msgid "You've been sent an image upload request - {site}"
+msgstr "You've been sent an image upload request - {site}"
+
+#: sell-placement.php:481
+msgid "Gift recipient - message"
+msgstr "Gift recipient - message"
+
+#: sell-placement.php:482
+msgid ""
+"Hi,\n"
+"\n"
+"Someone has bought you a spot on {site} and would like you to upload the image you want shown.\n"
+"\n"
+"Please use the link below to upload your image:\n"
+"{link}\n"
+"\n"
+"This link is private to you - please do not share it."
+msgstr ""
+"Hi,\n"
+"\n"
+"Someone has bought you a spot on {site} and would like you to upload the image you want shown.\n"
+"\n"
+"Please use the link below to upload your image:\n"
+"{link}\n"
+"\n"
+"This link is private to you - please do not share it."
+
+#: sell-placement.php:487
+msgid "Buyer - subject"
+msgstr "Buyer - subject"
+
+#: sell-placement.php:488
+msgid "Upload your image for order #{order_number}"
+msgstr "Upload your image for order #{order_number}"
+
+#: sell-placement.php:494
+msgid "Buyer - message"
+msgstr "Buyer - message"
+
+#: sell-placement.php:495
+msgid ""
+"Hi,\n"
+"\n"
+"Thanks for your order on {site}. Order #{order_number} is still waiting on the image you want shown.\n"
+"\n"
+"Please use the link below to upload your image:\n"
+"{link}\n"
+"\n"
+"This link is private to you - please do not share it."
+msgstr ""
+"Hi,\n"
+"\n"
+"Thanks for your order on {site}. Order #{order_number} is still waiting on the image you want shown.\n"
+"\n"
+"Please use the link below to upload your image:\n"
+"{link}\n"
+"\n"
+"This link is private to you - please do not share it."
+
+#: sell-placement.php:500
+msgid "Order email block - heading"
+msgstr "Order email block - heading"
+
+#: sell-placement.php:501
+msgid "Your image is still needed"
+msgstr "Your image is still needed"
+
+#: sell-placement.php:505
+msgid "Order email block - intro"
+msgstr "Order email block - intro"
+
+#: sell-placement.php:506
+msgid "Use your private link below to upload the image for this order. Please do not share it."
+msgstr "Use your private link below to upload the image for this order. Please do not share it."
+
+#: sell-placement.php:510
+msgid "Order email block - link text"
+msgstr "Order email block - link text"
+
+#: sell-placement.php:511
+msgid "Upload the image for {product}"
+msgstr "Upload the image for {product}"
+
+#: sell-placement.php:516
+msgid "Email me when an image is uploaded"
+msgstr "Email me when an image is uploaded"
+
+#: sell-placement.php:521
+msgid "Send those notifications to"
+msgstr "Send those notifications to"
+
+#: sell-placement.php:523
+msgid "Leave blank to use the site admin address. Separate several addresses with commas."
+msgstr "Leave blank to use the site admin address. Separate several addresses with commas."
+
+#: sell-placement.php:527
+msgid "Notification subject"
+msgstr "Notification subject"
+
+#: sell-placement.php:528
+msgid "Image uploaded - Order #{order_number}"
+msgstr "Image uploaded - Order #{order_number}"
+
+#: sell-placement.php:533
+msgid "Notification message"
+msgstr "Notification message"
+
+#: sell-placement.php:534
+msgid "{who} has uploaded the image for order #{order_number}. View it in wp-admin."
+msgstr "{who} has uploaded the image for order #{order_number}. View it in wp-admin."
+
+#: sell-placement.php:539
+msgid "{who} - gift recipient"
+msgstr "{who} - gift recipient"
+
+#: sell-placement.php:540
+msgid "The gift recipient"
+msgstr "The gift recipient"
+
+#: sell-placement.php:544
+msgid "{who} - customer"
+msgstr "{who} - customer"
+
+#: sell-placement.php:545
+msgid "The customer"
+msgstr "The customer"
+
+#: sell-placement.php:551
+msgid "Error messages"
+msgstr "Error messages"
+
+#: sell-placement.php:552
+msgid "Shown wherever the problem happens - the product page, the private link page, or the plain form fallback."
+msgstr "Shown wherever the problem happens - the product page, the private link page, or the plain form fallback."
+
+#: sell-placement.php:556
+msgid "No file received"
+msgstr "No file received"
+
+#: sell-placement.php:557
+msgid "No file was received."
+msgstr "No file was received."
+
+#: sell-placement.php:561
+msgid "Upload failed"
+msgstr "Upload failed"
+
+#: sell-placement.php:562
+msgid "The upload failed. Please try again."
+msgstr "The upload failed. Please try again."
+
+#: sell-placement.php:566
+msgid "File too large (server)"
+msgstr "File too large (server)"
+
+#: sell-placement.php:567
+msgid "That image is too large. Please upload a file under {max_size}."
+msgstr "That image is too large. Please upload a file under {max_size}."
+
+#: sell-placement.php:572
+msgid "File too large (in the browser)"
+msgstr "File too large (in the browser)"
+
+#: sell-placement.php:573
+msgid "That image is too large."
+msgstr "That image is too large."
+
+#: sell-placement.php:578
+msgid "Format not allowed"
+msgstr "Format not allowed"
+
+#: sell-placement.php:579
+msgid "That file type is not allowed. Please choose a {formats} file."
+msgstr "That file type is not allowed. Please choose a {formats} file."
+
+#: sell-placement.php:584
+msgid "Not really an image"
+msgstr "Not really an image"
+
+#: sell-placement.php:585
+msgid "That file doesn't look like a valid image. Please choose a {formats} file."
+msgstr "That file doesn't look like a valid image. Please choose a {formats} file."
+
+#: sell-placement.php:590
+msgid "Unreadable image"
+msgstr "Unreadable image"
+
+#: sell-placement.php:591
+msgid "That file doesn't look like a valid image. Please choose a different file."
+msgstr "That file doesn't look like a valid image. Please choose a different file."
+
+#: sell-placement.php:595
+msgid "Below the minimum dimensions"
+msgstr "Below the minimum dimensions"
+
+#: sell-placement.php:596
+msgid "That image is {width}x{height} pixels, which is too small. Please use at least {min_width}x{min_height} pixels."
+msgstr "That image is {width}x{height} pixels, which is too small. Please use at least {min_width}x{min_height} pixels."
+
+#: sell-placement.php:601
+msgid "Above the maximum dimensions"
+msgstr "Above the maximum dimensions"
+
+#: sell-placement.php:602
+msgid "That image is {width}x{height} pixels, which is too big. Please keep it within {max_width}x{max_height} pixels."
+msgstr "That image is {width}x{height} pixels, which is too big. Please keep it within {max_width}x{max_height} pixels."
+
+#: sell-placement.php:607
+msgid "iPhone HEIC photo"
+msgstr "iPhone HEIC photo"
+
+#: sell-placement.php:608
+msgid "iPhone HEIC photos are not supported. In Settings > Camera > Formats choose \"Most Compatible\", or pick a JPEG instead."
+msgstr "iPhone HEIC photos are not supported. In Settings > Camera > Formats choose \"Most Compatible\", or pick a JPEG instead."
+
+#: sell-placement.php:612
+msgid "Server returned something unexpected"
+msgstr "Server returned something unexpected"
+
+#: sell-placement.php:613
+msgid "The server rejected that image - it may be too large. Please try a smaller one."
+msgstr "The server rejected that image - it may be too large. Please try a smaller one."
+
+#: sell-placement.php:617
+msgid "Upload rejected, no reason given"
+msgstr "Upload rejected, no reason given"
+
+#: sell-placement.php:618
+msgid "That image could not be uploaded. Please try a different file."
+msgstr "That image could not be uploaded. Please try a different file."
+
+#: sell-placement.php:622
+msgid "Anything else went wrong"
+msgstr "Anything else went wrong"
+
+#: sell-placement.php:623
+msgid "Something went wrong. Please try again."
+msgstr "Something went wrong. Please try again."
+
+#: sell-placement.php:627
+msgid "Bad or expired link"
+msgstr "Bad or expired link"
+
+#: sell-placement.php:628
+msgid "This upload link is invalid or has expired."
+msgstr "This upload link is invalid or has expired."
+
+#: sell-placement.php:632
+msgid "Link already used"
+msgstr "Link already used"
+
+#: sell-placement.php:633
+msgid "An image has already been uploaded using this link."
+msgstr "An image has already been uploaded using this link."
+
+#: sell-placement.php:637
+msgid "Confirmed too late"
+msgstr "Confirmed too late"
+
+#: sell-placement.php:638
+msgid "We no longer have that image waiting. Please choose your file again and confirm it."
+msgstr "We no longer have that image waiting. Please choose your file again and confirm it."
+
+#: sell-placement.php:642
+msgid "Fallback form submitted empty"
+msgstr "Fallback form submitted empty"
+
+#: sell-placement.php:643
+msgid "Please choose an image to upload."
+msgstr "Please choose an image to upload."
+
+#: sell-placement.php:647
+msgid "Add to cart with no image"
+msgstr "Add to cart with no image"
+
+#: sell-placement.php:648
+msgid "Please upload an image for this product."
+msgstr "Please upload an image for this product."
+
+#: sell-placement.php:652
+msgid "Add to cart with no image (other modes offered)"
+msgstr "Add to cart with no image (other modes offered)"
+
+#: sell-placement.php:653
+msgid "Please upload an image, or choose one of the other options to provide it later."
+msgstr "Please upload an image, or choose one of the other options to provide it later."
+
+#: sell-placement.php:657
+msgid "Missing or invalid recipient address"
+msgstr "Missing or invalid recipient address"
+
+#: sell-placement.php:658
+msgid "Please enter a valid email address for the person who will upload the image."
+msgstr "Please enter a valid email address for the person who will upload the image."
+
+#. translators: %1$d: width, %2$d: height
+#: sell-placement.php:773
+msgid "min %1$dx%2$dpx"
+msgstr "min %1$dx%2$dpx"
+
+#. translators: %1$d: width, %2$d: height
+#: sell-placement.php:781
+msgid "max %1$dx%2$dpx"
+msgstr "max %1$dx%2$dpx"
+
+#: sell-placement.php:801
+msgid "Ad image upload"
+msgstr "Ad image upload"
+
+#: sell-placement.php:802
+msgid "Require customer to upload an image for this product (e.g. their advert artwork)."
+msgstr "Require customer to upload an image for this product (e.g. their advert artwork)."
+
+#: sell-placement.php:807
+msgid "Buy now, upload later"
+msgstr "Buy now, upload later"
+
+#: sell-placement.php:808
+msgid "The buyer checks out without an image and uploads it afterwards - no account or login needed. A private upload link is emailed to them, and the same uploader appears on the order confirmation page. Requires \"Ad image upload\"."
+msgstr "The buyer checks out without an image and uploads it afterwards - no account or login needed. A private upload link is emailed to them, and the same uploader appears on the order confirmation page. Requires \"Ad image upload\"."
+
+#: sell-placement.php:813
+msgid "Buy for someone else"
+msgstr "Buy for someone else"
+
+#: sell-placement.php:814
+msgid "The buyer names a recipient instead of uploading. That person gets the private upload link and provides the image - no account or login needed. Requires \"Ad image upload\"."
+msgstr "The buyer names a recipient instead of uploading. That person gets the private upload link and provides the image - no account or login needed. Requires \"Ad image upload\"."
+
+#: sell-placement.php:938
+msgid "or"
+msgstr "or"
+
+#: sell-placement.php:3127 sell-placement.php:3131
+msgid "Artwork"
+msgstr "Artwork"
+
+#. translators: %s: human-readable duration, e.g. "3 days"
+#: sell-placement.php:3168
+msgid "waiting %s"
+msgstr "waiting %s"
+
+#. translators: %1$d: number awaiting, %2$d: total
+#: sell-placement.php:3176
+msgid "Awaiting %1$d of %2$d"
+msgstr "Awaiting %1$d of %2$d"
+
+#: sell-placement.php:3180
+msgid "Awaiting"
+msgstr "Awaiting"
+
+#: sell-placement.php:3213
+msgid "Artwork: any"
+msgstr "Artwork: any"
+
+#: sell-placement.php:3214
+msgid "Artwork: awaiting"
+msgstr "Artwork: awaiting"
+
+#: sell-placement.php:3215
+msgid "Artwork: uploaded"
+msgstr "Artwork: uploaded"
+
+#: sell-placement.php:3283
+msgid "Resend image upload link"
+msgstr "Resend image upload link"
+
+#. translators: %d: number of links sent
+#: sell-placement.php:3298
+msgid "Image upload link resent (%d link)."
+msgid_plural "Image upload links resent (%d links)."
+msgstr[0] "Image upload link resent (%d link)."
+msgstr[1] "Image upload links resent (%d links)."
+
+#: sell-placement.php:3301
+msgid "No image upload link to resend - nothing is awaiting an upload, or no valid address is on file."
+msgstr "No image upload link to resend - nothing is awaiting an upload, or no valid address is on file."
+
+#: sell-placement.php:3338 sell-placement.php:3339
+#: sell-placement.php:3458
+msgid "Ad Image Upload"
+msgstr "Ad Image Upload"
+
+#: sell-placement.php:3350
+msgid "Settings"
+msgstr "Settings"
+
+#: sell-placement.php:3386
+msgid "Every setting has been put back to its default wording and limits."
+msgstr "Every setting has been put back to its default wording and limits."
+
+#: sell-placement.php:3460
+msgid "Everything a customer reads, and the rules an image has to satisfy. Empty a message box and save to put that one message back to its default wording."
+msgstr "Everything a customer reads, and the rules an image has to satisfy. Empty a message box and save to put that one message back to its default wording."
+
+#: sell-placement.php:3499
+msgid "Put every setting on every tab back to its default? This cannot be undone."
+msgstr "Put every setting on every tab back to its default? This cannot be undone."
+
+#: sell-placement.php:3500
+msgid "Reset everything to defaults"
+msgstr "Reset everything to defaults"
+
+#: sell-placement.php:3584
+msgid "Placeholders:"
+msgstr "Placeholders:"
+
