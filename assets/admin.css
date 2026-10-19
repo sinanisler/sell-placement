@@ -26,13 +26,15 @@
 
 .spl-table .spl-col-img{width:166px}
 .spl-table .spl-col-status{width:120px}
-.spl-table .spl-col-actions{width:200px}
+.spl-table .spl-col-actions{width:360px}
 .spl-table td{vertical-align:top}
 .spl-thumb{--spl-thumb:150px;display:flex;align-items:center;justify-content:center;width:var(--spl-thumb);height:var(--spl-thumb);border-radius:4px;overflow:hidden;background:#f0f0f1 repeating-conic-gradient(#e8e8e8 0 25%,#f6f6f6 0 50%) 0 0/16px 16px}
 .spl-thumb img,.spl-thumb .spl-thumb-img{width:100%;height:100%;object-fit:cover;display:block}
 .spl-thumb.is-empty .dashicons{font-size:36px;width:36px;height:36px;color:#a7aaad}
 .spl-actions{display:flex;flex-wrap:wrap;gap:4px}
 .spl-actions .button .dashicons{font-size:16px;width:16px;height:16px;vertical-align:text-bottom;line-height:1.4}
+.spl-wrap .spl-actions .button.button-small{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:0 18px;font-size:15px;line-height:1.2}
+.spl-wrap .spl-actions .button.button-small .dashicons{font-size:20px;width:20px;height:20px;line-height:1}
 .spl-button-danger{color:#b32d2e!important;border-color:#b32d2e!important}
 
 .spl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}

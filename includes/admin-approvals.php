@@ -431,11 +431,11 @@ function spl_row_actions( $p ) {
 	}
 	$out[] = '<a class="button button-small" href="' . esc_url( spl_detail_url( $p ) ) . '">' . esc_html__( 'Details', SPL_TD ) . '</a>';
 	if ( $p->attachment_id ) {
-		$out[] = '<a class="button button-small" href="' . esc_url( spl_download_url( $p->attachment_id ) ) . '" title="' . esc_attr__( 'Download image', SPL_TD ) . '"><span class="dashicons dashicons-download"></span></a>';
+		$out[] = '<a class="button button-small" href="' . esc_url( spl_download_url( $p->attachment_id ) ) . '" title="' . esc_attr__( 'Download image', SPL_TD ) . '"><span class="dashicons dashicons-download"></span> ' . esc_html__( 'Download', SPL_TD ) . '</a>';
 	}
 	$out[] = '<a class="button button-small" href="' . esc_url( spl_pdf_url( $p, $p->status === 'approved' ? 'certificate' : 'card' ) ) . '" title="' . esc_attr( $p->status === 'approved' ? __( 'Certificate PDF', SPL_TD ) : __( 'Placement card PDF', SPL_TD ) ) . '">PDF</a>';
 	if ( $p->status !== 'cancelled' ) {
-		$out[] = '<a class="button button-small" href="' . esc_url( spl_action_url( 'resend', $p ) ) . '" title="' . esc_attr__( 'Email again (the email matching the current status)', SPL_TD ) . '"><span class="dashicons dashicons-email-alt"></span></a>';
+		$out[] = '<a class="button button-small" href="' . esc_url( spl_action_url( 'resend', $p ) ) . '" title="' . esc_attr__( 'Email again (the email matching the current status)', SPL_TD ) . '"><span class="dashicons dashicons-email-alt"></span> ' . esc_html__( 'Email again', SPL_TD ) . '</a>';
 	}
 	return '<div class="spl-actions">' . implode( '', $out ) . '</div>';
 }
