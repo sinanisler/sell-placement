@@ -161,6 +161,8 @@ function spl_render_upload_page_body( $p ) {
 	$name  = $p->uploader_name ? $p->uploader_name : ( $p->is_gift ? $p->recipient_name : $p->buyer_name );
 	$email = $p->uploader_email ? $p->uploader_email : ( $p->is_gift ? $p->recipient_email : $p->buyer_email );
 
+	$heic_exts = array_intersect( array( 'jpg', 'jpeg' ), spl_allowed_types() ) ? array( 'heic', 'heif' ) : array();
+	// HEIC/HEIF photos (iPhone) are converted to JPEG in the browser first, so they are accepted whenever JPEG is.
 	$config = array(
 		'ajaxUrl'  => admin_url( 'admin-ajax.php' ),
 		'nonce'    => wp_create_nonce( 'spl_upload_' . $p->token ),
@@ -170,6 +172,7 @@ function spl_render_upload_page_body( $p ) {
 		'maxZoom'  => (float) $rules['max_zoom'],
 		'maxBytes' => spl_max_file_bytes(),
 		'types'    => spl_allowed_types(),
+		'heicLib'  => $heic_exts ? SPL_URL . 'assets/vendor/heic-to/heic-to.min.js' : '',
 		'i18n'     => array(
 			'tooSmall'   => spl_text( 'too_small', array( '{min_width}' => $rules['min_width'], '{min_height}' => $rules['min_height'] ) ),
 			/* translators: %s: max size */
@@ -190,7 +193,7 @@ function spl_render_upload_page_body( $p ) {
 	);
 	$accept = implode( ',', array_map( function ( $e ) {
 		return '.' . $e;
-	}, spl_allowed_types() ) );
+	}, array_merge( spl_allowed_types(), $heic_exts ) ) );
 	?>
 	<form class="spl-upload-form" novalidate data-spl-config="<?php echo esc_attr( wp_json_encode( $config ) ); ?>">
 		<div class="spl-row">

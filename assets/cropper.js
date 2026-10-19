@@ -110,10 +110,65 @@
 			return m ? m[1].toLowerCase() : '';
 		}
 
+		var heicExt = cfg.heicLib ? ['heic', 'heif'] : [];
+		var seq = 0;
+
 		function load(f) {
 			if (!f) { return; }
 			say('');
-			if (cfg.types.indexOf(ext(f.name)) === -1) { say(t.badType, 'err'); return; }
+			var e = ext(f.name);
+			var heic = heicExt.indexOf(e) !== -1;
+			if (!heic && cfg.types.indexOf(e) === -1) { say(t.badType, 'err'); return; }
+			if (!heic) { show(f); return; }
+
+			var id = ++seq;
+			say(t.processing);
+			heicToJpeg(f).then(function (jpg) {
+				if (id === seq) { say(''); show(jpg); }
+			}, function () {
+				if (id === seq) { say(t.unreadable, 'err'); showPicker(); }
+			});
+		}
+
+		// Browsers refuse very large canvases (iOS Safari about 16.7 million pixels), so huge photos are scaled down first.
+		var MAX_PX = 16000000;
+
+		// Safari decodes HEIC natively, so the photo is drawn to a canvas and exported as JPEG.
+		function nativeJpeg(f) {
+			return new Promise(function (resolve, reject) {
+				var url = URL.createObjectURL(f);
+				var im = new Image();
+				im.onload = function () {
+					URL.revokeObjectURL(url);
+					var w = im.naturalWidth, h = im.naturalHeight;
+					if (!w || !h) { reject(); return; }
+					var s = Math.min(1, Math.sqrt(MAX_PX / (w * h)));
+					var c = document.createElement('canvas');
+					c.width = Math.round(w * s);
+					c.height = Math.round(h * s);
+					c.getContext('2d').drawImage(im, 0, 0, c.width, c.height);
+					c.toBlob(function (b) { if (b) { resolve(b); } else { reject(); } }, 'image/jpeg', 0.95);
+				};
+				im.onerror = function () { URL.revokeObjectURL(url); reject(); };
+				im.src = url;
+			});
+		}
+
+		// Other browsers: the converter is downloaded the first time a HEIC photo is picked.
+		function libJpeg(f) {
+			return import(cfg.heicLib).then(function (lib) {
+				return lib.heicTo({ blob: f, type: 'image/jpeg', quality: 0.95 });
+			});
+		}
+
+		// The server only accepts JPEG, PNG and WEBP, so HEIC is turned into a JPEG file before the crop.
+		function heicToJpeg(f) {
+			return nativeJpeg(f).catch(function () { return libJpeg(f); }).then(function (blob) {
+				return new File([blob], f.name.replace(/\.[^.]+$/, '') + '.jpg', { type: 'image/jpeg' });
+			});
+		}
+
+		function show(f) {
 			if (f.size > cfg.maxBytes) { say(t.tooBig, 'err'); return; }
 
 			if (objectUrl) { URL.revokeObjectURL(objectUrl); }
