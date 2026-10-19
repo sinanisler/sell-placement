@@ -46,8 +46,8 @@ add_action( 'admin_menu', function () {
 add_action( 'admin_enqueue_scripts', function () {
 	$page = isset( $_GET['page'] ) ? sanitize_key( $_GET['page'] ) : ''; // phpcs:ignore
 	$screen = get_current_screen();
-	$orders = $screen && in_array( $screen->id, array( 'edit-shop_order', 'woocommerce_page_wc-orders' ), true );
-	if ( strpos( $page, 'spl-' ) === 0 || $orders ) {
+	$woo_screen = $screen && in_array( $screen->id, array( 'product', 'edit-shop_order', 'woocommerce_page_wc-orders' ), true );
+	if ( strpos( $page, 'spl-' ) === 0 || $woo_screen ) {
 		wp_enqueue_style( 'spl-admin', SPL_URL . 'assets/admin.css', array(), SPL_VERSION );
 	}
 	if ( strpos( $page, 'spl-' ) === 0 ) {

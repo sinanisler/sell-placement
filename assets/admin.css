@@ -1,7 +1,11 @@
-.spl-muted{color:#646970;font-size:12px}
+/* 14px minimum on every plugin screen. WordPress sets 11-13px on body text, code, small text, table cells and buttons, so this reaches inside all of them. Headings and dashicons keep their own sizes. */
+.spl-wrap *:not(h1,h2,h3,h4,h5,h6,.dashicons),
+#spl_placement_data *:not(h1,h2,h3,h4,h5,h6,.dashicons),
+#spl-order-placements *:not(h1,h2,h3,h4,h5,h6,.dashicons){font-size:14px}
+.spl-muted{color:#646970;font-size:14px}
 .spl-warn{color:#b32d2e}
 .spl-code{font-family:Menlo,Consolas,monospace;font-weight:600;letter-spacing:.03em;text-decoration:none}
-.spl-pill{display:inline-block;padding:2px 9px;border-radius:99px;font-size:11px;font-weight:600;line-height:18px;background:#f0f0f1;color:#50575e;white-space:nowrap;vertical-align:middle}
+.spl-pill{display:inline-block;padding:2px 9px;border-radius:99px;font-size:14px;font-weight:600;line-height:18px;background:#f0f0f1;color:#50575e;white-space:nowrap;vertical-align:middle}
 .spl-pill-awaiting{background:#e2e4e7;color:#1d2327}
 .spl-pill-review{background:#ec7220;color:#fff}
 .spl-pill-approved{background:#d6f2df;color:#135e2c}
@@ -10,7 +14,7 @@
 .spl-pill-cancelled{background:#f0f0f1;color:#8c8f94;text-decoration:line-through}
 .column-spl_placements .spl-pill{margin:1px 0}
 
-.spl-wrap .wp-heading-inline .spl-pill{font-size:12px;margin-left:6px}
+.spl-wrap .wp-heading-inline .spl-pill{margin-left:6px}
 .spl-view-toggle{display:inline-flex;gap:2px;margin-left:12px;vertical-align:middle}
 .spl-view-toggle a{display:inline-flex;padding:4px;border:1px solid #c3c4c7;border-radius:3px;color:#50575e;background:#fff}
 .spl-view-toggle a.is-active{background:#2271b1;border-color:#2271b1;color:#fff}
@@ -48,7 +52,7 @@
 .spl-stage-bar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px;margin:8px 0 0;color:#50575e}
 .spl-stage-bar .button .dashicons{vertical-align:text-bottom}
 .spl-previous{display:flex;flex-wrap:wrap;gap:10px}
-.spl-previous figure{margin:0;text-align:center;font-size:11px}
+.spl-previous figure{margin:0;text-align:center;font-size:14px}
 .spl-previous img{width:110px;height:110px;object-fit:cover;border-radius:4px;display:block;margin-bottom:4px;opacity:.85}
 
 .spl-box{background:#fff;border:1px solid #dcdcde;border-radius:6px;padding:4px 16px 14px;margin-bottom:16px}
@@ -71,7 +75,7 @@ details.spl-box[open]>summary h2::before{content:"▾ "}
 .spl-facts td{padding:5px 0;word-break:break-word}
 .spl-quote{margin:6px 0 0;padding:4px 10px;border-left:3px solid #dcdcde;font-style:italic;color:#50575e}
 .spl-linkbox{display:flex;gap:4px}
-.spl-linkbox input{flex:1;font-size:12px}
+.spl-linkbox input{flex:1;font-size:14px}
 .spl-compose .wp-editor-wrap{margin-bottom:8px}
 
 .spl-history{list-style:none;margin:0 0 10px;padding:0;border-left:2px solid #dcdcde}
@@ -88,5 +92,5 @@ details.spl-box[open]>summary h2::before{content:"▾ "}
 .spl-note-form textarea{flex:1}
 
 .spl-settings .form-table th{width:240px}
-.spl-tokens code{font-size:11px;padding:1px 4px}
+.spl-tokens code{font-size:14px;padding:1px 4px}
 .spl-email-nav{float:none;margin:12px 0 0}

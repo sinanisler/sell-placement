@@ -1,3 +1,6 @@
+/* Nothing below 14px. Browsers shrink <small> on their own, and the em sizes below can drop under 14px on a 16px theme, so each one gets a 14px floor. */
+.spl-main,.spl-buy,.spl-order-panel{font-size:max(14px,1em)}
+.spl-main small,.spl-buy small,.spl-order-panel small{font-size:max(14px,.85em)}
 .spl-buy{margin:0 0 1.25em;display:grid;gap:.6em}
 .spl-buy-heading{margin:0}
 .spl-modes{display:grid;gap:.5em}
@@ -10,19 +13,19 @@
 .spl-gift-fields[hidden]{display:none}
 .spl-gift-fields p{margin:0;display:grid;gap:.2em}
 .spl-gift-fields input,.spl-gift-fields textarea{width:100%;box-sizing:border-box;padding:.55em .7em;font:inherit;min-height:2.6em}
-.spl-specs{margin:0;font-size:.85em;opacity:.75}
+.spl-specs{margin:0;font-size:max(14px,.85em);opacity:.75}
 .spl-sales-notice{margin:.5em 0 1em}
 
 .spl-main{padding:2rem 1rem 4rem}
 .spl-page{max-width:640px;margin:0 auto}
 .spl-page h1{margin:.2em 0 .5em;font-size:clamp(1.6rem,4vw,2.2rem);line-height:1.15}
-.spl-eyebrow{margin:0;font-size:.85em;opacity:.7}
+.spl-eyebrow{margin:0;font-size:max(14px,.85em);opacity:.7}
 .spl-eyebrow code{font-size:1em;letter-spacing:.04em}
 .spl-gift-line{font-weight:600}
 .spl-gift-message{margin:0 0 1em;padding:.6em 1em;border-left:3px solid currentColor;opacity:.85;font-style:italic}
 .spl-instructions{padding:.75em 1em;border-radius:8px;background:rgba(0,0,0,.04);margin:0 0 1em}
 .spl-instructions p{margin:.3em 0}
-.spl-deadline,.spl-attempts{font-size:.9em;opacity:.8}
+.spl-deadline,.spl-attempts{font-size:max(14px,.9em);opacity:.8}
 .spl-notice{padding:.8em 1em;border-radius:8px;background:rgba(0,0,0,.05);margin:0 0 1em}
 .spl-notice-error{background:#fdecec;color:#8a1f1f}
 .spl-notice p{margin:.2em 0}
@@ -51,8 +54,8 @@
 .spl-controls{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:.6em;margin-top:.8em}
 .spl-controls input[type=range]{flex:1 1 160px;max-width:260px}
 .spl-icon-btn{width:2.2em;height:2.2em;border-radius:50%;border:1px solid rgba(0,0,0,.25);background:transparent;font-size:1.1em;line-height:1;cursor:pointer;color:inherit}
-.spl-link-btn{background:none;border:0;padding:.3em;text-decoration:underline;cursor:pointer;color:inherit;font:inherit;font-size:.9em}
-.spl-output{text-align:center;font-size:.85em;opacity:.75;margin:.4em 0 0}
+.spl-link-btn{background:none;border:0;padding:.3em;text-decoration:underline;cursor:pointer;color:inherit;font:inherit;font-size:max(14px,.9em)}
+.spl-output{text-align:center;font-size:max(14px,.85em);opacity:.75;margin:.4em 0 0}
 
 .spl-check{margin:0}
 .spl-check label{display:flex;gap:.6em;align-items:flex-start;line-height:1.4}
@@ -66,7 +69,7 @@
 .spl-btn{display:inline-block;padding:.65em 1.2em;border-radius:6px;border:1px solid currentColor;background:transparent;color:inherit;font:inherit;text-decoration:none;cursor:pointer;line-height:1.2}
 .spl-btn-primary{background:#111;border-color:#111;color:#fff}
 .spl-btn-primary:disabled{opacity:.4;cursor:not-allowed}
-.spl-btn-small{padding:.4em .8em;font-size:.85em}
+.spl-btn-small{padding:.4em .8em;font-size:max(14px,.85em)}
 
 .spl-order-panel{margin:2em 0}
 .spl-list{list-style:none;margin:0;padding:0;display:grid;gap:.75em}
@@ -74,9 +77,9 @@
 .spl-thumb{width:72px;height:72px;border-radius:6px;object-fit:cover;background:rgba(0,0,0,.06);display:flex;align-items:center;justify-content:center;font-size:1.5em;opacity:.9}
 .spl-item-head{display:flex;flex-wrap:wrap;gap:.4em .8em;align-items:baseline}
 .spl-item-head code{font-weight:600;letter-spacing:.04em}
-.spl-item-meta{font-size:.85em;opacity:.75;margin:.2em 0 .6em}
+.spl-item-meta{font-size:max(14px,.85em);opacity:.75;margin:.2em 0 .6em}
 .spl-actions{display:flex;flex-wrap:wrap;gap:.5em}
-.spl-badge{display:inline-block;padding:.15em .6em;border-radius:99px;font-size:.78em;font-weight:600;background:#eee;color:#333}
+.spl-badge{display:inline-block;padding:.15em .6em;border-radius:99px;font-size:max(14px,.78em);font-weight:600;background:#eee;color:#333}
 .spl-badge-awaiting{background:#fff3cd;color:#7a5b00}
 .spl-badge-review{background:#e0ecff;color:#1d4ea0}
 .spl-badge-approved{background:#dcf5e3;color:#1c6b36}
@@ -86,6 +89,6 @@
 .spl-send{margin-top:.6em}
 .spl-send summary{cursor:pointer;display:inline-block}
 .spl-send form{display:grid;gap:.4em;margin-top:.6em;max-width:420px}
-.spl-send input,.spl-send textarea{width:100%;box-sizing:border-box}
-.spl-send-result{font-size:.9em}
-.spl-copied{font-size:.85em;opacity:.8}
+.spl-send input,.spl-send textarea{width:100%;box-sizing:border-box;font:inherit}
+.spl-send-result{font-size:max(14px,.9em)}
+.spl-copied{font-size:max(14px,.85em);opacity:.8}
