@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Sell Event Placement
+ * Plugin Name: Sell Placement Product
  * Description: Lets customers upload an image (e.g. their advertisement artwork) when buying a specific product - now, after payment via an emailed link, or as a gift where someone else uploads it. Uploads are validated and previewed instantly via AJAX, as soon as a file is chosen.
  * Version: 0.6.0
  * Author: geopard.digital
