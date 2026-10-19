@@ -532,7 +532,7 @@ function spl_render_detail( $p ) {
 	$log     = spl_get_log( $p->id );
 	$labels  = spl_log_labels();
 	$meta    = $p->attachment_id ? wp_get_attachment_metadata( $p->attachment_id ) : null;
-	$full    = $p->attachment_id ? wp_get_attachment_url( $p->attachment_id ) : '';
+	$full    = $p->attachment_id ? spl_image_src_url( $p->attachment_id ) : '';
 
 	// Earlier images of this placement, from the history.
 	$previous = array();
@@ -582,7 +582,7 @@ function spl_render_detail( $p ) {
 			<div class="spl-detail-main">
 				<div class="spl-stage">
 					<?php if ( $p->attachment_id ) : ?>
-						<a href="<?php echo esc_url( $full ); ?>" target="_blank" rel="noopener"><img class="spl-stage-img" src="<?php echo esc_url( (string) wp_get_attachment_image_url( $p->attachment_id, 'large' ) ); ?>" alt="<?php echo esc_attr( $p->code ); ?>" /></a>
+						<a href="<?php echo esc_url( $full ); ?>" target="_blank" rel="noopener"><img class="spl-stage-img" src="<?php echo esc_url( (string) spl_image_src_url( $p->attachment_id, 'large' ) ); ?>" alt="<?php echo esc_attr( $p->code ); ?>" /></a>
 					<?php else : ?>
 						<div class="spl-stage-empty"><span class="dashicons dashicons-format-image"></span><p><?php esc_html_e( 'No image uploaded yet.', SPL_TD ); ?></p></div>
 					<?php endif; ?>
@@ -606,7 +606,7 @@ function spl_render_detail( $p ) {
 					<div class="spl-previous">
 						<?php foreach ( $previous as $aid => $entry ) : ?>
 							<figure>
-								<a href="<?php echo esc_url( (string) wp_get_attachment_url( $aid ) ); ?>" target="_blank" rel="noopener"><?php echo wp_get_attachment_image( $aid, 'thumbnail' ); ?></a>
+								<a href="<?php echo esc_url( (string) spl_image_src_url( $aid ) ); ?>" target="_blank" rel="noopener"><?php echo wp_get_attachment_image( $aid, 'thumbnail' ); ?></a>
 								<figcaption><?php echo spl_admin_date( $entry->created_at ); // phpcs:ignore ?> · <a href="<?php echo esc_url( spl_download_url( $aid ) ); ?>"><?php esc_html_e( 'Download', SPL_TD ); ?></a></figcaption>
 							</figure>
 						<?php endforeach; ?>
@@ -629,7 +629,7 @@ function spl_render_detail( $p ) {
 								<div class="spl-history-note"><?php echo nl2br( esc_html( $entry->note ) ); ?></div>
 							<?php endif; ?>
 							<?php if ( $entry->attachment_id && in_array( $entry->action, array( 'declined', 'suspended', 'approved' ), true ) ) : ?>
-								<a href="<?php echo esc_url( (string) wp_get_attachment_url( $entry->attachment_id ) ); ?>" target="_blank" rel="noopener"><?php echo wp_get_attachment_image( $entry->attachment_id, array( 60, 60 ), false, array( 'class' => 'spl-history-thumb' ) ); ?></a>
+								<a href="<?php echo esc_url( (string) spl_image_src_url( $entry->attachment_id ) ); ?>" target="_blank" rel="noopener"><?php echo wp_get_attachment_image( $entry->attachment_id, array( 60, 60 ), false, array( 'class' => 'spl-history-thumb' ) ); ?></a>
 							<?php endif; ?>
 						</li>
 					<?php endforeach; ?>

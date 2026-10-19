@@ -86,6 +86,15 @@ function spl_install_tables() {
 		KEY placement_id (placement_id)
 	) $charset;" );
 
+	// Placement images used to be public attachments. Make them private: no attachment page, and the REST API
+	// does not list them. Safe to run again.
+	$ids = $wpdb->get_col( "SELECT ID FROM {$wpdb->posts} WHERE post_type = 'attachment' AND post_status = 'inherit' AND ID IN (SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '" . SPL_ATTACHMENT_META . "')" ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+	foreach ( $ids as $id ) {
+		$wpdb->update( $wpdb->posts, array( 'post_status' => 'private' ), array( 'ID' => (int) $id ) );
+		clean_post_cache( (int) $id );
+	}
+	spl_ensure_upload_dir();
+
 	update_option( 'spl_db_version', SPL_DB_VERSION );
 }
 

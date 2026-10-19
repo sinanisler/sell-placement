@@ -21,7 +21,7 @@ function spl_render_images_page() {
 
 	$args = array(
 		'post_type'      => 'attachment',
-		'post_status'    => 'inherit',
+		'post_status'    => array( 'inherit', 'private' ),
 		'posts_per_page' => 60,
 		'paged'          => $paged,
 		'orderby'        => 'date',
@@ -98,7 +98,7 @@ function spl_render_images_page() {
 					$file    = get_attached_file( $att->ID );
 					?>
 					<div class="spl-card">
-						<a class="spl-thumb" style="--spl-thumb:240px" href="<?php echo esc_url( $p ? spl_detail_url( $p ) : (string) wp_get_attachment_url( $att->ID ) ); ?>">
+						<a class="spl-thumb" style="--spl-thumb:240px" href="<?php echo esc_url( $p ? spl_detail_url( $p ) : (string) spl_image_src_url( $att->ID ) ); ?>">
 							<?php echo wp_get_attachment_image( $att->ID, array( 480, 480 ), false, array( 'class' => 'spl-thumb-img', 'loading' => 'lazy' ) ); ?>
 						</a>
 						<div class="spl-card-body">
@@ -114,7 +114,7 @@ function spl_render_images_page() {
 							<div class="spl-muted"><?php echo esc_html( get_the_date( 'Y-m-d H:i', $att ) ); ?><?php echo $p && $p->uploader_email ? ' · ' . esc_html( $p->uploader_email ) : ''; ?></div>
 							<div class="spl-actions">
 								<a class="button button-small" href="<?php echo esc_url( spl_download_url( $att->ID ) ); ?>"><span class="dashicons dashicons-download"></span> <?php esc_html_e( 'Download', SPL_TD ); ?></a>
-								<a class="button button-small" href="<?php echo esc_url( (string) wp_get_attachment_url( $att->ID ) ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Open', SPL_TD ); ?></a>
+								<a class="button button-small" href="<?php echo esc_url( (string) spl_image_src_url( $att->ID ) ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Open', SPL_TD ); ?></a>
 								<?php if ( ! $current && current_user_can( 'delete_post', $att->ID ) ) : ?>
 									<a class="button button-small spl-button-danger" data-spl-confirm href="<?php echo esc_url( wp_nonce_url( add_query_arg( array( 'action' => 'spl_delete_image', 'att' => $att->ID, 'back' => rawurlencode( $here ) ), admin_url( 'admin-post.php' ) ), 'spl_delete_image' ) ); ?>"><?php esc_html_e( 'Delete', SPL_TD ); ?></a>
 								<?php endif; ?>

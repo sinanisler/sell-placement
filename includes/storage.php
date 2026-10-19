@@ -25,8 +25,10 @@ function spl_ensure_upload_dir() {
 	if ( ! file_exists( $root . '/index.php' ) ) {
 		@file_put_contents( $root . '/index.php', "<?php\n// Silence is golden.\n" ); // phpcs:ignore
 	}
-	if ( ! file_exists( $root . '/.htaccess' ) ) {
-		@file_put_contents( $root . '/.htaccess', "Options -Indexes\n" ); // phpcs:ignore
+	// Refuses direct requests for the files on Apache. The images go through images.php, which reads them with PHP.
+	$htaccess = "# Placement images are served by WordPress after a permission check (includes/images.php).\n<IfModule mod_authz_core.c>\nRequire all denied\n</IfModule>\n<IfModule !mod_authz_core.c>\nOrder allow,deny\nDeny from all\n</IfModule>\nOptions -Indexes\n";
+	if ( ! file_exists( $root . '/.htaccess' ) || file_get_contents( $root . '/.htaccess' ) !== $htaccess ) { // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+		@file_put_contents( $root . '/.htaccess', $htaccess ); // phpcs:ignore
 	}
 }
 
@@ -120,7 +122,7 @@ function spl_store_cropped_image( $file, $crop, $rules, $p ) {
 	$attachment_id = wp_insert_attachment( array(
 		'post_title'     => $p->code,
 		'post_mime_type' => $saved['mime-type'],
-		'post_status'    => 'inherit',
+		'post_status'    => 'private',
 		'guid'           => $url,
 		'post_content'   => '',
 	), $path, 0, true );

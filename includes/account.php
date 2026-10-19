@@ -39,10 +39,13 @@ add_filter( 'woocommerce_endpoint_' . SPL_ENDPOINT . '_title', function () {
 } );
 
 add_action( 'woocommerce_account_' . SPL_ENDPOINT . '_endpoint', function () {
-	$user = wp_get_current_user();
-	$res  = spl_query_placements( array(
-		'customer_id' => $user->ID,
-		'email'       => $user->user_email,
+	// Only the account a placement was bought on sees it. Email addresses are not used (see spl_current_user_is_buyer).
+	$user_id = get_current_user_id();
+	if ( ! $user_id ) {
+		return;
+	}
+	$res = spl_query_placements( array(
+		'customer_id' => $user_id,
 		'per_page'    => 200,
 		'orderby'     => 'id',
 	) );
@@ -57,14 +60,13 @@ add_action( 'woocommerce_account_' . SPL_ENDPOINT . '_endpoint', function () {
 
 /**
  * Can the current visitor manage (pass on, see links of) this placement as its buyer?
- * Logged-in buyers by account or email; guests on the order-received page by the order key.
+ * Logged-in buyers by account; guests on the order-received page by the order key.
  */
 function spl_current_user_is_buyer( $p, $order_key = '' ) {
-	if ( is_user_logged_in() ) {
-		$user = wp_get_current_user();
-		if ( ( $p->customer_id && $p->customer_id === (int) $user->ID ) || ( $p->buyer_email && strcasecmp( $p->buyer_email, $user->user_email ) === 0 ) ) {
-			return true;
-		}
+	// Matched on the account only. WordPress does not verify email addresses, so matching on one would hand
+	// the links to whoever registers with the buyer's address.
+	if ( is_user_logged_in() && $p->customer_id && $p->customer_id === get_current_user_id() ) {
+		return true;
 	}
 	if ( $order_key !== '' ) {
 		$order = wc_get_order( $p->order_id );
@@ -90,7 +92,7 @@ function spl_render_placements_list( $placements, $order_key = '' ) {
 		?>
 		<li class="spl-item">
 			<?php
-			if ( $p->attachment_id ) {
+			if ( $p->attachment_id && $is_buyer ) {
 				echo wp_get_attachment_image( $p->attachment_id, 'thumbnail', false, array( 'class' => 'spl-thumb' ) );
 			} else {
 				echo '<span class="spl-thumb" aria-hidden="true">🖼</span>';
@@ -118,16 +120,16 @@ function spl_render_placements_list( $placements, $order_key = '' ) {
 					?>
 				</p>
 				<div class="spl-actions">
-					<?php if ( spl_can_upload_status( $p->status ) && ! $closed ) : ?>
+					<?php if ( $is_buyer && spl_can_upload_status( $p->status ) && ! $closed ) : ?>
 						<a class="spl-btn spl-btn-primary spl-btn-small" href="<?php echo esc_url( $link ); ?>"><?php echo $p->status === 'declined' ? esc_html__( 'Upload a new image', SPL_TD ) : esc_html__( 'Upload image', SPL_TD ); ?></a>
-					<?php elseif ( in_array( $p->status, array( 'review', 'approved' ), true ) ) : ?>
+					<?php elseif ( $is_buyer && in_array( $p->status, array( 'review', 'approved' ), true ) ) : ?>
 						<a class="spl-btn spl-btn-small" href="<?php echo esc_url( $link ); ?>"><?php esc_html_e( 'View', SPL_TD ); ?></a>
 					<?php endif; ?>
-					<?php if ( $p->status !== 'cancelled' ) : ?>
+					<?php if ( $is_buyer && $p->status !== 'cancelled' ) : ?>
 						<button type="button" class="spl-btn spl-btn-small" data-spl-copy="<?php echo esc_attr( $link ); ?>"><?php esc_html_e( 'Copy link', SPL_TD ); ?></button>
 						<a class="spl-btn spl-btn-small" href="<?php echo esc_url( spl_pdf_url( $p, 'card' ) ); ?>"><?php esc_html_e( 'PDF', SPL_TD ); ?></a>
 					<?php endif; ?>
-					<?php if ( $p->status === 'approved' ) : ?>
+					<?php if ( $is_buyer && $p->status === 'approved' ) : ?>
 						<a class="spl-btn spl-btn-small" href="<?php echo esc_url( spl_pdf_url( $p, 'certificate' ) ); ?>"><?php esc_html_e( 'Certificate', SPL_TD ); ?></a>
 					<?php endif; ?>
 				</div>

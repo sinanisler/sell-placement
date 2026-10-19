@@ -203,7 +203,7 @@ function spl_send_admin_upload_email( $p ) {
 	if ( ! $recipients ) {
 		return false;
 	}
-	$img = $p->attachment_id ? wp_get_attachment_image_url( $p->attachment_id, 'medium' ) : '';
+	$img = $p->attachment_id ? spl_image_url( $p->attachment_id, spl_image_file_for_size( $p->attachment_id, 'medium' ), true ) : '';
 	$tokens = spl_placement_tokens( $p, array(
 		'{name}'        => $p->uploader_name,
 		'{image}'       => $img ? '<img src="' . esc_url( $img ) . '" width="240" style="max-width:240px;height:auto" alt="" />' : '',

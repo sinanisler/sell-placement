@@ -35,7 +35,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 define( 'SPL_VERSION', '1.0.0' );
-define( 'SPL_DB_VERSION', '1' );
+define( 'SPL_DB_VERSION', '2' );
 define( 'SPL_FILE', __FILE__ );
 define( 'SPL_DIR', plugin_dir_path( __FILE__ ) );
 define( 'SPL_URL', plugin_dir_url( __FILE__ ) );
@@ -52,6 +52,7 @@ require_once SPL_DIR . 'includes/access.php';
 require_once SPL_DIR . 'includes/product.php';
 require_once SPL_DIR . 'includes/orders.php';
 require_once SPL_DIR . 'includes/storage.php';
+require_once SPL_DIR . 'includes/images.php';
 require_once SPL_DIR . 'includes/upload-page.php';
 require_once SPL_DIR . 'includes/emails.php';
 require_once SPL_DIR . 'includes/pdf.php';

@@ -119,7 +119,7 @@ function spl_on_order_cancelled( $order_id ) {
  * Order pages: thank-you page and My Account > view order.
  * ---------------------------------------------------------------------- */
 
-function spl_order_panel( $order_id ) {
+function spl_order_panel( $order_id, $guest_key = false ) {
 	$order = wc_get_order( $order_id );
 	if ( ! $order || ! spl_order_has_placements( $order ) ) {
 		return;
@@ -131,12 +131,17 @@ function spl_order_panel( $order_id ) {
 		echo '<p>' . esc_html( spl_text( 'pending_payment_text' ) ) . '</p>';
 	} else {
 		echo '<p>' . esc_html( spl_text( 'account_intro' ) ) . '</p>';
-		spl_render_placements_list( $placements, $order->get_order_key() );
+		spl_render_placements_list( $placements, $guest_key ? $order->get_order_key() : '' );
 	}
 	echo '</section>';
 }
-add_action( 'woocommerce_thankyou', 'spl_order_panel', 5 );
-add_action( 'woocommerce_view_order', 'spl_order_panel', 5 );
+// The order key, which guests need to manage their placements, is only handed out on the order-received page.
+add_action( 'woocommerce_thankyou', function ( $order_id ) {
+	spl_order_panel( $order_id, true );
+}, 5 );
+add_action( 'woocommerce_view_order', function ( $order_id ) {
+	spl_order_panel( $order_id, false );
+}, 5 );
 
 /* ------------------------------------------------------------------------
  * wp-admin order screen: a box listing the order's placements.
@@ -167,7 +172,7 @@ function spl_render_order_metabox( $post_or_order ) {
 	foreach ( $placements as $p ) {
 		$link = admin_url( 'admin.php?page=spl-approvals&placement=' . $p->id );
 		echo '<li style="display:flex;gap:8px;align-items:center;margin-bottom:6px">';
-		if ( $p->attachment_id ) {
+		if ( $p->attachment_id && spl_image_is_staff() ) {
 			echo wp_get_attachment_image( $p->attachment_id, array( 40, 40 ), false, array( 'style' => 'width:40px;height:40px;object-fit:cover;border-radius:3px' ) );
 		}
 		echo '<span><a href="' . esc_url( $link ) . '"><code>' . esc_html( $p->code ) . '</code></a><br><small>' . esc_html( spl_status_label( $p->status ) );
