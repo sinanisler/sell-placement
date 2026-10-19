@@ -362,7 +362,7 @@ function spl_render_queue() {
 
 		<ul class="subsubsub">
 			<?php
-			$tabs = array( 'review' => spl_status_label( 'review' ), 'awaiting' => spl_status_label( 'awaiting' ), 'declined' => spl_status_label( 'declined' ), 'approved' => spl_status_label( 'approved' ), 'suspended' => spl_status_label( 'suspended' ), 'cancelled' => spl_status_label( 'cancelled' ), 'all' => __( 'All', SPL_TD ) );
+			$tabs = array( 'all' => __( 'All', SPL_TD ), 'review' => spl_status_label( 'review' ), 'awaiting' => spl_status_label( 'awaiting' ), 'declined' => spl_status_label( 'declined' ), 'approved' => spl_status_label( 'approved' ), 'suspended' => spl_status_label( 'suspended' ), 'cancelled' => spl_status_label( 'cancelled' ) );
 			$links = array();
 			foreach ( $tabs as $key => $label ) {
 				$n       = $key === 'all' ? array_sum( $counts ) : $counts[ $key ];
