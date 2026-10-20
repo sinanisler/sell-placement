@@ -160,39 +160,47 @@ function spl_get_order_placements( $order_id ) {
 }
 
 /**
- * Public ID: PREFIX-XXXX-XXXX from an alphabet without look-alikes (no 0/O, 1/I/L).
+ * Public ID: PREFIX + 5 random characters, e.g. SP3K7Q9. The alphabet has no look-alikes (no 0/O, 1/I/L).
+ * Uniqueness is not checked here: spl_insert_placement() retries when the database refuses a duplicate.
  */
 function spl_generate_code() {
-	global $wpdb;
 	$alphabet = '23456789ABCDEFGHJKMNPQRSTUVWXYZ';
 	$prefix   = strtoupper( preg_replace( '/[^A-Za-z0-9]/', '', (string) spl_opt( 'code_prefix' ) ) );
-	for ( $try = 0; $try < 20; $try++ ) {
-		$chars = '';
-		for ( $i = 0; $i < 8; $i++ ) {
-			$chars .= $alphabet[ random_int( 0, strlen( $alphabet ) - 1 ) ];
-		}
-		$code = ( $prefix !== '' ? $prefix . '-' : '' ) . substr( $chars, 0, 4 ) . '-' . substr( $chars, 4 );
-		if ( ! $wpdb->get_var( $wpdb->prepare( 'SELECT id FROM ' . spl_table() . ' WHERE code = %s', $code ) ) ) {
-			return $code;
-		}
+	$chars    = '';
+	for ( $i = 0; $i < 5; $i++ ) {
+		$chars .= $alphabet[ random_int( 0, strlen( $alphabet ) - 1 ) ];
 	}
-	return $prefix . '-' . strtoupper( wp_generate_password( 12, false ) );
+	return $prefix . $chars;
 }
 
+/**
+ * Inserts a placement with a fresh code. The code column is UNIQUE, so two orders that pick the same
+ * code at the same moment cannot both be saved; the loser gets a new code and tries again.
+ *
+ * @return int The new placement ID, or 0 if it could not be saved.
+ */
 function spl_insert_placement( $data ) {
 	global $wpdb;
 	$now  = spl_now();
 	$data = array_merge( array(
-		'code'       => spl_generate_code(),
 		'token'      => bin2hex( random_bytes( 20 ) ),
 		'status'     => 'awaiting',
 		'created_at' => $now,
 		'updated_at' => $now,
 	), $data );
-	if ( ! $wpdb->insert( spl_table(), $data ) ) {
-		return 0;
+	for ( $try = 0; $try < 20; $try++ ) {
+		$data['code'] = spl_generate_code();
+		if ( $wpdb->insert( spl_table(), $data ) ) {
+			return (int) $wpdb->insert_id;
+		}
+		// Only a duplicate key is worth another try; any other database error stops here.
+		// MySQL says "Duplicate entry"; the SQLite layer on WordPress Studio says "UNIQUE constraint failed".
+		$error = (string) $wpdb->last_error;
+		if ( strpos( $error, 'Duplicate entry' ) === false && strpos( $error, 'UNIQUE constraint failed' ) === false ) {
+			break;
+		}
 	}
-	return (int) $wpdb->insert_id;
+	return 0;
 }
 
 function spl_update_placement( $id, $data ) {

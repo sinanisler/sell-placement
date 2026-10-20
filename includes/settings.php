@@ -97,7 +97,7 @@ function spl_settings_schema() {
 					'type'    => 'text',
 					'label'   => __( 'Placement ID prefix', SPL_TD ),
 					'default' => 'SP',
-					'desc'    => __( 'IDs look like SP-7K3M-9QX2. Only letters and digits; changing it does not change existing IDs.', SPL_TD ),
+					'desc'    => __( 'IDs look like SP3K7Q9 (prefix plus 5 characters). Only letters and digits; changing it does not change existing IDs.', SPL_TD ),
 				),
 				'admin_notify_email' => array(
 					'type'    => 'text',

@@ -232,7 +232,7 @@ add_action( 'admin_post_spl_test_email', function () {
 	} else {
 		$tokens = array(
 			'{name}'          => wp_get_current_user()->display_name,
-			'{code}'          => 'SP-7K3M-9QX2',
+			'{code}'          => 'SP3K7Q9',
 			'{product}'       => __( 'Example placement', SPL_TD ),
 			'{upload_link}'   => home_url( '/' ),
 			'{upload_button}' => spl_email_button( home_url( '/' ), __( 'Upload your image', SPL_TD ) ),

@@ -16,7 +16,7 @@
  * 2. On the product page the buyer chooses "For me" or "As a gift" (gift only when enabled). Price,
  *    cart, checkout, payment and stock are plain WooCommerce.
  * 3. Once the order is paid, every unit becomes a placement (table {prefix}spl_placements) with a public
- *    ID (e.g. SP-7K3M-9QX2) and a secret upload token. The buyer gets an email with all links and a
+ *    ID (e.g. SP3K7Q9) and a secret upload token. The buyer gets an email with all links and a
  *    printable PDF per placement; gift recipients get their own email and PDF.
  * 4. In My Account > Placements (and on the order pages) the buyer can upload, copy a link to share,
  *    send any not-yet-used placement to someone else by email, and download PDFs.

@@ -69,6 +69,9 @@ function spl_create_order_placements( $order ) {
 			if ( $id ) {
 				spl_log( $id, 'created', sprintf( /* translators: %s: order number */ __( 'Order #%s', SPL_TD ), $order->get_order_number() ), 0, 'system' );
 				$created[] = $id;
+			} else {
+				// The unit is missing; say so on the order so staff can add it by hand.
+				$order->add_order_note( sprintf( /* translators: %s: product name */ __( 'Woo Ad Image Upload could not create a placement for %s. It will be retried the next time this order is processed.', SPL_TD ), $item->get_name() ) );
 			}
 		}
 	}
