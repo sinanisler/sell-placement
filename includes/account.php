@@ -133,9 +133,9 @@ function spl_render_placements_list( $placements, $order_key = '' ) {
 						<a class="spl-btn spl-btn-small" href="<?php echo esc_url( spl_pdf_url( $p, 'certificate' ) ); ?>"><?php esc_html_e( 'Certificate', SPL_TD ); ?></a>
 					<?php endif; ?>
 				</div>
-				<?php if ( $is_buyer && $p->status === 'awaiting' && ! $closed ) : ?>
+				<?php if ( $is_buyer && $p->is_gift && $p->status === 'awaiting' && ! $closed ) : ?>
 					<details class="spl-send">
-						<summary class="spl-btn spl-btn-small"><?php echo $p->is_gift ? esc_html__( 'Send to someone else', SPL_TD ) : esc_html__( 'Give to someone', SPL_TD ); ?></summary>
+						<summary class="spl-btn spl-btn-small"><?php esc_html_e( 'Send to someone else', SPL_TD ); ?></summary>
 						<form data-spl-send="<?php echo (int) $p->id; ?>">
 							<input type="text" name="name" placeholder="<?php echo esc_attr( spl_text( 'gift_name_label' ) ); ?>" required />
 							<input type="email" name="email" placeholder="<?php echo esc_attr( spl_text( 'gift_email_label' ) ); ?>" required />
@@ -219,7 +219,7 @@ function spl_ajax_send_placement() {
 	}
 	$p         = spl_get_placement( isset( $_POST['id'] ) ? absint( $_POST['id'] ) : 0 );
 	$order_key = isset( $_POST['order_key'] ) ? sanitize_text_field( wp_unslash( $_POST['order_key'] ) ) : '';
-	if ( ! $p || ! spl_current_user_is_buyer( $p, $order_key ) ) {
+	if ( ! $p || ! spl_current_user_is_buyer( $p, $order_key ) || ! $p->is_gift ) {
 		wp_send_json_error( array( 'message' => __( 'Sorry, you are not allowed to do that.', SPL_TD ) ) );
 	}
 	if ( $p->status !== 'awaiting' ) {
