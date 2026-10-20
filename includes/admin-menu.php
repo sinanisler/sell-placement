@@ -1,6 +1,6 @@
 <?php
 /**
- * wp-admin menu: Placements (right after Pages) > Approvals, Images, Settings. Each page has its own
+ * wp-admin menu: Placements (right after Pages) > Approvals, Settings. Each page has its own
  * capability (see access.php), so the top-level entry points at the first page the user may open.
  */
 
@@ -11,7 +11,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 add_action( 'admin_menu', function () {
 	$pages = array(
 		'spl-approvals' => array( 'spl_approvals', __( 'Approvals', SPL_TD ), 'spl_render_approvals_page' ),
-		'spl-images'    => array( 'spl_images', __( 'Images', SPL_TD ), 'spl_render_images_page' ),
 		'spl-settings'  => array( 'spl_settings', __( 'Settings', SPL_TD ), 'spl_render_settings_page' ),
 	);
 
