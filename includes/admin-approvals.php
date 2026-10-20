@@ -354,9 +354,9 @@ function spl_render_queue() {
 	<div class="wrap spl-wrap">
 		<h1 class="wp-heading-inline"><?php esc_html_e( 'Approvals', SPL_TD ); ?></h1>
 		<div class="spl-view-toggle">
+			<a href="<?php echo esc_url( add_query_arg( 'view', 'compact', $here ) ); ?>" class="<?php echo $view === 'compact' ? 'is-active' : ''; ?>" title="<?php esc_attr_e( 'Compact list view', SPL_TD ); ?>"><span class="dashicons dashicons-menu"></span></a>
 			<a href="<?php echo esc_url( add_query_arg( 'view', 'list', $here ) ); ?>" class="<?php echo $view === 'list' ? 'is-active' : ''; ?>" title="<?php esc_attr_e( 'List view', SPL_TD ); ?>"><span class="dashicons dashicons-list-view"></span></a>
 			<a href="<?php echo esc_url( add_query_arg( 'view', 'grid', $here ) ); ?>" class="<?php echo $view === 'grid' ? 'is-active' : ''; ?>" title="<?php esc_attr_e( 'Grid view', SPL_TD ); ?>"><span class="dashicons dashicons-grid-view"></span></a>
-			<a href="<?php echo esc_url( add_query_arg( 'view', 'compact', $here ) ); ?>" class="<?php echo $view === 'compact' ? 'is-active' : ''; ?>" title="<?php esc_attr_e( 'Compact list view', SPL_TD ); ?>"><span class="dashicons dashicons-menu"></span></a>
 		</div>
 		<hr class="wp-header-end">
 		<?php spl_admin_notice_from_query(); ?>
@@ -527,27 +527,43 @@ function spl_render_queue_grid( $items, $status ) {
 }
 
 function spl_render_queue_compact( $items, $status ) {
-	echo '<div class="spl-compact-list">';
-	foreach ( $items as $p ) {
-		$product = wc_get_product( $p->product_id );
-		?>
-		<div class="spl-compact-row">
-			<?php if ( $status === 'review' ) : ?>
-				<label class="spl-card-check"><input type="checkbox" name="ids[]" value="<?php echo (int) $p->id; ?>" /></label>
-			<?php endif; ?>
-			<?php echo spl_thumb_html( $p, 80 ); // phpcs:ignore ?>
-			<div class="spl-compact-body">
-				<div class="spl-compact-info">
-					<div class="spl-card-head"><a class="spl-code" href="<?php echo esc_url( spl_detail_url( $p ) ); ?>"><?php echo esc_html( $p->code ); ?></a> <?php echo spl_badge( $p->status ); // phpcs:ignore ?></div>
-					<div class="spl-muted"><?php echo esc_html( $product ? $product->get_name() : '' ); ?></div>
-					<div class="spl-muted"><?php echo esc_html( $p->uploader_email ? $p->uploader_email : spl_holder_email( $p ) ); ?></div>
-				</div>
-				<?php echo spl_row_actions( $p ); // phpcs:ignore ?>
-			</div>
+	?>
+	<div class="spl-compact-list">
+		<div class="spl-compact-head" aria-hidden="true">
+			<span></span>
+			<span></span>
+			<span><?php esc_html_e( 'Placement', SPL_TD ); ?></span>
+			<span><?php esc_html_e( 'Buyer', SPL_TD ); ?></span>
+			<span><?php esc_html_e( 'Status', SPL_TD ); ?></span>
+			<span><?php esc_html_e( 'Actions', SPL_TD ); ?></span>
 		</div>
-		<?php
-	}
-	echo '</div>';
+		<?php foreach ( $items as $p ) :
+			$product = wc_get_product( $p->product_id );
+			?>
+			<div class="spl-compact-row">
+				<div class="spl-compact-cell-check">
+					<?php if ( $status === 'review' ) : ?>
+						<input type="checkbox" name="ids[]" value="<?php echo (int) $p->id; ?>" />
+					<?php endif; ?>
+				</div>
+				<?php echo spl_thumb_html( $p, 80 ); // phpcs:ignore ?>
+				<div class="spl-compact-cell-placement">
+					<a class="spl-code" href="<?php echo esc_url( spl_detail_url( $p ) ); ?>"><?php echo esc_html( $p->code ); ?></a>
+					<div class="spl-muted"><?php echo esc_html( $product ? $product->get_name() : '–' ); ?></div>
+				</div>
+				<div class="spl-compact-cell-buyer"><?php echo spl_person_html( $p->buyer_name, $p->buyer_email ); // phpcs:ignore ?></div>
+				<div class="spl-compact-cell-status">
+					<?php echo spl_badge( $p->status ); // phpcs:ignore ?>
+					<?php if ( $p->rejections ) : ?>
+						<div class="spl-muted"><?php /* translators: 1: count, 2: limit */ echo esc_html( sprintf( __( 'Declined %1$d / %2$d', SPL_TD ), $p->rejections, $p->max_rejections ) ); ?></div>
+					<?php endif; ?>
+					<?php if ( $p->uploaded_at ) : ?><div class="spl-muted"><?php echo spl_admin_date( $p->uploaded_at ); // phpcs:ignore ?></div><?php endif; ?>
+				</div>
+				<div class="spl-compact-cell-actions"><?php echo spl_row_actions( $p ); // phpcs:ignore ?></div>
+			</div>
+		<?php endforeach; ?>
+	</div>
+	<?php
 }
 
 /* ------------------------------------------------------------------------

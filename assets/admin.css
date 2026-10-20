@@ -44,14 +44,26 @@
 .spl-card-head{display:flex;justify-content:space-between;gap:6px;align-items:center}
 .spl-card-check{position:absolute;top:8px;left:8px;background:#fff;border-radius:3px;padding:2px 3px;box-shadow:0 1px 3px rgba(0,0,0,.2);z-index:1}
 .spl-compact-list{display:grid;gap:4px}
-.spl-compact-row{display:flex;gap:8px;align-items:center;background:#fff;border:1px solid #dcdcde;border-radius:4px;padding:4px}
-.spl-compact-row .spl-thumb{flex:none;--spl-thumb:80px}
-.spl-compact-row .spl-card-check{position:static;background:none;box-shadow:none;padding:0}
-.spl-compact-body{min-width:0;flex:1;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:4px 10px}
-.spl-compact-info{min-width:0;flex:1 1 220px;display:grid;gap:1px}
-.spl-compact-info .spl-card-head{justify-content:flex-start;flex-wrap:wrap}
-.spl-compact-info .spl-muted{overflow-wrap:anywhere}
-.spl-wrap .spl-compact-row .spl-actions{flex:0 1 auto;justify-content:flex-end;gap:3px}
+.spl-compact-head,.spl-compact-row{display:grid;grid-template-columns:auto 80px minmax(170px,1.2fr) minmax(160px,1fr) minmax(130px,auto) auto;gap:12px;align-items:center}
+.spl-compact-head{padding:0 16px 0 4px;color:#646970;font-weight:600}
+.spl-compact-row{background:#fff;border:1px solid #dcdcde;border-radius:4px;padding:4px 16px 4px 4px}
+.spl-compact-row .spl-thumb{--spl-thumb:80px}
+.spl-compact-cell-check{display:flex;align-items:center}
+.spl-compact-cell-check input{margin:0}
+.spl-compact-cell-placement,.spl-compact-cell-status{min-width:0;display:grid;gap:2px;justify-items:start}
+.spl-compact-cell-placement .spl-muted,.spl-compact-cell-buyer{overflow-wrap:anywhere;min-width:0}
+.spl-compact-cell-actions{justify-self:end}
+.spl-wrap .spl-compact-row .spl-actions{justify-content:flex-end;gap:3px}
+@media (max-width:1280px){
+	.spl-compact-head{display:none}
+	.spl-compact-row{grid-template-columns:auto 80px minmax(0,1fr)}
+	.spl-compact-cell-check{grid-column:1;grid-row:1}
+	.spl-compact-row .spl-thumb{grid-column:2;grid-row:1 / span 4}
+	.spl-compact-cell-placement{grid-column:3;grid-row:1}
+	.spl-compact-cell-buyer{grid-column:3;grid-row:2}
+	.spl-compact-cell-status{grid-column:3;grid-row:3}
+	.spl-compact-cell-actions{grid-column:3;grid-row:4;justify-self:start}
+}
 .spl-wrap .spl-compact-row .spl-actions .button.button-small{min-height:0;height:24px;padding:0 5px;line-height:22px;gap:3px}
 .spl-wrap .spl-compact-row .spl-actions .button.button-small .dashicons{font-size:14px;width:14px;height:14px;line-height:1}
 
