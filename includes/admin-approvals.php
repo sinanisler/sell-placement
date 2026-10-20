@@ -325,7 +325,7 @@ function spl_render_queue() {
 	$product = isset( $_GET['product'] ) ? absint( $_GET['product'] ) : 0;
 	$paged   = max( 1, isset( $_GET['paged'] ) ? absint( $_GET['paged'] ) : 1 );
 	$view    = isset( $_GET['view'] ) ? sanitize_key( $_GET['view'] ) : get_user_meta( get_current_user_id(), 'spl_view', true );
-	$view    = in_array( $view, array( 'list', 'grid', 'compact' ), true ) ? $view : 'list';
+	$view    = in_array( $view, array( 'list', 'grid', 'compact' ), true ) ? $view : 'compact';
 	if ( isset( $_GET['view'] ) ) {
 		update_user_meta( get_current_user_id(), 'spl_view', $view );
 	}
@@ -356,7 +356,7 @@ function spl_render_queue() {
 		<div class="spl-view-toggle">
 			<a href="<?php echo esc_url( add_query_arg( 'view', 'list', $here ) ); ?>" class="<?php echo $view === 'list' ? 'is-active' : ''; ?>" title="<?php esc_attr_e( 'List view', SPL_TD ); ?>"><span class="dashicons dashicons-list-view"></span></a>
 			<a href="<?php echo esc_url( add_query_arg( 'view', 'grid', $here ) ); ?>" class="<?php echo $view === 'grid' ? 'is-active' : ''; ?>" title="<?php esc_attr_e( 'Grid view', SPL_TD ); ?>"><span class="dashicons dashicons-grid-view"></span></a>
-			<a href="<?php echo esc_url( add_query_arg( 'view', 'compact', $here ) ); ?>" class="<?php echo $view === 'compact' ? 'is-active' : ''; ?>" title="<?php esc_attr_e( 'Compact grid view', SPL_TD ); ?>"><span class="dashicons dashicons-screenoptions"></span></a>
+			<a href="<?php echo esc_url( add_query_arg( 'view', 'compact', $here ) ); ?>" class="<?php echo $view === 'compact' ? 'is-active' : ''; ?>" title="<?php esc_attr_e( 'Compact list view', SPL_TD ); ?>"><span class="dashicons dashicons-menu"></span></a>
 		</div>
 		<hr class="wp-header-end">
 		<?php spl_admin_notice_from_query(); ?>
@@ -527,19 +527,21 @@ function spl_render_queue_grid( $items, $status ) {
 }
 
 function spl_render_queue_compact( $items, $status ) {
-	echo '<div class="spl-compact-grid">';
+	echo '<div class="spl-compact-list">';
 	foreach ( $items as $p ) {
 		$product = wc_get_product( $p->product_id );
 		?>
-		<div class="spl-compact-card">
+		<div class="spl-compact-row">
 			<?php if ( $status === 'review' ) : ?>
 				<label class="spl-card-check"><input type="checkbox" name="ids[]" value="<?php echo (int) $p->id; ?>" /></label>
 			<?php endif; ?>
 			<?php echo spl_thumb_html( $p, 80 ); // phpcs:ignore ?>
 			<div class="spl-compact-body">
-				<div class="spl-card-head"><a class="spl-code" href="<?php echo esc_url( spl_detail_url( $p ) ); ?>"><?php echo esc_html( $p->code ); ?></a> <?php echo spl_badge( $p->status ); // phpcs:ignore ?></div>
-				<div class="spl-muted"><?php echo esc_html( $product ? $product->get_name() : '' ); ?></div>
-				<div class="spl-muted"><?php echo esc_html( $p->uploader_email ? $p->uploader_email : spl_holder_email( $p ) ); ?></div>
+				<div class="spl-compact-info">
+					<div class="spl-card-head"><a class="spl-code" href="<?php echo esc_url( spl_detail_url( $p ) ); ?>"><?php echo esc_html( $p->code ); ?></a> <?php echo spl_badge( $p->status ); // phpcs:ignore ?></div>
+					<div class="spl-muted"><?php echo esc_html( $product ? $product->get_name() : '' ); ?></div>
+					<div class="spl-muted"><?php echo esc_html( $p->uploader_email ? $p->uploader_email : spl_holder_email( $p ) ); ?></div>
+				</div>
 				<?php echo spl_row_actions( $p ); // phpcs:ignore ?>
 			</div>
 		</div>
