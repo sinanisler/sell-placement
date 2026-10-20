@@ -429,12 +429,12 @@ function spl_render_queue() {
 function spl_row_actions( $p ) {
 	$out = array();
 	if ( $p->status === 'review' ) {
-		$out[] = '<a class="button button-primary button-small" href="' . esc_url( spl_action_url( 'approve', $p ) ) . '">' . esc_html__( 'Approve', SPL_TD ) . '</a>';
-		$out[] = '<a class="button button-small" href="' . esc_url( spl_detail_url( $p ) . '#spl-decide' ) . '">' . esc_html__( 'Decline…', SPL_TD ) . '</a>';
+		$out[] = '<a class="button button-primary button-small" href="' . esc_url( spl_action_url( 'approve', $p ) ) . '" title="' . esc_attr__( 'Approve this placement and email the buyer the upload link', SPL_TD ) . '">' . esc_html__( 'Approve', SPL_TD ) . '</a>';
+		$out[] = '<a class="button button-small" href="' . esc_url( spl_detail_url( $p ) . '#spl-decide' ) . '" title="' . esc_attr__( 'Decline this image, with a reason for the buyer', SPL_TD ) . '">' . esc_html__( 'Decline…', SPL_TD ) . '</a>';
 	}
-	$out[] = '<a class="button button-small" href="' . esc_url( spl_detail_url( $p ) ) . '">' . esc_html__( 'Details', SPL_TD ) . '</a>';
+	$out[] = '<a class="button button-small" href="' . esc_url( spl_detail_url( $p ) ) . '" title="' . esc_attr__( 'Open the placement: image, history, emails and decisions', SPL_TD ) . '">' . esc_html__( 'Details', SPL_TD ) . '</a>';
 	if ( $p->status !== 'cancelled' ) {
-		$out[] = '<button type="button" class="button button-small" data-spl-copy="' . esc_attr( spl_upload_url( $p ) ) . '">' . esc_html__( 'Copy link', SPL_TD ) . '</button>';
+		$out[] = '<button type="button" class="button button-small" data-spl-copy="' . esc_attr( spl_upload_url( $p ) ) . '" title="' . esc_attr__( 'Copy the upload link to send the buyer, where they add their image', SPL_TD ) . '">' . esc_html__( 'Copy link', SPL_TD ) . '</button>';
 	}
 	if ( $p->attachment_id ) {
 		$out[] = '<a class="button button-small" href="' . esc_url( spl_download_url( $p->attachment_id ) ) . '" title="' . esc_attr__( 'Download image', SPL_TD ) . '"><span class="dashicons dashicons-download"></span> ' . esc_html__( 'Download', SPL_TD ) . '</a>';
