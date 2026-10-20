@@ -180,7 +180,7 @@ function spl_render_upload_page_body( $p ) {
 			/* translators: %s: formats */
 			'badType'    => sprintf( __( 'This file type is not allowed. Please use %s.', SPL_TD ), spl_formats_sentence() ),
 			'unreadable' => __( 'This image could not be read. Please try another file.', SPL_TD ),
-			'output'     => __( 'Print size: {w} × {h} px', SPL_TD ),
+			'output'     => __( 'Size: {w} × {h} px', SPL_TD ),
 			'quality'    => __( 'Quality: {q}', SPL_TD ),
 			'qGood'      => __( 'excellent', SPL_TD ),
 			'qOk'        => __( 'good', SPL_TD ),
