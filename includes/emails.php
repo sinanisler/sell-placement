@@ -22,7 +22,7 @@ function spl_email_types() {
 		),
 		'gift'      => array(
 			'title'   => __( 'Email: gift recipient', SPL_TD ),
-			'desc'    => __( 'Sent to the person a placement was given to (at checkout or later from the account). The placement card is attached as a PDF.', SPL_TD ),
+			'desc'    => __( 'Sent to the person a gift placement is passed on to with "Send Email" in the account. The placement card is attached as a PDF.', SPL_TD ),
 			'to'      => 'recipient',
 			'subject' => __( '{buyer_name} has given you an image placement', SPL_TD ),
 			'heading' => __( 'A placement for you', SPL_TD ),

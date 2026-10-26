@@ -11,13 +11,8 @@ has to be configured for the plugin to be readable.
 | `woo-ad-image-upload.pot` | The template: every translatable string with empty translations. Start here for a new language. |
 | `woo-ad-image-upload-en_US.po` / `.mo` | English. The source strings mirrored back, so English wording can be adjusted without editing PHP. |
 | `woo-ad-image-upload-de_DE.po` / `.mo` | German. Formal address (*Sie*) throughout — the usual register for a German webshop. |
-| `woo-ad-image-upload-de_DE_formal.po` / `.mo` | Same catalogue, for sites set to *Deutsch (Sie)*. |
-| `woo-ad-image-upload-de_AT.po` / `.mo` | Same catalogue, for Austrian German. |
-| `woo-ad-image-upload-de_CH.po` / `.mo` | Same catalogue, for Swiss German. |
 
-The four German files are duplicates on purpose. WordPress looks for one exact filename per locale
-and does **not** fall back from `de_AT` to `de_DE`, so a site set to Austrian German would otherwise
-see English.
+Only English and German (`de_DE`) ship. WordPress does not fall back from `de_AT`, `de_CH` or *Deutsch (Sie)* to `de_DE`, so sites set to those locales show English unless you copy the de_DE pair to that locale's filename.
 
 ## The `.mo` is what actually loads
 
@@ -49,7 +44,7 @@ in the plugin. Translating the catalogue therefore translates what customers rea
 wp-admin labels — a German shop is German out of the box, with nothing to fill in.
 
 One consequence worth knowing: once a message has been edited and saved on
-*WooCommerce → Ad Image Upload*, that stored wording wins over the translation, in every language.
+*Placements → Settings*, that stored wording wins over the translation, in every language.
 Clear the field and save to hand it back to the catalogue.
 
 ## Regenerating the catalogue after changing the plugin

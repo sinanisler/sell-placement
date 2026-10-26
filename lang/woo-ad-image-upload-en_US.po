@@ -1,908 +1,1948 @@
-# English (United States) translation of Woo Ad Image Upload.
-# The source strings are already English, so this catalogue simply mirrors them:
-# it exists so English wording can be adjusted without touching the plugin file.
+# English (source strings mirrored).
 msgid ""
 msgstr ""
-"Project-Id-Version: Woo Ad Image Upload 0.6.0\n"
+"Project-Id-Version: Woo Ad Image Upload 1.0.0\n"
 "Report-Msgid-Bugs-To: https://geopard.digital/\n"
-"POT-Creation-Date: 2026-08-10 17:20+0000\n"
+"POT-Creation-Date: 2026-10-26 11:08+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: waiu-build\n"
 "X-Domain: woo-ad-image-upload\n"
-"PO-Revision-Date: 2026-08-10 17:20+0000\n"
-"Last-Translator: geopard.digital\n"
+"PO-Revision-Date: 2026-10-26 11:08+0000\n"
 "Language-Team: English\n"
 "Language: en_US\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: sell-placement.php:137
-msgid "Files, sizes & formats"
-msgstr "Files, sizes & formats"
-
-#: sell-placement.php:138
-msgid "What counts as an acceptable image. These rules are enforced on the server, so they hold however the file arrives."
-msgstr "What counts as an acceptable image. These rules are enforced on the server, so they hold however the file arrives."
-
-#: sell-placement.php:144
-msgid "Maximum file size (MB)"
-msgstr "Maximum file size (MB)"
-
-#: sell-placement.php:146
-msgid "Your server's own upload_max_filesize and post_max_size must be at least this high, or larger uploads fail before the plugin ever sees them."
-msgstr "Your server's own upload_max_filesize and post_max_size must be at least this high, or larger uploads fail before the plugin ever sees them."
-
-#: sell-placement.php:150
-msgid "Allowed formats"
-msgstr "Allowed formats"
-
-#: sell-placement.php:160
-msgid "Leave JPG and JPEG ticked together - they are the same format and files arrive under both extensions. If you untick everything, the defaults are used."
-msgstr "Leave JPG and JPEG ticked together - they are the same format and files arrive under both extensions. If you untick everything, the defaults are used."
-
-#: sell-placement.php:165
-msgid "Preview width (px)"
-msgstr "Preview width (px)"
-
-#: sell-placement.php:167
-msgid "How wide image previews are drawn, everywhere they appear. Height always follows the image."
-msgstr "How wide image previews are drawn, everywhere they appear. Height always follows the image."
-
-#: sell-placement.php:172
-msgid "Minimum width (px)"
-msgstr "Minimum width (px)"
-
-#: sell-placement.php:174 sell-placement.php:181 sell-placement.php:188
-#: sell-placement.php:195
-msgid "0 for no limit."
-msgstr "0 for no limit."
-
-#: sell-placement.php:179
-msgid "Minimum height (px)"
-msgstr "Minimum height (px)"
-
-#: sell-placement.php:186
-msgid "Maximum width (px)"
-msgstr "Maximum width (px)"
-
-#: sell-placement.php:193
-msgid "Maximum height (px)"
-msgstr "Maximum height (px)"
-
-#: sell-placement.php:199
-msgid "Format hint under the picker"
-msgstr "Format hint under the picker"
-
-#: sell-placement.php:200
-msgid "{formats} - up to {max_size}"
-msgstr "{formats} - up to {max_size}"
-
-#: sell-placement.php:207
-msgid "Product page"
-msgstr "Product page"
-
-#: sell-placement.php:208
-msgid "What the buyer sees on the product itself, before adding to the cart."
-msgstr "What the buyer sees on the product itself, before adding to the cart."
-
-#: sell-placement.php:212
-msgid "Mode question"
-msgstr "Mode question"
-
-#: sell-placement.php:213
-msgid "How would you like to provide the image?"
-msgstr "How would you like to provide the image?"
-
-#: sell-placement.php:214
-msgid "Only shown when the product offers more than one way to provide the image."
-msgstr "Only shown when the product offers more than one way to provide the image."
-
-#: sell-placement.php:218
-msgid "Heading when there is no choice"
-msgstr "Heading when there is no choice"
-
-#: sell-placement.php:219 sell-placement.php:307
-msgid "Upload your image"
-msgstr "Upload your image"
-
-#: sell-placement.php:223
-msgid "\"Upload now\" option"
-msgstr "\"Upload now\" option"
-
-#: sell-placement.php:224
-msgid "I'll upload it now"
-msgstr "I'll upload it now"
-
-#: sell-placement.php:228
-msgid "\"Upload now\" hint"
-msgstr "\"Upload now\" hint"
-
-#: sell-placement.php:229
-msgid "Checked instantly before you add to cart"
-msgstr "Checked instantly before you add to cart"
-
-#: sell-placement.php:233
-msgid "\"Upload later\" option"
-msgstr "\"Upload later\" option"
-
-#: sell-placement.php:234
-msgid "I'll upload it later"
-msgstr "I'll upload it later"
-
-#: sell-placement.php:238
-msgid "\"Upload later\" hint"
-msgstr "\"Upload later\" hint"
-
-#: sell-placement.php:239
-msgid "We email you a private upload link after payment"
-msgstr "We email you a private upload link after payment"
-
-#: sell-placement.php:243
-msgid "\"Gift\" option"
-msgstr "\"Gift\" option"
-
-#: sell-placement.php:244
-msgid "It's a gift"
-msgstr "It's a gift"
-
-#: sell-placement.php:248
-msgid "\"Gift\" hint"
-msgstr "\"Gift\" hint"
-
-#: sell-placement.php:249
-msgid "We email them a private upload link"
-msgstr "We email them a private upload link"
-
-#: sell-placement.php:253
-msgid "Drop-zone text (product page)"
-msgstr "Drop-zone text (product page)"
-
-#: sell-placement.php:254
-msgid "Drop your artwork here or"
-msgstr "Drop your artwork here or"
-
-#: sell-placement.php:255
-msgid "The \"browse\" link below is appended to this."
-msgstr "The \"browse\" link below is appended to this."
-
-#: sell-placement.php:259
-msgid "\"Browse\" link text"
-msgstr "\"Browse\" link text"
-
-#: sell-placement.php:260
-msgid "browse"
-msgstr "browse"
-
-#: sell-placement.php:264
-msgid "Camera button (phones only)"
-msgstr "Camera button (phones only)"
-
-#: sell-placement.php:265
-msgid "Take a photo"
-msgstr "Take a photo"
-
-#: sell-placement.php:269
-msgid "While the image is being checked"
-msgstr "While the image is being checked"
-
-#: sell-placement.php:270
-msgid "Checking your image…"
-msgstr "Checking your image…"
-
-#: sell-placement.php:274
-msgid "When the image passes"
-msgstr "When the image passes"
-
-#: sell-placement.php:275
-msgid "Image looks good — you're ready to go."
-msgstr "Image looks good — you're ready to go."
-
-#: sell-placement.php:279
-msgid "\"Choose a different image\" button"
-msgstr "\"Choose a different image\" button"
-
-#: sell-placement.php:280 sell-placement.php:347
-msgid "Choose a different image"
-msgstr "Choose a different image"
-
-#: sell-placement.php:284
-msgid "\"Upload later\" explanation"
-msgstr "\"Upload later\" explanation"
-
-#: sell-placement.php:285
-msgid "Nothing to do now - once your payment goes through we'll email you a private link to upload your image."
-msgstr "Nothing to do now - once your payment goes through we'll email you a private link to upload your image."
-
-#: sell-placement.php:289
-msgid "Recipient email placeholder"
-msgstr "Recipient email placeholder"
-
-#: sell-placement.php:290
-msgid "Recipient's email address"
-msgstr "Recipient's email address"
-
-#: sell-placement.php:294
-msgid "Recipient email hint"
-msgstr "Recipient email hint"
-
-#: sell-placement.php:295
-msgid "We'll email them a private link to upload their image after you check out."
-msgstr "We'll email them a private link to upload their image after you check out."
-
-#: sell-placement.php:301
-msgid "Upload link page"
-msgstr "Upload link page"
-
-#: sell-placement.php:302
-msgid "The page behind the private link, used both by buyers who chose \"upload later\" and by gift recipients. The image is checked and previewed here, then attached to the order only once it is confirmed."
-msgstr "The page behind the private link, used both by buyers who chose \"upload later\" and by gift recipients. The image is checked and previewed here, then attached to the order only once it is confirmed."
-
-#: sell-placement.php:306
-msgid "Heading"
-msgstr "Heading"
-
-#: sell-placement.php:311
-msgid "Intro - buyer's own link"
-msgstr "Intro - buyer's own link"
-
-#: sell-placement.php:312
-msgid "This is the private link for your order. Choose a file below - we'll check it right away, and you can confirm it before it's sent."
-msgstr "This is the private link for your order. Choose a file below - we'll check it right away, and you can confirm it before it's sent."
-
-#: sell-placement.php:316
-msgid "Intro - gift recipient"
-msgstr "Intro - gift recipient"
-
-#: sell-placement.php:317
-msgid "You've been sent this link to upload your own image. Choose a file below - we'll check it right away, and you can confirm it before it's sent."
-msgstr "You've been sent this link to upload your own image. Choose a file below - we'll check it right away, and you can confirm it before it's sent."
-
-#: sell-placement.php:321
-msgid "Drop-zone text"
-msgstr "Drop-zone text"
-
-#: sell-placement.php:322
-msgid "Drop your image here or"
-msgstr "Drop your image here or"
-
-#: sell-placement.php:326
-msgid "When the chosen image passes its checks"
-msgstr "When the chosen image passes its checks"
-
-#: sell-placement.php:327
-msgid "Image checked - please confirm it below."
-msgstr "Image checked - please confirm it below."
-
-#: sell-placement.php:331
-msgid "Confirm step heading"
-msgstr "Confirm step heading"
-
-#: sell-placement.php:332
-msgid "Is this the right image?"
-msgstr "Is this the right image?"
-
-#: sell-placement.php:336
-msgid "Confirm step explanation"
-msgstr "Confirm step explanation"
-
-#: sell-placement.php:337
-msgid "Take a proper look before you send it. Nothing is attached to your order until you confirm, so you can swap it for another file as many times as you like."
-msgstr "Take a proper look before you send it. Nothing is attached to your order until you confirm, so you can swap it for another file as many times as you like."
-
-#: sell-placement.php:341
-msgid "Confirm button"
-msgstr "Confirm button"
-
-#: sell-placement.php:342
-msgid "Yes, use this image"
-msgstr "Yes, use this image"
-
-#: sell-placement.php:346
-msgid "Change button"
-msgstr "Change button"
-
-#: sell-placement.php:351
-msgid "While the confirmation is saving"
-msgstr "While the confirmation is saving"
-
-#: sell-placement.php:352
-msgid "Saving your image…"
-msgstr "Saving your image…"
-
-#: sell-placement.php:356
-msgid "Success heading"
-msgstr "Success heading"
-
-#: sell-placement.php:357
-msgid "Thank you!"
-msgstr "Thank you!"
-
-#: sell-placement.php:361
-msgid "Success message"
-msgstr "Success message"
-
-#: sell-placement.php:362
-msgid "Your image has been saved and your order is complete. We'll be in touch if we need anything else."
-msgstr "Your image has been saved and your order is complete. We'll be in touch if we need anything else."
-
-#: sell-placement.php:366
-msgid "Heading when the link does not work"
-msgstr "Heading when the link does not work"
-
-#: sell-placement.php:367
-msgid "Upload link problem"
-msgstr "Upload link problem"
-
-#: sell-placement.php:371
-msgid "Fallback \"Upload image\" button"
-msgstr "Fallback \"Upload image\" button"
-
-#: sell-placement.php:372
+#: includes/account.php:55
+msgid "You have no placements yet."
+msgstr "You have no placements yet."
+
+#: includes/account.php:111
+msgid "Gift for %1$s (%2$s)"
+msgstr "Gift for %1$s (%2$s)"
+
+#: includes/account.php:113
+msgid "Gift, not passed on yet"
+msgstr "Gift, not passed on yet"
+
+#: includes/account.php:115
+msgid "For you"
+msgstr "For you"
+
+#: includes/account.php:118 includes/admin-approvals.php:482 includes/orders.php:70
+msgid "Order #%s"
+msgstr "Order #%s"
+
+#: includes/account.php:126
+msgid "Upload a new image"
+msgstr "Upload a new image"
+
+#: includes/account.php:126 includes/emails.php:237
 msgid "Upload image"
 msgstr "Upload image"
 
-#: sell-placement.php:373
-msgid "Only seen by visitors with JavaScript switched off."
-msgstr "Only seen by visitors with JavaScript switched off."
-
-#: sell-placement.php:379
-msgid "Order pages & cart"
-msgstr "Order pages & cart"
-
-#: sell-placement.php:380
-msgid "The uploader shown on the order-received page and in My Account, plus the lines that appear against the item in the cart."
-msgstr "The uploader shown on the order-received page and in My Account, plus the lines that appear against the item in the cart."
-
-#: sell-placement.php:384
-msgid "Panel heading"
-msgstr "Panel heading"
-
-#: sell-placement.php:385
-msgid "We still need your image"
-msgstr "We still need your image"
-
-#: sell-placement.php:389
-msgid "Panel intro"
-msgstr "Panel intro"
-
-#: sell-placement.php:390
-msgid "Upload it right here - no need to wait for the email. It's checked the moment you choose it, and you confirm it before it's sent."
-msgstr "Upload it right here - no need to wait for the email. It's checked the moment you choose it, and you confirm it before it's sent."
-
-#: sell-placement.php:394
-msgid "Private-link prompt"
-msgstr "Private-link prompt"
-
-#: sell-placement.php:395
-msgid "Prefer to do it later or from another device?"
-msgstr "Prefer to do it later or from another device?"
-
-#: sell-placement.php:399
-msgid "Private-link text"
-msgstr "Private-link text"
-
-#: sell-placement.php:400
-msgid "Use your private upload link"
-msgstr "Use your private upload link"
-
-#: sell-placement.php:404
-msgid "Waiting on a gift recipient"
-msgstr "Waiting on a gift recipient"
-
-#: sell-placement.php:405
-msgid "Waiting on the image from {email} - we've emailed them a private upload link."
-msgstr "Waiting on the image from {email} - we've emailed them a private upload link."
-
-#: sell-placement.php:410
-msgid "Cart label - image provided"
-msgstr "Cart label - image provided"
-
-#: sell-placement.php:411
-msgid "Your uploaded image"
-msgstr "Your uploaded image"
-
-#: sell-placement.php:415
-msgid "Cart link - view image"
-msgstr "Cart link - view image"
-
-#: sell-placement.php:416
-msgid "View image"
-msgstr "View image"
-
-#: sell-placement.php:420
-msgid "Cart label - image still to come"
-msgstr "Cart label - image still to come"
-
-#: sell-placement.php:421
-msgid "Image upload"
-msgstr "Image upload"
-
-#: sell-placement.php:425
-msgid "Cart value - gift"
-msgstr "Cart value - gift"
-
-#: sell-placement.php:426
-msgid "Gift - upload link will be emailed to {email}"
-msgstr "Gift - upload link will be emailed to {email}"
-
-#: sell-placement.php:431
-msgid "Cart value - upload later"
-msgstr "Cart value - upload later"
-
-#: sell-placement.php:432
-msgid "You'll upload your image after checkout - we'll email you a private link."
-msgstr "You'll upload your image after checkout - we'll email you a private link."
-
-#: sell-placement.php:436
-msgid "Order line label - the image"
-msgstr "Order line label - the image"
-
-#: sell-placement.php:437
-msgid "Uploaded image"
-msgstr "Uploaded image"
-
-#: sell-placement.php:438
-msgid "Shown against the item on the order, in order emails and in wp-admin. Changing it affects new orders only; orders already placed keep the wording they were created with."
-msgstr "Shown against the item on the order, in order emails and in wp-admin. Changing it affects new orders only; orders already placed keep the wording they were created with."
-
-#: sell-placement.php:442
-msgid "Order line label - upload status"
-msgstr "Order line label - upload status"
-
-#: sell-placement.php:443
-msgid "Upload status"
-msgstr "Upload status"
-
-#: sell-placement.php:447
-msgid "Order line label - gift recipient"
-msgstr "Order line label - gift recipient"
-
-#: sell-placement.php:448
-msgid "Gift recipient"
-msgstr "Gift recipient"
-
-#: sell-placement.php:452
-msgid "Status - waiting on the recipient"
-msgstr "Status - waiting on the recipient"
-
-#: sell-placement.php:453
-msgid "Pending - awaiting upload from recipient"
-msgstr "Pending - awaiting upload from recipient"
-
-#: sell-placement.php:457
-msgid "Status - waiting on the customer"
-msgstr "Status - waiting on the customer"
-
-#: sell-placement.php:458
-msgid "Pending - awaiting upload from customer"
-msgstr "Pending - awaiting upload from customer"
-
-#: sell-placement.php:462
-msgid "Status - image received"
-msgstr "Status - image received"
-
-#: sell-placement.php:463 sell-placement.php:3160
-msgid "Uploaded"
-msgstr "Uploaded"
-
-#: sell-placement.php:469
-msgid "Emails"
-msgstr "Emails"
-
-#: sell-placement.php:470
-msgid "The upload-link emails, the block added to WooCommerce's own order emails, and the notification you receive when an image arrives."
-msgstr "The upload-link emails, the block added to WooCommerce's own order emails, and the notification you receive when an image arrives."
-
-#: sell-placement.php:474
-msgid "Gift recipient - subject"
-msgstr "Gift recipient - subject"
-
-#: sell-placement.php:475
-msgid "You've been sent an image upload request - {site}"
-msgstr "You've been sent an image upload request - {site}"
-
-#: sell-placement.php:481
-msgid "Gift recipient - message"
-msgstr "Gift recipient - message"
-
-#: sell-placement.php:482
-msgid ""
-"Hi,\n"
-"\n"
-"Someone has bought you a spot on {site} and would like you to upload the image you want shown.\n"
-"\n"
-"Please use the link below to upload your image:\n"
-"{link}\n"
-"\n"
-"This link is private to you - please do not share it."
-msgstr ""
-"Hi,\n"
-"\n"
-"Someone has bought you a spot on {site} and would like you to upload the image you want shown.\n"
-"\n"
-"Please use the link below to upload your image:\n"
-"{link}\n"
-"\n"
-"This link is private to you - please do not share it."
-
-#: sell-placement.php:487
-msgid "Buyer - subject"
-msgstr "Buyer - subject"
-
-#: sell-placement.php:488
-msgid "Upload your image for order #{order_number}"
-msgstr "Upload your image for order #{order_number}"
-
-#: sell-placement.php:494
-msgid "Buyer - message"
-msgstr "Buyer - message"
-
-#: sell-placement.php:495
-msgid ""
-"Hi,\n"
-"\n"
-"Thanks for your order on {site}. Order #{order_number} is still waiting on the image you want shown.\n"
-"\n"
-"Please use the link below to upload your image:\n"
-"{link}\n"
-"\n"
-"This link is private to you - please do not share it."
-msgstr ""
-"Hi,\n"
-"\n"
-"Thanks for your order on {site}. Order #{order_number} is still waiting on the image you want shown.\n"
-"\n"
-"Please use the link below to upload your image:\n"
-"{link}\n"
-"\n"
-"This link is private to you - please do not share it."
-
-#: sell-placement.php:500
-msgid "Order email block - heading"
-msgstr "Order email block - heading"
-
-#: sell-placement.php:501
-msgid "Your image is still needed"
-msgstr "Your image is still needed"
-
-#: sell-placement.php:505
-msgid "Order email block - intro"
-msgstr "Order email block - intro"
-
-#: sell-placement.php:506
-msgid "Use your private link below to upload the image for this order. Please do not share it."
-msgstr "Use your private link below to upload the image for this order. Please do not share it."
-
-#: sell-placement.php:510
-msgid "Order email block - link text"
-msgstr "Order email block - link text"
-
-#: sell-placement.php:511
-msgid "Upload the image for {product}"
-msgstr "Upload the image for {product}"
-
-#: sell-placement.php:516
-msgid "Email me when an image is uploaded"
-msgstr "Email me when an image is uploaded"
-
-#: sell-placement.php:521
-msgid "Send those notifications to"
-msgstr "Send those notifications to"
-
-#: sell-placement.php:523
-msgid "Leave blank to use the site admin address. Separate several addresses with commas."
-msgstr "Leave blank to use the site admin address. Separate several addresses with commas."
-
-#: sell-placement.php:527
-msgid "Notification subject"
-msgstr "Notification subject"
-
-#: sell-placement.php:528
-msgid "Image uploaded - Order #{order_number}"
-msgstr "Image uploaded - Order #{order_number}"
-
-#: sell-placement.php:533
-msgid "Notification message"
-msgstr "Notification message"
-
-#: sell-placement.php:534
-msgid "{who} has uploaded the image for order #{order_number}. View it in wp-admin."
-msgstr "{who} has uploaded the image for order #{order_number}. View it in wp-admin."
-
-#: sell-placement.php:539
-msgid "{who} - gift recipient"
-msgstr "{who} - gift recipient"
-
-#: sell-placement.php:540
-msgid "The gift recipient"
-msgstr "The gift recipient"
-
-#: sell-placement.php:544
-msgid "{who} - customer"
-msgstr "{who} - customer"
-
-#: sell-placement.php:545
-msgid "The customer"
-msgstr "The customer"
-
-#: sell-placement.php:551
-msgid "Error messages"
-msgstr "Error messages"
-
-#: sell-placement.php:552
-msgid "Shown wherever the problem happens - the product page, the private link page, or the plain form fallback."
-msgstr "Shown wherever the problem happens - the product page, the private link page, or the plain form fallback."
-
-#: sell-placement.php:556
-msgid "No file received"
-msgstr "No file received"
-
-#: sell-placement.php:557
-msgid "No file was received."
-msgstr "No file was received."
-
-#: sell-placement.php:561
-msgid "Upload failed"
-msgstr "Upload failed"
-
-#: sell-placement.php:562
-msgid "The upload failed. Please try again."
-msgstr "The upload failed. Please try again."
-
-#: sell-placement.php:566
-msgid "File too large (server)"
-msgstr "File too large (server)"
-
-#: sell-placement.php:567
-msgid "That image is too large. Please upload a file under {max_size}."
-msgstr "That image is too large. Please upload a file under {max_size}."
-
-#: sell-placement.php:572
-msgid "File too large (in the browser)"
-msgstr "File too large (in the browser)"
-
-#: sell-placement.php:573
-msgid "That image is too large."
-msgstr "That image is too large."
-
-#: sell-placement.php:578
-msgid "Format not allowed"
-msgstr "Format not allowed"
-
-#: sell-placement.php:579
-msgid "That file type is not allowed. Please choose a {formats} file."
-msgstr "That file type is not allowed. Please choose a {formats} file."
-
-#: sell-placement.php:584
-msgid "Not really an image"
-msgstr "Not really an image"
-
-#: sell-placement.php:585
-msgid "That file doesn't look like a valid image. Please choose a {formats} file."
-msgstr "That file doesn't look like a valid image. Please choose a {formats} file."
-
-#: sell-placement.php:590
-msgid "Unreadable image"
-msgstr "Unreadable image"
-
-#: sell-placement.php:591
-msgid "That file doesn't look like a valid image. Please choose a different file."
-msgstr "That file doesn't look like a valid image. Please choose a different file."
-
-#: sell-placement.php:595
-msgid "Below the minimum dimensions"
-msgstr "Below the minimum dimensions"
-
-#: sell-placement.php:596
-msgid "That image is {width}x{height} pixels, which is too small. Please use at least {min_width}x{min_height} pixels."
-msgstr "That image is {width}x{height} pixels, which is too small. Please use at least {min_width}x{min_height} pixels."
-
-#: sell-placement.php:601
-msgid "Above the maximum dimensions"
-msgstr "Above the maximum dimensions"
-
-#: sell-placement.php:602
-msgid "That image is {width}x{height} pixels, which is too big. Please keep it within {max_width}x{max_height} pixels."
-msgstr "That image is {width}x{height} pixels, which is too big. Please keep it within {max_width}x{max_height} pixels."
-
-#: sell-placement.php:607
-msgid "iPhone HEIC photo"
-msgstr "iPhone HEIC photo"
-
-#: sell-placement.php:608
-msgid "iPhone HEIC photos are not supported. In Settings > Camera > Formats choose \"Most Compatible\", or pick a JPEG instead."
-msgstr "iPhone HEIC photos are not supported. In Settings > Camera > Formats choose \"Most Compatible\", or pick a JPEG instead."
-
-#: sell-placement.php:612
-msgid "Server returned something unexpected"
-msgstr "Server returned something unexpected"
-
-#: sell-placement.php:613
-msgid "The server rejected that image - it may be too large. Please try a smaller one."
-msgstr "The server rejected that image - it may be too large. Please try a smaller one."
-
-#: sell-placement.php:617
-msgid "Upload rejected, no reason given"
-msgstr "Upload rejected, no reason given"
-
-#: sell-placement.php:618
-msgid "That image could not be uploaded. Please try a different file."
-msgstr "That image could not be uploaded. Please try a different file."
-
-#: sell-placement.php:622
-msgid "Anything else went wrong"
-msgstr "Anything else went wrong"
-
-#: sell-placement.php:623
+#: includes/account.php:128
+msgid "View"
+msgstr "View"
+
+#: includes/account.php:131 includes/admin-approvals.php:434
+msgid "Copy link"
+msgstr "Copy link"
+
+#: includes/account.php:133 includes/settings.php:335
+msgid "PDF"
+msgstr "PDF"
+
+#: includes/account.php:137 includes/settings.php:361
+msgid "Certificate"
+msgstr "Certificate"
+
+#: includes/account.php:142
+msgid "Send Email"
+msgstr "Send Email"
+
+#: includes/account.php:147
+msgid "Send"
+msgstr "Send"
+
+#: includes/account.php:166
+msgid "Link copied"
+msgstr "Link copied"
+
+#: includes/account.php:167 includes/upload-page.php:190
 msgid "Something went wrong. Please try again."
 msgstr "Something went wrong. Please try again."
 
-#: sell-placement.php:627
-msgid "Bad or expired link"
-msgstr "Bad or expired link"
+#: includes/account.php:222 includes/upload-page.php:262
+msgid "This page has expired. Please reload it and try again."
+msgstr "This page has expired. Please reload it and try again."
 
-#: sell-placement.php:628
-msgid "This upload link is invalid or has expired."
-msgstr "This upload link is invalid or has expired."
+#: includes/account.php:227 includes/admin-approvals.php:81 includes/admin-approvals.php:232 includes/admin-media.php:162
+msgid "Sorry, you are not allowed to do that."
+msgstr "Sorry, you are not allowed to do that."
 
-#: sell-placement.php:632
-msgid "Link already used"
-msgstr "Link already used"
+#: includes/account.php:230
+msgid "This placement already has an image and can no longer be passed on."
+msgstr "This placement already has an image and can no longer be passed on."
 
-#: sell-placement.php:633
-msgid "An image has already been uploaded using this link."
-msgstr "An image has already been uploaded using this link."
+#: includes/account.php:236
+msgid "Please enter a name and a valid email address."
+msgstr "Please enter a name and a valid email address."
 
-#: sell-placement.php:637
-msgid "Confirmed too late"
-msgstr "Confirmed too late"
+#: includes/account.php:240 includes/upload-page.php:276
+msgid "Too many attempts. Please try again in an hour."
+msgstr "Too many attempts. Please try again in an hour."
 
-#: sell-placement.php:638
-msgid "We no longer have that image waiting. Please choose your file again and confirm it."
-msgstr "We no longer have that image waiting. Please choose your file again and confirm it."
+#: includes/account.php:252
+msgid "To %1$s (was %2$s)"
+msgstr "To %1$s (was %2$s)"
 
-#: sell-placement.php:642
-msgid "Fallback form submitted empty"
-msgstr "Fallback form submitted empty"
+#: includes/account.php:257
+msgid "Sent to %s."
+msgstr "Sent to %s."
 
-#: sell-placement.php:643
-msgid "Please choose an image to upload."
-msgstr "Please choose an image to upload."
+#: includes/account.php:257
+msgid "Saved, but the email could not be sent. Copy the link instead."
+msgstr "Saved, but the email could not be sent. Copy the link instead."
 
-#: sell-placement.php:647
-msgid "Add to cart with no image"
-msgstr "Add to cart with no image"
+#: includes/admin-approvals.php:39
+msgid "Decline %1$d of %2$d"
+msgstr "Decline %1$d of %2$d"
 
-#: sell-placement.php:648
-msgid "Please upload an image for this product."
-msgstr "Please upload an image for this product."
+#: includes/admin-approvals.php:41
+msgid "Decline limit reached."
+msgstr "Decline limit reached."
 
-#: sell-placement.php:652
-msgid "Add to cart with no image (other modes offered)"
-msgstr "Add to cart with no image (other modes offered)"
+#: includes/admin-approvals.php:72
+msgid "Decline count reset."
+msgstr "Decline count reset."
 
-#: sell-placement.php:653
-msgid "Please upload an image, or choose one of the other options to provide it later."
-msgstr "Please upload an image, or choose one of the other options to provide it later."
+#: includes/admin-approvals.php:102
+msgid "%d image approved."
+msgid_plural "%d images approved."
+msgstr[0] "%d image approved."
+msgstr[1] "%d images approved."
 
-#: sell-placement.php:657
-msgid "Missing or invalid recipient address"
-msgstr "Missing or invalid recipient address"
+#: includes/admin-approvals.php:107
+msgid "Placement not found."
+msgstr "Placement not found."
 
-#: sell-placement.php:658
-msgid "Please enter a valid email address for the person who will upload the image."
-msgstr "Please enter a valid email address for the person who will upload the image."
+#: includes/admin-approvals.php:113
+msgid "There is no image to approve yet."
+msgstr "There is no image to approve yet."
 
-#. translators: %1$d: width, %2$d: height
-#: sell-placement.php:773
-msgid "min %1$dx%2$dpx"
-msgstr "min %1$dx%2$dpx"
+#: includes/admin-approvals.php:117
+msgid "%s approved."
+msgstr "%s approved."
 
-#. translators: %1$d: width, %2$d: height
-#: sell-placement.php:781
-msgid "max %1$dx%2$dpx"
-msgstr "max %1$dx%2$dpx"
+#: includes/admin-approvals.php:122 includes/admin-approvals.php:134
+msgid "Please give a reason."
+msgstr "Please give a reason."
 
-#: sell-placement.php:801
-msgid "Ad image upload"
-msgstr "Ad image upload"
+#: includes/admin-approvals.php:127
+msgid "%s declined and suspended (decline limit reached)."
+msgstr "%s declined and suspended (decline limit reached)."
 
-#: sell-placement.php:802
-msgid "Require customer to upload an image for this product (e.g. their advert artwork)."
-msgstr "Require customer to upload an image for this product (e.g. their advert artwork)."
+#: includes/admin-approvals.php:129
+msgid "%s declined."
+msgstr "%s declined."
 
-#: sell-placement.php:807
-msgid "Buy now, upload later"
-msgstr "Buy now, upload later"
+#: includes/admin-approvals.php:138
+msgid "%s suspended."
+msgstr "%s suspended."
 
-#: sell-placement.php:808
-msgid "The buyer checks out without an image and uploads it afterwards - no account or login needed. A private upload link is emailed to them, and the same uploader appears on the order confirmation page. Requires \"Ad image upload\"."
-msgstr "The buyer checks out without an image and uploads it afterwards - no account or login needed. A private upload link is emailed to them, and the same uploader appears on the order confirmation page. Requires \"Ad image upload\"."
+#: includes/admin-approvals.php:144
+msgid "%s is open for a new upload."
+msgstr "%s is open for a new upload."
 
-#: sell-placement.php:813
-msgid "Buy for someone else"
-msgstr "Buy for someone else"
+#: includes/admin-approvals.php:159 includes/admin-approvals.php:185
+msgid "Email sent to %s."
+msgstr "Email sent to %s."
 
-#: sell-placement.php:814
-msgid "The buyer names a recipient instead of uploading. That person gets the private upload link and provides the image - no account or login needed. Requires \"Ad image upload\"."
-msgstr "The buyer names a recipient instead of uploading. That person gets the private upload link and provides the image - no account or login needed. Requires \"Ad image upload\"."
+#: includes/admin-approvals.php:159 includes/admin-approvals.php:185 includes/admin-settings.php:303
+msgid "The email could not be sent."
+msgstr "The email could not be sent."
 
-#: sell-placement.php:938
-msgid "or"
-msgstr "or"
+#: includes/admin-approvals.php:166
+msgid "Please enter a valid email address."
+msgstr "Please enter a valid email address."
 
-#: sell-placement.php:3127 sell-placement.php:3131
-msgid "Artwork"
-msgstr "Artwork"
+#: includes/admin-approvals.php:215
+msgid "Details saved."
+msgstr "Details saved."
 
-#. translators: %s: human-readable duration, e.g. "3 days"
-#: sell-placement.php:3168
-msgid "waiting %s"
-msgstr "waiting %s"
+#: includes/admin-approvals.php:223
+msgid "Note added."
+msgstr "Note added."
 
-#. translators: %1$d: number awaiting, %2$d: total
-#: sell-placement.php:3176
-msgid "Awaiting %1$d of %2$d"
-msgstr "Awaiting %1$d of %2$d"
+#: includes/admin-approvals.php:226
+msgid "Unknown action."
+msgstr "Unknown action."
 
-#: sell-placement.php:3180
-msgid "Awaiting"
-msgstr "Awaiting"
+#: includes/admin-approvals.php:239
+msgid "File not found."
+msgstr "File not found."
 
-#: sell-placement.php:3213
-msgid "Artwork: any"
-msgstr "Artwork: any"
+#: includes/admin-approvals.php:294
+msgid "%s ago"
+msgstr "%s ago"
 
-#: sell-placement.php:3214
-msgid "Artwork: awaiting"
-msgstr "Artwork: awaiting"
+#: includes/admin-approvals.php:304 includes/admin-media.php:13 includes/admin-settings.php:29
+msgid "Sorry, you are not allowed to access this page."
+msgstr "Sorry, you are not allowed to access this page."
 
-#: sell-placement.php:3215
-msgid "Artwork: uploaded"
-msgstr "Artwork: uploaded"
+#: includes/admin-approvals.php:352 includes/admin-approvals.php:618 includes/admin-menu.php:13 includes/settings.php:123
+msgid "Approvals"
+msgstr "Approvals"
 
-#: sell-placement.php:3283
-msgid "Resend image upload link"
-msgstr "Resend image upload link"
+#: includes/admin-approvals.php:354
+msgid "Compact list view"
+msgstr "Compact list view"
 
-#. translators: %d: number of links sent
-#: sell-placement.php:3298
-msgid "Image upload link resent (%d link)."
-msgid_plural "Image upload links resent (%d links)."
-msgstr[0] "Image upload link resent (%d link)."
-msgstr[1] "Image upload links resent (%d links)."
+#: includes/admin-approvals.php:355
+msgid "List view"
+msgstr "List view"
 
-#: sell-placement.php:3301
-msgid "No image upload link to resend - nothing is awaiting an upload, or no valid address is on file."
-msgstr "No image upload link to resend - nothing is awaiting an upload, or no valid address is on file."
+#: includes/admin-approvals.php:356
+msgid "Grid view"
+msgstr "Grid view"
 
-#: sell-placement.php:3338 sell-placement.php:3339
-#: sell-placement.php:3458
-msgid "Ad Image Upload"
-msgstr "Ad Image Upload"
+#: includes/admin-approvals.php:363
+msgid "All"
+msgstr "All"
 
-#: sell-placement.php:3350
+#: includes/admin-approvals.php:377 includes/admin-media.php:79
+msgid "All products"
+msgstr "All products"
+
+#: includes/admin-approvals.php:382 includes/admin-media.php:84
+msgid "ID, email, name, order #"
+msgstr "ID, email, name, order #"
+
+#: includes/admin-approvals.php:383 includes/admin-media.php:85
+msgid "Filter"
+msgstr "Filter"
+
+#: includes/admin-approvals.php:394
+msgid "Select all"
+msgstr "Select all"
+
+#: includes/admin-approvals.php:395
+msgid "Approve selected"
+msgstr "Approve selected"
+
+#: includes/admin-approvals.php:401
+msgid "Nothing here."
+msgstr "Nothing here."
+
+#: includes/admin-approvals.php:429
+msgid "Approve this placement and email the buyer the upload link"
+msgstr "Approve this placement and email the buyer the upload link"
+
+#: includes/admin-approvals.php:429 includes/admin-approvals.php:698
+msgid "Approve"
+msgstr "Approve"
+
+#: includes/admin-approvals.php:430
+msgid "Decline this image, with a reason for the buyer"
+msgstr "Decline this image, with a reason for the buyer"
+
+#: includes/admin-approvals.php:430
+msgid "Decline…"
+msgstr "Decline…"
+
+#: includes/admin-approvals.php:432
+msgid "Open the placement: image, history, emails and decisions"
+msgstr "Open the placement: image, history, emails and decisions"
+
+#: includes/admin-approvals.php:432 includes/admin-approvals.php:725
+msgid "Details"
+msgstr "Details"
+
+#: includes/admin-approvals.php:434
+msgid "Copy the upload link to send the buyer, where they add their image"
+msgstr "Copy the upload link to send the buyer, where they add their image"
+
+#: includes/admin-approvals.php:437
+msgid "Download image"
+msgstr "Download image"
+
+#: includes/admin-approvals.php:437 includes/admin-approvals.php:642 includes/admin-approvals.php:653 includes/admin-media.php:116
+msgid "Download"
+msgstr "Download"
+
+#: includes/admin-approvals.php:439 includes/admin-approvals.php:753
+msgid "Certificate PDF"
+msgstr "Certificate PDF"
+
+#: includes/admin-approvals.php:439
+msgid "Placement card PDF"
+msgstr "Placement card PDF"
+
+#: includes/admin-approvals.php:441
+msgid "Email again (the email matching the current status)"
+msgstr "Email again (the email matching the current status)"
+
+#: includes/admin-approvals.php:441 includes/admin-approvals.php:756
+msgid "Email again"
+msgstr "Email again"
+
+#: includes/admin-approvals.php:459
+msgid "Image"
+msgstr "Image"
+
+#: includes/admin-approvals.php:460 includes/admin-approvals.php:532 includes/product.php:354 includes/product.php:367
+msgid "Placement"
+msgstr "Placement"
+
+#: includes/admin-approvals.php:461 includes/admin-approvals.php:533 includes/admin-approvals.php:731
+msgid "Buyer"
+msgstr "Buyer"
+
+#: includes/admin-approvals.php:462 includes/admin-approvals.php:732
+msgid "Gifted to"
+msgstr "Gifted to"
+
+#: includes/admin-approvals.php:463 includes/admin-approvals.php:734
+msgid "Uploaded by"
+msgstr "Uploaded by"
+
+#: includes/admin-approvals.php:464 includes/admin-approvals.php:534
+msgid "Status"
+msgstr "Status"
+
+#: includes/admin-approvals.php:465 includes/admin-approvals.php:535
+msgid "Actions"
+msgstr "Actions"
+
+#: includes/admin-approvals.php:479 includes/admin-approvals.php:639
+msgid "image"
+msgstr "image"
+
+#: includes/admin-approvals.php:493 includes/admin-approvals.php:555
+msgid "Declined %1$d / %2$d"
+msgstr "Declined %1$d / %2$d"
+
+#: includes/admin-approvals.php:619
+msgid "Next in review"
+msgstr "Next in review"
+
+#: includes/admin-approvals.php:630
+msgid "No image uploaded yet."
+msgstr "No image uploaded yet."
+
+#: includes/admin-approvals.php:637
+msgid "ratio %s"
+msgstr "ratio %s"
+
+#: includes/admin-approvals.php:638
+msgid "original:"
+msgstr "original:"
+
+#: includes/admin-approvals.php:641
+msgid "Open full size"
+msgstr "Open full size"
+
+#: includes/admin-approvals.php:648
+msgid "Earlier images"
+msgstr "Earlier images"
+
+#: includes/admin-approvals.php:659
+msgid "History"
+msgstr "History"
+
+#: includes/admin-approvals.php:664
+msgid "System"
+msgstr "System"
+
+#: includes/admin-approvals.php:682
+msgid "Add an internal note (not emailed)"
+msgstr "Add an internal note (not emailed)"
+
+#: includes/admin-approvals.php:683
+msgid "Add note"
+msgstr "Add note"
+
+#: includes/admin-approvals.php:689
+msgid "Decision"
+msgstr "Decision"
+
+#: includes/admin-approvals.php:691
+msgid "Declined so far: %1$d of %2$d allowed."
+msgstr "Declined so far: %1$d of %2$d allowed."
+
+#: includes/admin-approvals.php:692
+msgid "The next decline suspends this placement."
+msgstr "The next decline suspends this placement."
+
+#: includes/admin-approvals.php:703
+msgid "Decline"
+msgstr "Decline"
+
+#: includes/admin-approvals.php:703
+msgid "The person can upload a new image with the same link."
+msgstr "The person can upload a new image with the same link."
+
+#: includes/admin-approvals.php:707
+msgid "Suspend"
+msgstr "Suspend"
+
+#: includes/admin-approvals.php:707
+msgid "No more uploads are possible until reopened."
+msgstr "No more uploads are possible until reopened."
+
+#: includes/admin-approvals.php:713
+msgid "Allow a new upload with the same link."
+msgstr "Allow a new upload with the same link."
+
+#: includes/admin-approvals.php:714
+msgid "Reset the decline count"
+msgstr "Reset the decline count"
+
+#: includes/admin-approvals.php:715
+msgid "Reopen for upload"
+msgstr "Reopen for upload"
+
+#: includes/admin-approvals.php:720
+msgid "Waiting for the image. Use \"Email again\" below to remind the person."
+msgstr "Waiting for the image. Use \"Email again\" below to remind the person."
+
+#: includes/admin-approvals.php:727 includes/pdf.php:309
+msgid "Placement ID"
+msgstr "Placement ID"
+
+#: includes/admin-approvals.php:728
+msgid "Product"
+msgstr "Product"
+
+#: includes/admin-approvals.php:729
+msgid "Order"
+msgstr "Order"
+
+#: includes/admin-approvals.php:730
+msgid "unit %d"
+msgstr "unit %d"
+
+#: includes/admin-approvals.php:735
+msgid "On the certificate"
+msgstr "On the certificate"
+
+#: includes/admin-approvals.php:736
+msgid "Consent"
+msgstr "Consent"
+
+#: includes/admin-approvals.php:736
+msgid "Given at upload"
+msgstr "Given at upload"
+
+#: includes/admin-approvals.php:737
+msgid "Created"
+msgstr "Created"
+
+#: includes/admin-approvals.php:738
+msgid "Uploaded"
+msgstr "Uploaded"
+
+#: includes/admin-approvals.php:739
+msgid "Reviewed"
+msgstr "Reviewed"
+
+#: includes/admin-approvals.php:740
+msgid "Links emailed"
+msgstr "Links emailed"
+
+#: includes/admin-approvals.php:742 includes/product.php:178
+msgid "Event end"
+msgstr "Event end"
+
+#: includes/admin-approvals.php:746 includes/pdf.php:313
+msgid "Upload link"
+msgstr "Upload link"
+
+#: includes/admin-approvals.php:747
+msgid "Copy"
+msgstr "Copy"
+
+#: includes/admin-approvals.php:750
+msgid "Open upload page"
+msgstr "Open upload page"
+
+#: includes/admin-approvals.php:751
+msgid "Card PDF"
+msgstr "Card PDF"
+
+#: includes/admin-approvals.php:762
+msgid "Write an email"
+msgstr "Write an email"
+
+#: includes/admin-approvals.php:765
+msgid "Start from"
+msgstr "Start from"
+
+#: includes/admin-approvals.php:771
+msgid "To"
+msgstr "To"
+
+#: includes/admin-approvals.php:772 includes/settings.php:519
+msgid "Subject"
+msgstr "Subject"
+
+#: includes/admin-approvals.php:773 includes/settings.php:175 includes/settings.php:239 includes/settings.php:525
+msgid "Heading"
+msgstr "Heading"
+
+#: includes/admin-approvals.php:783
+msgid "Attach placement card PDF"
+msgstr "Attach placement card PDF"
+
+#: includes/admin-approvals.php:784
+msgid "Attach certificate PDF"
+msgstr "Attach certificate PDF"
+
+#: includes/admin-approvals.php:785
+msgid "Send email"
+msgstr "Send email"
+
+#: includes/admin-approvals.php:790
+msgid "Edit contacts"
+msgstr "Edit contacts"
+
+#: includes/admin-approvals.php:795
+msgid "Buyer name"
+msgstr "Buyer name"
+
+#: includes/admin-approvals.php:796
+msgid "Buyer email"
+msgstr "Buyer email"
+
+#: includes/admin-approvals.php:797
+msgid "Recipient name"
+msgstr "Recipient name"
+
+#: includes/admin-approvals.php:798
+msgid "Recipient email (empty = not a gift)"
+msgstr "Recipient email (empty = not a gift)"
+
+#: includes/admin-approvals.php:799
+msgid "Uploader name"
+msgstr "Uploader name"
+
+#: includes/admin-approvals.php:800
+msgid "Uploader email"
+msgstr "Uploader email"
+
+#: includes/admin-approvals.php:801
+msgid "Name(s) on the certificate"
+msgstr "Name(s) on the certificate"
+
+#: includes/admin-approvals.php:807 includes/product.php:165
+msgid "Declines before suspension"
+msgstr "Declines before suspension"
+
+#: includes/admin-approvals.php:808
+msgid "Save"
+msgstr "Save"
+
+#: includes/admin-approvals.php:839
+msgid "Reason – this is what the person reads in the email"
+msgstr "Reason – this is what the person reads in the email"
+
+#: includes/admin-approvals.php:840
+msgid "Email the reason"
+msgstr "Email the reason"
+
+#: includes/admin-media.php:63 includes/settings.php:129
+msgid "Images"
+msgstr "Images"
+
+#: includes/admin-media.php:65
+msgid "Download approved of this product (ZIP)"
+msgstr "Download approved of this product (ZIP)"
+
+#: includes/admin-media.php:65
+msgid "Download all approved (ZIP)"
+msgstr "Download all approved (ZIP)"
+
+#: includes/admin-media.php:69
+msgid "Every image uploaded for a placement, including ones that were later replaced. They are kept out of the regular Media Library."
+msgstr "Every image uploaded for a placement, including ones that were later replaced. They are kept out of the regular Media Library."
+
+#: includes/admin-media.php:74
+msgid "All images"
+msgstr "All images"
+
+#: includes/admin-media.php:74
+msgid "Current image of a placement"
+msgstr "Current image of a placement"
+
+#: includes/admin-media.php:74 includes/db.php:107 includes/db.php:242
+msgid "Approved"
+msgstr "Approved"
+
+#: includes/admin-media.php:74
+msgid "Replaced (earlier uploads)"
+msgstr "Replaced (earlier uploads)"
+
+#: includes/admin-media.php:86
+msgid "%s image"
+msgid_plural "%s images"
+msgstr[0] "%s image"
+msgstr[1] "%s images"
+
+#: includes/admin-media.php:90
+msgid "No images yet."
+msgstr "No images yet."
+
+#: includes/admin-media.php:108
+msgid "Replaced"
+msgstr "Replaced"
+
+#: includes/admin-media.php:110
+msgid "Placement deleted"
+msgstr "Placement deleted"
+
+#: includes/admin-media.php:117
+msgid "Open"
+msgstr "Open"
+
+#: includes/admin-media.php:119
+msgid "Delete"
+msgstr "Delete"
+
+#: includes/admin-media.php:148
+msgid "This image cannot be deleted."
+msgstr "This image cannot be deleted."
+
+#: includes/admin-media.php:153
+msgid "Earlier image #%d deleted."
+msgstr "Earlier image #%d deleted."
+
+#: includes/admin-media.php:155
+msgid "Image deleted."
+msgstr "Image deleted."
+
+#: includes/admin-media.php:165
+msgid "ZIP is not available on this server."
+msgstr "ZIP is not available on this server."
+
+#: includes/admin-media.php:172
+msgid "There are no approved images yet."
+msgstr "There are no approved images yet."
+
+#: includes/admin-menu.php:14 includes/settings.php:135 sell-placement.php:99
 msgid "Settings"
 msgstr "Settings"
 
-#: sell-placement.php:3386
-msgid "Every setting has been put back to its default wording and limits."
-msgstr "Every setting has been put back to its default wording and limits."
+#: includes/admin-menu.php:32 includes/admin-menu.php:33 includes/admin-menu.php:41 includes/orders.php:210
+msgid "Placements"
+msgstr "Placements"
 
-#: sell-placement.php:3460
-msgid "Everything a customer reads, and the rules an image has to satisfy. Empty a message box and save to put that one message back to its default wording."
-msgstr "Everything a customer reads, and the rules an image has to satisfy. Empty a message box and save to put that one message back to its default wording."
+#: includes/admin-menu.php:62
+msgid "Copied"
+msgstr "Copied"
 
-#: sell-placement.php:3499
-msgid "Put every setting on every tab back to its default? This cannot be undone."
-msgstr "Put every setting on every tab back to its default? This cannot be undone."
+#: includes/admin-menu.php:63
+msgid "Approve all selected images and email their uploaders?"
+msgstr "Approve all selected images and email their uploaders?"
 
-#: sell-placement.php:3500
-msgid "Reset everything to defaults"
-msgstr "Reset everything to defaults"
+#: includes/admin-menu.php:64
+msgid "Delete this image file permanently?"
+msgstr "Delete this image file permanently?"
 
-#: sell-placement.php:3584
+#: includes/admin-menu.php:65
+msgid "Choose a border image"
+msgstr "Choose a border image"
+
+#: includes/admin-menu.php:66
+msgid "Use this image"
+msgstr "Use this image"
+
+#: includes/admin-menu.php:68
+msgid "Apply this preset? It replaces the colors, fonts and borders below (texts stay as they are)."
+msgstr "Apply this preset? It replaces the colors, fonts and borders below (texts stay as they are)."
+
+#: includes/admin-settings.php:18
+msgid "Emails"
+msgstr "Emails"
+
+#: includes/admin-settings.php:46
+msgid "Placement settings"
+msgstr "Placement settings"
+
+#: includes/admin-settings.php:60
+msgid "Email: "
+msgstr "Email: "
+
+#: includes/admin-settings.php:60
+msgid "off"
+msgstr "off"
+
+#: includes/admin-settings.php:92
+msgid "Save changes"
+msgstr "Save changes"
+
+#: includes/admin-settings.php:93
+msgid "Restore the defaults of this page?"
+msgstr "Restore the defaults of this page?"
+
+#: includes/admin-settings.php:93
+msgid "Restore defaults"
+msgstr "Restore defaults"
+
+#: includes/admin-settings.php:95
+msgid "Send a test to %s"
+msgstr "Send a test to %s"
+
+#: includes/admin-settings.php:98
+msgid "Preview PDF"
+msgstr "Preview PDF"
+
+#: includes/admin-settings.php:99
+msgid "Send the approved email to %s"
+msgstr "Send the approved email to %s"
+
+#: includes/admin-settings.php:105
+msgid "Email preview"
+msgstr "Email preview"
+
+#: includes/admin-settings.php:106
+msgid "The certificate as it appears in the approved email, with the saved settings. It uses your newest approved placement, or example values."
+msgstr "The certificate as it appears in the approved email, with the saved settings. It uses your newest approved placement, or example values."
+
+#: includes/admin-settings.php:153
+msgid "Apply"
+msgstr "Apply"
+
+#: includes/admin-settings.php:166
+msgid "Upload or choose image"
+msgstr "Upload or choose image"
+
+#: includes/admin-settings.php:167
+msgid "Remove"
+msgstr "Remove"
+
+#: includes/admin-settings.php:186
 msgid "Placeholders:"
 msgstr "Placeholders:"
 
+#: includes/admin-settings.php:259
+msgid "Defaults restored."
+msgstr "Defaults restored."
+
+#: includes/admin-settings.php:259
+msgid "Settings saved."
+msgstr "Settings saved."
+
+#: includes/admin-settings.php:271
+msgid "Unknown email."
+msgstr "Unknown email."
+
+#: includes/admin-settings.php:278 includes/admin-settings.php:287
+msgid "Example reason: the image is too blurry for print."
+msgstr "Example reason: the image is too blurry for print."
+
+#: includes/admin-settings.php:283 includes/certificate.php:484
+msgid "Example placement"
+msgstr "Example placement"
+
+#: includes/admin-settings.php:285 includes/emails.php:37 includes/emails.php:105 includes/settings.php:240
+msgid "Upload your image"
+msgstr "Upload your image"
+
+#: includes/admin-settings.php:293
+msgid "(the list of placements appears here)"
+msgstr "(the list of placements appears here)"
+
+#: includes/admin-settings.php:294 includes/emails.php:246
+msgid "Manage your placements in your account"
+msgstr "Manage your placements in your account"
+
+#: includes/admin-settings.php:303
+msgid "Test sent to %s."
+msgstr "Test sent to %s."
+
+#: includes/certificate.php:20
+msgid "Classic gold"
+msgstr "Classic gold"
+
+#: includes/certificate.php:33
+msgid "Elegant burgundy"
+msgstr "Elegant burgundy"
+
+#: includes/certificate.php:46
+msgid "Royal night"
+msgstr "Royal night"
+
+#: includes/certificate.php:59
+msgid "Modern blue"
+msgstr "Modern blue"
+
+#: includes/certificate.php:72
+msgid "Festive"
+msgstr "Festive"
+
+#: includes/certificate.php:85
+msgid "Minimal"
+msgstr "Minimal"
+
+#: includes/certificate.php:103 includes/certificate.php:119
+msgid "No border"
+msgstr "No border"
+
+#: includes/certificate.php:104 includes/certificate.php:120
+msgid "Single line"
+msgstr "Single line"
+
+#: includes/certificate.php:105 includes/certificate.php:121
+msgid "Double line"
+msgstr "Double line"
+
+#: includes/certificate.php:106
+msgid "Classic frame (thick and thin, corner squares)"
+msgstr "Classic frame (thick and thin, corner squares)"
+
+#: includes/certificate.php:107
+msgid "Ornamental corners"
+msgstr "Ornamental corners"
+
+#: includes/certificate.php:108
+msgid "Art deco (stepped corners)"
+msgstr "Art deco (stepped corners)"
+
+#: includes/certificate.php:109 includes/certificate.php:123
+msgid "Wide color band"
+msgstr "Wide color band"
+
+#: includes/certificate.php:110 includes/certificate.php:124
+msgid "Dashed"
+msgstr "Dashed"
+
+#: includes/certificate.php:111 includes/certificate.php:125
+msgid "Dotted"
+msgstr "Dotted"
+
+#: includes/certificate.php:112 includes/certificate.php:126
+msgid "Your own border image"
+msgstr "Your own border image"
+
+#: includes/certificate.php:122
+msgid "Classic frame (thick and thin)"
+msgstr "Classic frame (thick and thin)"
+
+#: includes/certificate.php:245 includes/certificate.php:461
+msgid "Date"
+msgstr "Date"
+
+#: includes/db.php:105
+msgid "Awaiting upload"
+msgstr "Awaiting upload"
+
+#: includes/db.php:106
+msgid "In review"
+msgstr "In review"
+
+#: includes/db.php:108 includes/db.php:243
+msgid "Declined"
+msgstr "Declined"
+
+#: includes/db.php:109 includes/db.php:244
+msgid "Suspended"
+msgstr "Suspended"
+
+#: includes/db.php:110 includes/db.php:246
+msgid "Cancelled"
+msgstr "Cancelled"
+
+#: includes/db.php:237
+msgid "Placement created"
+msgstr "Placement created"
+
+#: includes/db.php:238
+msgid "Upload link emailed"
+msgstr "Upload link emailed"
+
+#: includes/db.php:239
+msgid "Sent to recipient"
+msgstr "Sent to recipient"
+
+#: includes/db.php:240
+msgid "Passed on to someone else"
+msgstr "Passed on to someone else"
+
+#: includes/db.php:241
+msgid "Image uploaded"
+msgstr "Image uploaded"
+
+#: includes/db.php:245
+msgid "Reopened for upload"
+msgstr "Reopened for upload"
+
+#: includes/db.php:247
+msgid "Email sent"
+msgstr "Email sent"
+
+#: includes/db.php:248
+msgid "Note"
+msgstr "Note"
+
+#: includes/emails.php:15
+msgid "Email: buyer, after payment"
+msgstr "Email: buyer, after payment"
+
+#: includes/emails.php:16
+msgid "One email per paid order listing every placement with its upload link. Gift placements get their card attached as a PDF."
+msgstr "One email per paid order listing every placement with its upload link. Gift placements get their card attached as a PDF."
+
+#: includes/emails.php:18
+msgid "Your placements for order #{order_number}"
+msgstr "Your placements for order #{order_number}"
+
+#: includes/emails.php:19
+msgid "Thank you for your order"
+msgstr "Thank you for your order"
+
+#: includes/emails.php:20
+msgid ""
+"<p>Hi {name},</p>\n"
+"<p>your payment is confirmed. Below is a private upload link for each placement. Upload yourself, or pass a link on to someone else. You can also do this any time from your account.</p>\n"
+"{placements}\n"
+"<p>{account_link}</p>"
+msgstr ""
+"<p>Hi {name},</p>\n"
+"<p>your payment is confirmed. Below is a private upload link for each placement. Upload yourself, or pass a link on to someone else. You can also do this any time from your account.</p>\n"
+"{placements}\n"
+"<p>{account_link}</p>"
+
+#: includes/emails.php:24
+msgid "Email: gift recipient"
+msgstr "Email: gift recipient"
+
+#: includes/emails.php:25
+msgid "Sent to the person a gift placement is passed on to with \"Send Email\" in the account. The placement card is attached as a PDF."
+msgstr "Sent to the person a gift placement is passed on to with \"Send Email\" in the account. The placement card is attached as a PDF."
+
+#: includes/emails.php:27
+msgid "{buyer_name} has given you an image placement"
+msgstr "{buyer_name} has given you an image placement"
+
+#: includes/emails.php:28
+msgid "A placement for you"
+msgstr "A placement for you"
+
+#: includes/emails.php:29
+msgid ""
+"<p>Hi {name},</p>\n"
+"<p>{buyer_name} has given you a placement for <strong>{product}</strong>.</p>\n"
+"{message}\n"
+"<p>Use the button below to upload your image. No account is needed.</p>\n"
+"<p>{upload_button}</p>\n"
+"<p>Your placement ID: <strong>{code}</strong></p>"
+msgstr ""
+"<p>Hi {name},</p>\n"
+"<p>{buyer_name} has given you a placement for <strong>{product}</strong>.</p>\n"
+"{message}\n"
+"<p>Use the button below to upload your image. No account is needed.</p>\n"
+"<p>{upload_button}</p>\n"
+"<p>Your placement ID: <strong>{code}</strong></p>"
+
+#: includes/emails.php:33
+msgid "Email: upload link"
+msgstr "Email: upload link"
+
+#: includes/emails.php:34
+msgid "A single upload link, sent from the approval screen (\"Email again\") when a placement is still waiting for its image."
+msgstr "A single upload link, sent from the approval screen (\"Email again\") when a placement is still waiting for its image."
+
+#: includes/emails.php:36
+msgid "Your upload link for {product}"
+msgstr "Your upload link for {product}"
+
+#: includes/emails.php:38
+msgid ""
+"<p>Hi {name},</p>\n"
+"<p>here is your private upload link for <strong>{product}</strong>.</p>\n"
+"<p>{upload_button}</p>\n"
+"<p>Your placement ID: <strong>{code}</strong></p>"
+msgstr ""
+"<p>Hi {name},</p>\n"
+"<p>here is your private upload link for <strong>{product}</strong>.</p>\n"
+"<p>{upload_button}</p>\n"
+"<p>Your placement ID: <strong>{code}</strong></p>"
+
+#: includes/emails.php:42
+msgid "Email: image received"
+msgstr "Email: image received"
+
+#: includes/emails.php:43
+msgid "Sent to the uploader right after an image arrives."
+msgstr "Sent to the uploader right after an image arrives."
+
+#: includes/emails.php:45
+msgid "Your image is being reviewed"
+msgstr "Your image is being reviewed"
+
+#: includes/emails.php:46
+msgid "Image received"
+msgstr "Image received"
+
+#: includes/emails.php:47
+msgid ""
+"<p>Hi {name},</p>\n"
+"<p>thank you, we have received your image for <strong>{product}</strong> ({code}). We check every image by hand and will email you as soon as it has been reviewed.</p>"
+msgstr ""
+"<p>Hi {name},</p>\n"
+"<p>thank you, we have received your image for <strong>{product}</strong> ({code}). We check every image by hand and will email you as soon as it has been reviewed.</p>"
+
+#: includes/emails.php:51
+msgid "Email: new upload (staff)"
+msgstr "Email: new upload (staff)"
+
+#: includes/emails.php:52
+msgid "Sent to the addresses under General when an image is waiting for review."
+msgstr "Sent to the addresses under General when an image is waiting for review."
+
+#: includes/emails.php:54
+msgid "New image to review: {code}"
+msgstr "New image to review: {code}"
+
+#: includes/emails.php:55
+msgid "New image to review"
+msgstr "New image to review"
+
+#: includes/emails.php:56
+msgid ""
+"<p>{name} ({uploader_email}) uploaded an image for <strong>{product}</strong>, placement {code}, order #{order_number}.</p>\n"
+"<p>{image}</p>\n"
+"<p><a href=\"{review_link}\">Review it now</a></p>"
+msgstr ""
+"<p>{name} ({uploader_email}) uploaded an image for <strong>{product}</strong>, placement {code}, order #{order_number}.</p>\n"
+"<p>{image}</p>\n"
+"<p><a href=\"{review_link}\">Review it now</a></p>"
+
+#: includes/emails.php:60
+msgid "Email: approved"
+msgstr "Email: approved"
+
+#: includes/emails.php:61
+msgid "Sent when an image is approved. The certificate PDF is attached."
+msgstr "Sent when an image is approved. The certificate PDF is attached."
+
+#: includes/emails.php:63 includes/settings.php:292
+msgid "Your image has been approved"
+msgstr "Your image has been approved"
+
+#: includes/emails.php:64
+msgid "You are in!"
+msgstr "You are in!"
+
+#: includes/emails.php:65
+msgid ""
+"<p>Hi {name},</p>\n"
+"<p>great news: your image for <strong>{product}</strong> has been approved. Here is your certificate. The PDF version is attached, ready to print.</p>\n"
+"{certificate}\n"
+"<p>Your placement ID: <strong>{code}</strong></p>"
+msgstr ""
+"<p>Hi {name},</p>\n"
+"<p>great news: your image for <strong>{product}</strong> has been approved. Here is your certificate. The PDF version is attached, ready to print.</p>\n"
+"{certificate}\n"
+"<p>Your placement ID: <strong>{code}</strong></p>"
+
+#: includes/emails.php:69
+msgid "Email: declined"
+msgstr "Email: declined"
+
+#: includes/emails.php:70
+msgid "Sent when an image is declined and a new one may be uploaded."
+msgstr "Sent when an image is declined and a new one may be uploaded."
+
+#: includes/emails.php:72
+msgid "Please upload a new image for {product}"
+msgstr "Please upload a new image for {product}"
+
+#: includes/emails.php:73
+msgid "We need a new image"
+msgstr "We need a new image"
+
+#: includes/emails.php:74
+msgid ""
+"<p>Hi {name},</p>\n"
+"<p>unfortunately we cannot use your image for <strong>{product}</strong>:</p>\n"
+"<blockquote>{reason}</blockquote>\n"
+"<p>Please upload a new one with the same link. Attempts left: {attempts_left}.</p>\n"
+"<p>{upload_button}</p>"
+msgstr ""
+"<p>Hi {name},</p>\n"
+"<p>unfortunately we cannot use your image for <strong>{product}</strong>:</p>\n"
+"<blockquote>{reason}</blockquote>\n"
+"<p>Please upload a new one with the same link. Attempts left: {attempts_left}.</p>\n"
+"<p>{upload_button}</p>"
+
+#: includes/emails.php:78
+msgid "Email: suspended"
+msgstr "Email: suspended"
+
+#: includes/emails.php:79
+msgid "Sent when a placement is suspended, by hand or after too many declines."
+msgstr "Sent when a placement is suspended, by hand or after too many declines."
+
+#: includes/emails.php:81
+msgid "Your placement {code} has been suspended"
+msgstr "Your placement {code} has been suspended"
+
+#: includes/emails.php:82
+msgid "Placement suspended"
+msgstr "Placement suspended"
+
+#: includes/emails.php:83
+msgid ""
+"<p>Hi {name},</p>\n"
+"<p>your placement for <strong>{product}</strong> has been suspended:</p>\n"
+"<blockquote>{reason}</blockquote>\n"
+"<p>Please reply to this email if you have questions.</p>"
+msgstr ""
+"<p>Hi {name},</p>\n"
+"<p>your placement for <strong>{product}</strong> has been suspended:</p>\n"
+"<blockquote>{reason}</blockquote>\n"
+"<p>Please reply to this email if you have questions.</p>"
+
+#: includes/emails.php:232
+msgid "Sent to %s"
+msgstr "Sent to %s"
+
+#: includes/emails.php:235
+msgid "Gift"
+msgstr "Gift"
+
+#: includes/emails.php:235
+msgid "pass the attached PDF or this link on to the recipient:"
+msgstr "pass the attached PDF or this link on to the recipient:"
+
+#: includes/emails.php:271
+msgid "Order overview"
+msgstr "Order overview"
+
+#: includes/images.php:149 includes/images.php:155
+msgid "Image not found."
+msgstr "Image not found."
+
+#: includes/orders.php:74
+msgid "Woo Ad Image Upload could not create a placement for %s. It will be retried the next time this order is processed."
+msgstr "Woo Ad Image Upload could not create a placement for %s. It will be retried the next time this order is processed."
+
+#: includes/orders.php:84
+msgid "Order is active again."
+msgstr "Order is active again."
+
+#: includes/orders.php:116
+msgid "Order cancelled, failed or refunded."
+msgstr "Order cancelled, failed or refunded."
+
+#: includes/orders.php:156
+msgid "Image Placements"
+msgstr "Image Placements"
+
+#: includes/orders.php:167
+msgid "Placements are created once the order is paid."
+msgstr "Placements are created once the order is paid."
+
+#: includes/orders.php:167
+msgid "No placements in this order."
+msgstr "No placements in this order."
+
+#: includes/orders.php:170
+msgid "Create placements now"
+msgstr "Create placements now"
+
+#: includes/pdf.php:294
+msgid "For %s"
+msgstr "For %s"
+
+#: includes/pdf.php:297
+msgid "from %s"
+msgstr "from %s"
+
+#: includes/pdf.php:321 includes/upload-page.php:157
+msgid "Uploads close on %s."
+msgstr "Uploads close on %s."
+
+#: includes/pdf.php:363
+msgid "The certificate is available once the image has been approved."
+msgstr "The certificate is available once the image has been approved."
+
+#: includes/product.php:98 includes/product.php:107
+msgid "Image Placement"
+msgstr "Image Placement"
+
+#: includes/product.php:99
+msgid "Each unit sold is a placement: the buyer, or someone they pass it to, uploads and crops an image after payment, and it is approved by hand."
+msgstr "Each unit sold is a placement: the buyer, or someone they pass it to, uploads and crops an image after payment, and it is approved by hand."
+
+#: includes/product.php:121
+msgid "Rules for the images of this product. Empty fields use the store defaults from Placements > Settings."
+msgstr "Rules for the images of this product. Empty fields use the store defaults from Placements > Settings."
+
+#: includes/product.php:125
+msgid "Minimum width (px)"
+msgstr "Minimum width (px)"
+
+#: includes/product.php:130
+msgid "The crop can be larger, never smaller."
+msgstr "The crop can be larger, never smaller."
+
+#: includes/product.php:134
+msgid "Minimum height (px)"
+msgstr "Minimum height (px)"
+
+#: includes/product.php:139
+msgid "Width and height together set the aspect ratio of the crop frame."
+msgstr "Width and height together set the aspect ratio of the crop frame."
+
+#: includes/product.php:142
+msgid "Aspect ratio"
+msgstr "Aspect ratio"
+
+#: includes/product.php:146
+msgid "Maximum zoom"
+msgstr "Maximum zoom"
+
+#: includes/product.php:151
+msgid "Upper limit of the zoom slider. Zoom also stops where the crop would fall below the minimum size."
+msgstr "Upper limit of the zoom slider. Zoom also stops where the crop would fall below the minimum size."
+
+#: includes/product.php:159
+msgid "Gift option"
+msgstr "Gift option"
+
+#: includes/product.php:160
+msgid "Offer \"As a gift\" on the product page. The buyer gets a printable PDF per gift and can email the upload link to the recipient from their account."
+msgstr "Offer \"As a gift\" on the product page. The buyer gets a printable PDF per gift and can email the upload link to the recipient from their account."
+
+#: includes/product.php:170
+msgid "After this many declined images the placement is suspended."
+msgstr "After this many declined images the placement is suspended."
+
+#: includes/product.php:182
+msgid "Date and time in the site timezone (%s)."
+msgstr "Date and time in the site timezone (%s)."
+
+#: includes/product.php:186
+msgid "Stop selling"
+msgstr "Stop selling"
+
+#: includes/product.php:187
+msgid "The product can no longer be bought once the event end is reached."
+msgstr "The product can no longer be bought once the event end is reached."
+
+#: includes/product.php:191
+msgid "Close uploads"
+msgstr "Close uploads"
+
+#: includes/product.php:192
+msgid "Upload links stop accepting images once the event end is reached."
+msgstr "Upload links stop accepting images once the event end is reached."
+
+#: includes/product.php:200
+msgid "Upload instructions"
+msgstr "Upload instructions"
+
+#: includes/product.php:202
+msgid "Shown on the upload page above the image picker, e.g. what makes a good image for this placement."
+msgstr "Shown on the upload page above the image picker, e.g. what makes a good image for this placement."
+
+#: includes/product.php:206
+msgid "Extra consent checkbox"
+msgstr "Extra consent checkbox"
+
+#: includes/product.php:208
+msgid "Optional. A second required checkbox on the upload page, just for this product (e.g. \"I agree that my image is shown on the Zeppelin\")."
+msgstr "Optional. A second required checkbox on the upload page, just for this product (e.g. \"I agree that my image is shown on the Zeppelin\")."
+
+#: includes/settings.php:28
+msgid "General"
+msgstr "General"
+
+#: includes/settings.php:29
+msgid "Store-wide defaults. New Image Placement products start with these values and can override them in their own tab."
+msgstr "Store-wide defaults. New Image Placement products start with these values and can override them in their own tab."
+
+#: includes/settings.php:33
+msgid "Create placements when the order is"
+msgstr "Create placements when the order is"
+
+#: includes/settings.php:36
+msgid "Processing"
+msgstr "Processing"
+
+#: includes/settings.php:37
+msgid "Completed"
+msgstr "Completed"
+
+#: includes/settings.php:38
+msgid "On hold"
+msgstr "On hold"
+
+#: includes/settings.php:40
+msgid "Upload links and gift emails go out at this point. \"On hold\" usually means the money has not arrived yet (e.g. bank transfer), so it is off by default."
+msgstr "Upload links and gift emails go out at this point. \"On hold\" usually means the money has not arrived yet (e.g. bank transfer), so it is off by default."
+
+#: includes/settings.php:45
+msgid "Default minimum width (px)"
+msgstr "Default minimum width (px)"
+
+#: includes/settings.php:51
+msgid "Default minimum height (px)"
+msgstr "Default minimum height (px)"
+
+#: includes/settings.php:53
+msgid "Width and height together are also the aspect ratio of the crop frame (1400 × 1400 = 1:1)."
+msgstr "Width and height together are also the aspect ratio of the crop frame (1400 × 1400 = 1:1)."
+
+#: includes/settings.php:59
+msgid "Default maximum zoom"
+msgstr "Default maximum zoom"
+
+#: includes/settings.php:61
+msgid "Upper limit of the zoom slider. Zoom is additionally capped so the crop never drops below the minimum size."
+msgstr "Upper limit of the zoom slider. Zoom is additionally capped so the crop never drops below the minimum size."
+
+#: includes/settings.php:66
+msgid "Default declines before suspension"
+msgstr "Default declines before suspension"
+
+#: includes/settings.php:68
+msgid "When a placement has been declined this many times it is suspended automatically."
+msgstr "When a placement has been declined this many times it is suspended automatically."
+
+#: includes/settings.php:74
+msgid "Maximum file size (MB)"
+msgstr "Maximum file size (MB)"
+
+#: includes/settings.php:76
+msgid "Your server's upload_max_filesize and post_max_size must be at least this high."
+msgstr "Your server's upload_max_filesize and post_max_size must be at least this high."
+
+#: includes/settings.php:80
+msgid "Allowed formats"
+msgstr "Allowed formats"
+
+#: includes/settings.php:93
+msgid "JPEG / WEBP quality of the cropped image"
+msgstr "JPEG / WEBP quality of the cropped image"
+
+#: includes/settings.php:98
+msgid "Placement ID prefix"
+msgstr "Placement ID prefix"
+
+#: includes/settings.php:100
+msgid "IDs look like SP3K7Q9 (prefix plus 5 characters). Only letters and digits; changing it does not change existing IDs."
+msgstr "IDs look like SP3K7Q9 (prefix plus 5 characters). Only letters and digits; changing it does not change existing IDs."
+
+#: includes/settings.php:104
+msgid "Notify about new uploads"
+msgstr "Notify about new uploads"
+
+#: includes/settings.php:106
+msgid "Comma-separated addresses. Empty uses the site admin email. Turn the email itself off under Emails."
+msgstr "Comma-separated addresses. Empty uses the site admin email. Turn the email itself off under Emails."
+
+#: includes/settings.php:110
+msgid "Delete data on uninstall"
+msgstr "Delete data on uninstall"
+
+#: includes/settings.php:112
+msgid "Removes the placement tables, uploaded images and settings when the plugin is deleted."
+msgstr "Removes the placement tables, uploaded images and settings when the plugin is deleted."
+
+#: includes/settings.php:118
+msgid "Access"
+msgstr "Access"
+
+#: includes/settings.php:119
+msgid "Which roles see each admin page. Administrators always keep access to Settings so nobody can lock themselves out."
+msgstr "Which roles see each admin page. Administrators always keep access to Settings so nobody can lock themselves out."
+
+#: includes/settings.php:143
+msgid "Decline reasons"
+msgstr "Decline reasons"
+
+#: includes/settings.php:144
+msgid "Presets offered in the approval screen. One per line as \"Short title | Text the person receives\". The text can still be edited before sending."
+msgstr "Presets offered in the approval screen. One per line as \"Short title | Text the person receives\". The text can still be edited before sending."
+
+#: includes/settings.php:149
+msgid "Decline presets"
+msgstr "Decline presets"
+
+#: includes/settings.php:151
+msgid "Low quality | The image is blurry or pixelated at print size. Please upload a sharper version."
+msgstr "Low quality | The image is blurry or pixelated at print size. Please upload a sharper version."
+
+#: includes/settings.php:152
+msgid "Bad crop | Important parts of the image are cut off. Please adjust the crop and upload again."
+msgstr "Bad crop | Important parts of the image are cut off. Please adjust the crop and upload again."
+
+#: includes/settings.php:153
+msgid "Text unreadable | The text in the image is too small or low in contrast to be read on the big screen."
+msgstr "Text unreadable | The text in the image is too small or low in contrast to be read on the big screen."
+
+#: includes/settings.php:154
+msgid "Wrong content | The image does not match what this placement is for."
+msgstr "Wrong content | The image does not match what this placement is for."
+
+#: includes/settings.php:160
+msgid "Suspend presets"
+msgstr "Suspend presets"
+
+#: includes/settings.php:162
+msgid "Legal reasons | The image cannot be shown for legal reasons (e.g. copyright, trademarks or personal rights)."
+msgstr "Legal reasons | The image cannot be shown for legal reasons (e.g. copyright, trademarks or personal rights)."
+
+#: includes/settings.php:163
+msgid "Offensive content | The image contains content we cannot show."
+msgstr "Offensive content | The image contains content we cannot show."
+
+#: includes/settings.php:164
+msgid "Too many attempts | The image was declined too many times. Please contact us."
+msgstr "Too many attempts | The image was declined too many times. Please contact us."
+
+#: includes/settings.php:171
+msgid "Product page"
+msgstr "Product page"
+
+#: includes/settings.php:176
+msgid "Who is it for?"
+msgstr "Who is it for?"
+
+#: includes/settings.php:180
+msgid "\"For me\" option"
+msgstr "\"For me\" option"
+
+#: includes/settings.php:181
+msgid "For me"
+msgstr "For me"
+
+#: includes/settings.php:185
+msgid "\"For me\" hint"
+msgstr "\"For me\" hint"
+
+#: includes/settings.php:186
+msgid "After payment you get a private link per placement to upload your image. You can still pass any of them on later."
+msgstr "After payment you get a private link per placement to upload your image. You can still pass any of them on later."
+
+#: includes/settings.php:190
+msgid "\"Gift\" option"
+msgstr "\"Gift\" option"
+
+#: includes/settings.php:191
+msgid "As a gift"
+msgstr "As a gift"
+
+#: includes/settings.php:195
+msgid "\"Gift\" hint"
+msgstr "\"Gift\" hint"
+
+#: includes/settings.php:196
+msgid "After payment you get a printable gift PDF per placement, and you can email each upload link to its recipient from your account."
+msgstr "After payment you get a printable gift PDF per placement, and you can email each upload link to its recipient from your account."
+
+#: includes/settings.php:200
+msgid "Recipient name label (\"Send Email\" form)"
+msgstr "Recipient name label (\"Send Email\" form)"
+
+#: includes/settings.php:201
+msgid "Recipient's name"
+msgstr "Recipient's name"
+
+#: includes/settings.php:205
+msgid "Recipient email label"
+msgstr "Recipient email label"
+
+#: includes/settings.php:206
+msgid "Recipient's email"
+msgstr "Recipient's email"
+
+#: includes/settings.php:210
+msgid "Gift message label"
+msgstr "Gift message label"
+
+#: includes/settings.php:211
+msgid "Personal message (optional)"
+msgstr "Personal message (optional)"
+
+#: includes/settings.php:215
+msgid "Image requirements line"
+msgstr "Image requirements line"
+
+#: includes/settings.php:216
+msgid "Image: at least {min_width} × {min_height} px ({ratio}), {formats}, up to {max_size}."
+msgstr "Image: at least {min_width} × {min_height} px ({ratio}), {formats}, up to {max_size}."
+
+#: includes/settings.php:221
+msgid "Sales closed notice"
+msgstr "Sales closed notice"
+
+#: includes/settings.php:222
+msgid "Sales for this event have closed."
+msgstr "Sales for this event have closed."
+
+#: includes/settings.php:226
+msgid "Sales end notice"
+msgstr "Sales end notice"
+
+#: includes/settings.php:227
+msgid "Available until {date}."
+msgstr "Available until {date}."
+
+#: includes/settings.php:234
+msgid "Upload page"
+msgstr "Upload page"
+
+#: includes/settings.php:235
+msgid "The page behind every private upload link. No account or login is needed."
+msgstr "The page behind every private upload link. No account or login is needed."
+
+#: includes/settings.php:244 includes/settings.php:493
+msgid "Intro"
+msgstr "Intro"
+
+#: includes/settings.php:245
+msgid "Choose an image, then zoom and move it until the frame shows exactly what should be printed. The frame has the final shape."
+msgstr "Choose an image, then zoom and move it until the frame shows exactly what should be printed. The frame has the final shape."
+
+#: includes/settings.php:249
+msgid "Intro line for gift recipients"
+msgstr "Intro line for gift recipients"
+
+#: includes/settings.php:250
+msgid "{buyer_name} has given you this placement."
+msgstr "{buyer_name} has given you this placement."
+
+#: includes/settings.php:255
+msgid "Name field label"
+msgstr "Name field label"
+
+#: includes/settings.php:256
+msgid "First and last name"
+msgstr "First and last name"
+
+#: includes/settings.php:260
+msgid "Email field label"
+msgstr "Email field label"
+
+#: includes/settings.php:261
+msgid "Email"
+msgstr "Email"
+
+#: includes/settings.php:265
+msgid "Certificate name field label"
+msgstr "Certificate name field label"
+
+#: includes/settings.php:266
+msgid "Name or names on the certificate"
+msgstr "Name or names on the certificate"
+
+#: includes/settings.php:270
+msgid "Certificate name field hint"
+msgstr "Certificate name field hint"
+
+#: includes/settings.php:271
+msgid "Printed on the certificate we send you once your image is approved, e.g. \"Anna & Tom Miller\"."
+msgstr "Printed on the certificate we send you once your image is approved, e.g. \"Anna & Tom Miller\"."
+
+#: includes/settings.php:275
+msgid "Required consent checkbox"
+msgstr "Required consent checkbox"
+
+#: includes/settings.php:276
+msgid "I own the rights to this image, and I agree that it is shown publicly and that you may contact me about it."
+msgstr "I own the rights to this image, and I agree that it is shown publicly and that you may contact me about it."
+
+#: includes/settings.php:277
+msgid "Shown above the send button and must be ticked. Leave empty to hide. A product can add its own extra checkbox."
+msgstr "Shown above the send button and must be ticked. Leave empty to hide. A product can add its own extra checkbox."
+
+#: includes/settings.php:281
+msgid "In review heading"
+msgstr "In review heading"
+
+#: includes/settings.php:282
+msgid "Thank you! Your image is being reviewed"
+msgstr "Thank you! Your image is being reviewed"
+
+#: includes/settings.php:286
+msgid "In review text"
+msgstr "In review text"
+
+#: includes/settings.php:287
+msgid "We check every image by hand. You will get an email as soon as it has been reviewed."
+msgstr "We check every image by hand. You will get an email as soon as it has been reviewed."
+
+#: includes/settings.php:291
+msgid "Approved heading"
+msgstr "Approved heading"
+
+#: includes/settings.php:296
+msgid "Declined heading"
+msgstr "Declined heading"
+
+#: includes/settings.php:297
+msgid "Please upload a new image"
+msgstr "Please upload a new image"
+
+#: includes/settings.php:301
+msgid "Attempts left line"
+msgstr "Attempts left line"
+
+#: includes/settings.php:302
+msgid "Attempts left: {attempts_left}"
+msgstr "Attempts left: {attempts_left}"
+
+#: includes/settings.php:307
+msgid "Suspended heading"
+msgstr "Suspended heading"
+
+#: includes/settings.php:308
+msgid "This placement has been suspended"
+msgstr "This placement has been suspended"
+
+#: includes/settings.php:312
+msgid "Suspended text"
+msgstr "Suspended text"
+
+#: includes/settings.php:313
+msgid "No more images can be uploaded for this placement. Please contact us if you have questions."
+msgstr "No more images can be uploaded for this placement. Please contact us if you have questions."
+
+#: includes/settings.php:317
+msgid "Uploads closed text"
+msgstr "Uploads closed text"
+
+#: includes/settings.php:318
+msgid "Uploads for this event have closed."
+msgstr "Uploads for this event have closed."
+
+#: includes/settings.php:322
+msgid "Invalid link"
+msgstr "Invalid link"
+
+#: includes/settings.php:323
+msgid "This upload link is not valid. Please check the link or contact us."
+msgstr "This upload link is not valid. Please check the link or contact us."
+
+#: includes/settings.php:327
+msgid "Image too small"
+msgstr "Image too small"
+
+#: includes/settings.php:328
+msgid "This image is too small ({width} × {height} px). The minimum size is {min_width} × {min_height} px. Please choose a larger image."
+msgstr "This image is too small ({width} × {height} px). The minimum size is {min_width} × {min_height} px. Please choose a larger image."
+
+#: includes/settings.php:336
+msgid "The printable placement card, sent with upload links and handy as a gift. Plain text; placeholders are filled in. The certificate has its own tab."
+msgstr "The printable placement card, sent with upload links and handy as a gift. Plain text; placeholders are filled in. The certificate has its own tab."
+
+#: includes/settings.php:340
+msgid "Card title"
+msgstr "Card title"
+
+#: includes/settings.php:341
+msgid "Your Image Placement"
+msgstr "Your Image Placement"
+
+#: includes/settings.php:345
+msgid "Card text"
+msgstr "Card text"
+
+#: includes/settings.php:346
+msgid ""
+"This card entitles you to one image placement for \"{product}\".\n"
+"\n"
+"Open the link below, upload your image and crop it to the frame. No account is needed."
+msgstr ""
+"This card entitles you to one image placement for \"{product}\".\n"
+"\n"
+"Open the link below, upload your image and crop it to the frame. No account is needed."
+
+#: includes/settings.php:351
+msgid "Footer (card and certificate)"
+msgstr "Footer (card and certificate)"
+
+#: includes/settings.php:359
+msgid "Certificate design"
+msgstr "Certificate design"
+
+#: includes/settings.php:362
+msgid "Sent automatically when an image is approved: as a PDF attachment, and as a designed certificate inside the approved email. Start from a preset, then change anything. Save, then use the preview buttons at the bottom."
+msgstr "Sent automatically when an image is approved: as a PDF attachment, and as a designed certificate inside the approved email. Start from a preset, then change anything. Save, then use the preview buttons at the bottom."
+
+#: includes/settings.php:366
+msgid "Style preset"
+msgstr "Style preset"
+
+#: includes/settings.php:369
+msgid "\"Apply\" fills in the colors, font, borders and seal below. Your texts are kept."
+msgstr "\"Apply\" fills in the colors, font, borders and seal below. Your texts are kept."
+
+#: includes/settings.php:373
+msgid "Font"
+msgstr "Font"
+
+#: includes/settings.php:376
+msgid "Serif (Times / Georgia)"
+msgstr "Serif (Times / Georgia)"
+
+#: includes/settings.php:377
+msgid "Sans serif (Helvetica / Arial)"
+msgstr "Sans serif (Helvetica / Arial)"
+
+#: includes/settings.php:382
+msgid "Background"
+msgstr "Background"
+
+#: includes/settings.php:387
+msgid "Accent (title, borders, seal)"
+msgstr "Accent (title, borders, seal)"
+
+#: includes/settings.php:392
+msgid "Text"
+msgstr "Text"
+
+#: includes/settings.php:397
+msgid "Secondary text"
+msgstr "Secondary text"
+
+#: includes/settings.php:402
+msgid "PDF border"
+msgstr "PDF border"
+
+#: includes/settings.php:408
+msgid "Email border"
+msgstr "Email border"
+
+#: includes/settings.php:414
+msgid "Border image"
+msgstr "Border image"
+
+#: includes/settings.php:416
+msgid "Used when a border is set to \"Your own border image\". It is stretched over the whole page (PDF) or behind the certificate (email), so design it as a frame with a plain middle. Best as a JPG in A4 portrait, e.g. 2480 × 3508 px. Transparent PNGs lose their transparency in the PDF."
+msgstr "Used when a border is set to \"Your own border image\". It is stretched over the whole page (PDF) or behind the certificate (email), so design it as a frame with a plain middle. Best as a JPG in A4 portrait, e.g. 2480 × 3508 px. Transparent PNGs lose their transparency in the PDF."
+
+#: includes/settings.php:420
+msgid "Approved image"
+msgstr "Approved image"
+
+#: includes/settings.php:422
+msgid "Show the approved image on the certificate"
+msgstr "Show the approved image on the certificate"
+
+#: includes/settings.php:426
+msgid "Seal"
+msgstr "Seal"
+
+#: includes/settings.php:428
+msgid "Show a round seal with the placement ID"
+msgstr "Show a round seal with the placement ID"
+
+#: includes/settings.php:434
+msgid "Certificate texts"
+msgstr "Certificate texts"
+
+#: includes/settings.php:436
+msgid "Click a placeholder to insert it where the cursor is. {certificate_name} is what the uploader typed in \"Name or names on the certificate\"."
+msgstr "Click a placeholder to insert it where the cursor is. {certificate_name} is what the uploader typed in \"Name or names on the certificate\"."
+
+#: includes/settings.php:440
+msgid "Title"
+msgstr "Title"
+
+#: includes/settings.php:441
+msgid "Certificate of Participation"
+msgstr "Certificate of Participation"
+
+#: includes/settings.php:446
+msgid "Line above the name"
+msgstr "Line above the name"
+
+#: includes/settings.php:447
+msgid "This certificate is proudly presented to"
+msgstr "This certificate is proudly presented to"
+
+#: includes/settings.php:453
+msgid "Text below the name"
+msgstr "Text below the name"
+
+#: includes/settings.php:454
+msgid "for taking part in \"{product}\" with the image below. Placement {code}, approved on {date}."
+msgstr "for taking part in \"{product}\" with the image below. Placement {code}, approved on {date}."
+
+#: includes/settings.php:459
+msgid "Signature"
+msgstr "Signature"
+
+#: includes/settings.php:465
+msgid "Label under the signature"
+msgstr "Label under the signature"
+
+#: includes/settings.php:466
+msgid "Organizer"
+msgstr "Organizer"
+
+#: includes/settings.php:470
+msgid "Seal text"
+msgstr "Seal text"
+
+#: includes/settings.php:471
+msgid "CERTIFIED"
+msgstr "CERTIFIED"
+
+#: includes/settings.php:472
+msgid "Keep it short, about 10 characters."
+msgstr "Keep it short, about 10 characters."
+
+#: includes/settings.php:476
+msgid "Approved email"
+msgstr "Approved email"
+
+#: includes/settings.php:478
+msgid "Add the designed certificate at the end of the approved email when its message does not contain {certificate}"
+msgstr "Add the designed certificate at the end of the approved email when its message does not contain {certificate}"
+
+#: includes/settings.php:484
+msgid "My Account"
+msgstr "My Account"
+
+#: includes/settings.php:488
+msgid "Menu label"
+msgstr "Menu label"
+
+#: includes/settings.php:494
+msgid "Every placement has its own private upload link. Upload yourself, copy the link to share it (e.g. via WhatsApp), or send it to someone by email."
+msgstr "Every placement has its own private upload link. Upload yourself, copy the link to share it (e.g. via WhatsApp), or send it to someone by email."
+
+#: includes/settings.php:498
+msgid "Before payment (order pages)"
+msgstr "Before payment (order pages)"
+
+#: includes/settings.php:499
+msgid "Your upload links appear here as soon as the payment is confirmed."
+msgstr "Your upload links appear here as soon as the payment is confirmed."
+
+#: includes/settings.php:514
+msgid "Enabled"
+msgstr "Enabled"
+
+#: includes/settings.php:530
+msgid "Message"
+msgstr "Message"
+
+#: includes/storage.php:47 includes/storage.php:52 includes/upload-page.php:180
+msgid "The file is too large. The maximum is %s."
+msgstr "The file is too large. The maximum is %s."
+
+#: includes/storage.php:48
+msgid "The upload did not arrive. Please try again."
+msgstr "The upload did not arrive. Please try again."
+
+#: includes/storage.php:59 includes/upload-page.php:182
+msgid "This file type is not allowed. Please use %s."
+msgstr "This file type is not allowed. Please use %s."
+
+#: includes/storage.php:64 includes/upload-page.php:183
+msgid "This image could not be read. Please try another file."
+msgstr "This image could not be read. Please try another file."
+
+#: includes/storage.php:95
+msgid "The chosen area is too small for print quality. Please zoom out a little."
+msgstr "The chosen area is too small for print quality. Please zoom out a little."
+
+#: includes/storage.php:104
+msgid "The image could not be cropped. Please try another file."
+msgstr "The image could not be cropped. Please try another file."
+
+#: includes/storage.php:116 includes/storage.php:131
+msgid "The image could not be saved. Please try again."
+msgstr "The image could not be saved. Please try again."
+
+#: includes/upload-page.php:113
+msgid "Download certificate (PDF)"
+msgstr "Download certificate (PDF)"
+
+#: includes/upload-page.php:184
+msgid "Size: {w} × {h} px"
+msgstr "Size: {w} × {h} px"
+
+#: includes/upload-page.php:185
+msgid "Great resolution"
+msgstr "Great resolution"
+
+#: includes/upload-page.php:186
+msgid "Good resolution"
+msgstr "Good resolution"
+
+#: includes/upload-page.php:187
+msgid "Minimum resolution – zoom out for a sharper result"
+msgstr "Minimum resolution – zoom out for a sharper result"
+
+#: includes/upload-page.php:188
+msgid "Uploading… {p}%"
+msgstr "Uploading… {p}%"
+
+#: includes/upload-page.php:189
+msgid "Processing…"
+msgstr "Processing…"
+
+#: includes/upload-page.php:191
+msgid "Please choose an image first."
+msgstr "Please choose an image first."
+
+#: includes/upload-page.php:213
+msgid "Choose an image"
+msgstr "Choose an image"
+
+#: includes/upload-page.php:214
+msgid "or drop it here"
+msgstr "or drop it here"
+
+#: includes/upload-page.php:220
+msgid "Crop area. Drag to move, use the slider or the mouse wheel to zoom, arrow keys move."
+msgstr "Crop area. Drag to move, use the slider or the mouse wheel to zoom, arrow keys move."
+
+#: includes/upload-page.php:225
+msgid "Zoom out"
+msgstr "Zoom out"
+
+#: includes/upload-page.php:226
+msgid "Zoom"
+msgstr "Zoom"
+
+#: includes/upload-page.php:227
+msgid "Zoom in"
+msgstr "Zoom in"
+
+#: includes/upload-page.php:228
+msgid "Reset"
+msgstr "Reset"
+
+#: includes/upload-page.php:229
+msgid "Choose another image"
+msgstr "Choose another image"
+
+#: includes/upload-page.php:246
+msgid "Send image for review"
+msgstr "Send image for review"
+
+#: includes/upload-page.php:269 includes/upload-page.php:310
+msgid "This placement does not accept a new image right now. Please reload the page."
+msgstr "This placement does not accept a new image right now. Please reload the page."
+
+#: includes/upload-page.php:284
+msgid "Please enter your name and a valid email address."
+msgstr "Please enter your name and a valid email address."
+
+#: includes/upload-page.php:287
+msgid "Please enter the name or names for the certificate."
+msgstr "Please enter the name or names for the certificate."
+
+#: includes/upload-page.php:291
+msgid "Please tick the required checkboxes."
+msgstr "Please tick the required checkboxes."

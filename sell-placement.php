@@ -59,6 +59,7 @@ require_once SPL_DIR . 'includes/emails.php';
 require_once SPL_DIR . 'includes/pdf.php';
 require_once SPL_DIR . 'includes/certificate.php';
 require_once SPL_DIR . 'includes/account.php';
+require_once SPL_DIR . 'includes/rest.php';
 
 if ( is_admin() ) {
 	require_once SPL_DIR . 'includes/admin-menu.php';
