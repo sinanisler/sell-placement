@@ -47,7 +47,7 @@ add_action( 'admin_enqueue_scripts', function () {
 	$screen = get_current_screen();
 	$woo_screen = $screen && in_array( $screen->id, array( 'product', 'edit-shop_order', 'woocommerce_page_wc-orders' ), true );
 	if ( strpos( $page, 'spl-' ) === 0 || $woo_screen ) {
-		wp_enqueue_style( 'spl-admin', SPL_URL . 'assets/admin.css', array(), SPL_VERSION );
+		wp_enqueue_style( 'spl-admin', SPL_URL . 'assets/admin.css', array(), spl_asset_ver( 'assets/admin.css' ) );
 	}
 	if ( strpos( $page, 'spl-' ) === 0 ) {
 		$deps = array( 'jquery' );
@@ -57,7 +57,7 @@ add_action( 'admin_enqueue_scripts', function () {
 			wp_enqueue_style( 'wp-color-picker' );
 			$deps[] = 'wp-color-picker';
 		}
-		wp_enqueue_script( 'spl-admin', SPL_URL . 'assets/admin.js', $deps, SPL_VERSION, true );
+		wp_enqueue_script( 'spl-admin', SPL_URL . 'assets/admin.js', $deps, spl_asset_ver( 'assets/admin.js' ), true );
 		wp_localize_script( 'spl-admin', 'splAdmin', array(
 			'copied'        => __( 'Copied', SPL_TD ),
 			'confirmBulk'   => __( 'Approve all selected images and email their uploaders?', SPL_TD ),

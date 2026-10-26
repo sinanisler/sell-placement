@@ -44,6 +44,12 @@ define( 'SPL_OPTION', 'spl_settings' );
 define( 'SPL_QUERY_VAR', 'spl_upload' );
 define( 'SPL_TD', 'woo-ad-image-upload' );
 
+/** Asset version: the plugin version plus the file's modification time, so a deploy never serves a cached old file. */
+function spl_asset_ver( $rel ) {
+	$time = @filemtime( SPL_DIR . $rel ); // phpcs:ignore
+	return SPL_VERSION . ( $time ? '.' . $time : '' );
+}
+
 // Product meta.
 define( 'SPL_META_ENABLED', '_spl_enabled' );
 

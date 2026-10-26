@@ -126,3 +126,16 @@ details.spl-box[open]>summary h2::before{content:"▾ "}
 .spl-media-preview{display:block;max-width:220px;max-height:220px;border:1px solid #dcdcde;margin-bottom:6px}
 .spl-media-preview[hidden]{display:none}
 .spl-cert-preview{max-width:680px;padding:16px;background:#f6f7f7;border:1px solid #dcdcde}
+
+/* Certificate tab: form on the left, live preview sticky on the right. */
+.spl-cert-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(420px,680px);gap:24px;align-items:start}
+.spl-cert-layout .form-table th{width:200px}
+.spl-cert-aside{position:sticky;top:46px;max-height:calc(100vh - 62px);overflow:auto}
+.spl-cert-aside-head{display:flex;align-items:center;gap:12px;justify-content:space-between}
+.spl-cert-aside-head h2{margin:12px 0 4px}
+.spl-cert-preview{transition:opacity .15s}
+.spl-cert-preview.is-loading{opacity:.6}
+@media (max-width:1400px){
+	.spl-cert-layout{grid-template-columns:1fr}
+	.spl-cert-aside{position:static;max-height:none;order:-1}
+}

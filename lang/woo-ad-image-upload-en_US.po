@@ -3,12 +3,12 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Woo Ad Image Upload 1.0.0\n"
 "Report-Msgid-Bugs-To: https://geopard.digital/\n"
-"POT-Creation-Date: 2026-10-26 11:08+0000\n"
+"POT-Creation-Date: 2026-10-26 11:46+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Domain: woo-ad-image-upload\n"
-"PO-Revision-Date: 2026-10-26 11:08+0000\n"
+"PO-Revision-Date: 2026-10-26 11:46+0000\n"
 "Language-Team: English\n"
 "Language: en_US\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -123,11 +123,11 @@ msgid_plural "%d images approved."
 msgstr[0] "%d image approved."
 msgstr[1] "%d images approved."
 
-#: includes/admin-approvals.php:107
+#: includes/admin-approvals.php:107 includes/rest.php:66
 msgid "Placement not found."
 msgstr "Placement not found."
 
-#: includes/admin-approvals.php:113
+#: includes/admin-approvals.php:113 includes/rest.php:127
 msgid "There is no image to approve yet."
 msgstr "There is no image to approve yet."
 
@@ -135,7 +135,7 @@ msgstr "There is no image to approve yet."
 msgid "%s approved."
 msgstr "%s approved."
 
-#: includes/admin-approvals.php:122 includes/admin-approvals.php:134
+#: includes/admin-approvals.php:122 includes/admin-approvals.php:134 includes/rest.php:135
 msgid "Please give a reason."
 msgstr "Please give a reason."
 
@@ -159,7 +159,7 @@ msgstr "%s is open for a new upload."
 msgid "Email sent to %s."
 msgstr "Email sent to %s."
 
-#: includes/admin-approvals.php:159 includes/admin-approvals.php:185 includes/admin-settings.php:303
+#: includes/admin-approvals.php:159 includes/admin-approvals.php:185 includes/admin-settings.php:274
 msgid "The email could not be sent."
 msgstr "The email could not be sent."
 
@@ -327,7 +327,7 @@ msgstr "Declined %1$d / %2$d"
 msgid "Next in review"
 msgstr "Next in review"
 
-#: includes/admin-approvals.php:630
+#: includes/admin-approvals.php:630 includes/rest.php:139
 msgid "No image uploaded yet."
 msgstr "No image uploaded yet."
 
@@ -629,7 +629,7 @@ msgstr "ZIP is not available on this server."
 msgid "There are no approved images yet."
 msgstr "There are no approved images yet."
 
-#: includes/admin-menu.php:14 includes/settings.php:135 sell-placement.php:99
+#: includes/admin-menu.php:14 includes/settings.php:135 sell-placement.php:106
 msgid "Settings"
 msgstr "Settings"
 
@@ -677,87 +677,87 @@ msgstr "Email: "
 msgid "off"
 msgstr "off"
 
-#: includes/admin-settings.php:92
+#: includes/admin-settings.php:95
 msgid "Save changes"
 msgstr "Save changes"
 
-#: includes/admin-settings.php:93
+#: includes/admin-settings.php:96
 msgid "Restore the defaults of this page?"
 msgstr "Restore the defaults of this page?"
 
-#: includes/admin-settings.php:93
+#: includes/admin-settings.php:96
 msgid "Restore defaults"
 msgstr "Restore defaults"
 
-#: includes/admin-settings.php:95
+#: includes/admin-settings.php:98
 msgid "Send a test to %s"
 msgstr "Send a test to %s"
 
-#: includes/admin-settings.php:98
-msgid "Preview PDF"
-msgstr "Preview PDF"
-
-#: includes/admin-settings.php:99
+#: includes/admin-settings.php:101
 msgid "Send the approved email to %s"
 msgstr "Send the approved email to %s"
 
-#: includes/admin-settings.php:105
-msgid "Email preview"
-msgstr "Email preview"
+#: includes/admin-settings.php:109
+msgid "Live preview"
+msgstr "Live preview"
 
-#: includes/admin-settings.php:106
-msgid "The certificate as it appears in the approved email, with the saved settings. It uses your newest approved placement, or example values."
-msgstr "The certificate as it appears in the approved email, with the saved settings. It uses your newest approved placement, or example values."
+#: includes/admin-settings.php:110
+msgid "Preview PDF"
+msgstr "Preview PDF"
 
-#: includes/admin-settings.php:153
+#: includes/admin-settings.php:112
+msgid "Updates as you edit, before saving. Shown as in the approved email, with your newest approved placement or example values."
+msgstr "Updates as you edit, before saving. Shown as in the approved email, with your newest approved placement or example values."
+
+#: includes/admin-settings.php:161
 msgid "Apply"
 msgstr "Apply"
 
-#: includes/admin-settings.php:166
+#: includes/admin-settings.php:174
 msgid "Upload or choose image"
 msgstr "Upload or choose image"
 
-#: includes/admin-settings.php:167
+#: includes/admin-settings.php:175
 msgid "Remove"
 msgstr "Remove"
 
-#: includes/admin-settings.php:186
+#: includes/admin-settings.php:194
 msgid "Placeholders:"
 msgstr "Placeholders:"
 
-#: includes/admin-settings.php:259
+#: includes/admin-settings.php:230
 msgid "Defaults restored."
 msgstr "Defaults restored."
 
-#: includes/admin-settings.php:259
+#: includes/admin-settings.php:230
 msgid "Settings saved."
 msgstr "Settings saved."
 
-#: includes/admin-settings.php:271
+#: includes/admin-settings.php:242
 msgid "Unknown email."
 msgstr "Unknown email."
 
-#: includes/admin-settings.php:278 includes/admin-settings.php:287
+#: includes/admin-settings.php:249 includes/admin-settings.php:258
 msgid "Example reason: the image is too blurry for print."
 msgstr "Example reason: the image is too blurry for print."
 
-#: includes/admin-settings.php:283 includes/certificate.php:484
+#: includes/admin-settings.php:254 includes/certificate.php:484
 msgid "Example placement"
 msgstr "Example placement"
 
-#: includes/admin-settings.php:285 includes/emails.php:37 includes/emails.php:105 includes/settings.php:240
+#: includes/admin-settings.php:256 includes/emails.php:37 includes/emails.php:105 includes/settings.php:240
 msgid "Upload your image"
 msgstr "Upload your image"
 
-#: includes/admin-settings.php:293
+#: includes/admin-settings.php:264
 msgid "(the list of placements appears here)"
 msgstr "(the list of placements appears here)"
 
-#: includes/admin-settings.php:294 includes/emails.php:246
+#: includes/admin-settings.php:265 includes/emails.php:246
 msgid "Manage your placements in your account"
 msgstr "Manage your placements in your account"
 
-#: includes/admin-settings.php:303
+#: includes/admin-settings.php:274
 msgid "Test sent to %s."
 msgstr "Test sent to %s."
 
@@ -1256,6 +1256,10 @@ msgstr "Extra consent checkbox"
 #: includes/product.php:208
 msgid "Optional. A second required checkbox on the upload page, just for this product (e.g. \"I agree that my image is shown on the Zeppelin\")."
 msgstr "Optional. A second required checkbox on the upload page, just for this product (e.g. \"I agree that my image is shown on the Zeppelin\")."
+
+#: includes/rest.php:103 includes/upload-page.php:269 includes/upload-page.php:310
+msgid "This placement does not accept a new image right now. Please reload the page."
+msgstr "This placement does not accept a new image right now. Please reload the page."
 
 #: includes/settings.php:28
 msgid "General"
@@ -1930,10 +1934,6 @@ msgstr "Choose another image"
 #: includes/upload-page.php:246
 msgid "Send image for review"
 msgstr "Send image for review"
-
-#: includes/upload-page.php:269 includes/upload-page.php:310
-msgid "This placement does not accept a new image right now. Please reload the page."
-msgstr "This placement does not accept a new image right now. Please reload the page."
 
 #: includes/upload-page.php:284
 msgid "Please enter your name and a valid email address."

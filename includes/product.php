@@ -241,7 +241,7 @@ add_action( 'admin_enqueue_scripts', function ( $hook ) {
 	if ( ! $screen || $screen->id !== 'product' ) {
 		return;
 	}
-	wp_enqueue_script( 'spl-product-admin', SPL_URL . 'assets/product-admin.js', array( 'jquery', 'wc-admin-meta-boxes' ), SPL_VERSION, true );
+	wp_enqueue_script( 'spl-product-admin', SPL_URL . 'assets/product-admin.js', array( 'jquery', 'wc-admin-meta-boxes' ), spl_asset_ver( 'assets/product-admin.js' ), true );
 	wp_add_inline_style( 'woocommerce_admin_styles', '
 		#woocommerce-product-data ul.wc-tabs li.spl_placement_tab a::before { content: "\f128"; font-family: dashicons; }
 		#spl_placement_data .spl-tab-intro { padding-left: 12px !important; color: #646970; }

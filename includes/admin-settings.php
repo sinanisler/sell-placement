@@ -65,7 +65,10 @@ function spl_render_settings_page() {
 			<br class="clear">
 		<?php endif; ?>
 
-		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+		<?php if ( $tab === 'certificate' ) : ?>
+			<div class="spl-cert-layout">
+		<?php endif; ?>
+		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"<?php echo $tab === 'certificate' ? ' class="spl-cert-form" data-spl-cert-form' : ''; ?>>
 			<?php wp_nonce_field( 'spl_save_settings' ); ?>
 			<input type="hidden" name="action" value="spl_save_settings" />
 			<input type="hidden" name="sections" value="<?php echo esc_attr( implode( ',', $sections ) ); ?>" />
@@ -95,16 +98,21 @@ function spl_render_settings_page() {
 					<a class="button" href="<?php echo esc_url( wp_nonce_url( add_query_arg( array( 'action' => 'spl_test_email', 'type' => substr( $sub, 6 ), 'back' => rawurlencode( spl_current_admin_url() ) ), admin_url( 'admin-post.php' ) ), 'spl_test_email' ) ); ?>"><?php /* translators: %s: email */ echo esc_html( sprintf( __( 'Send a test to %s', SPL_TD ), wp_get_current_user()->user_email ) ); ?></a>
 				<?php endif; ?>
 				<?php if ( $tab === 'certificate' ) : ?>
-					<a class="button" target="_blank" rel="noopener" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'action', 'spl_cert_preview', admin_url( 'admin-post.php' ) ), 'spl_cert_preview' ) ); ?>"><?php esc_html_e( 'Preview PDF', SPL_TD ); ?></a>
 					<a class="button" href="<?php echo esc_url( wp_nonce_url( add_query_arg( array( 'action' => 'spl_test_email', 'type' => 'approved', 'back' => rawurlencode( spl_current_admin_url() ) ), admin_url( 'admin-post.php' ) ), 'spl_test_email' ) ); ?>"><?php /* translators: %s: email */ echo esc_html( sprintf( __( 'Send the approved email to %s', SPL_TD ), wp_get_current_user()->user_email ) ); ?></a>
 				<?php endif; ?>
 			</p>
 		</form>
 
 		<?php if ( $tab === 'certificate' ) : ?>
-			<h2><?php esc_html_e( 'Email preview', SPL_TD ); ?></h2>
-			<p class="description"><?php esc_html_e( 'The certificate as it appears in the approved email, with the saved settings. It uses your newest approved placement, or example values.', SPL_TD ); ?></p>
-			<div class="spl-cert-preview"><?php echo spl_cert_email_html( spl_cert_sample_placement() ); // phpcs:ignore -- built from escaped parts ?></div>
+				<aside class="spl-cert-aside">
+					<div class="spl-cert-aside-head">
+						<h2><?php esc_html_e( 'Live preview', SPL_TD ); ?></h2>
+						<button type="button" class="button" data-spl-pdf-preview><?php esc_html_e( 'Preview PDF', SPL_TD ); ?></button>
+					</div>
+					<p class="description"><?php esc_html_e( 'Updates as you edit, before saving. Shown as in the approved email, with your newest approved placement or example values.', SPL_TD ); ?></p>
+					<div class="spl-cert-preview" data-spl-cert-preview data-ajax="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'spl_cert_preview' ) ); ?>" data-pdf="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"><?php echo spl_cert_email_html( spl_cert_sample_placement() ); // phpcs:ignore -- built from escaped parts ?></div>
+				</aside>
+			</div>
 		<?php endif; ?>
 	</div>
 	<?php
@@ -213,44 +221,7 @@ add_action( 'admin_post_spl_save_settings', function () {
 				unset( $stored[ $key ] );
 				continue;
 			}
-			$raw = isset( $input[ $key ] ) ? $input[ $key ] : null;
-			switch ( $field['type'] ) {
-				case 'checkbox':
-					$stored[ $key ] = $raw ? 1 : 0;
-					break;
-				case 'checkboxes':
-					$stored[ $key ] = array_values( array_intersect( array_map( 'sanitize_key', (array) $raw ), array_keys( $field['choices'] ) ) );
-					break;
-				case 'number':
-					$num = $raw === null || $raw === '' ? '' : (float) $raw;
-					if ( $num !== '' && isset( $field['min'] ) ) {
-						$num = max( (float) $field['min'], $num );
-					}
-					if ( $num !== '' && isset( $field['max'] ) ) {
-						$num = min( (float) $field['max'], $num );
-					}
-					$stored[ $key ] = $num;
-					break;
-				case 'select':
-				case 'preset':
-					$stored[ $key ] = isset( $field['choices'][ (string) $raw ] ) ? (string) $raw : $field['default'];
-					break;
-				case 'color':
-					$color          = sanitize_hex_color( (string) $raw );
-					$stored[ $key ] = $color ? $color : $field['default'];
-					break;
-				case 'media':
-					$stored[ $key ] = absint( $raw );
-					break;
-				case 'editor':
-					$stored[ $key ] = wp_kses_post( (string) $raw );
-					break;
-				case 'textarea':
-					$stored[ $key ] = wp_kses_post( (string) $raw );
-					break;
-				default:
-					$stored[ $key ] = sanitize_text_field( (string) $raw );
-			}
+			$stored[ $key ] = spl_sanitize_setting( $field, isset( $input[ $key ] ) ? $input[ $key ] : null );
 		}
 	}
 	update_option( SPL_OPTION, $stored );

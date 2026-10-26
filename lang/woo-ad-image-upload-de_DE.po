@@ -4,12 +4,12 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Woo Ad Image Upload 1.0.0\n"
 "Report-Msgid-Bugs-To: https://geopard.digital/\n"
-"POT-Creation-Date: 2026-10-26 11:08+0000\n"
+"POT-Creation-Date: 2026-10-26 11:46+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Domain: woo-ad-image-upload\n"
-"PO-Revision-Date: 2026-10-26 11:08+0000\n"
+"PO-Revision-Date: 2026-10-26 11:46+0000\n"
 "Language-Team: Deutsch\n"
 "Language: de_DE\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -124,11 +124,11 @@ msgid_plural "%d images approved."
 msgstr[0] "%d Bild freigegeben."
 msgstr[1] "%d Bilder freigegeben."
 
-#: includes/admin-approvals.php:107
+#: includes/admin-approvals.php:107 includes/rest.php:66
 msgid "Placement not found."
 msgstr "Platzierung nicht gefunden."
 
-#: includes/admin-approvals.php:113
+#: includes/admin-approvals.php:113 includes/rest.php:127
 msgid "There is no image to approve yet."
 msgstr "Es gibt noch kein Bild zum Freigeben."
 
@@ -136,7 +136,7 @@ msgstr "Es gibt noch kein Bild zum Freigeben."
 msgid "%s approved."
 msgstr "%s freigegeben."
 
-#: includes/admin-approvals.php:122 includes/admin-approvals.php:134
+#: includes/admin-approvals.php:122 includes/admin-approvals.php:134 includes/rest.php:135
 msgid "Please give a reason."
 msgstr "Bitte geben Sie einen Grund an."
 
@@ -160,7 +160,7 @@ msgstr "%s ist für einen neuen Upload geöffnet."
 msgid "Email sent to %s."
 msgstr "E-Mail an %s gesendet."
 
-#: includes/admin-approvals.php:159 includes/admin-approvals.php:185 includes/admin-settings.php:303
+#: includes/admin-approvals.php:159 includes/admin-approvals.php:185 includes/admin-settings.php:274
 msgid "The email could not be sent."
 msgstr "Die E-Mail konnte nicht gesendet werden."
 
@@ -328,7 +328,7 @@ msgstr "Abgelehnt %1$d / %2$d"
 msgid "Next in review"
 msgstr "Nächstes zur Prüfung"
 
-#: includes/admin-approvals.php:630
+#: includes/admin-approvals.php:630 includes/rest.php:139
 msgid "No image uploaded yet."
 msgstr "Noch kein Bild hochgeladen."
 
@@ -630,7 +630,7 @@ msgstr "ZIP ist auf diesem Server nicht verfügbar."
 msgid "There are no approved images yet."
 msgstr "Es gibt noch keine freigegebenen Bilder."
 
-#: includes/admin-menu.php:14 includes/settings.php:135 sell-placement.php:99
+#: includes/admin-menu.php:14 includes/settings.php:135 sell-placement.php:106
 msgid "Settings"
 msgstr "Einstellungen"
 
@@ -678,87 +678,87 @@ msgstr "E-Mail: "
 msgid "off"
 msgstr "aus"
 
-#: includes/admin-settings.php:92
+#: includes/admin-settings.php:95
 msgid "Save changes"
 msgstr "Änderungen speichern"
 
-#: includes/admin-settings.php:93
+#: includes/admin-settings.php:96
 msgid "Restore the defaults of this page?"
 msgstr "Die Standardwerte dieser Seite wiederherstellen?"
 
-#: includes/admin-settings.php:93
+#: includes/admin-settings.php:96
 msgid "Restore defaults"
 msgstr "Standardwerte wiederherstellen"
 
-#: includes/admin-settings.php:95
+#: includes/admin-settings.php:98
 msgid "Send a test to %s"
 msgstr "Test an %s senden"
 
-#: includes/admin-settings.php:98
-msgid "Preview PDF"
-msgstr "PDF-Vorschau"
-
-#: includes/admin-settings.php:99
+#: includes/admin-settings.php:101
 msgid "Send the approved email to %s"
 msgstr "Freigabe-E-Mail an %s senden"
 
-#: includes/admin-settings.php:105
-msgid "Email preview"
-msgstr "E-Mail-Vorschau"
+#: includes/admin-settings.php:109
+msgid "Live preview"
+msgstr "Live-Vorschau"
 
-#: includes/admin-settings.php:106
-msgid "The certificate as it appears in the approved email, with the saved settings. It uses your newest approved placement, or example values."
-msgstr "Das Zertifikat, wie es in der Freigabe-E-Mail erscheint, mit den gespeicherten Einstellungen. Verwendet wird Ihre neueste freigegebene Platzierung oder Beispielwerte."
+#: includes/admin-settings.php:110
+msgid "Preview PDF"
+msgstr "PDF-Vorschau"
 
-#: includes/admin-settings.php:153
+#: includes/admin-settings.php:112
+msgid "Updates as you edit, before saving. Shown as in the approved email, with your newest approved placement or example values."
+msgstr "Aktualisiert sich beim Bearbeiten, schon vor dem Speichern. Dargestellt wie in der Freigabe-E-Mail, mit Ihrer neuesten freigegebenen Platzierung oder Beispielwerten."
+
+#: includes/admin-settings.php:161
 msgid "Apply"
 msgstr "Anwenden"
 
-#: includes/admin-settings.php:166
+#: includes/admin-settings.php:174
 msgid "Upload or choose image"
 msgstr "Bild hochladen oder wählen"
 
-#: includes/admin-settings.php:167
+#: includes/admin-settings.php:175
 msgid "Remove"
 msgstr "Entfernen"
 
-#: includes/admin-settings.php:186
+#: includes/admin-settings.php:194
 msgid "Placeholders:"
 msgstr "Platzhalter:"
 
-#: includes/admin-settings.php:259
+#: includes/admin-settings.php:230
 msgid "Defaults restored."
 msgstr "Standardwerte wiederhergestellt."
 
-#: includes/admin-settings.php:259
+#: includes/admin-settings.php:230
 msgid "Settings saved."
 msgstr "Einstellungen gespeichert."
 
-#: includes/admin-settings.php:271
+#: includes/admin-settings.php:242
 msgid "Unknown email."
 msgstr "Unbekannte E-Mail."
 
-#: includes/admin-settings.php:278 includes/admin-settings.php:287
+#: includes/admin-settings.php:249 includes/admin-settings.php:258
 msgid "Example reason: the image is too blurry for print."
 msgstr "Beispielgrund: Das Bild ist für den Druck zu unscharf."
 
-#: includes/admin-settings.php:283 includes/certificate.php:484
+#: includes/admin-settings.php:254 includes/certificate.php:484
 msgid "Example placement"
 msgstr "Beispiel-Platzierung"
 
-#: includes/admin-settings.php:285 includes/emails.php:37 includes/emails.php:105 includes/settings.php:240
+#: includes/admin-settings.php:256 includes/emails.php:37 includes/emails.php:105 includes/settings.php:240
 msgid "Upload your image"
 msgstr "Laden Sie Ihr Bild hoch"
 
-#: includes/admin-settings.php:293
+#: includes/admin-settings.php:264
 msgid "(the list of placements appears here)"
 msgstr "(hier erscheint die Liste der Platzierungen)"
 
-#: includes/admin-settings.php:294 includes/emails.php:246
+#: includes/admin-settings.php:265 includes/emails.php:246
 msgid "Manage your placements in your account"
 msgstr "Platzierungen in Ihrem Konto verwalten"
 
-#: includes/admin-settings.php:303
+#: includes/admin-settings.php:274
 msgid "Test sent to %s."
 msgstr "Test an %s gesendet."
 
@@ -1257,6 +1257,10 @@ msgstr "Zusätzliche Einwilligungs-Checkbox"
 #: includes/product.php:208
 msgid "Optional. A second required checkbox on the upload page, just for this product (e.g. \"I agree that my image is shown on the Zeppelin\")."
 msgstr "Optional. Eine zweite Pflicht-Checkbox auf der Upload-Seite, nur für dieses Produkt (z. B. „Ich bin einverstanden, dass mein Bild auf dem Zeppelin gezeigt wird“)."
+
+#: includes/rest.php:103 includes/upload-page.php:269 includes/upload-page.php:310
+msgid "This placement does not accept a new image right now. Please reload the page."
+msgstr "Diese Platzierung nimmt gerade kein neues Bild an. Bitte laden Sie die Seite neu."
 
 #: includes/settings.php:28
 msgid "General"
@@ -1931,10 +1935,6 @@ msgstr "Anderes Bild wählen"
 #: includes/upload-page.php:246
 msgid "Send image for review"
 msgstr "Bild zur Prüfung senden"
-
-#: includes/upload-page.php:269 includes/upload-page.php:310
-msgid "This placement does not accept a new image right now. Please reload the page."
-msgstr "Diese Platzierung nimmt gerade kein neues Bild an. Bitte laden Sie die Seite neu."
 
 #: includes/upload-page.php:284
 msgid "Please enter your name and a valid email address."

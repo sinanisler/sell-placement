@@ -564,6 +564,10 @@ function spl_role_choices() {
  * text restores the (translated) default rather than leaving a hole in the page.
  */
 function spl_opt( $key ) {
+	global $spl_opt_preview;
+	if ( is_array( $spl_opt_preview ) && array_key_exists( $key, $spl_opt_preview ) ) {
+		return $spl_opt_preview[ $key ];
+	}
 	$stored = get_option( SPL_OPTION, array() ); // autoloaded, so this is a cache read
 	if ( ! is_array( $stored ) ) {
 		$stored = array();
@@ -581,6 +585,57 @@ function spl_opt( $key ) {
 		}
 	}
 	return $field ? $field['default'] : null;
+}
+
+/**
+ * Uses unsaved form values (raw spl[...] input) for the settings of the given sections until the
+ * request ends; for the live certificate previews. Empty texts fall back to their defaults, like spl_opt().
+ */
+function spl_preview_settings( $input, $sections ) {
+	global $spl_opt_preview;
+	$schema          = spl_settings_schema();
+	$spl_opt_preview = array();
+	foreach ( $sections as $skey ) {
+		foreach ( isset( $schema[ $skey ] ) ? $schema[ $skey ]['fields'] : array() as $key => $field ) {
+			$value = spl_sanitize_setting( $field, isset( $input[ $key ] ) ? $input[ $key ] : null );
+			if ( $value === '' && ! in_array( $field['type'], array( 'checkbox', 'checkboxes' ), true ) ) {
+				$value = $field['default'];
+			}
+			$spl_opt_preview[ $key ] = $value;
+		}
+	}
+}
+
+/** Cleans one submitted value for its field type. */
+function spl_sanitize_setting( $field, $raw ) {
+	switch ( $field['type'] ) {
+		case 'checkbox':
+			return $raw ? 1 : 0;
+		case 'checkboxes':
+			return array_values( array_intersect( array_map( 'sanitize_key', (array) $raw ), array_keys( $field['choices'] ) ) );
+		case 'number':
+			$num = $raw === null || $raw === '' ? '' : (float) $raw;
+			if ( $num !== '' && isset( $field['min'] ) ) {
+				$num = max( (float) $field['min'], $num );
+			}
+			if ( $num !== '' && isset( $field['max'] ) ) {
+				$num = min( (float) $field['max'], $num );
+			}
+			return $num;
+		case 'select':
+		case 'preset':
+			return isset( $field['choices'][ (string) $raw ] ) ? (string) $raw : $field['default'];
+		case 'color':
+			$color = sanitize_hex_color( (string) $raw );
+			return $color ? $color : $field['default'];
+		case 'media':
+			return absint( $raw );
+		case 'editor':
+		case 'textarea':
+			return wp_kses_post( (string) $raw );
+		default:
+			return sanitize_text_field( (string) $raw );
+	}
 }
 
 /** Fills {placeholders}. */

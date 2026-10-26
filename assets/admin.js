@@ -64,8 +64,50 @@ jQuery(function ($) {
 	});
 
 	/* Settings: color pickers, the border image, presets and placeholders. */
+	// Certificate tab: the preview on the right follows the unsaved form values.
+	var $certForm = $('[data-spl-cert-form]');
+	var $preview = $('[data-spl-cert-preview]');
+	var previewTimer = null, previewSeq = 0;
+	function certFields() {
+		var fd = new FormData();
+		$.each($certForm.serializeArray(), function (i, f) {
+			if (f.name.indexOf('spl[') === 0) { fd.append(f.name, f.value); }
+		});
+		return fd;
+	}
+	function refreshPreview() {
+		if (!$preview.length) { return; }
+		clearTimeout(previewTimer);
+		previewTimer = setTimeout(function () {
+			var id = ++previewSeq;
+			var fd = certFields();
+			fd.append('action', 'spl_cert_preview');
+			fd.append('nonce', $preview.data('nonce'));
+			$preview.addClass('is-loading');
+			fetch($preview.data('ajax'), { method: 'POST', body: fd, credentials: 'same-origin' })
+				.then(function (r) { return r.json(); })
+				.then(function (res) {
+					if (id === previewSeq && res && res.success) { $preview.html(res.data.html); }
+				})
+				.finally(function () { if (id === previewSeq) { $preview.removeClass('is-loading'); } });
+		}, 300);
+	}
+	$certForm.on('input change', refreshPreview);
+
+	// "Preview PDF" opens the PDF built from the unsaved values in a new tab.
+	$(document).on('click', '[data-spl-pdf-preview]', function () {
+		var $f = $('<form method="post" target="_blank">').attr('action', $preview.data('pdf')).css('display', 'none');
+		$f.append($('<input type="hidden" name="action" value="spl_cert_preview">'));
+		$f.append($('<input type="hidden" name="_wpnonce">').val($preview.data('nonce')));
+		$.each($certForm.serializeArray(), function (i, f) {
+			if (f.name.indexOf('spl[') === 0) { $f.append($('<input type="hidden">').attr('name', f.name).val(f.value)); }
+		});
+		$f.appendTo('body').trigger('submit').remove();
+	});
+
 	if ($.fn.wpColorPicker) {
-		$('.spl-color').wpColorPicker();
+		// The picker updates the field after its change callback, so the preview waits a moment.
+		$('.spl-color').wpColorPicker({ change: function () { setTimeout(refreshPreview, 0); }, clear: function () { setTimeout(refreshPreview, 0); } });
 	}
 
 	$(document).on('click', '[data-spl-media-pick]', function (e) {
@@ -78,6 +120,7 @@ jQuery(function ($) {
 			$box.find('input[type="hidden"]').val(att.id);
 			$box.find('.spl-media-preview').attr('src', url).prop('hidden', false);
 			$box.find('[data-spl-media-remove]').prop('hidden', false);
+			refreshPreview();
 		});
 		frame.open();
 	});
@@ -87,6 +130,7 @@ jQuery(function ($) {
 		$box.find('input[type="hidden"]').val('0');
 		$box.find('.spl-media-preview').attr('src', '').prop('hidden', true);
 		$(this).prop('hidden', true);
+		refreshPreview();
 	});
 
 	// "Apply" copies the preset's values into the form; nothing is saved until "Save changes".
@@ -103,6 +147,7 @@ jQuery(function ($) {
 				$f.val(value);
 			}
 		});
+		refreshPreview();
 	});
 
 	// Clicking a placeholder inserts it into the field of the same row, at the cursor.
@@ -122,6 +167,7 @@ jQuery(function ($) {
 		el.value = el.value.slice(0, start) + token + el.value.slice(end);
 		el.focus();
 		el.setSelectionRange(start + token.length, start + token.length);
+		$field.trigger('input');
 	});
 
 	// Opening the page at #spl-decide focuses the decline reason.

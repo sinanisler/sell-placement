@@ -245,7 +245,7 @@ function spl_render_upload_page_body( $p ) {
 		<div class="spl-progress" data-spl-progress hidden><span></span></div>
 		<p><button type="submit" class="spl-btn spl-btn-primary" data-spl-submit disabled><?php esc_html_e( 'Send image for review', SPL_TD ); ?></button></p>
 	</form>
-	<script src="<?php echo esc_url( SPL_URL . 'assets/cropper.js?ver=' . SPL_VERSION ); ?>" defer></script>
+	<script src="<?php echo esc_url( SPL_URL . 'assets/cropper.js?ver=' . spl_asset_ver( 'assets/cropper.js' ) ); ?>" defer></script>
 	<?php
 }
 

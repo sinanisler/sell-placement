@@ -452,7 +452,7 @@ function spl_cert_email_html( $p ) {
 	$html .= '<tr><td style="' . $cell . 'color:' . $muted . ';font-size:14px;letter-spacing:3px;text-transform:uppercase;font-family:Helvetica,Arial,sans-serif">' . esc_html( wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES ) ) . '</td></tr>';
 	$html .= '<tr><td style="' . $cell . 'color:' . $accent . ';font-size:32px;font-weight:bold;line-height:1.2;padding-top:14px">' . esc_html( spl_cert_text( 'pdf_cert_title', $p ) ) . $divider . '</td></tr>';
 	$html .= '<tr><td style="' . $cell . 'color:' . $muted . ';font-size:16px;font-style:italic;padding-top:22px">' . esc_html( spl_cert_text( 'cert_presented', $p ) ) . '</td></tr>';
-	$html .= '<tr><td style="' . $cell . 'color:' . $text . ';font-size:34px;font-weight:bold;line-height:1.2;padding:10px 0 12px"><span style="display:inline-block;padding:0 18px 10px;border-bottom:1px solid ' . $accent . '">' . esc_html( spl_cert_name( $p ) ) . '</span></td></tr>';
+	$html .= '<tr><td style="' . $cell . 'color:' . $text . ';font-size:34px;font-weight:bold;line-height:1.2;padding:10px 0 12px"><span style="display:inline-block;padding:0 18px 10px;font-size:34px;font-weight:bold;color:' . $text . ';border-bottom:1px solid ' . $accent . '">' . esc_html( spl_cert_name( $p ) ) . '</span></td></tr>';
 	$html .= '<tr><td style="' . $cell . 'color:' . $text . ';font-size:16px;line-height:1.6;padding:6px 10px 0">' . nl2br( esc_html( spl_cert_text( 'pdf_cert_text', $p ) ) ) . '</td></tr>';
 	$html .= $image;
 	$html .= '<tr><td style="padding-top:28px"><table role="presentation" width="100%" cellspacing="0" cellpadding="0"><tr>'
@@ -501,6 +501,7 @@ add_action( 'admin_post_spl_cert_preview', function () {
 		wp_die( esc_html__( 'Sorry, you are not allowed to do that.', SPL_TD ) );
 	}
 	check_admin_referer( 'spl_cert_preview' );
+	spl_cert_preview_from_post();
 	$p = spl_cert_sample_placement();
 	$data = spl_build_certificate_pdf( $p );
 	nocache_headers();
@@ -510,3 +511,20 @@ add_action( 'admin_post_spl_cert_preview', function () {
 	echo $data; // phpcs:ignore
 	exit;
 } );
+
+/** Live preview from the settings form: the certificate email HTML with the unsaved values. */
+add_action( 'wp_ajax_spl_cert_preview', function () {
+	if ( ! current_user_can( 'spl_settings' ) || ! check_ajax_referer( 'spl_cert_preview', 'nonce', false ) ) {
+		wp_send_json_error( null, 403 );
+	}
+	spl_cert_preview_from_post();
+	wp_send_json_success( array( 'html' => spl_cert_email_html( spl_cert_sample_placement() ) ) );
+} );
+
+/** Previews use the posted, unsaved certificate settings when the settings form was sent. */
+function spl_cert_preview_from_post() {
+	if ( isset( $_POST['spl'] ) && is_array( $_POST['spl'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification -- checked by the callers
+		$input = wp_unslash( $_POST['spl'] ); // phpcs:ignore -- sanitised per field
+		spl_preview_settings( $input, array( 'certificate', 'certificate_text' ) );
+	}
+}
