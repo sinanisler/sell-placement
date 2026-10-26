@@ -19,6 +19,7 @@ jQuery(function ($) {
 			$form.find('[name="to"]').val(tpl.to);
 			$form.find('[name="subject"]').val(tpl.subject);
 			$form.find('[name="heading"]').val(tpl.heading);
+			$form.find('[name="attach_card"]').prop('checked', !!tpl.card);
 			var ed = window.tinymce && window.tinymce.get('spl_compose_body');
 			if (ed && !ed.isHidden()) {
 				ed.setContent(tpl.body);

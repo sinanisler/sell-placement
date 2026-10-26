@@ -607,6 +607,7 @@ function spl_render_detail( $p ) {
 		$tokens            = spl_placement_tokens( $p );
 		$templates[ $key ] = array(
 			'title'   => $email['title'],
+			'card'    => in_array( $key, spl_email_card_types(), true ),
 			'subject' => spl_fill( spl_opt( 'email_' . $key . '_subject' ), $tokens ),
 			'heading' => spl_fill( spl_opt( 'email_' . $key . '_heading' ), $tokens ),
 			'body'    => spl_fill( spl_opt( 'email_' . $key . '_body' ), $tokens ),
@@ -780,7 +781,7 @@ function spl_render_detail( $p ) {
 							'quicktags'     => true,
 						) );
 						?>
-						<p><label><input type="checkbox" name="attach_card" value="1" /> <?php esc_html_e( 'Attach placement card PDF', SPL_TD ); ?></label>
+						<p><label><input type="checkbox" name="attach_card" value="1" <?php checked( ! empty( reset( $templates )['card'] ) ); ?> /> <?php esc_html_e( 'Attach placement card PDF', SPL_TD ); ?></label>
 							<?php if ( $p->status === 'approved' ) : ?><br><label><input type="checkbox" name="attach_cert" value="1" /> <?php esc_html_e( 'Attach certificate PDF', SPL_TD ); ?></label><?php endif; ?></p>
 						<p><button class="button button-primary"><?php esc_html_e( 'Send email', SPL_TD ); ?></button></p>
 					</form>

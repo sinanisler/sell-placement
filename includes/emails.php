@@ -8,6 +8,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/** Email types that carry the placement card as a PDF when sent automatically. */
+function spl_email_card_types() {
+	return array( 'gift', 'link' );
+}
+
 function spl_email_types() {
 	$common = array( '{name}', '{code}', '{product}', '{upload_link}', '{upload_button}', '{event_end}', '{site_name}' );
 	return array(
@@ -196,7 +201,7 @@ function spl_send_placement_email( $p, $type, $override = array(), $force = fals
 	}
 
 	$attachments = array();
-	if ( in_array( $type, array( 'gift', 'link' ), true ) ) {
+	if ( in_array( $type, spl_email_card_types(), true ) ) {
 		$pdf = spl_pdf_to_file( $p, 'card' );
 		if ( $pdf ) {
 			$attachments[] = $pdf;
