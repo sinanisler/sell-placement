@@ -166,6 +166,12 @@ function spl_hex_rgb( $hex, $fallback = '#000000' ) {
 	return array( hexdec( substr( $hex, 0, 2 ) ) / 255, hexdec( substr( $hex, 2, 2 ) ) / 255, hexdec( substr( $hex, 4, 2 ) ) / 255 );
 }
 
+/** A darker '#rrggbb' shade of a color, as '#rrggbb'. $amount 0 keeps the color, 1 is black. */
+function spl_cert_shade( $hex, $amount ) {
+	$rgb = spl_hex_rgb( $hex );
+	return sprintf( '#%02x%02x%02x', (int) round( 255 * $rgb[0] * ( 1 - $amount ) ), (int) round( 255 * $rgb[1] * ( 1 - $amount ) ), (int) round( 255 * $rgb[2] * ( 1 - $amount ) ) );
+}
+
 /** The design settings, read once. */
 function spl_cert_design() {
 	return array(
@@ -245,15 +251,7 @@ function spl_build_certificate_pdf( $p ) {
 	$pdf->text( $rx + $colw / 2, $row + 16, __( 'Date', SPL_TD ), 9.5, false, 'center', $muted );
 
 	if ( $d['show_seal'] ) {
-		$cy = $row - 6;
-		$pdf->polygon( array( array( $W / 2 - 22, $cy + 20 ), array( $W / 2 - 10, $cy + 62 ), array( $W / 2 - 2, $cy + 26 ) ), null, $accent );
-		$pdf->polygon( array( array( $W / 2 + 22, $cy + 20 ), array( $W / 2 + 10, $cy + 62 ), array( $W / 2 + 2, $cy + 26 ) ), null, $accent );
-		$pdf->circle( $W / 2, $cy, 40, null, $accent );
-		$pdf->circle( $W / 2, $cy, 34, $bg, null, 0.8 );
-		$pdf->serif = false;
-		$pdf->text( $W / 2, $cy - 6, spl_cert_text( 'cert_seal_text', $p ), 7.5, true, 'center', $bg );
-		$pdf->text( $W / 2, $cy + 8, $p->code, 8, true, 'center', $bg );
-		$pdf->serif = $d['serif'];
+		spl_cert_pdf_seal( $pdf, $W / 2, $row - 6, $p, $d, $bg );
 	} else {
 		$pdf->text( $W / 2, $row + 16, $p->code, 9.5, false, 'center', $muted );
 	}
@@ -269,6 +267,46 @@ function spl_cert_pdf_divider( $pdf, $cx, $y, $color ) {
 	$pdf->line( $cx - 70, $y, $cx - 9, $y, $color, 0.8 );
 	$pdf->line( $cx + 9, $y, $cx + 70, $y, $color, 0.8 );
 	$pdf->polygon( array( array( $cx, $y - 4 ), array( $cx + 5, $y ), array( $cx, $y + 4 ), array( $cx - 5, $y ) ), null, $color );
+}
+
+/**
+ * The seal: a scalloped rosette with a check mark, the seal text and the placement code, on two ribbon
+ * tails. The tails reach 62 pt below the centre, which leaves the footer line clear.
+ */
+function spl_cert_pdf_seal( $pdf, $cx, $cy, $p, $d, $ink ) {
+	$accent = spl_hex_rgb( $d['accent'] );
+	$core   = spl_hex_rgb( spl_cert_shade( $d['accent'], 0.14 ) );
+	$ribbon = spl_hex_rgb( spl_cert_shade( $d['accent'], 0.3 ) );
+
+	foreach ( array( -1, 1 ) as $side ) {
+		$pdf->polygon( array(
+			array( $cx + $side * 22, $cy + 14 ),
+			array( $cx + $side * 30, $cy + 62 ),
+			array( $cx + $side * 19, $cy + 50 ),
+			array( $cx + $side * 7, $cy + 60 ),
+			array( $cx + $side * 2, $cy + 26 ),
+		), null, $ribbon );
+	}
+
+	// The rim swings 4 pt either side of a 36 pt radius, twelve times round.
+	$rim = array();
+	for ( $i = 0; $i < 144; $i++ ) {
+		$t     = 2 * M_PI * $i / 144;
+		$r     = 36 + 4 * cos( 12 * $t );
+		$rim[] = array( $cx + $r * cos( $t ), $cy + $r * sin( $t ) );
+	}
+	$pdf->polygon( $rim, null, $accent );
+	$pdf->circle( $cx, $cy, 29, null, $core );
+	$pdf->circle( $cx, $cy, 25, $ink, null, 0.8 );
+
+	$pdf->line( $cx - 8, $cy - 11, $cx - 3, $cy - 6, $ink, 2.6 );
+	$pdf->line( $cx - 3, $cy - 6, $cx + 7, $cy - 17, $ink, 2.6 );
+
+	$serif      = $pdf->serif;
+	$pdf->serif = false;
+	$pdf->text( $cx, $cy + 6, spl_cert_text( 'cert_seal_text', $p ), 8, true, 'center', $ink );
+	$pdf->text( $cx, $cy + 17, $p->code, 7.5, true, 'center', $ink );
+	$pdf->serif = $serif;
 }
 
 function spl_cert_pdf_border( $pdf, $d, $c, $bg ) {
@@ -386,6 +424,35 @@ function spl_cert_email_image_url( $p ) {
 	), home_url( '/' ) );
 }
 
+/**
+ * The seal in the email: a round medal with swallowtail ribbons. Tables and solid colors only, because
+ * email clients drop SVG and most CSS shapes.
+ */
+function spl_cert_email_seal( $p, $d ) {
+	$accent = esc_attr( $d['accent'] );
+	$core   = esc_attr( spl_cert_shade( $d['accent'], 0.14 ) );
+	$ribbon = esc_attr( spl_cert_shade( $d['accent'], 0.3 ) );
+	$ink    = esc_attr( $d['bg'] );
+	$cut    = 'width:0;height:0;border-left:9px solid transparent;border-right:9px solid transparent;border-top:16px solid ' . $ribbon . ';font-size:0;line-height:0';
+	$tail   = '<table role="presentation" cellspacing="0" cellpadding="0" style="width:36px"><tr>'
+		. '<td colspan="2" style="height:22px;background:' . $ribbon . ';font-size:0;line-height:0">&nbsp;</td></tr><tr>'
+		. '<td style="' . $cut . '">&nbsp;</td><td style="' . $cut . '">&nbsp;</td></tr></table>';
+
+	return '<table role="presentation" cellspacing="0" cellpadding="0" align="center"><tr>'
+		. '<td align="center" valign="middle" style="width:112px;height:112px;border-radius:50%;background:' . $accent . '">'
+		. '<table role="presentation" cellspacing="0" cellpadding="0" align="center"><tr>'
+		. '<td align="center" valign="middle" style="width:92px;height:92px;border-radius:50%;background:' . $core . ';border:2px solid ' . $ink . ';color:' . $ink . ';font-family:Helvetica,Arial,sans-serif;font-size:14px;font-weight:bold;line-height:1.3;text-align:center">'
+		. '<span style="font-size:22px;line-height:1">&#10003;</span><br>' . esc_html( spl_cert_text( 'cert_seal_text', $p ) ) . '<br>' . esc_html( $p->code )
+		. '</td></tr></table></td></tr>'
+		. '<tr><td style="padding:0;font-size:0;line-height:0"><table role="presentation" cellspacing="0" cellpadding="0" align="center"><tr>'
+		. '<td style="width:14px;font-size:0;line-height:0">&nbsp;</td>'
+		. '<td style="font-size:0;line-height:0">' . $tail . '</td>'
+		. '<td style="width:12px;font-size:0;line-height:0">&nbsp;</td>'
+		. '<td style="font-size:0;line-height:0">' . $tail . '</td>'
+		. '<td style="width:14px;font-size:0;line-height:0">&nbsp;</td>'
+		. '</tr></table></td></tr></table>';
+}
+
 /** The certificate as email-safe HTML (tables and inline styles). */
 function spl_cert_email_html( $p ) {
 	$d      = spl_cert_design();
@@ -439,8 +506,7 @@ function spl_cert_email_html( $p ) {
 
 	$seal = '';
 	if ( $d['show_seal'] ) {
-		$seal = '<table role="presentation" cellspacing="0" cellpadding="0" align="center"><tr><td align="center" valign="middle" style="width:104px;height:104px;border-radius:50%;background:' . $accent . ';color:' . $bg . ';font-family:Helvetica,Arial,sans-serif;font-size:14px;font-weight:bold;line-height:1.4;text-align:center;border:3px double ' . $bg . '">'
-			. esc_html( spl_cert_text( 'cert_seal_text', $p ) ) . '<br>' . esc_html( $p->code ) . '</td></tr></table>';
+		$seal = spl_cert_email_seal( $p, $d );
 	} else {
 		$seal = '<span style="color:' . $muted . ';font-size:14px">' . esc_html( $p->code ) . '</span>';
 	}
