@@ -94,6 +94,24 @@ jQuery(function ($) {
 	}
 	$certForm.on('input change', refreshPreview);
 
+	// "Send test": the approved email with the unsaved certificate settings, to any address.
+	$(document).on('click', '[data-spl-test-send]', function () {
+		var $btn = $(this), $out = $('[data-spl-test-result]');
+		var fd = certFields();
+		fd.append('action', 'spl_cert_test_email');
+		fd.append('nonce', $preview.data('nonce'));
+		fd.append('to', $('[data-spl-test-to]').val());
+		$btn.prop('disabled', true);
+		$out.removeClass('is-error is-ok').text('…');
+		fetch($preview.data('ajax'), { method: 'POST', body: fd, credentials: 'same-origin' })
+			.then(function (r) { return r.json(); })
+			.then(function (res) {
+				$out.addClass(res && res.success ? 'is-ok' : 'is-error').text((res && res.data && res.data.message) || '');
+			})
+			.catch(function () { $out.addClass('is-error').text('Error'); })
+			.finally(function () { $btn.prop('disabled', false); });
+	});
+
 	// "Preview PDF" opens the PDF built from the unsaved values in a new tab.
 	$(document).on('click', '[data-spl-pdf-preview]', function () {
 		var $f = $('<form method="post" target="_blank">').attr('action', $preview.data('pdf')).css('display', 'none');

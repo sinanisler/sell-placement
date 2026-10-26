@@ -139,3 +139,8 @@ details.spl-box[open]>summary h2::before{content:"▾ "}
 	.spl-cert-layout{grid-template-columns:1fr}
 	.spl-cert-aside{position:static;max-height:none;order:-1}
 }
+.spl-cert-test{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:8px 0}
+.spl-cert-test input[type=email]{flex:1 1 220px;min-width:0}
+.spl-cert-test-result{flex-basis:100%}
+.spl-cert-test-result.is-ok{color:#007017}
+.spl-cert-test-result.is-error{color:#b32d2e;font-weight:600}

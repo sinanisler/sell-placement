@@ -4,12 +4,12 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Woo Ad Image Upload 1.0.0\n"
 "Report-Msgid-Bugs-To: https://geopard.digital/\n"
-"POT-Creation-Date: 2026-10-26 11:46+0000\n"
+"POT-Creation-Date: 2026-10-26 12:17+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Domain: woo-ad-image-upload\n"
-"PO-Revision-Date: 2026-10-26 11:46+0000\n"
+"PO-Revision-Date: 2026-10-26 12:17+0000\n"
 "Language-Team: Deutsch\n"
 "Language: de_DE\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -160,11 +160,11 @@ msgstr "%s ist für einen neuen Upload geöffnet."
 msgid "Email sent to %s."
 msgstr "E-Mail an %s gesendet."
 
-#: includes/admin-approvals.php:159 includes/admin-approvals.php:185 includes/admin-settings.php:274
+#: includes/admin-approvals.php:159 includes/admin-approvals.php:185 includes/admin-settings.php:277
 msgid "The email could not be sent."
 msgstr "Die E-Mail konnte nicht gesendet werden."
 
-#: includes/admin-approvals.php:166
+#: includes/admin-approvals.php:166 includes/certificate.php:542
 msgid "Please enter a valid email address."
 msgstr "Bitte geben Sie eine gültige E-Mail-Adresse ein."
 
@@ -694,71 +694,75 @@ msgstr "Standardwerte wiederherstellen"
 msgid "Send a test to %s"
 msgstr "Test an %s senden"
 
-#: includes/admin-settings.php:101
-msgid "Send the approved email to %s"
-msgstr "Freigabe-E-Mail an %s senden"
-
-#: includes/admin-settings.php:109
+#: includes/admin-settings.php:106
 msgid "Live preview"
 msgstr "Live-Vorschau"
 
-#: includes/admin-settings.php:110
+#: includes/admin-settings.php:107
 msgid "Preview PDF"
 msgstr "PDF-Vorschau"
 
+#: includes/admin-settings.php:110
+msgid "Send a test certificate to"
+msgstr "Test-Zertifikat senden an"
+
 #: includes/admin-settings.php:112
+msgid "Send test"
+msgstr "Test senden"
+
+#: includes/admin-settings.php:115
 msgid "Updates as you edit, before saving. Shown as in the approved email, with your newest approved placement or example values."
 msgstr "Aktualisiert sich beim Bearbeiten, schon vor dem Speichern. Dargestellt wie in der Freigabe-E-Mail, mit Ihrer neuesten freigegebenen Platzierung oder Beispielwerten."
 
-#: includes/admin-settings.php:161
+#: includes/admin-settings.php:164
 msgid "Apply"
 msgstr "Anwenden"
 
-#: includes/admin-settings.php:174
+#: includes/admin-settings.php:177
 msgid "Upload or choose image"
 msgstr "Bild hochladen oder wählen"
 
-#: includes/admin-settings.php:175
+#: includes/admin-settings.php:178
 msgid "Remove"
 msgstr "Entfernen"
 
-#: includes/admin-settings.php:194
+#: includes/admin-settings.php:197
 msgid "Placeholders:"
 msgstr "Platzhalter:"
 
-#: includes/admin-settings.php:230
+#: includes/admin-settings.php:233
 msgid "Defaults restored."
 msgstr "Standardwerte wiederhergestellt."
 
-#: includes/admin-settings.php:230
+#: includes/admin-settings.php:233
 msgid "Settings saved."
 msgstr "Einstellungen gespeichert."
 
-#: includes/admin-settings.php:242
+#: includes/admin-settings.php:245
 msgid "Unknown email."
 msgstr "Unbekannte E-Mail."
 
-#: includes/admin-settings.php:249 includes/admin-settings.php:258
+#: includes/admin-settings.php:252 includes/admin-settings.php:261
 msgid "Example reason: the image is too blurry for print."
 msgstr "Beispielgrund: Das Bild ist für den Druck zu unscharf."
 
-#: includes/admin-settings.php:254 includes/certificate.php:484
+#: includes/admin-settings.php:257 includes/certificate.php:484
 msgid "Example placement"
 msgstr "Beispiel-Platzierung"
 
-#: includes/admin-settings.php:256 includes/emails.php:37 includes/emails.php:105 includes/settings.php:240
+#: includes/admin-settings.php:259 includes/emails.php:37 includes/emails.php:105 includes/settings.php:240
 msgid "Upload your image"
 msgstr "Laden Sie Ihr Bild hoch"
 
-#: includes/admin-settings.php:264
+#: includes/admin-settings.php:267
 msgid "(the list of placements appears here)"
 msgstr "(hier erscheint die Liste der Platzierungen)"
 
-#: includes/admin-settings.php:265 includes/emails.php:246
+#: includes/admin-settings.php:268 includes/emails.php:246
 msgid "Manage your placements in your account"
 msgstr "Platzierungen in Ihrem Konto verwalten"
 
-#: includes/admin-settings.php:274
+#: includes/admin-settings.php:277
 msgid "Test sent to %s."
 msgstr "Test an %s gesendet."
 
@@ -833,6 +837,18 @@ msgstr "Klassischer Rahmen (dick und dünn)"
 #: includes/certificate.php:245 includes/certificate.php:461
 msgid "Date"
 msgstr "Datum"
+
+#: includes/certificate.php:577
+msgid "Sent to %s. If it does not arrive, check the spam folder and the server's mail setup."
+msgstr "An %s gesendet. Falls nichts ankommt, prüfen Sie den Spam-Ordner und die Mail-Einrichtung des Servers."
+
+#: includes/certificate.php:580
+msgid "The email could not be sent: %s"
+msgstr "Die E-Mail konnte nicht gesendet werden: %s"
+
+#: includes/certificate.php:580
+msgid "the server refused it. An SMTP plugin usually fixes this."
+msgstr "Der Server hat sie abgelehnt. Ein SMTP-Plugin behebt das meist."
 
 #: includes/db.php:105
 msgid "Awaiting upload"

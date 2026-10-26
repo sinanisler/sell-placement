@@ -97,9 +97,6 @@ function spl_render_settings_page() {
 				<?php if ( $tab === 'emails' ) : ?>
 					<a class="button" href="<?php echo esc_url( wp_nonce_url( add_query_arg( array( 'action' => 'spl_test_email', 'type' => substr( $sub, 6 ), 'back' => rawurlencode( spl_current_admin_url() ) ), admin_url( 'admin-post.php' ) ), 'spl_test_email' ) ); ?>"><?php /* translators: %s: email */ echo esc_html( sprintf( __( 'Send a test to %s', SPL_TD ), wp_get_current_user()->user_email ) ); ?></a>
 				<?php endif; ?>
-				<?php if ( $tab === 'certificate' ) : ?>
-					<a class="button" href="<?php echo esc_url( wp_nonce_url( add_query_arg( array( 'action' => 'spl_test_email', 'type' => 'approved', 'back' => rawurlencode( spl_current_admin_url() ) ), admin_url( 'admin-post.php' ) ), 'spl_test_email' ) ); ?>"><?php /* translators: %s: email */ echo esc_html( sprintf( __( 'Send the approved email to %s', SPL_TD ), wp_get_current_user()->user_email ) ); ?></a>
-				<?php endif; ?>
 			</p>
 		</form>
 
@@ -108,6 +105,12 @@ function spl_render_settings_page() {
 					<div class="spl-cert-aside-head">
 						<h2><?php esc_html_e( 'Live preview', SPL_TD ); ?></h2>
 						<button type="button" class="button" data-spl-pdf-preview><?php esc_html_e( 'Preview PDF', SPL_TD ); ?></button>
+					</div>
+					<div class="spl-cert-test">
+						<label for="spl_cert_test_to"><?php esc_html_e( 'Send a test certificate to', SPL_TD ); ?></label>
+						<input type="email" id="spl_cert_test_to" value="<?php echo esc_attr( wp_get_current_user()->user_email ); ?>" data-spl-test-to />
+						<button type="button" class="button" data-spl-test-send><?php esc_html_e( 'Send test', SPL_TD ); ?></button>
+						<span class="spl-cert-test-result" role="status" data-spl-test-result></span>
 					</div>
 					<p class="description"><?php esc_html_e( 'Updates as you edit, before saving. Shown as in the approved email, with your newest approved placement or example values.', SPL_TD ); ?></p>
 					<div class="spl-cert-preview" data-spl-cert-preview data-ajax="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'spl_cert_preview' ) ); ?>" data-pdf="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"><?php echo spl_cert_email_html( spl_cert_sample_placement() ); // phpcs:ignore -- built from escaped parts ?></div>

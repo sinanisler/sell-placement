@@ -528,3 +528,54 @@ function spl_cert_preview_from_post() {
 		spl_preview_settings( $input, array( 'certificate', 'certificate_text' ) );
 	}
 }
+
+/**
+ * "Send test" on the certificate tab: the approved email with the unsaved settings and the certificate PDF,
+ * to any address. Reports the mailer's own error, since a server without working mail fails quietly.
+ */
+add_action( 'wp_ajax_spl_cert_test_email', function () {
+	if ( ! current_user_can( 'spl_settings' ) || ! check_ajax_referer( 'spl_cert_preview', 'nonce', false ) ) {
+		wp_send_json_error( array( 'message' => __( 'Sorry, you are not allowed to do that.', SPL_TD ) ), 403 );
+	}
+	$to = isset( $_POST['to'] ) ? sanitize_email( wp_unslash( $_POST['to'] ) ) : '';
+	if ( ! is_email( $to ) ) {
+		wp_send_json_error( array( 'message' => __( 'Please enter a valid email address.', SPL_TD ) ) );
+	}
+	spl_cert_preview_from_post();
+	$p = spl_cert_sample_placement();
+	if ( $p->id ) {
+		$tokens = spl_placement_tokens( $p );
+	} else {
+		$tokens = array(
+			'{name}'             => $p->uploader_name,
+			'{code}'             => $p->code,
+			'{product}'          => $p->product_name,
+			'{certificate_name}' => $p->cert_name,
+			'{certificate}'      => spl_cert_email_html( $p ),
+		);
+	}
+
+	$attachments = array();
+	$pdf         = spl_build_certificate_pdf( $p );
+	if ( $pdf ) {
+		$file = spl_tmp_dir() . spl_pdf_filename( $p, 'certificate' );
+		if ( file_put_contents( $file, $pdf ) ) { // phpcs:ignore
+			$attachments[] = $file;
+		}
+	}
+
+	$error = '';
+	$catch = function ( $e ) use ( &$error ) {
+		$error = $e->get_error_message();
+	};
+	add_action( 'wp_mail_failed', $catch );
+	$sent = spl_send_email( 'approved', $to, $tokens, $attachments, array(), true );
+	remove_action( 'wp_mail_failed', $catch );
+
+	if ( $sent ) {
+		/* translators: %s: email */
+		wp_send_json_success( array( 'message' => sprintf( __( 'Sent to %s. If it does not arrive, check the spam folder and the server\'s mail setup.', SPL_TD ), $to ) ) );
+	}
+	/* translators: %s: error from the mailer */
+	wp_send_json_error( array( 'message' => sprintf( __( 'The email could not be sent: %s', SPL_TD ), $error !== '' ? $error : __( 'the server refused it. An SMTP plugin usually fixes this.', SPL_TD ) ) ) );
+} );
