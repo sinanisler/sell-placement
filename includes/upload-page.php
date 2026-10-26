@@ -184,7 +184,7 @@ function spl_render_upload_page_body( $p ) {
 			'output'     => __( 'Size: {w} × {h} px', SPL_TD ),
 			'qGood'      => __( 'Great resolution', SPL_TD ),
 			'qOk'        => __( 'Good resolution', SPL_TD ),
-			'qMin'       => __( 'Minimum resolution – zoom out for a sharper result', SPL_TD ),
+			'qMin'       => __( 'Minimum resolution', SPL_TD ),
 			'uploading'  => __( 'Uploading… {p}%', SPL_TD ),
 			'processing' => __( 'Processing…', SPL_TD ),
 			'failed'     => __( 'Something went wrong. Please try again.', SPL_TD ),

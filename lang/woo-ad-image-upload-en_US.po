@@ -1900,8 +1900,8 @@ msgid "Good resolution"
 msgstr "Good resolution"
 
 #: includes/upload-page.php:187
-msgid "Minimum resolution – zoom out for a sharper result"
-msgstr "Minimum resolution – zoom out for a sharper result"
+msgid "Minimum resolution"
+msgstr "Minimum resolution"
 
 #: includes/upload-page.php:188
 msgid "Uploading… {p}%"

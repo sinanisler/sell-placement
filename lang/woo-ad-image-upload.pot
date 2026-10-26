@@ -1861,7 +1861,7 @@ msgid "Good resolution"
 msgstr ""
 
 #: includes/upload-page.php:187
-msgid "Minimum resolution – zoom out for a sharper result"
+msgid "Minimum resolution"
 msgstr ""
 
 #: includes/upload-page.php:188
