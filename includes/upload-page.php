@@ -222,9 +222,9 @@ function spl_render_upload_page_body( $p ) {
 				<span class="spl-grid" aria-hidden="true"></span>
 			</div>
 			<div class="spl-controls">
-				<button type="button" class="spl-icon-btn" data-spl-zoom-out aria-label="<?php esc_attr_e( 'Zoom out', SPL_TD ); ?>">−</button>
+				<button type="button" class="spl-icon-btn" data-spl-zoom-out aria-label="<?php esc_attr_e( 'Zoom out', SPL_TD ); ?>"></button>
 				<input type="range" data-spl-zoom min="1" max="1" step="0.01" value="1" aria-label="<?php esc_attr_e( 'Zoom', SPL_TD ); ?>" />
-				<button type="button" class="spl-icon-btn" data-spl-zoom-in aria-label="<?php esc_attr_e( 'Zoom in', SPL_TD ); ?>">+</button>
+				<button type="button" class="spl-icon-btn spl-icon-plus" data-spl-zoom-in aria-label="<?php esc_attr_e( 'Zoom in', SPL_TD ); ?>"></button>
 				<button type="button" class="spl-link-btn" data-spl-reset><?php esc_html_e( 'Reset', SPL_TD ); ?></button>
 				<button type="button" class="spl-link-btn" data-spl-change><?php esc_html_e( 'Choose another image', SPL_TD ); ?></button>
 			</div>
