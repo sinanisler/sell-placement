@@ -157,7 +157,7 @@ add_action( 'woocommerce_product_data_panels', function () {
 			woocommerce_wp_checkbox( array(
 				'id'          => '_spl_allow_gift',
 				'label'       => __( 'Gift option', SPL_TD ),
-				'description' => __( 'Offer "As a gift" on the product page: the buyer enters a recipient, who gets the upload link and a printable PDF.', SPL_TD ),
+				'description' => __( 'Offer "As a gift" on the product page. The buyer gets a printable PDF per gift and can email the upload link to the recipient from their account.', SPL_TD ),
 				'value'       => get_post_meta( $id, '_spl_allow_gift', true ) === 'no' ? 'no' : 'yes',
 			) );
 			woocommerce_wp_text_input( array(
@@ -295,9 +295,6 @@ add_action( 'woocommerce_before_add_to_cart_button', function () {
 	}
 	$r      = spl_product_rules( $product->get_id() );
 	$posted = isset( $_POST['spl_mode'] ) ? sanitize_key( wp_unslash( $_POST['spl_mode'] ) ) : 'self'; // phpcs:ignore WordPress.Security.NonceVerification
-	$val    = function ( $k ) {
-		return isset( $_POST[ $k ] ) ? esc_attr( sanitize_text_field( wp_unslash( $_POST[ $k ] ) ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification
-	};
 	spl_frontend_styles();
 	?>
 	<div class="spl-buy">
@@ -313,33 +310,11 @@ add_action( 'woocommerce_before_add_to_cart_button', function () {
 					<span><strong><?php echo esc_html( spl_text( 'mode_gift_label' ) ); ?></strong><small><?php echo esc_html( spl_text( 'mode_gift_hint' ) ); ?></small></span>
 				</label>
 			</div>
-			<div class="spl-gift-fields" <?php echo $posted === 'gift' ? '' : 'hidden'; ?>>
-				<p><label for="spl_recipient_name"><?php echo esc_html( spl_text( 'gift_name_label' ) ); ?> <abbr class="required">*</abbr></label>
-					<input type="text" id="spl_recipient_name" name="spl_recipient_name" value="<?php echo $val( 'spl_recipient_name' ); ?>" autocomplete="off" /></p>
-				<p><label for="spl_recipient_email"><?php echo esc_html( spl_text( 'gift_email_label' ) ); ?> <abbr class="required">*</abbr></label>
-					<input type="email" id="spl_recipient_email" name="spl_recipient_email" value="<?php echo $val( 'spl_recipient_email' ); ?>" autocomplete="off" /></p>
-				<p><label for="spl_gift_message"><?php echo esc_html( spl_text( 'gift_message_label' ) ); ?></label>
-					<textarea id="spl_gift_message" name="spl_gift_message" rows="3" maxlength="500"><?php echo isset( $_POST['spl_gift_message'] ) ? esc_textarea( sanitize_textarea_field( wp_unslash( $_POST['spl_gift_message'] ) ) ) : ''; // phpcs:ignore ?></textarea></p>
-			</div>
 		<?php else : ?>
 			<input type="hidden" name="spl_mode" value="self" />
 		<?php endif; ?>
 		<p class="spl-specs"><?php echo esc_html( spl_specs_line( $product->get_id() ) ); ?></p>
 	</div>
-	<script>
-	(function () {
-		var root = document.currentScript.previousElementSibling;
-		if (!root) { return; }
-		var gift = root.querySelector('.spl-gift-fields');
-		if (!gift) { return; }
-		Array.prototype.forEach.call(root.querySelectorAll('input[name="spl_mode"]'), function (r) {
-			r.addEventListener('change', function () {
-				gift.hidden = !(r.checked && r.value === 'gift');
-				gift.querySelectorAll('#spl_recipient_name,#spl_recipient_email').forEach(function (i) { i.required = !gift.hidden; });
-			});
-		});
-	})();
-	</script>
 	<?php
 } );
 
@@ -351,25 +326,6 @@ add_filter( 'woocommerce_add_to_cart_validation', function ( $passed, $product_i
 		wc_add_notice( spl_text( 'sales_closed' ), 'error' );
 		return false;
 	}
-	// phpcs:disable WordPress.Security.NonceVerification.Missing
-	$mode = isset( $_POST['spl_mode'] ) ? sanitize_key( wp_unslash( $_POST['spl_mode'] ) ) : 'self';
-	if ( $mode === 'gift' ) {
-		$r = spl_product_rules( $product_id );
-		if ( ! $r['allow_gift'] ) {
-			return $passed;
-		}
-		$name  = isset( $_POST['spl_recipient_name'] ) ? trim( sanitize_text_field( wp_unslash( $_POST['spl_recipient_name'] ) ) ) : '';
-		$email = isset( $_POST['spl_recipient_email'] ) ? sanitize_email( wp_unslash( $_POST['spl_recipient_email'] ) ) : '';
-		if ( $name === '' ) {
-			wc_add_notice( __( 'Please enter the recipient\'s name.', SPL_TD ), 'error' );
-			$passed = false;
-		}
-		if ( ! is_email( $email ) ) {
-			wc_add_notice( __( 'Please enter a valid email address for the recipient.', SPL_TD ), 'error' );
-			$passed = false;
-		}
-	}
-	// phpcs:enable
 	return $passed;
 }, 10, 2 );
 
@@ -381,13 +337,8 @@ add_filter( 'woocommerce_add_cart_item_data', function ( $data, $product_id ) {
 	$mode = isset( $_POST['spl_mode'] ) ? sanitize_key( wp_unslash( $_POST['spl_mode'] ) ) : 'self';
 	$r    = spl_product_rules( $product_id );
 	if ( $mode === 'gift' && $r['allow_gift'] ) {
-		// Part of the cart item data, so each recipient becomes its own cart line.
-		$data['spl'] = array(
-			'mode'            => 'gift',
-			'recipient_name'  => sanitize_text_field( wp_unslash( $_POST['spl_recipient_name'] ?? '' ) ),
-			'recipient_email' => sanitize_email( wp_unslash( $_POST['spl_recipient_email'] ?? '' ) ),
-			'gift_message'    => mb_substr( sanitize_textarea_field( wp_unslash( $_POST['spl_gift_message'] ?? '' ) ), 0, 500 ),
-		);
+		// No recipient at checkout: the buyer hands each gift on afterwards (PDF, copied link or "Send Email").
+		$data['spl'] = array( 'mode' => 'gift' );
 	} else {
 		$data['spl'] = array( 'mode' => 'self' );
 	}
@@ -399,17 +350,10 @@ add_filter( 'woocommerce_get_item_data', function ( $item_data, $cart_item ) {
 	if ( empty( $cart_item['spl'] ) ) {
 		return $item_data;
 	}
-	if ( $cart_item['spl']['mode'] === 'gift' ) {
-		$item_data[] = array(
-			'key'   => __( 'Gift for', SPL_TD ),
-			'value' => $cart_item['spl']['recipient_name'] . ' (' . $cart_item['spl']['recipient_email'] . ')',
-		);
-	} else {
-		$item_data[] = array(
-			'key'   => __( 'Placement', SPL_TD ),
-			'value' => spl_text( 'mode_self_label' ),
-		);
-	}
+	$item_data[] = array(
+		'key'   => __( 'Placement', SPL_TD ),
+		'value' => spl_text( $cart_item['spl']['mode'] === 'gift' ? 'mode_gift_label' : 'mode_self_label' ),
+	);
 	return $item_data;
 }, 10, 2 );
 
@@ -420,9 +364,6 @@ add_action( 'woocommerce_checkout_create_order_line_item', function ( $item, $ca
 	$s = $values['spl'];
 	$item->add_meta_data( '_spl_mode', $s['mode'], true );
 	if ( $s['mode'] === 'gift' ) {
-		$item->add_meta_data( '_spl_recipient_name', $s['recipient_name'], true );
-		$item->add_meta_data( '_spl_recipient_email', $s['recipient_email'], true );
-		$item->add_meta_data( '_spl_gift_message', $s['gift_message'], true );
-		$item->add_meta_data( __( 'Gift for', SPL_TD ), $s['recipient_name'] . ' (' . $s['recipient_email'] . ')', true );
+		$item->add_meta_data( __( 'Placement', SPL_TD ), spl_text( 'mode_gift_label' ), true );
 	}
 }, 10, 3 );

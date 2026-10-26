@@ -50,11 +50,22 @@ add_action( 'admin_enqueue_scripts', function () {
 		wp_enqueue_style( 'spl-admin', SPL_URL . 'assets/admin.css', array(), SPL_VERSION );
 	}
 	if ( strpos( $page, 'spl-' ) === 0 ) {
-		wp_enqueue_script( 'spl-admin', SPL_URL . 'assets/admin.js', array( 'jquery' ), SPL_VERSION, true );
+		$deps = array( 'jquery' );
+		if ( $page === 'spl-settings' ) {
+			// The certificate tab picks colors and a border image.
+			wp_enqueue_media();
+			wp_enqueue_style( 'wp-color-picker' );
+			$deps[] = 'wp-color-picker';
+		}
+		wp_enqueue_script( 'spl-admin', SPL_URL . 'assets/admin.js', $deps, SPL_VERSION, true );
 		wp_localize_script( 'spl-admin', 'splAdmin', array(
 			'copied'        => __( 'Copied', SPL_TD ),
 			'confirmBulk'   => __( 'Approve all selected images and email their uploaders?', SPL_TD ),
 			'confirmDelete' => __( 'Delete this image file permanently?', SPL_TD ),
+			'pickImage'     => __( 'Choose a border image', SPL_TD ),
+			'useImage'      => __( 'Use this image', SPL_TD ),
+			'presets'       => $page === 'spl-settings' ? spl_cert_presets() : array(),
+			'confirmPreset' => __( 'Apply this preset? It replaces the colors, fonts and borders below (texts stay as they are).', SPL_TD ),
 		) );
 	}
 } );

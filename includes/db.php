@@ -50,6 +50,7 @@ function spl_install_tables() {
 		gift_message text NULL,
 		uploader_name varchar(190) NOT NULL DEFAULT '',
 		uploader_email varchar(190) NOT NULL DEFAULT '',
+		cert_name varchar(190) NOT NULL DEFAULT '',
 		attachment_id bigint(20) unsigned NOT NULL DEFAULT 0,
 		rejections int(11) NOT NULL DEFAULT 0,
 		max_rejections int(11) NOT NULL DEFAULT 2,

@@ -24,6 +24,15 @@
 		var progress = form.querySelector('[data-spl-progress]');
 		var submit = form.querySelector('[data-spl-submit]');
 
+		// The certificate name follows the name field until the person types their own.
+		var nameInput = form.querySelector('[name="name"]');
+		var certInput = form.querySelector('[name="cert_name"]');
+		if (nameInput && certInput) {
+			var linked = certInput.value === '' || certInput.value === nameInput.value;
+			nameInput.addEventListener('input', function () { if (linked) { certInput.value = nameInput.value; } });
+			certInput.addEventListener('input', function () { linked = certInput.value === ''; });
+		}
+
 		var file = null, img = null, objectUrl = null;
 		var nw = 0, nh = 0;      // natural (orientation-corrected) size
 		var baseW = 0;           // crop width at zoom 1 (largest frame that fits)
@@ -67,10 +76,25 @@
 			ctx.drawImage(img, r.x, r.y, r.w, r.h, 0, 0, W, H);
 
 			var ow = Math.round(r.w), oh = Math.round(ow / ratio);
-			var q = ow / cfg.minW;
-			var ql = q >= 1.5 ? t.qGood : (q >= 1.1 ? t.qOk : t.qMin);
-			output.textContent = t.output.replace('{w}', ow).replace('{h}', oh) + ' · ' + t.quality.replace('{q}', ql);
+			showQuality(ow, oh);
 			slider.value = zoom;
+		}
+
+		// Orange right at the minimum size, turning green as the crop gets bigger (green from 1.4× the minimum).
+		function showQuality(ow, oh) {
+			var q = ow / cfg.minW;
+			var f = Math.min(1, Math.max(0, (q - 1.02) / (1.4 - 1.02)));
+			var color = 'hsl(' + Math.round(28 + f * (135 - 28)) + ', 80%, ' + Math.round(40 - f * 9) + '%)';
+			var label = q >= 1.4 ? t.qGood : (q >= 1.15 ? t.qOk : t.qMin);
+			output.textContent = '';
+			output.appendChild(document.createTextNode(t.output.replace('{w}', ow).replace('{h}', oh) + ' · '));
+			var strong = document.createElement('strong');
+			strong.className = 'spl-quality';
+			strong.style.color = color;
+			strong.innerHTML = '<span class="spl-quality-dot" aria-hidden="true"></span>';
+			strong.firstChild.style.background = color;
+			strong.appendChild(document.createTextNode(label));
+			output.appendChild(strong);
 		}
 
 		function setZoom(z, px, py) {
@@ -304,6 +328,7 @@
 			fd.append('token', cfg.token);
 			fd.append('name', form.querySelector('[name="name"]').value);
 			fd.append('email', form.querySelector('[name="email"]').value);
+			fd.append('cert_name', certInput ? certInput.value : '');
 			Array.prototype.forEach.call(form.querySelectorAll('input[type="checkbox"]:checked'), function (c) { fd.append(c.name, '1'); });
 			fd.append('crop_x', Math.round(r.x));
 			fd.append('crop_y', Math.round(r.y));

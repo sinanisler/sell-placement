@@ -119,3 +119,10 @@ details.spl-box[open]>summary h2::before{content:"▾ "}
 .spl-settings .form-table th{width:240px}
 .spl-tokens code{font-size:14px;padding:1px 4px}
 .spl-email-nav{float:none;margin:12px 0 0}
+
+/* Settings: clickable placeholders, border image, certificate preview. */
+.spl-tokens code{cursor:pointer}
+.spl-tokens code:hover{background:#dcdcde}
+.spl-media-preview{display:block;max-width:220px;max-height:220px;border:1px solid #dcdcde;margin-bottom:6px}
+.spl-media-preview[hidden]{display:none}
+.spl-cert-preview{max-width:680px;padding:16px;background:#f6f7f7;border:1px solid #dcdcde}

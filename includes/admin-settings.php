@@ -15,7 +15,7 @@ function spl_settings_tabs() {
 		$tab = isset( $section['group'] ) ? $section['group'] : $key;
 		if ( ! isset( $tabs[ $tab ] ) ) {
 			$tabs[ $tab ] = array(
-				'title'    => $tab === 'emails' ? __( 'Emails', SPL_TD ) : $section['title'],
+				'title'    => $tab === 'emails' ? __( 'Emails', SPL_TD ) : ( isset( $section['group_title'] ) ? $section['group_title'] : $section['title'] ),
 				'sections' => array(),
 			);
 		}
@@ -94,8 +94,18 @@ function spl_render_settings_page() {
 				<?php if ( $tab === 'emails' ) : ?>
 					<a class="button" href="<?php echo esc_url( wp_nonce_url( add_query_arg( array( 'action' => 'spl_test_email', 'type' => substr( $sub, 6 ), 'back' => rawurlencode( spl_current_admin_url() ) ), admin_url( 'admin-post.php' ) ), 'spl_test_email' ) ); ?>"><?php /* translators: %s: email */ echo esc_html( sprintf( __( 'Send a test to %s', SPL_TD ), wp_get_current_user()->user_email ) ); ?></a>
 				<?php endif; ?>
+				<?php if ( $tab === 'certificate' ) : ?>
+					<a class="button" target="_blank" rel="noopener" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'action', 'spl_cert_preview', admin_url( 'admin-post.php' ) ), 'spl_cert_preview' ) ); ?>"><?php esc_html_e( 'Preview PDF', SPL_TD ); ?></a>
+					<a class="button" href="<?php echo esc_url( wp_nonce_url( add_query_arg( array( 'action' => 'spl_test_email', 'type' => 'approved', 'back' => rawurlencode( spl_current_admin_url() ) ), admin_url( 'admin-post.php' ) ), 'spl_test_email' ) ); ?>"><?php /* translators: %s: email */ echo esc_html( sprintf( __( 'Send the approved email to %s', SPL_TD ), wp_get_current_user()->user_email ) ); ?></a>
+				<?php endif; ?>
 			</p>
 		</form>
+
+		<?php if ( $tab === 'certificate' ) : ?>
+			<h2><?php esc_html_e( 'Email preview', SPL_TD ); ?></h2>
+			<p class="description"><?php esc_html_e( 'The certificate as it appears in the approved email, with the saved settings. It uses your newest approved placement, or example values.', SPL_TD ); ?></p>
+			<div class="spl-cert-preview"><?php echo spl_cert_email_html( spl_cert_sample_placement() ); // phpcs:ignore -- built from escaped parts ?></div>
+		<?php endif; ?>
 	</div>
 	<?php
 }
@@ -130,6 +140,32 @@ function spl_render_setting_field( $key, $field ) {
 				'media_buttons' => false,
 				'teeny'         => true,
 			) );
+			break;
+
+		case 'select':
+		case 'preset':
+			echo '<select id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '"' . ( $field['type'] === 'preset' ? ' data-spl-preset-select' : '' ) . '>';
+			foreach ( $field['choices'] as $ck => $cl ) {
+				echo '<option value="' . esc_attr( $ck ) . '" ' . selected( (string) $value, (string) $ck, false ) . '>' . esc_html( $cl ) . '</option>';
+			}
+			echo '</select>';
+			if ( $field['type'] === 'preset' ) {
+				echo ' <button type="button" class="button" data-spl-apply-preset>' . esc_html__( 'Apply', SPL_TD ) . '</button>';
+			}
+			break;
+
+		case 'color':
+			echo '<input type="text" id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '" value="' . esc_attr( (string) $value ) . '" class="spl-color" data-default-color="' . esc_attr( $field['default'] ) . '" />';
+			break;
+
+		case 'media':
+			$url = $value ? wp_get_attachment_image_url( (int) $value, 'medium' ) : '';
+			echo '<div class="spl-media" data-spl-media>';
+			echo '<input type="hidden" id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '" value="' . (int) $value . '" />';
+			echo '<img src="' . esc_url( (string) $url ) . '" alt="" class="spl-media-preview"' . ( $url ? '' : ' hidden' ) . ' />';
+			echo '<p><button type="button" class="button" data-spl-media-pick>' . esc_html__( 'Upload or choose image', SPL_TD ) . '</button> ';
+			echo '<button type="button" class="button-link spl-media-remove" data-spl-media-remove' . ( $url ? '' : ' hidden' ) . '>' . esc_html__( 'Remove', SPL_TD ) . '</button></p>';
+			echo '</div>';
 			break;
 
 		case 'number':
@@ -195,6 +231,17 @@ add_action( 'admin_post_spl_save_settings', function () {
 					}
 					$stored[ $key ] = $num;
 					break;
+				case 'select':
+				case 'preset':
+					$stored[ $key ] = isset( $field['choices'][ (string) $raw ] ) ? (string) $raw : $field['default'];
+					break;
+				case 'color':
+					$color          = sanitize_hex_color( (string) $raw );
+					$stored[ $key ] = $color ? $color : $field['default'];
+					break;
+				case 'media':
+					$stored[ $key ] = absint( $raw );
+					break;
 				case 'editor':
 					$stored[ $key ] = wp_kses_post( (string) $raw );
 					break;
@@ -248,6 +295,9 @@ add_action( 'admin_post_spl_test_email', function () {
 		'{image}'        => '',
 		'{review_link}'  => admin_url( 'admin.php?page=spl-approvals' ),
 	);
+	if ( empty( $tokens['{certificate}'] ) ) {
+		$tokens['{certificate}'] = spl_cert_email_html( spl_cert_sample_placement() );
+	}
 	$ok = spl_send_email( $type, $to, $tokens, array(), array(), true );
 	/* translators: %s: email */
 	spl_redirect_with_notice( $back, $ok ? sprintf( __( 'Test sent to %s.', SPL_TD ), $to ) : __( 'The email could not be sent.', SPL_TD ), $ok ? 'success' : 'error' );

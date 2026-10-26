@@ -193,11 +193,11 @@ function spl_settings_schema() {
 				'mode_gift_hint' => array(
 					'type'    => 'text',
 					'label'   => __( '"Gift" hint', SPL_TD ),
-					'default' => __( 'We email the recipient a private upload link and a printable PDF after payment.', SPL_TD ),
+					'default' => __( 'After payment you get a printable gift PDF per placement, and you can email each upload link to its recipient from your account.', SPL_TD ),
 				),
 				'gift_name_label' => array(
 					'type'    => 'text',
-					'label'   => __( 'Recipient name label', SPL_TD ),
+					'label'   => __( 'Recipient name label ("Send Email" form)', SPL_TD ),
 					'default' => __( "Recipient's name", SPL_TD ),
 				),
 				'gift_email_label' => array(
@@ -249,6 +249,26 @@ function spl_settings_schema() {
 					'label'   => __( 'Intro line for gift recipients', SPL_TD ),
 					'default' => __( '{buyer_name} has given you this placement.', SPL_TD ),
 					'tokens'  => array( '{buyer_name}' ),
+				),
+				'upload_name_label' => array(
+					'type'    => 'text',
+					'label'   => __( 'Name field label', SPL_TD ),
+					'default' => __( 'First and last name', SPL_TD ),
+				),
+				'upload_email_label' => array(
+					'type'    => 'text',
+					'label'   => __( 'Email field label', SPL_TD ),
+					'default' => __( 'Email', SPL_TD ),
+				),
+				'cert_name_label' => array(
+					'type'    => 'text',
+					'label'   => __( 'Certificate name field label', SPL_TD ),
+					'default' => __( 'Name or names on the certificate', SPL_TD ),
+				),
+				'cert_name_hint' => array(
+					'type'    => 'text',
+					'label'   => __( 'Certificate name field hint', SPL_TD ),
+					'default' => __( 'Printed on the certificate we send you once your image is approved, e.g. "Anna & Tom Miller".', SPL_TD ),
 				),
 				'consent_label' => array(
 					'type'    => 'textarea',
@@ -305,7 +325,7 @@ function spl_settings_schema() {
 				'too_small' => array(
 					'type'    => 'text',
 					'label'   => __( 'Image too small', SPL_TD ),
-					'default' => __( 'This image is {width} × {height} px. It needs at least {min_width} × {min_height} px.', SPL_TD ),
+					'default' => __( 'This image is too small ({width} × {height} px). The minimum size is {min_width} × {min_height} px. Please choose a larger image.', SPL_TD ),
 					'tokens'  => array( '{width}', '{height}', '{min_width}', '{min_height}' ),
 				),
 			),
@@ -313,7 +333,7 @@ function spl_settings_schema() {
 
 		'pdf' => array(
 			'title'  => __( 'PDF', SPL_TD ),
-			'intro'  => __( 'Two printable PDFs: the placement card (sent with every upload link, also handy as a gift) and the certificate (sent after approval). Plain text; placeholders are filled in.', SPL_TD ),
+			'intro'  => __( 'The printable placement card, sent with upload links and handy as a gift. Plain text; placeholders are filled in. The certificate has its own tab.', SPL_TD ),
 			'fields' => array(
 				'pdf_card_title' => array(
 					'type'    => 'text',
@@ -326,22 +346,136 @@ function spl_settings_schema() {
 					'default' => __( "This card entitles you to one image placement for \"{product}\".\n\nOpen the link below, upload your image and crop it to the frame. No account is needed.", SPL_TD ),
 					'tokens'  => array( '{product}', '{code}', '{recipient_name}', '{buyer_name}', '{event_end}' ),
 				),
+				'pdf_footer' => array(
+					'type'    => 'text',
+					'label'   => __( 'Footer (card and certificate)', SPL_TD ),
+					'default' => '{site_name} · {site_url}',
+					'tokens'  => array( '{site_name}', '{site_url}' ),
+				),
+			),
+		),
+
+		'certificate' => array(
+			'title'       => __( 'Certificate design', SPL_TD ),
+			'group'       => 'certificate',
+			'group_title' => __( 'Certificate', SPL_TD ),
+			'intro'       => __( 'Sent automatically when an image is approved: as a PDF attachment, and as a designed certificate inside the approved email. Start from a preset, then change anything. Save, then use the preview buttons at the bottom.', SPL_TD ),
+			'fields'      => array(
+				'cert_preset' => array(
+					'type'    => 'preset',
+					'label'   => __( 'Style preset', SPL_TD ),
+					'default' => 'classic',
+					'choices' => wp_list_pluck( spl_cert_presets(), 'label' ),
+					'desc'    => __( '"Apply" fills in the colors, font, borders and seal below. Your texts are kept.', SPL_TD ),
+				),
+				'cert_font' => array(
+					'type'    => 'select',
+					'label'   => __( 'Font', SPL_TD ),
+					'default' => 'serif',
+					'choices' => array(
+						'serif' => __( 'Serif (Times / Georgia)', SPL_TD ),
+						'sans'  => __( 'Sans serif (Helvetica / Arial)', SPL_TD ),
+					),
+				),
+				'cert_bg_color' => array(
+					'type'    => 'color',
+					'label'   => __( 'Background', SPL_TD ),
+					'default' => '#fffdf6',
+				),
+				'cert_accent_color' => array(
+					'type'    => 'color',
+					'label'   => __( 'Accent (title, borders, seal)', SPL_TD ),
+					'default' => '#9a7a26',
+				),
+				'cert_text_color' => array(
+					'type'    => 'color',
+					'label'   => __( 'Text', SPL_TD ),
+					'default' => '#1f1a12',
+				),
+				'cert_muted_color' => array(
+					'type'    => 'color',
+					'label'   => __( 'Secondary text', SPL_TD ),
+					'default' => '#7a6f5c',
+				),
+				'cert_pdf_border' => array(
+					'type'    => 'select',
+					'label'   => __( 'PDF border', SPL_TD ),
+					'default' => 'classic',
+					'choices' => spl_cert_pdf_borders(),
+				),
+				'cert_email_border' => array(
+					'type'    => 'select',
+					'label'   => __( 'Email border', SPL_TD ),
+					'default' => 'classic',
+					'choices' => spl_cert_email_borders(),
+				),
+				'cert_border_image' => array(
+					'type'    => 'media',
+					'label'   => __( 'Border image', SPL_TD ),
+					'default' => 0,
+					'desc'    => __( 'Used when a border is set to "Your own border image". It is stretched over the whole page (PDF) or behind the certificate (email), so design it as a frame with a plain middle. Best as a JPG in A4 portrait, e.g. 2480 × 3508 px. Transparent PNGs lose their transparency in the PDF.', SPL_TD ),
+				),
+				'cert_show_image' => array(
+					'type'    => 'checkbox',
+					'label'   => __( 'Approved image', SPL_TD ),
+					'default' => 1,
+					'desc'    => __( 'Show the approved image on the certificate', SPL_TD ),
+				),
+				'cert_show_seal' => array(
+					'type'    => 'checkbox',
+					'label'   => __( 'Seal', SPL_TD ),
+					'default' => 1,
+					'desc'    => __( 'Show a round seal with the placement ID', SPL_TD ),
+				),
+			),
+		),
+
+		'certificate_text' => array(
+			'title'  => __( 'Certificate texts', SPL_TD ),
+			'group'  => 'certificate',
+			'intro'  => __( 'Click a placeholder to insert it where the cursor is. {certificate_name} is what the uploader typed in "Name or names on the certificate".', SPL_TD ),
+			'fields' => array(
 				'pdf_cert_title' => array(
 					'type'    => 'text',
-					'label'   => __( 'Certificate title', SPL_TD ),
+					'label'   => __( 'Title', SPL_TD ),
 					'default' => __( 'Certificate of Participation', SPL_TD ),
+					'tokens'  => spl_cert_token_list(),
+				),
+				'cert_presented' => array(
+					'type'    => 'text',
+					'label'   => __( 'Line above the name', SPL_TD ),
+					'default' => __( 'This certificate is proudly presented to', SPL_TD ),
+					'tokens'  => spl_cert_token_list(),
 				),
 				'pdf_cert_text' => array(
 					'type'    => 'textarea',
-					'label'   => __( 'Certificate text', SPL_TD ),
-					'default' => __( "This certifies that {name} takes part in \"{product}\" with the image below.", SPL_TD ),
-					'tokens'  => array( '{name}', '{product}', '{code}', '{date}' ),
+					'rows'    => 4,
+					'label'   => __( 'Text below the name', SPL_TD ),
+					'default' => __( 'for taking part in "{product}" with the image below. Placement {code}, approved on {date}.', SPL_TD ),
+					'tokens'  => spl_cert_token_list(),
 				),
-				'pdf_footer' => array(
+				'cert_signature' => array(
 					'type'    => 'text',
-					'label'   => __( 'Footer', SPL_TD ),
-					'default' => '{site_name} · {site_url}',
-					'tokens'  => array( '{site_name}', '{site_url}' ),
+					'label'   => __( 'Signature', SPL_TD ),
+					'default' => '{site_name}',
+					'tokens'  => spl_cert_token_list(),
+				),
+				'cert_signature_label' => array(
+					'type'    => 'text',
+					'label'   => __( 'Label under the signature', SPL_TD ),
+					'default' => __( 'Organizer', SPL_TD ),
+				),
+				'cert_seal_text' => array(
+					'type'    => 'text',
+					'label'   => __( 'Seal text', SPL_TD ),
+					'default' => __( 'CERTIFIED', SPL_TD ),
+					'desc'    => __( 'Keep it short, about 10 characters.', SPL_TD ),
+				),
+				'cert_email_auto' => array(
+					'type'    => 'checkbox',
+					'label'   => __( 'Approved email', SPL_TD ),
+					'default' => 1,
+					'desc'    => __( 'Add the designed certificate at the end of the approved email when its message does not contain {certificate}', SPL_TD ),
 				),
 			),
 		),

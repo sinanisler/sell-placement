@@ -1,7 +1,7 @@
 <?php
 /**
  * The private upload page behind every placement link: ?spl_upload=TOKEN. No login needed; the
- * token is the authentication. The person enters name + email, picks an image, zooms and moves it
+ * token is the authentication. The person enters name, email and the name(s) for the certificate, picks an image, zooms and moves it
  * inside the aspect-ratio frame and sends the original plus the crop rectangle. The server crops.
  */
 
@@ -160,6 +160,7 @@ function spl_render_upload_page_body( $p ) {
 	// Prefill with what we know about the person most likely holding this link.
 	$name  = $p->uploader_name ? $p->uploader_name : ( $p->is_gift ? $p->recipient_name : $p->buyer_name );
 	$email = $p->uploader_email ? $p->uploader_email : ( $p->is_gift ? $p->recipient_email : $p->buyer_email );
+	$cert  = $p->cert_name !== '' ? $p->cert_name : $name;
 
 	$heic_exts = array_intersect( array( 'jpg', 'jpeg' ), spl_allowed_types() ) ? array( 'heic', 'heif' ) : array();
 	// HEIC/HEIF photos (iPhone) are converted to JPEG in the browser first, so they are accepted whenever JPEG is.
@@ -181,10 +182,9 @@ function spl_render_upload_page_body( $p ) {
 			'badType'    => sprintf( __( 'This file type is not allowed. Please use %s.', SPL_TD ), spl_formats_sentence() ),
 			'unreadable' => __( 'This image could not be read. Please try another file.', SPL_TD ),
 			'output'     => __( 'Size: {w} × {h} px', SPL_TD ),
-			'quality'    => __( 'Quality: {q}', SPL_TD ),
-			'qGood'      => __( 'excellent', SPL_TD ),
-			'qOk'        => __( 'good', SPL_TD ),
-			'qMin'       => __( 'minimum', SPL_TD ),
+			'qGood'      => __( 'Great resolution', SPL_TD ),
+			'qOk'        => __( 'Good resolution', SPL_TD ),
+			'qMin'       => __( 'Minimum resolution – zoom out for a sharper result', SPL_TD ),
 			'uploading'  => __( 'Uploading… {p}%', SPL_TD ),
 			'processing' => __( 'Processing…', SPL_TD ),
 			'failed'     => __( 'Something went wrong. Please try again.', SPL_TD ),
@@ -197,11 +197,14 @@ function spl_render_upload_page_body( $p ) {
 	?>
 	<form class="spl-upload-form" novalidate data-spl-config="<?php echo esc_attr( wp_json_encode( $config ) ); ?>">
 		<div class="spl-row">
-			<p class="spl-field"><label for="spl_name"><?php esc_html_e( 'Your name', SPL_TD ); ?> <abbr class="required">*</abbr></label>
+			<p class="spl-field"><label for="spl_name"><?php echo esc_html( spl_text( 'upload_name_label' ) ); ?> <abbr class="required">*</abbr></label>
 				<input type="text" id="spl_name" name="name" value="<?php echo esc_attr( $name ); ?>" required autocomplete="name" /></p>
-			<p class="spl-field"><label for="spl_email"><?php esc_html_e( 'Your email', SPL_TD ); ?> <abbr class="required">*</abbr></label>
+			<p class="spl-field"><label for="spl_email"><?php echo esc_html( spl_text( 'upload_email_label' ) ); ?> <abbr class="required">*</abbr></label>
 				<input type="email" id="spl_email" name="email" value="<?php echo esc_attr( $email ); ?>" required autocomplete="email" /></p>
 		</div>
+		<p class="spl-field"><label for="spl_cert_name"><?php echo esc_html( spl_text( 'cert_name_label' ) ); ?> <abbr class="required">*</abbr></label>
+			<input type="text" id="spl_cert_name" name="cert_name" value="<?php echo esc_attr( $cert ); ?>" required maxlength="120" autocomplete="off" aria-describedby="spl_cert_name_hint" />
+			<small id="spl_cert_name_hint" class="spl-hint"><?php echo esc_html( spl_text( 'cert_name_hint' ) ); ?></small></p>
 
 		<div class="spl-picker" data-spl-picker>
 			<input type="file" id="spl_file" accept="<?php echo esc_attr( $accept ); ?>" class="spl-visually-hidden" />
@@ -276,8 +279,12 @@ function spl_ajax_upload() {
 
 	$name  = isset( $_POST['name'] ) ? trim( sanitize_text_field( wp_unslash( $_POST['name'] ) ) ) : '';
 	$email = isset( $_POST['email'] ) ? sanitize_email( wp_unslash( $_POST['email'] ) ) : '';
+	$cert_name = isset( $_POST['cert_name'] ) ? mb_substr( trim( sanitize_text_field( wp_unslash( $_POST['cert_name'] ) ) ), 0, 120 ) : '';
 	if ( $name === '' || ! is_email( $email ) ) {
 		wp_send_json_error( array( 'message' => __( 'Please enter your name and a valid email address.', SPL_TD ) ) );
+	}
+	if ( $cert_name === '' ) {
+		wp_send_json_error( array( 'message' => __( 'Please enter the name or names for the certificate.', SPL_TD ) ) );
 	}
 	$rules = spl_product_rules( $p->product_id );
 	if ( ( trim( (string) spl_opt( 'consent_label' ) ) !== '' && empty( $_POST['consent'] ) ) || ( $rules['consent_extra'] !== '' && empty( $_POST['consent_extra'] ) ) ) {
@@ -308,6 +315,7 @@ function spl_ajax_upload() {
 		'attachment_id'  => $attachment_id,
 		'uploader_name'  => $name,
 		'uploader_email' => $email,
+		'cert_name'      => $cert_name,
 		'uploaded_at'    => spl_now(),
 		'consent'        => 1,
 	) );

@@ -108,7 +108,9 @@ function spl_render_placements_list( $placements, $order_key = '' ) {
 					<?php
 					if ( $p->is_gift && $p->recipient_email ) {
 						/* translators: 1: name, 2: email */
-						echo esc_html( sprintf( __( 'For %1$s (%2$s)', SPL_TD ), $p->recipient_name, $p->recipient_email ) );
+						echo esc_html( sprintf( __( 'Gift for %1$s (%2$s)', SPL_TD ), $p->recipient_name, $p->recipient_email ) );
+					} elseif ( $p->is_gift ) {
+						esc_html_e( 'Gift, not passed on yet', SPL_TD );
 					} else {
 						esc_html_e( 'For you', SPL_TD );
 					}
@@ -127,7 +129,9 @@ function spl_render_placements_list( $placements, $order_key = '' ) {
 					<?php endif; ?>
 					<?php if ( $is_buyer && $p->status !== 'cancelled' ) : ?>
 						<button type="button" class="spl-btn spl-btn-small" data-spl-copy="<?php echo esc_attr( $link ); ?>"><?php esc_html_e( 'Copy link', SPL_TD ); ?></button>
-						<a class="spl-btn spl-btn-small" href="<?php echo esc_url( spl_pdf_url( $p, 'card' ) ); ?>"><?php esc_html_e( 'PDF', SPL_TD ); ?></a>
+						<?php if ( $p->is_gift ) : // the printable card only makes sense for a gift ?>
+							<a class="spl-btn spl-btn-small" href="<?php echo esc_url( spl_pdf_url( $p, 'card' ) ); ?>"><?php esc_html_e( 'PDF', SPL_TD ); ?></a>
+						<?php endif; ?>
 					<?php endif; ?>
 					<?php if ( $is_buyer && $p->status === 'approved' ) : ?>
 						<a class="spl-btn spl-btn-small" href="<?php echo esc_url( spl_pdf_url( $p, 'certificate' ) ); ?>"><?php esc_html_e( 'Certificate', SPL_TD ); ?></a>
@@ -135,12 +139,12 @@ function spl_render_placements_list( $placements, $order_key = '' ) {
 				</div>
 				<?php if ( $is_buyer && $p->is_gift && $p->status === 'awaiting' && ! $closed ) : ?>
 					<details class="spl-send">
-						<summary class="spl-btn spl-btn-small"><?php esc_html_e( 'Send to someone else', SPL_TD ); ?></summary>
+						<summary class="spl-btn spl-btn-small"><?php esc_html_e( 'Send Email', SPL_TD ); ?></summary>
 						<form data-spl-send="<?php echo (int) $p->id; ?>">
 							<input type="text" name="name" placeholder="<?php echo esc_attr( spl_text( 'gift_name_label' ) ); ?>" required />
 							<input type="email" name="email" placeholder="<?php echo esc_attr( spl_text( 'gift_email_label' ) ); ?>" required />
 							<textarea name="message" rows="2" maxlength="500" placeholder="<?php echo esc_attr( spl_text( 'gift_message_label' ) ); ?>"></textarea>
-							<button type="submit" class="spl-btn spl-btn-primary spl-btn-small"><?php esc_html_e( 'Send email with link and PDF', SPL_TD ); ?></button>
+							<button type="submit" class="spl-btn spl-btn-primary spl-btn-small"><?php esc_html_e( 'Send', SPL_TD ); ?></button>
 							<span class="spl-send-result" role="status"></span>
 						</form>
 					</details>

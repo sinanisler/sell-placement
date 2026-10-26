@@ -16,12 +16,13 @@
  * 2. On the product page the buyer chooses "For me" or "As a gift" (gift only when enabled). Price,
  *    cart, checkout, payment and stock are plain WooCommerce.
  * 3. Once the order is paid, every unit becomes a placement (table {prefix}spl_placements) with a public
- *    ID (e.g. SP3K7Q9) and a secret upload token. The buyer gets an email with all links and a
- *    printable PDF per placement; gift recipients get their own email and PDF.
+ *    ID (e.g. SP3K7Q9) and a secret upload token. The buyer gets an email with all links, plus a
+ *    printable PDF per gift placement. Gifts have no recipient at checkout; the buyer passes them on.
  * 4. In My Account > Placements (and on the order pages) the buyer can upload, copy a link to share,
- *    send any not-yet-used placement to someone else by email, and download PDFs.
- * 5. The upload page needs no login. The person enters name + email, picks an image, zooms / moves it
- *    inside the aspect-ratio frame and sends it. The crop is done on the server from the original, and
+ *    and for gifts download the PDF and "Send Email" the link to the recipient.
+ * 5. The upload page needs no login. The person enters name, email and the name(s) for the certificate,
+ *    picks an image, zooms / moves it inside the aspect-ratio frame and sends it. The crop is done on
+ *    the server from the original, and
  *    is never allowed to drop below the product's minimum resolution.
  * 6. wp-admin > Placements > Approvals lists every placement. Approve, decline with a reason (preset
  *    or free text), or suspend. Each decline counts; when the product's limit is reached the placement
@@ -35,7 +36,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 define( 'SPL_VERSION', '1.0.0' );
-define( 'SPL_DB_VERSION', '2' );
+define( 'SPL_DB_VERSION', '3' );
 define( 'SPL_FILE', __FILE__ );
 define( 'SPL_DIR', plugin_dir_path( __FILE__ ) );
 define( 'SPL_URL', plugin_dir_url( __FILE__ ) );
@@ -56,6 +57,7 @@ require_once SPL_DIR . 'includes/images.php';
 require_once SPL_DIR . 'includes/upload-page.php';
 require_once SPL_DIR . 'includes/emails.php';
 require_once SPL_DIR . 'includes/pdf.php';
+require_once SPL_DIR . 'includes/certificate.php';
 require_once SPL_DIR . 'includes/account.php';
 
 if ( is_admin() ) {

@@ -12,19 +12,16 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Decisions.
  * ---------------------------------------------------------------------- */
 
-function spl_approve( $p, $note = '', $send = true ) {
+/** Approving always emails the uploader the approved email with the certificate. */
+function spl_approve( $p ) {
 	spl_update_placement( $p->id, array(
 		'status'      => 'approved',
 		'reviewed_at' => spl_now(),
 		'reviewed_by' => get_current_user_id(),
 		'last_reason' => '',
 	) );
-	spl_log( $p->id, 'approved', $note, $p->attachment_id );
-	if ( $send ) {
-		spl_send_placement_email( spl_get_placement( $p->id ), 'approved', array(), false, array(
-			'{note}' => $note !== '' ? wpautop( esc_html( $note ) ) : '',
-		) );
-	}
+	spl_log( $p->id, 'approved', '', $p->attachment_id );
+	spl_send_placement_email( spl_get_placement( $p->id ), 'approved' );
 }
 
 /** @return string resulting status: declined or suspended */
@@ -115,7 +112,7 @@ add_action( 'admin_post_spl_action', function () {
 			if ( ! $p->attachment_id ) {
 				spl_redirect_with_notice( $back, __( 'There is no image to approve yet.', SPL_TD ), 'error' );
 			}
-			spl_approve( $p, isset( $_POST['note'] ) ? trim( sanitize_textarea_field( wp_unslash( $_POST['note'] ) ) ) : '', $send );
+			spl_approve( $p );
 			/* translators: %s: code */
 			spl_redirect_with_notice( $back, sprintf( __( '%s approved.', SPL_TD ), $p->code ) );
 			break;
@@ -190,7 +187,7 @@ add_action( 'admin_post_spl_action', function () {
 
 		case 'edit':
 			$data = array();
-			foreach ( array( 'recipient_name', 'uploader_name', 'buyer_name' ) as $k ) {
+			foreach ( array( 'recipient_name', 'uploader_name', 'buyer_name', 'cert_name' ) as $k ) {
 				if ( isset( $_POST[ $k ] ) ) {
 					$data[ $k ] = sanitize_text_field( wp_unslash( $_POST[ $k ] ) );
 				}
@@ -698,9 +695,6 @@ function spl_render_detail( $p ) {
 					<?php if ( $p->status === 'review' ) : ?>
 						<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="spl-decision spl-decision-approve">
 							<?php spl_action_fields( 'approve', $p, $after_decision ); ?>
-							<details><summary><?php esc_html_e( 'Add a note to the email', SPL_TD ); ?></summary>
-								<textarea name="note" rows="3"></textarea></details>
-							<label class="spl-send-toggle"><input type="checkbox" name="send" value="1" checked /> <?php esc_html_e( 'Email the uploader', SPL_TD ); ?></label>
 							<button class="button button-primary button-hero spl-approve-btn"><span class="dashicons dashicons-yes"></span> <?php esc_html_e( 'Approve', SPL_TD ); ?></button>
 						</form>
 					<?php endif; ?>
@@ -738,6 +732,7 @@ function spl_render_detail( $p ) {
 						<tr><th><?php esc_html_e( 'Gifted to', SPL_TD ); ?></th><td><?php echo $p->is_gift ? spl_person_html( $p->recipient_name, $p->recipient_email ) : '–'; // phpcs:ignore ?>
 							<?php if ( $p->gift_message ) : ?><blockquote class="spl-quote"><?php echo nl2br( esc_html( $p->gift_message ) ); ?></blockquote><?php endif; ?></td></tr>
 						<tr><th><?php esc_html_e( 'Uploaded by', SPL_TD ); ?></th><td><?php echo spl_person_html( $p->uploader_name, $p->uploader_email ); // phpcs:ignore ?></td></tr>
+						<tr><th><?php esc_html_e( 'On the certificate', SPL_TD ); ?></th><td><?php echo $p->cert_name !== '' ? esc_html( $p->cert_name ) : '–'; ?></td></tr>
 						<tr><th><?php esc_html_e( 'Consent', SPL_TD ); ?></th><td><?php echo $p->consent ? esc_html__( 'Given at upload', SPL_TD ) : '–'; ?></td></tr>
 						<tr><th><?php esc_html_e( 'Created', SPL_TD ); ?></th><td><?php echo spl_admin_date( $p->created_at ); // phpcs:ignore ?></td></tr>
 						<tr><th><?php esc_html_e( 'Uploaded', SPL_TD ); ?></th><td><?php echo spl_admin_date( $p->uploaded_at ); // phpcs:ignore ?></td></tr>
@@ -803,6 +798,7 @@ function spl_render_detail( $p ) {
 							'recipient_email' => __( 'Recipient email (empty = not a gift)', SPL_TD ),
 							'uploader_name'   => __( 'Uploader name', SPL_TD ),
 							'uploader_email'  => __( 'Uploader email', SPL_TD ),
+							'cert_name'       => __( 'Name(s) on the certificate', SPL_TD ),
 						);
 						foreach ( $fields as $k => $label ) :
 							?>

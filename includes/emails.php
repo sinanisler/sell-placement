@@ -13,7 +13,7 @@ function spl_email_types() {
 	return array(
 		'buyer'     => array(
 			'title'   => __( 'Email: buyer, after payment', SPL_TD ),
-			'desc'    => __( 'One email per paid order listing every placement with its upload link. Placement cards are attached as PDFs.', SPL_TD ),
+			'desc'    => __( 'One email per paid order listing every placement with its upload link. Gift placements get their card attached as a PDF.', SPL_TD ),
 			'to'      => 'buyer',
 			'subject' => __( 'Your placements for order #{order_number}', SPL_TD ),
 			'heading' => __( 'Thank you for your order', SPL_TD ),
@@ -62,8 +62,8 @@ function spl_email_types() {
 			'to'      => 'uploader',
 			'subject' => __( 'Your image has been approved', SPL_TD ),
 			'heading' => __( 'You are in!', SPL_TD ),
-			'body'    => __( "<p>Hi {name},</p>\n<p>great news: your image for <strong>{product}</strong> has been approved. Your certificate is attached.</p>\n{note}\n<p>Your placement ID: <strong>{code}</strong></p>", SPL_TD ),
-			'tokens'  => array_merge( $common, array( '{note}' ) ),
+			'body'    => __( "<p>Hi {name},</p>\n<p>great news: your image for <strong>{product}</strong> has been approved. Here is your certificate. The PDF version is attached, ready to print.</p>\n{certificate}\n<p>Your placement ID: <strong>{code}</strong></p>", SPL_TD ),
+			'tokens'  => array_merge( $common, array( '{certificate}', '{certificate_name}' ) ),
 		),
 		'declined'  => array(
 			'title'   => __( 'Email: declined', SPL_TD ),
@@ -111,7 +111,9 @@ function spl_placement_tokens( $p, $extra = array() ) {
 		'{attempts_left}'  => max( 0, $p->max_rejections - $p->rejections ),
 		'{order_number}'   => $order ? $order->get_order_number() : $p->order_id,
 		'{event_end}'      => spl_format_datetime( $rules['event_end'] ),
-		'{note}'           => '',
+		'{certificate_name}' => spl_cert_name( $p ),
+		'{certificate}'    => $p->status === 'approved' ? spl_cert_email_html( $p ) : '',
+		'{note}'           => '', // no longer offered; keeps older saved templates clean
 	), $extra );
 }
 
@@ -130,7 +132,11 @@ function spl_send_email( $type, $to, $tokens, $attachments = array(), $override 
 	}
 	$subject = spl_fill( isset( $override['subject'] ) ? $override['subject'] : spl_opt( 'email_' . $type . '_subject' ), $tokens );
 	$heading = spl_fill( isset( $override['heading'] ) ? $override['heading'] : spl_opt( 'email_' . $type . '_heading' ), $tokens );
-	$body    = spl_fill( isset( $override['body'] ) ? $override['body'] : spl_opt( 'email_' . $type . '_body' ), $tokens );
+	$body    = isset( $override['body'] ) ? $override['body'] : spl_opt( 'email_' . $type . '_body' );
+	if ( $type === 'approved' && ! isset( $override['body'] ) && spl_opt( 'cert_email_auto' ) && strpos( $body, '{certificate}' ) === false ) {
+		$body .= "\n{certificate}";
+	}
+	$body = spl_fill( $body, $tokens );
 
 	$mailer = WC()->mailer();
 	$html   = $mailer->wrap_message( wp_strip_all_tags( $heading ), wpautop( $body ) );
@@ -220,12 +226,18 @@ function spl_send_buyer_overview( $order, $placements ) {
 	$rows = '';
 	foreach ( $placements as $p ) {
 		$product = wc_get_product( $p->product_id );
-		$who     = $p->is_gift
+		$sent_to = $p->is_gift && $p->recipient_email;
+		if ( $sent_to ) {
 			/* translators: %s: recipient */
-			? sprintf( __( 'Sent to %s', SPL_TD ), esc_html( $p->recipient_name . ' <' . $p->recipient_email . '>' ) )
-			: spl_email_button( spl_upload_url( $p ), __( 'Upload image', SPL_TD ) );
+			$who = sprintf( __( 'Sent to %s', SPL_TD ), esc_html( $p->recipient_name . ' <' . $p->recipient_email . '>' ) );
+		} elseif ( $p->is_gift ) {
+			// Gift bought without a recipient: the buyer passes it on (attached PDF, copied link or "Send Email" in the account).
+			$who = '<strong>' . esc_html__( 'Gift', SPL_TD ) . '</strong> – ' . esc_html__( 'pass the attached PDF or this link on to the recipient:', SPL_TD );
+		} else {
+			$who = spl_email_button( spl_upload_url( $p ), __( 'Upload image', SPL_TD ) );
+		}
 		$rows .= '<tr><td style="padding:8px;border:1px solid #e5e5e5"><strong>' . esc_html( $p->code ) . '</strong><br><small>' . esc_html( $product ? $product->get_name() : '' ) . '</small></td>'
-			. '<td style="padding:8px;border:1px solid #e5e5e5">' . $who . ( $p->is_gift ? '' : '<br><small style="word-break:break-all">' . esc_html( spl_upload_url( $p ) ) . '</small>' ) . '</td></tr>';
+			. '<td style="padding:8px;border:1px solid #e5e5e5">' . $who . ( $sent_to ? '' : '<br><small style="word-break:break-all">' . esc_html( spl_upload_url( $p ) ) . '</small>' ) . '</td></tr>';
 	}
 	$table = '<table cellspacing="0" cellpadding="0" style="width:100%;border-collapse:collapse;margin:0 0 16px">' . $rows . '</table>';
 
@@ -234,10 +246,10 @@ function spl_send_buyer_overview( $order, $placements ) {
 		$account = '<a href="' . esc_url( wc_get_account_endpoint_url( SPL_ENDPOINT ) ) . '">' . esc_html__( 'Manage your placements in your account', SPL_TD ) . '</a>';
 	}
 
-	// Cards for the placements the buyer keeps; gift recipients get theirs in their own email.
+	// Cards only for gifts the buyer passes on; recipients entered later get theirs in their own email.
 	$attachments = array();
 	foreach ( $placements as $p ) {
-		if ( ! $p->is_gift && count( $attachments ) < 10 ) {
+		if ( $p->is_gift && ! $p->recipient_email && count( $attachments ) < 10 ) {
 			$pdf = spl_pdf_to_file( $p, 'card' );
 			if ( $pdf ) {
 				$attachments[] = $pdf;
@@ -255,7 +267,7 @@ function spl_send_buyer_overview( $order, $placements ) {
 	if ( $sent ) {
 		global $wpdb;
 		foreach ( $placements as $p ) {
-			if ( ! $p->is_gift ) {
+			if ( ! ( $p->is_gift && $p->recipient_email ) ) {
 				spl_log( $p->id, 'link_sent', __( 'Order overview', SPL_TD ) . ' → ' . $order->get_billing_email(), 0, 'system' );
 				$wpdb->query( $wpdb->prepare( 'UPDATE ' . spl_table() . ' SET link_sent_count = link_sent_count + 1, link_sent_at = %s WHERE id = %d', spl_now(), $p->id ) ); // phpcs:ignore
 			}
