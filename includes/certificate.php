@@ -446,7 +446,7 @@ function spl_cert_email_html( $p ) {
 	}
 
 	$cell = 'font-family:' . $font . ';text-align:center;';
-	$html  = '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:600px;margin:24px auto;border-collapse:separate"><tr><td style="' . $outer . '">';
+	$html  = '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:760px;margin:24px auto;border-collapse:separate"><tr><td style="' . $outer . '">';
 	$html .= '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:separate"><tr><td style="' . $inner . '">';
 	$html .= '<table role="presentation" width="100%" cellspacing="0" cellpadding="0">';
 	$html .= '<tr><td style="' . $cell . 'color:' . $muted . ';font-size:14px;letter-spacing:3px;text-transform:uppercase;font-family:Helvetica,Arial,sans-serif">' . esc_html( wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES ) ) . '</td></tr>';

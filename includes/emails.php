@@ -86,6 +86,24 @@ function spl_email_types() {
 	);
 }
 
+/**
+ * Wider, tighter layout for this plugin's emails than WooCommerce's 600px template with its tall top
+ * padding: 70% of the window up to 1200px on desktop, full width on phones. Covers the classic and the
+ * newer WooCommerce email templates.
+ */
+function spl_email_layout_css( $css ) {
+	return $css . '
+		#wrapper { padding-top: 12px !important; padding-bottom: 24px !important; }
+		#template_header_image, #template_header_image p { margin: 0 !important; padding-top: 0 !important; }
+		#template_container, .email-container { width: 70% !important; max-width: 1200px !important; }
+		#template_header, #template_body, #template_footer, #body_content, #inner_wrapper { width: 100% !important; }
+		#header_wrapper { padding-top: 16px !important; padding-bottom: 16px !important; }
+		@media screen and (max-width: 700px) {
+			#template_container, .email-container { width: 100% !important; }
+		}
+	';
+}
+
 function spl_email_button( $url, $label ) {
 	$color = get_option( 'woocommerce_email_base_color', '#7f54b3' );
 	return '<a href="' . esc_url( $url ) . '" style="display:inline-block;padding:12px 22px;background:' . esc_attr( $color ) . ';color:#ffffff;text-decoration:none;border-radius:4px;font-weight:bold">' . esc_html( $label ) . '</a>';
@@ -140,7 +158,9 @@ function spl_send_email( $type, $to, $tokens, $attachments = array(), $override 
 
 	$mailer = WC()->mailer();
 	$html   = $mailer->wrap_message( wp_strip_all_tags( $heading ), wpautop( $body ) );
-	$sent   = $mailer->send( $to, wp_strip_all_tags( $subject ), $html, "Content-Type: text/html\r\n", $attachments );
+	add_filter( 'woocommerce_email_styles', 'spl_email_layout_css', 100 ); // only around our own send
+	$sent = $mailer->send( $to, wp_strip_all_tags( $subject ), $html, "Content-Type: text/html\r\n", $attachments );
+	remove_filter( 'woocommerce_email_styles', 'spl_email_layout_css', 100 );
 
 	foreach ( $attachments as $file ) {
 		if ( strpos( $file, spl_tmp_dir() ) === 0 ) {
