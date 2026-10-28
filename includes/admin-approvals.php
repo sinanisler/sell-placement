@@ -776,7 +776,7 @@ function spl_render_detail( $p ) {
 						wp_editor( '', 'spl_compose_body', array(
 							'textarea_name' => 'body',
 							'textarea_rows' => 10,
-							'media_buttons' => false,
+							'media_buttons' => true,
 							'teeny'         => true,
 							'quicktags'     => true,
 						) );

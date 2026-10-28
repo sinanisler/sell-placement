@@ -57,6 +57,10 @@ add_action( 'admin_enqueue_scripts', function () {
 			wp_enqueue_style( 'wp-color-picker' );
 			$deps[] = 'wp-color-picker';
 		}
+		if ( $page === 'spl-approvals' ) {
+			// The "Write an email" editor has an Add Media button for logos and banners.
+			wp_enqueue_media();
+		}
 		wp_enqueue_script( 'spl-admin', SPL_URL . 'assets/admin.js', $deps, spl_asset_ver( 'assets/admin.js' ), true );
 		wp_localize_script( 'spl-admin', 'splAdmin', array(
 			'copied'        => __( 'Copied', SPL_TD ),

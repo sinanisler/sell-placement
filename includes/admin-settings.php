@@ -148,7 +148,7 @@ function spl_render_setting_field( $key, $field ) {
 			wp_editor( (string) $value, $id, array(
 				'textarea_name' => $name,
 				'textarea_rows' => 12,
-				'media_buttons' => false,
+				'media_buttons' => true,
 				'teeny'         => true,
 			) );
 			break;

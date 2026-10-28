@@ -103,6 +103,7 @@ function spl_email_layout_css( $css ) {
 		#template_container, .email-container { width: 70% !important; max-width: 1200px !important; }
 		#template_header, #template_body, #template_footer, #body_content, #inner_wrapper { width: 100% !important; }
 		#header_wrapper { padding-top: 16px !important; padding-bottom: 16px !important; }
+		#body_content img { max-width: 100% !important; height: auto !important; }
 		@media screen and (max-width: 700px) {
 			#template_container, .email-container { width: 100% !important; }
 		}
