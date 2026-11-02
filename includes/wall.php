@@ -172,7 +172,7 @@ function spl_wall_flag( $value ) {
 }
 
 /* ------------------------------------------------------------------------
- * The shortcode: [spl_wall product="" sort="newest" per_page="24" search="yes" filter="yes"]
+ * The shortcode: [spl_wall product="" sort="newest" per_page="24" search="yes" filter="yes" columns=""]
  * ---------------------------------------------------------------------- */
 
 add_shortcode( 'spl_wall', 'spl_wall_shortcode' );
@@ -186,6 +186,7 @@ function spl_wall_shortcode( $atts ) {
 		'per_page' => spl_opt( 'wall_per_page' ),
 		'search'   => 'yes',
 		'filter'   => 'yes',
+		'columns'  => '',
 	), (array) $atts, 'spl_wall' );
 
 	// product takes an ID or a slug. A product that does not exist shows the whole wall.
@@ -200,10 +201,13 @@ function spl_wall_shortcode( $atts ) {
 	$sorts       = spl_wall_sort_options();
 	$sort        = isset( $sorts[ $atts['sort'] ] ) ? $atts['sort'] : spl_opt( 'wall_default_sort' );
 	$per         = min( 100, max( 1, (int) $atts['per_page'] ) );
+	$cols        = (int) $atts['columns'] > 0 ? min( 12, (int) $atts['columns'] ) : 0;
 	$show_search = spl_wall_flag( $atts['search'] );
 	$show_filter = spl_wall_flag( $atts['filter'] ) && ! $product_id;
 	$res         = spl_wall_query( array( 'sort' => $sort, 'product_id' => $product_id, 'per_page' => $per ) );
 	$uid         = wp_unique_id( 'spl-wall-' );
+	// columns sets the desktop count; tablet and phone use 4 and 2, or fewer when columns is smaller.
+	$grid        = $cols ? sprintf( ' class="spl-wall-grid has-cols" style="--spl-wall-cols:%1$d;--spl-wall-tablet:%2$d;--spl-wall-phone:%3$d"', $cols, min( $cols, 4 ), min( $cols, 2 ) ) : ' class="spl-wall-grid"';
 
 	$config = array(
 		'ajax'    => admin_url( 'admin-ajax.php' ),
@@ -246,7 +250,7 @@ function spl_wall_shortcode( $atts ) {
 			</div>
 		</form>
 		<p class="spl-wall-status" role="status" aria-live="polite" data-spl-wall-status></p>
-		<ul class="spl-wall-grid" data-spl-wall-grid><?php echo spl_wall_items_html( $res['items'] ); // phpcs:ignore -- built from escaped parts ?></ul>
+		<ul<?php echo $grid; // phpcs:ignore -- built from integers ?> data-spl-wall-grid><?php echo spl_wall_items_html( $res['items'] ); // phpcs:ignore -- built from escaped parts ?></ul>
 		<p class="spl-wall-more"><button type="button" class="spl-btn" data-spl-wall-more<?php echo $res['has_more'] ? '' : ' hidden'; ?>><?php esc_html_e( 'Load more', SPL_TD ); ?></button></p>
 	</div>
 	<?php

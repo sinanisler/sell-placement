@@ -118,6 +118,11 @@
 .spl-wall-item.is-found{outline-color:currentColor}
 .spl-wall-none{grid-column:1/-1;margin:1em 0;opacity:.75}
 .spl-wall-more{margin:1.2em 0 0;text-align:center}
+@media (max-width:991px){.spl-wall-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (max-width:575px){.spl-wall-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.spl-wall-grid.has-cols{grid-template-columns:repeat(var(--spl-wall-cols),minmax(0,1fr))}
+@media (max-width:991px){.spl-wall-grid.has-cols{grid-template-columns:repeat(var(--spl-wall-tablet),minmax(0,1fr))}}
+@media (max-width:575px){.spl-wall-grid.has-cols{grid-template-columns:repeat(var(--spl-wall-phone),minmax(0,1fr))}}
 .spl-wall-zoom{display:block;width:100%;margin:0;padding:0;border:0;border-radius:4px;background:none;cursor:zoom-in}
 .spl-wall-zoom:focus-visible{outline:2px solid currentColor;outline-offset:3px}
 .spl-lightbox{max-width:none;max-height:none;padding:0;border:0;background:transparent;color:inherit}
