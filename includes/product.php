@@ -193,22 +193,6 @@ add_action( 'woocommerce_product_data_panels', function () {
 			) );
 			?>
 		</div>
-		<div class="options_group">
-			<?php
-			woocommerce_wp_textarea_input( array(
-				'id'          => '_spl_instructions',
-				'label'       => __( 'Upload instructions', SPL_TD ),
-				'desc_tip'    => true,
-				'description' => __( 'Shown on the upload page above the image picker, e.g. what makes a good image for this placement.', SPL_TD ),
-			) );
-			woocommerce_wp_textarea_input( array(
-				'id'          => '_spl_consent_extra',
-				'label'       => __( 'Extra consent checkbox', SPL_TD ),
-				'desc_tip'    => true,
-				'description' => __( 'Optional. A second required checkbox on the upload page, just for this product (e.g. "I agree that my image is shown on the Zeppelin").', SPL_TD ),
-			) );
-			?>
-		</div>
 	</div>
 	<?php
 } );
@@ -231,8 +215,6 @@ add_action( 'woocommerce_process_product_meta', function ( $post_id ) {
 	$end = isset( $_POST['_spl_event_end'] ) ? sanitize_text_field( wp_unslash( $_POST['_spl_event_end'] ) ) : '';
 	update_post_meta( $post_id, '_spl_event_end', preg_match( '/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/', $end ) ? substr( $end, 0, 16 ) : '' );
 
-	update_post_meta( $post_id, '_spl_instructions', isset( $_POST['_spl_instructions'] ) ? sanitize_textarea_field( wp_unslash( $_POST['_spl_instructions'] ) ) : '' );
-	update_post_meta( $post_id, '_spl_consent_extra', isset( $_POST['_spl_consent_extra'] ) ? sanitize_textarea_field( wp_unslash( $_POST['_spl_consent_extra'] ) ) : '' );
 	// phpcs:enable
 } );
 

@@ -29,6 +29,8 @@
  *    is suspended. Every action is written to a per-placement history.
  * 7. Placements > Images lists every uploaded image (hidden from the normal Media Library), and
  *    Placements > Settings holds the emails, presets, PDF texts, page texts and page access roles.
+ * 8. Approved images can be shown publicly with the [spl_wall] shortcode (includes/wall.php). Only images
+ *    that are approved AND whose uploader ticked the optional public box are ever shown.
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -36,7 +38,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 define( 'SPL_VERSION', '1.0.0' );
-define( 'SPL_DB_VERSION', '3' );
+define( 'SPL_DB_VERSION', '4' );
 define( 'SPL_FILE', __FILE__ );
 define( 'SPL_DIR', plugin_dir_path( __FILE__ ) );
 define( 'SPL_URL', plugin_dir_url( __FILE__ ) );
@@ -60,6 +62,7 @@ require_once SPL_DIR . 'includes/product.php';
 require_once SPL_DIR . 'includes/orders.php';
 require_once SPL_DIR . 'includes/storage.php';
 require_once SPL_DIR . 'includes/images.php';
+require_once SPL_DIR . 'includes/wall.php';
 require_once SPL_DIR . 'includes/upload-page.php';
 require_once SPL_DIR . 'includes/emails.php';
 require_once SPL_DIR . 'includes/pdf.php';

@@ -1923,3 +1923,107 @@ msgstr ""
 #: includes/upload-page.php:291
 msgid "Please tick the required checkboxes."
 msgstr ""
+
+#: includes/wall.php:22
+msgid "Newest first"
+msgstr ""
+
+#: includes/wall.php:23
+msgid "Oldest first"
+msgstr ""
+
+#: includes/wall.php:24
+msgid "Code (A–Z)"
+msgstr ""
+
+#: includes/wall.php:232
+msgid "Code from your certificate"
+msgstr ""
+
+#: includes/wall.php:233
+msgid "Enter the code from your certificate"
+msgstr ""
+
+#: includes/wall.php:235
+msgid "Show all images"
+msgstr ""
+
+#: includes/wall.php:247
+msgid "Sort order"
+msgstr ""
+
+#: includes/wall.php:256
+msgid "Load more"
+msgstr ""
+
+#: includes/settings.php:335 includes/admin-approvals.php:738
+msgid "Public wall"
+msgstr ""
+
+#: includes/settings.php:336
+msgid "Shows approved images on any page with the shortcode [spl_wall]. An image appears only while it is approved and its uploader ticked the public box on the upload page. Declining, suspending or refunding takes it off the wall at once. Attributes: product (ID or slug), sort (newest, oldest or code), per_page, search and filter (yes or no)."
+msgstr ""
+
+#: includes/settings.php:340
+msgid "Public box on the upload page"
+msgstr ""
+
+#: includes/settings.php:342
+msgid "Show the optional checkbox that lets the uploader agree to public display. Without it, no image can be shown on the wall."
+msgstr ""
+
+#: includes/settings.php:346
+msgid "Text of the public box"
+msgstr ""
+
+#: includes/settings.php:347
+msgid "I agree that this image may be shown publicly on our website (optional)."
+msgstr ""
+
+#: includes/settings.php:351
+msgid "Default order"
+msgstr ""
+
+#: includes/settings.php:359
+msgid "Images per page"
+msgstr ""
+
+#: includes/settings.php:361
+msgid "Further images load with a \"Load more\" button."
+msgstr ""
+
+#: includes/settings.php:365
+msgid "Search button"
+msgstr ""
+
+#: includes/settings.php:366
+msgid "Find my image"
+msgstr ""
+
+#: includes/settings.php:370
+msgid "Message when no image matches the code"
+msgstr ""
+
+#: includes/settings.php:371
+msgid "No published image was found for this code."
+msgstr ""
+
+#: includes/settings.php:375
+msgid "Message when no images are published"
+msgstr ""
+
+#: includes/settings.php:376
+msgid "No images have been published yet."
+msgstr ""
+
+#: includes/admin-approvals.php:740
+msgid "Not agreed"
+msgstr ""
+
+#: includes/admin-approvals.php:742
+msgid "Agreed, shown on the wall"
+msgstr ""
+
+#: includes/admin-approvals.php:744
+msgid "Agreed at upload, not on the wall"
+msgstr ""

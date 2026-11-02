@@ -97,3 +97,20 @@
 .spl-send input,.spl-send textarea{width:100%;box-sizing:border-box;font:inherit}
 .spl-send-result{font-size:max(14px,.9em)}
 .spl-copied{font-size:max(14px,.85em);opacity:.8}
+
+/* Public wall ([spl_wall]). Square tiles; the image that a code finds keeps full strength, the rest fade. */
+.spl-wall{font-size:max(14px,1em);margin:0 0 2em}
+.spl-wall [hidden]{display:none}
+.spl-wall-bar{display:flex;flex-wrap:wrap;gap:.6em 1em;justify-content:space-between;align-items:center;margin:0 0 1em}
+.spl-wall-row{display:flex;flex-wrap:wrap;gap:.5em;align-items:center}
+.spl-wall-code{flex:1 1 14em;min-width:0;max-width:24em;box-sizing:border-box;padding:.55em .75em;font:inherit;border:1px solid rgba(0,0,0,.3);border-radius:6px}
+.spl-wall select{max-width:100%;padding:.5em .6em;font:inherit;color:inherit;background:transparent;border:1px solid rgba(0,0,0,.3);border-radius:6px}
+.spl-wall-status{margin:0 0 .8em;color:#8a1f1f}
+.spl-wall-status:empty{margin:0}
+.spl-wall-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px}
+.spl-wall-item{margin:0;outline:2px solid transparent;outline-offset:3px;transition:opacity .25s,outline-color .25s}
+.spl-wall-item img{display:block;width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;border-radius:4px;background:rgba(0,0,0,.08)}
+.spl-wall-item.is-faded{opacity:.2}
+.spl-wall-item.is-found{outline-color:currentColor}
+.spl-wall-none{grid-column:1/-1;margin:1em 0;opacity:.75}
+.spl-wall-more{margin:1.2em 0 0;text-align:center}

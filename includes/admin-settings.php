@@ -91,6 +91,8 @@ function spl_render_settings_page() {
 				</table>
 			<?php endforeach; ?>
 
+			<?php if ( $tab === 'page' ) : spl_render_product_texts(); endif; ?>
+
 			<p class="submit">
 				<button type="submit" class="button button-primary"><?php esc_html_e( 'Save changes', SPL_TD ); ?></button>
 				<button type="submit" name="reset" value="1" class="button" onclick="return confirm('<?php echo esc_js( __( 'Restore the defaults of this page?', SPL_TD ) ); ?>')"><?php esc_html_e( 'Restore defaults', SPL_TD ); ?></button>
@@ -202,6 +204,70 @@ function spl_render_setting_field( $key, $field ) {
 	}
 }
 
+/**
+ * Every product that takes placements. The Upload page tab lists them and saves their texts.
+ */
+function spl_placement_products() {
+	return get_posts( array( 'post_type' => 'product', 'numberposts' => -1, 'orderby' => 'title', 'order' => 'ASC', 'meta_key' => SPL_META_ENABLED, 'meta_value' => 'yes', 'post_status' => array( 'publish', 'private', 'draft' ) ) ); // phpcs:ignore -- one meta lookup, in the admin only
+}
+
+/**
+ * The per-product texts edited under the Upload page tab, keyed by the form field they are posted as.
+ */
+function spl_product_upload_texts() {
+	return array(
+		'instructions'  => array(
+			'meta'  => '_spl_instructions',
+			'label' => __( 'Upload instructions', SPL_TD ),
+			'desc'  => __( 'Shown on the upload page above the image picker, e.g. what makes a good image for this placement.', SPL_TD ),
+		),
+		'consent_extra' => array(
+			'meta'  => '_spl_consent_extra',
+			'label' => __( 'Extra consent checkbox', SPL_TD ),
+			'desc'  => __( 'Optional. A second required checkbox on the upload page, just for this product (e.g. "I agree that my image is shown on the Zeppelin").', SPL_TD ),
+		),
+	);
+}
+
+/**
+ * One list per text, with a row for every placement product. Saved with the rest of the tab by spl_save_product_texts().
+ */
+function spl_render_product_texts() {
+	foreach ( spl_product_upload_texts() as $key => $text ) {
+		echo '<h2>' . esc_html( $text['label'] ) . '</h2>';
+		echo '<p class="description">' . esc_html( $text['desc'] ) . '</p>';
+		echo '<table class="form-table" role="presentation">';
+		foreach ( spl_placement_products() as $p ) {
+			$id = 'spl_' . $key . '_' . (int) $p->ID;
+			echo '<tr><th scope="row"><label for="' . esc_attr( $id ) . '">' . esc_html( $p->post_title ) . '</label></th><td>';
+			echo '<textarea id="' . esc_attr( $id ) . '" name="spl_product[' . esc_attr( $key ) . '][' . (int) $p->ID . ']" rows="3" class="large-text">' . esc_textarea( (string) get_post_meta( $p->ID, $text['meta'], true ) ) . '</textarea>';
+			echo '</td></tr>';
+		}
+		echo '</table>';
+	}
+}
+
+/**
+ * Saves the per-product texts posted from the Upload page tab. Only placement products are written, so an
+ * unknown ID in the request does nothing.
+ */
+function spl_save_product_texts( $posted ) {
+	if ( ! is_array( $posted ) ) {
+		return;
+	}
+	$products = spl_placement_products();
+	foreach ( spl_product_upload_texts() as $key => $text ) {
+		if ( ! isset( $posted[ $key ] ) || ! is_array( $posted[ $key ] ) ) {
+			continue;
+		}
+		foreach ( $products as $p ) {
+			if ( isset( $posted[ $key ][ $p->ID ] ) ) {
+				update_post_meta( $p->ID, $text['meta'], sanitize_textarea_field( (string) $posted[ $key ][ $p->ID ] ) );
+			}
+		}
+	}
+}
+
 add_action( 'admin_post_spl_save_settings', function () {
 	if ( ! current_user_can( 'spl_settings' ) ) {
 		wp_die( esc_html__( 'Sorry, you are not allowed to do that.', SPL_TD ) );
@@ -228,6 +294,9 @@ add_action( 'admin_post_spl_save_settings', function () {
 		}
 	}
 	update_option( SPL_OPTION, $stored );
+	if ( in_array( 'page', $sections, true ) && ! $reset ) {
+		spl_save_product_texts( isset( $_POST['spl_product'] ) ? wp_unslash( $_POST['spl_product'] ) : null ); // phpcs:ignore -- sanitised per product
+	}
 
 	$back = isset( $_POST['back'] ) ? esc_url_raw( wp_unslash( $_POST['back'] ) ) : admin_url( 'admin.php?page=spl-settings' );
 	spl_redirect_with_notice( remove_query_arg( array( 'spl_msg', 'spl_type' ), $back ), $reset ? __( 'Defaults restored.', SPL_TD ) : __( 'Settings saved.', SPL_TD ) );

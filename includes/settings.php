@@ -331,6 +331,53 @@ function spl_settings_schema() {
 			),
 		),
 
+		'wall' => array(
+			'title'  => __( 'Public wall', SPL_TD ),
+			'intro'  => __( 'Shows approved images on any page with the shortcode [spl_wall]. An image appears only while it is approved and its uploader ticked the public box on the upload page. Declining, suspending or refunding takes it off the wall at once. Attributes: product (ID or slug), sort (newest, oldest or code), per_page, search and filter (yes or no).', SPL_TD ),
+			'fields' => array(
+				'wall_publish_enabled' => array(
+					'type'    => 'checkbox',
+					'label'   => __( 'Public box on the upload page', SPL_TD ),
+					'default' => 1,
+					'desc'    => __( 'Show the optional checkbox that lets the uploader agree to public display. Without it, no image can be shown on the wall.', SPL_TD ),
+				),
+				'wall_publish_label' => array(
+					'type'    => 'text',
+					'label'   => __( 'Text of the public box', SPL_TD ),
+					'default' => __( 'I agree that this image may be shown publicly on our website (optional).', SPL_TD ),
+				),
+				'wall_default_sort' => array(
+					'type'    => 'select',
+					'label'   => __( 'Default order', SPL_TD ),
+					'default' => 'newest',
+					'choices' => spl_wall_sort_options(),
+				),
+				'wall_per_page' => array(
+					'type'    => 'number',
+					'min'     => '1',
+					'max'     => '100',
+					'label'   => __( 'Images per page', SPL_TD ),
+					'default' => 24,
+					'desc'    => __( 'Further images load with a "Load more" button.', SPL_TD ),
+				),
+				'wall_search_button' => array(
+					'type'    => 'text',
+					'label'   => __( 'Search button', SPL_TD ),
+					'default' => __( 'Find my image', SPL_TD ),
+				),
+				'wall_not_found' => array(
+					'type'    => 'text',
+					'label'   => __( 'Message when no image matches the code', SPL_TD ),
+					'default' => __( 'No published image was found for this code.', SPL_TD ),
+				),
+				'wall_empty' => array(
+					'type'    => 'text',
+					'label'   => __( 'Message when no images are published', SPL_TD ),
+					'default' => __( 'No images have been published yet.', SPL_TD ),
+				),
+			),
+		),
+
 		'pdf' => array(
 			'title'  => __( 'PDF', SPL_TD ),
 			'intro'  => __( 'The printable placement card, sent with upload links and handy as a gift. Plain text; placeholders are filled in. The certificate has its own tab.', SPL_TD ),

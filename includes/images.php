@@ -6,6 +6,7 @@
  * direct requests on Apache). Every request goes through ?spl_image=ID&f=FILE, and this file decides
  * whether to serve it:
  *   - staff with the Approvals or Images capability: always;
+ *   - anyone, for an approved image whose uploader agreed to public display (the public wall, wall.php);
  *   - the placement's holder, for the placement's current image only. The link carries h, an HMAC of the
  *     file name keyed with the placement's token, so the token itself never appears on the page;
  *   - a link in a staff email. It carries m and an expiry time (e), signed with the site's auth salt.
@@ -167,6 +168,11 @@ function spl_serve_image() {
 /** Whether this request may see one file of a placement image. See the top of this file. */
 function spl_image_allowed( $att_id, $file ) {
 	if ( spl_image_is_staff() ) {
+		return true;
+	}
+
+	// Approved images whose uploader agreed to publication are on the public wall (see wall.php).
+	if ( spl_wall_is_public_attachment( $att_id ) ) {
 		return true;
 	}
 
