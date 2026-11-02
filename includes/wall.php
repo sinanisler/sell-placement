@@ -4,8 +4,9 @@
  * [spl_wall] shortcode.
  *
  * One rule decides whether an image is public, and it is checked on every request, so nothing is copied:
- * the placement is approved, its uploader ticked the public box (public_consent) and the image is the
- * placement's current one. Declining, suspending or refunding a placement takes it off the wall at once.
+ * the placement is approved, its uploader gave consent with the required checkbox (consent, which says the
+ * image is shown publicly) and the image is the placement's current one. Declining, suspending or refunding
+ * a placement takes it off the wall at once.
  *
  * The wall can be filtered by product and sorted. A search by code moves that image to the front and fades
  * the rest. Searching a code that is not on the wall gives the same answer whether the code is unknown or
@@ -25,17 +26,9 @@ function spl_wall_sort_options() {
 	);
 }
 
-/**
- * Whether the upload page offers the public box. Its text falls back to the default when emptied, so the
- * switch in the settings is the only way to hide the box.
- */
-function spl_wall_publish_offered() {
-	return (bool) spl_opt( 'wall_publish_enabled' );
-}
-
 /** Whether a placement is on the wall. */
 function spl_wall_is_visible( $p ) {
-	return (bool) $p && $p->status === 'approved' && $p->public_consent === 1 && $p->attachment_id > 0;
+	return (bool) $p && $p->status === 'approved' && $p->consent === 1 && $p->attachment_id > 0;
 }
 
 /** Whether an attachment is the current image of a placement that is on the wall. */
@@ -79,7 +72,7 @@ function spl_wall_query( $args = array() ) {
 		}
 	}
 
-	$where   = array( "status = 'approved'", 'public_consent = 1', 'attachment_id > 0' );
+	$where   = array( "status = 'approved'", 'consent = 1', 'attachment_id > 0' );
 	$params  = array();
 	$product = (int) $args['product_id'];
 	if ( $product ) {
@@ -131,7 +124,7 @@ function spl_wall_query( $args = array() ) {
 /** Products that have at least one image on the wall: id => title, A to Z. */
 function spl_wall_products() {
 	global $wpdb;
-	$ids = $wpdb->get_col( "SELECT DISTINCT product_id FROM " . spl_table() . " WHERE status = 'approved' AND public_consent = 1 AND attachment_id > 0" ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+	$ids = $wpdb->get_col( "SELECT DISTINCT product_id FROM " . spl_table() . " WHERE status = 'approved' AND consent = 1 AND attachment_id > 0" ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 	$out = array();
 	foreach ( $ids as $id ) {
 		$title = get_the_title( (int) $id );

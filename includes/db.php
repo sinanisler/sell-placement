@@ -56,7 +56,6 @@ function spl_install_tables() {
 		max_rejections int(11) NOT NULL DEFAULT 2,
 		last_reason text NULL,
 		consent tinyint(1) NOT NULL DEFAULT 0,
-		public_consent tinyint(1) NOT NULL DEFAULT 0,
 		link_sent_count int(11) NOT NULL DEFAULT 0,
 		link_sent_at datetime NULL DEFAULT NULL,
 		created_at datetime NOT NULL,
@@ -130,7 +129,7 @@ function spl_cast( $row ) {
 	if ( ! $row ) {
 		return null;
 	}
-	foreach ( array( 'id', 'order_id', 'order_item_id', 'product_id', 'unit_index', 'customer_id', 'is_gift', 'attachment_id', 'rejections', 'max_rejections', 'consent', 'public_consent', 'link_sent_count', 'reviewed_by' ) as $k ) {
+	foreach ( array( 'id', 'order_id', 'order_item_id', 'product_id', 'unit_index', 'customer_id', 'is_gift', 'attachment_id', 'rejections', 'max_rejections', 'consent', 'link_sent_count', 'reviewed_by' ) as $k ) {
 		$row->$k = (int) $row->$k;
 	}
 	return $row;

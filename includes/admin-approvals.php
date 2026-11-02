@@ -735,15 +735,7 @@ function spl_render_detail( $p ) {
 						<tr><th><?php esc_html_e( 'Uploaded by', SPL_TD ); ?></th><td><?php echo spl_person_html( $p->uploader_name, $p->uploader_email ); // phpcs:ignore ?></td></tr>
 						<tr><th><?php esc_html_e( 'On the certificate', SPL_TD ); ?></th><td><?php echo $p->cert_name !== '' ? esc_html( $p->cert_name ) : '–'; ?></td></tr>
 						<tr><th><?php esc_html_e( 'Consent', SPL_TD ); ?></th><td><?php echo $p->consent ? esc_html__( 'Given at upload', SPL_TD ) : '–'; ?></td></tr>
-						<tr><th><?php esc_html_e( 'Public wall', SPL_TD ); ?></th><td><?php
-							if ( ! $p->public_consent ) {
-								esc_html_e( 'Not agreed', SPL_TD );
-							} elseif ( spl_wall_is_visible( $p ) ) {
-								esc_html_e( 'Agreed, shown on the wall', SPL_TD );
-							} else {
-								esc_html_e( 'Agreed at upload, not on the wall', SPL_TD );
-							}
-						?></td></tr>
+						<tr><th><?php esc_html_e( 'Public wall', SPL_TD ); ?></th><td><?php echo spl_wall_is_visible( $p ) ? esc_html__( 'Shown on the wall', SPL_TD ) : esc_html__( 'Not on the wall', SPL_TD ); ?></td></tr>
 						<tr><th><?php esc_html_e( 'Created', SPL_TD ); ?></th><td><?php echo spl_admin_date( $p->created_at ); // phpcs:ignore ?></td></tr>
 						<tr><th><?php esc_html_e( 'Uploaded', SPL_TD ); ?></th><td><?php echo spl_admin_date( $p->uploaded_at ); // phpcs:ignore ?></td></tr>
 						<tr><th><?php esc_html_e( 'Reviewed', SPL_TD ); ?></th><td><?php echo spl_admin_date( $p->reviewed_at ); // phpcs:ignore ?><?php $rev = $p->reviewed_by ? get_userdata( $p->reviewed_by ) : null; echo $rev ? ' · ' . esc_html( $rev->display_name ) : ''; ?></td></tr>

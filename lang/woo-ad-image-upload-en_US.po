@@ -1963,35 +1963,35 @@ msgstr "Please enter the name or names for the certificate."
 msgid "Please tick the required checkboxes."
 msgstr "Please tick the required checkboxes."
 
-#: includes/wall.php:22
+#: includes/wall.php:23
 msgid "Newest first"
 msgstr "Newest first"
 
-#: includes/wall.php:23
+#: includes/wall.php:24
 msgid "Oldest first"
 msgstr "Oldest first"
 
-#: includes/wall.php:24
+#: includes/wall.php:25
 msgid "Code (A–Z)"
 msgstr "Code (A–Z)"
 
-#: includes/wall.php:232
+#: includes/wall.php:225
 msgid "Code from your certificate"
 msgstr "Code from your certificate"
 
-#: includes/wall.php:233
+#: includes/wall.php:226
 msgid "Enter the code from your certificate"
 msgstr "Enter the code from your certificate"
 
-#: includes/wall.php:235
+#: includes/wall.php:228
 msgid "Show all images"
 msgstr "Show all images"
 
-#: includes/wall.php:247
+#: includes/wall.php:240
 msgid "Sort order"
 msgstr "Sort order"
 
-#: includes/wall.php:256
+#: includes/wall.php:249
 msgid "Load more"
 msgstr "Load more"
 
@@ -2000,69 +2000,49 @@ msgid "Public wall"
 msgstr "Public wall"
 
 #: includes/settings.php:336
-msgid "Shows approved images on any page with the shortcode [spl_wall]. An image appears only while it is approved and its uploader ticked the public box on the upload page. Declining, suspending or refunding takes it off the wall at once. Attributes: product (ID or slug), sort (newest, oldest or code), per_page, search and filter (yes or no)."
-msgstr "Shows approved images on any page with the shortcode [spl_wall]. An image appears only while it is approved and its uploader ticked the public box on the upload page. Declining, suspending or refunding takes it off the wall at once. Attributes: product (ID or slug), sort (newest, oldest or code), per_page, search and filter (yes or no)."
+msgid "Shows approved images on any page with the shortcode [spl_wall]. An image appears only while it is approved and its uploader gave consent on the upload page. That consent says the image is shown publicly, so keep that wording in the required consent text. Declining, suspending or refunding takes an image off the wall at once. Attributes: product (ID or slug), sort (newest, oldest or code), per_page, search and filter (yes or no)."
+msgstr "Shows approved images on any page with the shortcode [spl_wall]. An image appears only while it is approved and its uploader gave consent on the upload page. That consent says the image is shown publicly, so keep that wording in the required consent text. Declining, suspending or refunding takes an image off the wall at once. Attributes: product (ID or slug), sort (newest, oldest or code), per_page, search and filter (yes or no)."
 
 #: includes/settings.php:340
-msgid "Public box on the upload page"
-msgstr "Public box on the upload page"
-
-#: includes/settings.php:342
-msgid "Show the optional checkbox that lets the uploader agree to public display. Without it, no image can be shown on the wall."
-msgstr "Show the optional checkbox that lets the uploader agree to public display. Without it, no image can be shown on the wall."
-
-#: includes/settings.php:346
-msgid "Text of the public box"
-msgstr "Text of the public box"
-
-#: includes/settings.php:347
-msgid "I agree that this image may be shown publicly on our website (optional)."
-msgstr "I agree that this image may be shown publicly on our website (optional)."
-
-#: includes/settings.php:351
 msgid "Default order"
 msgstr "Default order"
 
-#: includes/settings.php:359
+#: includes/settings.php:348
 msgid "Images per page"
 msgstr "Images per page"
 
-#: includes/settings.php:361
+#: includes/settings.php:350
 msgid "Further images load with a \"Load more\" button."
 msgstr "Further images load with a \"Load more\" button."
 
-#: includes/settings.php:365
+#: includes/settings.php:354
 msgid "Search button"
 msgstr "Search button"
 
-#: includes/settings.php:366
+#: includes/settings.php:355
 msgid "Find my image"
 msgstr "Find my image"
 
-#: includes/settings.php:370
+#: includes/settings.php:359
 msgid "Message when no image matches the code"
 msgstr "Message when no image matches the code"
 
-#: includes/settings.php:371
+#: includes/settings.php:360
 msgid "No published image was found for this code."
 msgstr "No published image was found for this code."
 
-#: includes/settings.php:375
+#: includes/settings.php:364
 msgid "Message when no images are published"
 msgstr "Message when no images are published"
 
-#: includes/settings.php:376
+#: includes/settings.php:365
 msgid "No images have been published yet."
 msgstr "No images have been published yet."
 
-#: includes/admin-approvals.php:740
-msgid "Not agreed"
-msgstr "Not agreed"
+#: includes/admin-approvals.php:738
+msgid "Shown on the wall"
+msgstr "Shown on the wall"
 
-#: includes/admin-approvals.php:742
-msgid "Agreed, shown on the wall"
-msgstr "Agreed, shown on the wall"
-
-#: includes/admin-approvals.php:744
-msgid "Agreed at upload, not on the wall"
-msgstr "Agreed at upload, not on the wall"
+#: includes/admin-approvals.php:738
+msgid "Not on the wall"
+msgstr "Not on the wall"

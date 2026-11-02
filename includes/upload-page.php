@@ -240,12 +240,6 @@ function spl_render_upload_page_body( $p ) {
 		<?php if ( $rules['consent_extra'] !== '' ) : ?>
 			<p class="spl-check"><label><input type="checkbox" name="consent_extra" value="1" required /> <span><?php echo wp_kses_post( $rules['consent_extra'] ); ?></span></label></p>
 		<?php endif; ?>
-		<?php
-		// Optional: lets the image be shown on the public wall. Not required, so it never blocks an upload.
-		if ( spl_wall_publish_offered() ) :
-			?>
-			<p class="spl-check"><label><input type="checkbox" name="publish" value="1" /> <span><?php echo wp_kses_post( spl_opt( 'wall_publish_label' ) ); ?></span></label></p>
-		<?php endif; ?>
 
 		<div class="spl-status" data-spl-status role="status" aria-live="polite"></div>
 		<div class="spl-progress" data-spl-progress hidden><span></span></div>
@@ -316,9 +310,6 @@ function spl_ajax_upload() {
 		wp_send_json_error( array( 'message' => __( 'This placement does not accept a new image right now. Please reload the page.', SPL_TD ) ), 409 );
 	}
 
-	// The public box counts only when it is shown; a hidden box cannot be ticked by a crafted request.
-	$publish_offered = spl_wall_publish_offered();
-
 	spl_update_placement( $p->id, array(
 		'status'         => 'review',
 		'attachment_id'  => $attachment_id,
@@ -327,7 +318,6 @@ function spl_ajax_upload() {
 		'cert_name'      => $cert_name,
 		'uploaded_at'    => spl_now(),
 		'consent'        => 1,
-		'public_consent' => ( $publish_offered && ! empty( $_POST['publish'] ) ) ? 1 : 0,
 	) );
 	$meta = wp_get_attachment_metadata( $attachment_id );
 	$dims = $meta ? $meta['width'] . ' × ' . $meta['height'] . ' px' : '';

@@ -1964,35 +1964,35 @@ msgstr "Bitte geben Sie den Namen oder die Namen für das Zertifikat ein."
 msgid "Please tick the required checkboxes."
 msgstr "Bitte haken Sie die Pflicht-Checkboxen an."
 
-#: includes/wall.php:22
+#: includes/wall.php:23
 msgid "Newest first"
 msgstr "Neueste zuerst"
 
-#: includes/wall.php:23
+#: includes/wall.php:24
 msgid "Oldest first"
 msgstr "Älteste zuerst"
 
-#: includes/wall.php:24
+#: includes/wall.php:25
 msgid "Code (A–Z)"
 msgstr "Code (A–Z)"
 
-#: includes/wall.php:232
+#: includes/wall.php:225
 msgid "Code from your certificate"
 msgstr "Code aus Ihrem Zertifikat"
 
-#: includes/wall.php:233
+#: includes/wall.php:226
 msgid "Enter the code from your certificate"
 msgstr "Code vom Zertifikat eingeben"
 
-#: includes/wall.php:235
+#: includes/wall.php:228
 msgid "Show all images"
 msgstr "Alle Bilder anzeigen"
 
-#: includes/wall.php:247
+#: includes/wall.php:240
 msgid "Sort order"
 msgstr "Sortierung"
 
-#: includes/wall.php:256
+#: includes/wall.php:249
 msgid "Load more"
 msgstr "Mehr laden"
 
@@ -2001,69 +2001,49 @@ msgid "Public wall"
 msgstr "Öffentliche Galerie"
 
 #: includes/settings.php:336
-msgid "Shows approved images on any page with the shortcode [spl_wall]. An image appears only while it is approved and its uploader ticked the public box on the upload page. Declining, suspending or refunding takes it off the wall at once. Attributes: product (ID or slug), sort (newest, oldest or code), per_page, search and filter (yes or no)."
-msgstr "Zeigt freigegebene Bilder auf jeder Seite mit dem Shortcode [spl_wall]. Ein Bild erscheint nur, solange es freigegeben ist und seine hochladende Person das Kästchen zur öffentlichen Anzeige angekreuzt hat. Wird ein Bild abgelehnt, gesperrt oder erstattet, verschwindet es sofort aus der Galerie. Attribute: product (ID oder Slug), sort (newest, oldest oder code), per_page, search und filter (yes oder no)."
+msgid "Shows approved images on any page with the shortcode [spl_wall]. An image appears only while it is approved and its uploader gave consent on the upload page. That consent says the image is shown publicly, so keep that wording in the required consent text. Declining, suspending or refunding takes an image off the wall at once. Attributes: product (ID or slug), sort (newest, oldest or code), per_page, search and filter (yes or no)."
+msgstr "Zeigt freigegebene Bilder auf jeder Seite mit dem Shortcode [spl_wall]. Ein Bild erscheint nur, solange es freigegeben ist und die hochladende Person auf der Upload-Seite zugestimmt hat. Diese Zustimmung sagt, dass das Bild öffentlich gezeigt wird; bitte diesen Wortlaut in der Pflichteinwilligung beibehalten. Wird ein Bild abgelehnt, gesperrt oder erstattet, verschwindet es sofort aus der Galerie. Attribute: product (ID oder Slug), sort (newest, oldest oder code), per_page, search und filter (yes oder no)."
 
 #: includes/settings.php:340
-msgid "Public box on the upload page"
-msgstr "Kästchen zur öffentlichen Anzeige auf der Upload-Seite"
-
-#: includes/settings.php:342
-msgid "Show the optional checkbox that lets the uploader agree to public display. Without it, no image can be shown on the wall."
-msgstr "Das optionale Kästchen anzeigen, mit dem die hochladende Person der öffentlichen Anzeige zustimmen kann. Ohne dieses Kästchen wird kein Bild öffentlich gezeigt."
-
-#: includes/settings.php:346
-msgid "Text of the public box"
-msgstr "Text des Kästchens zur öffentlichen Anzeige"
-
-#: includes/settings.php:347
-msgid "I agree that this image may be shown publicly on our website (optional)."
-msgstr "Ich bin damit einverstanden, dass dieses Bild öffentlich auf unserer Website gezeigt werden darf (optional)."
-
-#: includes/settings.php:351
 msgid "Default order"
 msgstr "Standardsortierung"
 
-#: includes/settings.php:359
+#: includes/settings.php:348
 msgid "Images per page"
 msgstr "Bilder pro Seite"
 
-#: includes/settings.php:361
+#: includes/settings.php:350
 msgid "Further images load with a \"Load more\" button."
 msgstr "Weitere Bilder werden mit der Schaltfläche „Mehr laden“ nachgeladen."
 
-#: includes/settings.php:365
+#: includes/settings.php:354
 msgid "Search button"
 msgstr "Suchschaltfläche"
 
-#: includes/settings.php:366
+#: includes/settings.php:355
 msgid "Find my image"
 msgstr "Mein Bild suchen"
 
-#: includes/settings.php:370
+#: includes/settings.php:359
 msgid "Message when no image matches the code"
 msgstr "Meldung, wenn zu einem Code kein Bild gefunden wird"
 
-#: includes/settings.php:371
+#: includes/settings.php:360
 msgid "No published image was found for this code."
 msgstr "Zu diesem Code wurde kein veröffentlichtes Bild gefunden."
 
-#: includes/settings.php:375
+#: includes/settings.php:364
 msgid "Message when no images are published"
 msgstr "Meldung, wenn noch keine Bilder veröffentlicht sind"
 
-#: includes/settings.php:376
+#: includes/settings.php:365
 msgid "No images have been published yet."
 msgstr "Es wurden noch keine Bilder veröffentlicht."
 
-#: includes/admin-approvals.php:740
-msgid "Not agreed"
-msgstr "Nicht zugestimmt"
+#: includes/admin-approvals.php:738
+msgid "Shown on the wall"
+msgstr "In der Galerie gezeigt"
 
-#: includes/admin-approvals.php:742
-msgid "Agreed, shown on the wall"
-msgstr "Zugestimmt, in der Galerie gezeigt"
-
-#: includes/admin-approvals.php:744
-msgid "Agreed at upload, not on the wall"
-msgstr "Beim Upload zugestimmt, nicht in der Galerie"
+#: includes/admin-approvals.php:738
+msgid "Not on the wall"
+msgstr "Nicht in der Galerie"
