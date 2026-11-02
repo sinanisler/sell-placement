@@ -1988,6 +1988,10 @@ msgstr "Code vom Zertifikat eingeben"
 msgid "Show all images"
 msgstr "Alle Bilder anzeigen"
 
+#: includes/wall.php:213
+msgid "Close"
+msgstr "Schließen"
+
 #: includes/wall.php:240
 msgid "Sort order"
 msgstr "Sortierung"

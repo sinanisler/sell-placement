@@ -137,19 +137,19 @@ function spl_wall_products() {
 }
 
 /**
- * Public address of a wall image, at the size the wall shows. No holder signature is added, so the
- * address is the same for everyone and works only while the image is on the wall.
+ * Public address of a wall image at the given size: the tiles use 'large', the lightbox 'full'. No holder
+ * signature is added, so the address is the same for everyone and works only while the image is on the wall.
  */
-function spl_wall_image_src( $att_id ) {
+function spl_wall_image_src( $att_id, $size = 'large' ) {
 	return add_query_arg( array(
 		'spl_image' => (int) $att_id,
-		'f'         => spl_image_file_for_size( $att_id, 'large' ),
+		'f'         => spl_image_file_for_size( $att_id, $size ),
 	), home_url( '/' ) );
 }
 
 /**
  * The tiles for a page of the wall. With a highlight, that image is marked and the others are faded.
- * An empty result gets one message tile.
+ * Each tile is a button that opens the full image in the lightbox. An empty result gets one message tile.
  */
 function spl_wall_items_html( $items, $highlight = 0 ) {
 	if ( ! $items ) {
@@ -161,7 +161,7 @@ function spl_wall_items_html( $items, $highlight = 0 ) {
 		if ( $highlight ) {
 			$class .= (int) $p->id === (int) $highlight ? ' is-found' : ' is-faded';
 		}
-		$html .= '<li class="' . esc_attr( $class ) . '"><img src="' . esc_url( spl_wall_image_src( $p->attachment_id ) ) . '" alt="' . esc_attr( get_the_title( $p->product_id ) ) . '" loading="lazy" decoding="async" /></li>';
+		$html .= '<li class="' . esc_attr( $class ) . '"><button type="button" class="spl-wall-zoom" data-spl-wall-zoom data-full="' . esc_url( spl_wall_image_src( $p->attachment_id, 'full' ) ) . '"><img src="' . esc_url( spl_wall_image_src( $p->attachment_id ) ) . '" alt="' . esc_attr( get_the_title( $p->product_id ) ) . '" loading="lazy" decoding="async" /></button></li>';
 	}
 	return $html;
 }
@@ -210,6 +210,7 @@ function spl_wall_shortcode( $atts ) {
 		'product' => $product_id,
 		'perPage' => $per,
 		'error'   => __( 'Something went wrong. Please try again.', SPL_TD ),
+		'close'   => __( 'Close', SPL_TD ),
 	);
 
 	ob_start();
@@ -221,7 +222,7 @@ function spl_wall_shortcode( $atts ) {
 	<div class="spl-wall" data-spl-wall data-spl-wall-config="<?php echo esc_attr( wp_json_encode( $config ) ); ?>">
 		<form class="spl-wall-bar" data-spl-wall-form>
 			<?php if ( $show_search ) : ?>
-				<div class="spl-wall-row">
+				<div class="spl-wall-row spl-wall-search">
 					<label class="spl-visually-hidden" for="<?php echo esc_attr( $uid ); ?>-code"><?php esc_html_e( 'Code from your certificate', SPL_TD ); ?></label>
 					<input type="text" id="<?php echo esc_attr( $uid ); ?>-code" class="spl-wall-code" name="code" placeholder="<?php esc_attr_e( 'Enter the code from your certificate', SPL_TD ); ?>" autocomplete="off" data-spl-wall-code />
 					<button type="submit" class="spl-btn spl-btn-primary"><?php echo esc_html( spl_text( 'wall_search_button' ) ); ?></button>

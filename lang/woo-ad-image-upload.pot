@@ -1948,6 +1948,10 @@ msgstr ""
 msgid "Show all images"
 msgstr ""
 
+#: includes/wall.php:213
+msgid "Close"
+msgstr ""
+
 #: includes/wall.php:240
 msgid "Sort order"
 msgstr ""

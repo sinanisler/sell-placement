@@ -1987,6 +1987,10 @@ msgstr "Enter the code from your certificate"
 msgid "Show all images"
 msgstr "Show all images"
 
+#: includes/wall.php:213
+msgid "Close"
+msgstr "Close"
+
 #: includes/wall.php:240
 msgid "Sort order"
 msgstr "Sort order"

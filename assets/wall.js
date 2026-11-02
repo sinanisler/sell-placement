@@ -5,6 +5,25 @@
 (function () {
 	'use strict';
 
+	/* One lightbox per page, made the first time an image is opened. A click anywhere on it closes it. */
+	function lightbox(label) {
+		var dialog = document.querySelector('[data-spl-lightbox]');
+		if (dialog) { return dialog; }
+		dialog = document.createElement('dialog');
+		dialog.className = 'spl-lightbox';
+		dialog.setAttribute('data-spl-lightbox', '');
+		var close = document.createElement('button');
+		close.type = 'button';
+		close.className = 'spl-lightbox-close';
+		close.title = label;
+		close.setAttribute('aria-label', label);
+		dialog.appendChild(close);
+		dialog.appendChild(document.createElement('img'));
+		dialog.addEventListener('click', function () { dialog.close(); });
+		document.body.appendChild(dialog);
+		return dialog;
+	}
+
 	function init(root) {
 		var cfg = JSON.parse(root.getAttribute('data-spl-wall-config') || '{}');
 		var form = root.querySelector('[data-spl-wall-form]');
@@ -69,6 +88,15 @@
 		}
 		sort.addEventListener('change', function () { load(1, false); });
 		more.addEventListener('click', function () { load(state.page + 1, true); });
+		grid.addEventListener('click', function (e) {
+			var zoom = e.target.closest('[data-spl-wall-zoom]');
+			if (!zoom) { return; }
+			var dialog = lightbox(cfg.close);
+			var full = dialog.querySelector('img');
+			full.src = zoom.getAttribute('data-full');
+			full.alt = zoom.querySelector('img').alt;
+			dialog.showModal();
+		});
 	}
 
 	Array.prototype.forEach.call(document.querySelectorAll('[data-spl-wall]'), init);
