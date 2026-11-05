@@ -374,10 +374,10 @@ function spl_settings_schema() {
 				'card_layout' => array(
 					'type'    => 'select',
 					'label'   => __( 'Design', SPL_TD ),
-					'default' => 'gutschein',
+					'default' => 'coupon',
 					'choices' => array(
-						'gutschein' => __( 'GUTSCHEIN voucher (fixed design with QR code)', SPL_TD ),
-						''          => __( 'Standard card (the texts below)', SPL_TD ),
+						'coupon' => __( 'Coupon (fixed design with QR code)', SPL_TD ),
+						''       => __( 'Standard card (the texts below)', SPL_TD ),
 					),
 					'desc'    => __( 'The PDF sent with upload links and gifts, and downloadable from the upload page and the account. The fixed design uses its own texts and ignores the texts below.', SPL_TD ),
 				),

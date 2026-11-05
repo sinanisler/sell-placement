@@ -1,6 +1,6 @@
 {
 	"version": 1,
-	"background": { "color": "#c9dff0", "image": "file:gutschein-background.jpg" },
+	"background": { "color": "#c9dff0", "image": "file:coupon-background.jpg" },
 	"elements": [
 		{ "id": "headline", "type": "text", "family": "aptos-zeppelin", "box": { "x": 19.7, "y": 14.6, "w": 560, "h": 82 }, "value": "GUTSCHEIN", "size": 68, "bold": true, "color": "#e8f0fa", "leading": 1.2 },
 		{ "id": "title", "type": "text", "family": "aptos-zeppelin", "box": { "x": 44.4, "y": 298.9, "w": 520, "h": 76 }, "value": "BADEN-WÜRTTEMBERG\nFEIERT DEN 75. GEBURTSTAG\nUND DU BIST DABEI!", "size": 24.5, "bold": true, "color": "#003d8d", "leading": 0.97 },
@@ -11,7 +11,7 @@
 		{ "id": "how_head", "type": "text", "family": "aptos-zeppelin", "box": { "x": 148.8, "y": 572.4, "w": 420, "h": 18 }, "value": "So löst Du Deinen Gutschein ein:", "size": 14.5, "bold": true, "color": "#003d8d", "leading": 1.2 },
 		{ "id": "how_scan", "type": "text", "family": "aptos-zeppelin", "box": { "x": 148.8, "y": 589.9, "w": 420, "h": 16 }, "value": "· Scanne Deinen persönlichen QR-Code oder nutze folgenden", "size": 13.5, "color": "#003d8d", "leading": 1.15 },
 		{ "id": "upload_label", "type": "text", "family": "aptos-zeppelin", "box": { "x": 153.8, "y": 605.4, "w": 80, "h": 16 }, "value": "Upload-Link:", "size": 13.5, "color": "#003d8d", "leading": 1.15 },
-		{ "id": "upload_url", "type": "text", "family": "aptos-zeppelin", "box": { "x": 234.6, "y": 605.4, "w": 276, "h": 32 }, "value": "{upload_url}", "size": 13.5, "color": "#003d8d", "leading": 1.15 },
+		{ "id": "upload_url", "type": "text", "family": "aptos-zeppelin", "box": { "x": 153.8, "y": 621.0, "w": 396, "h": 14 }, "value": "{upload_url}", "size": 10, "color": "#003d8d", "leading": 1.15 },
 		{ "id": "how_steps", "type": "text", "family": "aptos-zeppelin", "box": { "x": 148.8, "y": 636.4, "w": 430, "h": 32 }, "value": "· Lade ein Foto Deiner Wahl hoch\n· Werde Teil der fliegenden Grußbotschaft und feiere mit dem Ländle!", "size": 13.5, "color": "#003d8d", "leading": 1.15, "fit": { "min": 11 } },
 		{ "id": "id_label", "type": "text", "family": "aptos-zeppelin", "box": { "x": 44.4, "y": 688.2, "w": 120, "h": 20 }, "value": "Teilnehmer-ID:", "size": 16.5, "bold": true, "color": "#003d8d", "leading": 1.2 },
 		{ "id": "code", "type": "text", "role": "code", "family": "aptos-zeppelin", "box": { "x": 159.7, "y": 688.2, "w": 200, "h": 20 }, "value": "{code}", "size": 16.5, "bold": true, "color": "#003d8d", "leading": 1.2 },

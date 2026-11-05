@@ -3,7 +3,7 @@
 Version 1. Read by `includes/layout.php`, with fonts from `includes/fonts.php` and QR codes from `includes/qr.php`. Two documents use it:
 
 - **Certificate** (after approval): chosen with "Layout" in Placements > Settings > Certificate. The Zeppelin 75 preset selects it.
-- **Placement card** (the GUTSCHEIN voucher): chosen with "Design" in Placements > Settings > PDF. GUTSCHEIN is the default. The standard card stays available.
+- **Placement card** (the coupon): chosen with "Design" in Placements > Settings > PDF. Coupon is the default. The standard card stays available.
 
 ## Page
 
@@ -15,7 +15,7 @@ Version 1. Read by `includes/layout.php`, with fonts from `includes/fonts.php` a
 ```json
 {
   "version": 1,
-  "background": { "color": "#c9dff0", "image": "file:gutschein-background.jpg" },
+  "background": { "color": "#c9dff0", "image": "file:coupon-background.jpg" },
   "elements": [ ... ]
 }
 ```
@@ -75,7 +75,7 @@ The required roles are passed to the check: certificates need name, code and dat
 - JPEG only. The PDF writer embeds JPEG data directly and has no transparency.
 - Artwork that sits on a colour, such as the blimp across the card edge, goes into one flattened background JPEG.
   - Zeppelin certificate background: A4 at 300 dpi, `assets/certificate/zeppelin-background.jpg`.
-  - GUTSCHEIN background: A4 at 200 dpi, `assets/certificate/gutschein-background.jpg`. That size keeps each card near 220 KB, so an order's cards fit in one email. The text stays vector, so it prints sharp.
+  - Coupon background: A4 at 200 dpi, `assets/certificate/coupon-background.jpg`. That size keeps each card near 220 KB, so an order's cards fit in one email. The text stays vector, so it prints sharp.
 - `approved` is the placement's approved image. `media:ID` is a JPEG from the Media Library. `file:NAME.jpg` is a file in `assets/certificate/`; only the file name is used.
 
 ## Fonts
@@ -92,7 +92,7 @@ The required roles are passed to the check: certificates need name, code and dat
 ## Certificate and card integration
 
 - Certificate: `cert_layout` (empty for the standard design, or a layout key in `includes/layouts/`). The Zeppelin 75 preset sets it and the colours. Every other preset resets it to the standard design. With a layout, the PDF uses the layout's own texts, font and artwork; the colour, border and text settings do not apply to the PDF. The approved email keeps its own HTML certificate.
-- Card: `card_layout` (default `gutschein`, or empty for the standard card). The card PDF is attached to:
+- Card: `card_layout` (default `coupon`, or empty for the standard card). The card PDF is attached to:
   - the buyer's order email, for every placement the buyer keeps (up to 20 cards per email). Gifts with a recipient email go to the recipient instead;
   - the gift and upload-link emails, as before;
   - the download on the upload page and in the account.
@@ -105,8 +105,8 @@ Rotation, opacity, bold-italic faces, rich text (mixed styles in one element), s
 ## Examples
 
 - `includes/layouts/zeppelin.json`: the Zeppelin 75 certificate.
-- `includes/layouts/gutschein.json`: the GUTSCHEIN voucher (card).
-- `tests/fixtures/certificate-hintergrund.json`: the first version of the Zeppelin design, with shapes instead of a background image and the sans font.
+- `includes/layouts/coupon.json`: the coupon (card).
+- `tests/fixtures/certificate-background.json`: the first version of the Zeppelin design, with shapes instead of a background image and the sans font.
 
 ## Tests
 
@@ -114,4 +114,4 @@ Rotation, opacity, bold-italic faces, rich text (mixed styles in one element), s
 php tests/layout-test.php <folder for the sample PDFs>
 ```
 
-The checks cover the format, the renderer, the fonts (TrueType and WOFF, and subsetting), the embedding, the QR code (finder pattern, length limit), the GUTSCHEIN voucher, the fallbacks and the text helpers. They write sample PDFs to the folder.
+The checks cover the format, the renderer, the fonts (TrueType and WOFF, and subsetting), the embedding, the QR code (finder pattern, length limit), the coupon, the fallbacks and the text helpers. They write sample PDFs to the folder.

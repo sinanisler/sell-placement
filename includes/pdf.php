@@ -403,7 +403,7 @@ class SPL_PDF {
  * A PDF from a fixed layout (includes/layouts/<key>.json) filled with $values, with the site tags added. False when
  * the key is empty or invalid, the file is missing, or the layout has errors, so the caller can fall back.
  *
- * @param string   $key      Layout key, e.g. "zeppelin" or "gutschein".
+ * @param string   $key      Layout key, e.g. "zeppelin" or "coupon".
  * @param object   $p        The placement (for its approved image).
  * @param array    $values   Tag => text.
  * @param string[] $tags     Tags the layout may use.
@@ -446,7 +446,7 @@ function spl_build_layout_document( $key, $p, $values, $tags, $photo, $required 
 	return $pdf->output();
 }
 
-/** Tag values for the placement card: the GUTSCHEIN voucher and the standard card. */
+/** Tag values for the placement card: the coupon and the standard card. */
 function spl_card_tokens( $p ) {
 	$product = ! empty( $p->product_id ) ? wc_get_product( $p->product_id ) : null;
 	$rules   = spl_product_rules( $p->product_id );
@@ -498,7 +498,7 @@ function spl_build_pdf( $p, $type ) {
 		return $p->status === 'approved' ? spl_build_certificate_pdf( $p ) : false;
 	}
 	if ( $type === 'card' ) {
-		// The design chosen in the settings (GUTSCHEIN by default), when it is valid. Otherwise the standard card below.
+		// The design chosen in the settings (coupon by default), when it is valid. Otherwise the standard card below.
 		$fixed = spl_build_layout_document( (string) spl_opt( 'card_layout' ), $p, spl_card_tokens( $p ), spl_card_token_list(), false, array( 'code' ) );
 		if ( $fixed !== false ) {
 			return $fixed;

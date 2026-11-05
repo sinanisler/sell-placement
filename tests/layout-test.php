@@ -90,7 +90,7 @@ function mentions( $messages, $needle ) {
 }
 
 function fixture_raw() {
-	return json_decode( file_get_contents( __DIR__ . '/fixtures/certificate-hintergrund.json' ), true );
+	return json_decode( file_get_contents( __DIR__ . '/fixtures/certificate-background.json' ), true );
 }
 
 /** Changes the keys of the raw element with the given id. */
@@ -122,7 +122,7 @@ function render_to( $layout, $values, $ctx, $file ) {
 $base = spl_layout_check( fixture_raw(), $tags );
 check( 'design fixture has no errors or warnings', $base['errors'] === array() && $base['warnings'] === array(), implode( '; ', array_merge( $base['errors'], $base['warnings'] ) ) );
 
-$warnings = render_to( $base['layout'], $values, $ctx, $out . '/hintergrund-sample.pdf' );
+$warnings = render_to( $base['layout'], $values, $ctx, $out . '/background-sample.pdf' );
 check( 'design renders without warnings', $warnings === array(), implode( '; ', $warnings ) );
 
 // 2. The Zeppelin layout: format, fonts, background and the sample certificate.
@@ -250,7 +250,7 @@ check( 'QR element without data is an error', mentions( $checked['errors'], 'QR 
 // 10. Font subset: the same glyphs and widths, far fewer bytes.
 $reg    = spl_font_face( 'aptos-zeppelin', 'regular' );
 $gids   = array();
-foreach ( preg_split( '//u', 'GUTSCHEIN', -1, PREG_SPLIT_NO_EMPTY ) as $ch ) {
+foreach ( preg_split( '//u', 'COUPON', -1, PREG_SPLIT_NO_EMPTY ) as $ch ) {
 	$gids[] = $reg['cmap'][ mb_ord( $ch, 'UTF-8' ) ];
 }
 $sub    = spl_font_subset( $reg, $gids );
@@ -259,7 +259,7 @@ check( 'font subset parses as a font', $parsed !== null );
 check( 'font subset keeps the widths of the used glyphs', $parsed !== null && $parsed['advance'][ $gids[0] ] === $reg['advance'][ $gids[0] ] );
 check( 'font subset is much smaller than the font', strlen( $sub ) * 2 < strlen( $reg['data'] ), strlen( $sub ) . ' of ' . strlen( $reg['data'] ) );
 
-// 11. The GUTSCHEIN voucher: the card's own tags, only the code required, a QR code with the upload link.
+// 11. The coupon (placement card): the card's own tags, only the code required, a QR code with the upload link.
 $card_tags   = array( '{code}', '{upload_url}', '{product}', '{buyer_name}', '{recipient_name}', '{event_end}', '{site_name}', '{site_url}' );
 $card_values = array(
 	'{code}'         => 'SPXAE96',
@@ -270,11 +270,23 @@ $card_values = array(
 	'{site_name}'    => 'Wirsind BW',
 	'{site_url}'     => 'shop.wirsind-bw.de',
 );
-$gut = spl_layout_check( file_get_contents( SPL_DIR . 'includes/layouts/gutschein.json' ), $card_tags, array( 'code' ) );
-check( 'GUTSCHEIN layout has no errors when only the code is required', $gut['errors'] === array(), implode( '; ', $gut['errors'] ) );
-$warnings = render_to( $gut['layout'], $card_values, $ctx, $out . '/gutschein-sample.pdf' );
-check( 'GUTSCHEIN renders without warnings', $warnings === array(), implode( '; ', $warnings ) );
-$gut_all = spl_layout_check( file_get_contents( SPL_DIR . 'includes/layouts/gutschein.json' ), $card_tags );
-check( 'a card layout is an error for a certificate check (no name element)', mentions( $gut_all['errors'], 'element for "name"' ), implode( '; ', $gut_all['errors'] ) );
+$coupon = spl_layout_check( file_get_contents( SPL_DIR . 'includes/layouts/coupon.json' ), $card_tags, array( 'code' ) );
+check( 'the coupon layout has no errors when only the code is required', $coupon['errors'] === array(), implode( '; ', $coupon['errors'] ) );
+$warnings = render_to( $coupon['layout'], $card_values, $ctx, $out . '/coupon-sample.pdf' );
+check( 'the coupon renders without warnings', $warnings === array(), implode( '; ', $warnings ) );
+// The upload link has no spaces, so a box narrower than the link splits it between two characters. It must stay on one line.
+$url_el = null;
+foreach ( $coupon['layout']['elements'] as $el ) {
+	if ( $el['id'] === 'upload_url' ) {
+		$url_el = $el;
+	}
+}
+$link_pdf = new SPL_PDF();
+$link_pdf->add_face( 'aptos-zeppelin/regular', spl_font_face( 'aptos-zeppelin', 'regular' ) );
+$link_pdf->face = 'aptos-zeppelin/regular';
+$link_lines     = $url_el === null ? array() : $link_pdf->wrap_lines( strtr( $url_el['value'], $card_values ), $url_el['size'], false, $url_el['box']['w'] );
+check( 'the upload link stays on one line in the coupon', count( $link_lines ) === 1, implode( ' | ', $link_lines ) );
+$coupon_all = spl_layout_check( file_get_contents( SPL_DIR . 'includes/layouts/coupon.json' ), $card_tags );
+check( 'a card layout is an error for a certificate check (no name element)', mentions( $coupon_all['errors'], 'element for "name"' ), implode( '; ', $coupon_all['errors'] ) );
 echo "\n" . $results['pass'] . ' passed, ' . $results['fail'] . " failed\n";
 exit( $results['fail'] ? 1 : 0 );
