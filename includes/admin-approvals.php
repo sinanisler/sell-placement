@@ -147,7 +147,7 @@ add_action( 'admin_post_spl_action', function () {
 		case 'resend':
 			// "Email again": the email that matches the current state.
 			$map  = array(
-				'awaiting'  => $p->is_gift ? 'gift' : 'link',
+				'awaiting'  => ( $p->is_gift && $p->recipient_email ) ? 'gift' : 'link', // a gift with no recipient email: the buyer gets the link and passes it on
 				'review'    => 'received',
 				'approved'  => 'approved',
 				'declined'  => 'declined',
