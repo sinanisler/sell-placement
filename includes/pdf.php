@@ -497,8 +497,8 @@ function spl_build_pdf( $p, $type ) {
 	if ( $type === 'certificate' ) {
 		return $p->status === 'approved' ? spl_build_certificate_pdf( $p ) : false;
 	}
-	if ( $type === 'card' ) {
-		// The design chosen in the settings (coupon by default), when it is valid. Otherwise the standard card below.
+	if ( $type === 'card' && ! empty( $p->is_gift ) ) {
+		// Gifts get the design chosen in the settings (coupon by default), when it is valid. Other placements, and a gift whose design is invalid, get the standard card below.
 		$fixed = spl_build_layout_document( (string) spl_opt( 'card_layout' ), $p, spl_card_tokens( $p ), spl_card_token_list(), false, array( 'code' ) );
 		if ( $fixed !== false ) {
 			return $fixed;

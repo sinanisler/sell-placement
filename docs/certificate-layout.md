@@ -3,7 +3,7 @@
 Version 1. Read by `includes/layout.php`, with fonts from `includes/fonts.php` and QR codes from `includes/qr.php`. Two documents use it:
 
 - **Certificate** (after approval): chosen with "Layout" in Placements > Settings > Certificate. The Zeppelin 75 preset selects it.
-- **Placement card** (the coupon): chosen with "Design" in Placements > Settings > PDF. Coupon is the default. The standard card stays available.
+- **Placement card**: for gift placements, the design is chosen with "Design" in Placements > Settings > PDF. Coupon is the default. Every other placement gets the standard card.
 
 ## Page
 
@@ -92,7 +92,7 @@ The required roles are passed to the check: certificates need name, code and dat
 ## Certificate and card integration
 
 - Certificate: `cert_layout` (empty for the standard design, or a layout key in `includes/layouts/`). The Zeppelin 75 preset sets it and the colours. Every other preset resets it to the standard design. With a layout, the PDF uses the layout's own texts, font and artwork; the colour, border and text settings do not apply to the PDF. The approved email keeps its own HTML certificate.
-- Card: `card_layout` (default `coupon`, or empty for the standard card). The card PDF is attached to:
+- Card: `card_layout` (default `coupon`, or empty for the standard card) applies to gift placements only. Other placements always get the standard card. The card PDF is attached to:
   - the buyer's order email, for every placement the buyer keeps (up to 20 cards per email). Gifts with a recipient email go to the recipient instead;
   - the gift and upload-link emails, as before;
   - the download on the upload page and in the account.

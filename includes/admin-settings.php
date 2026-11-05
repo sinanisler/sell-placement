@@ -148,7 +148,11 @@ add_action( 'admin_post_spl_card_preview', function () {
 	if ( isset( $_POST['spl'] ) && is_array( $_POST['spl'] ) ) { // phpcs:ignore -- sanitised per field by spl_preview_settings()
 		spl_preview_settings( wp_unslash( $_POST['spl'] ), array( 'pdf' ) );
 	}
-	$data = spl_build_pdf( spl_cert_sample_placement(), 'card' );
+	// The design only applies to gifts, so the preview is a gift card.
+	$sample                 = spl_cert_sample_placement();
+	$sample->is_gift        = 1;
+	$sample->recipient_name = $sample->recipient_name ? $sample->recipient_name : __( 'Sam Example', SPL_TD );
+	$data                   = spl_build_pdf( $sample, 'card' );
 	if ( ! $data ) {
 		wp_die( esc_html__( 'The placement card could not be built.', SPL_TD ) );
 	}
