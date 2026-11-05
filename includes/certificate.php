@@ -147,9 +147,43 @@ function spl_cert_email_borders() {
 	);
 }
 
-/** The name(s) printed on the certificate: what the uploader typed, else the holder's name. */
+/** The name printed on the certificate, in capitals, on one line: what the uploader typed, else the holder's name. */
 function spl_cert_name( $p ) {
-	return ! empty( $p->cert_name ) ? $p->cert_name : spl_holder_name( $p );
+	$name = (string) ( ! empty( $p->cert_name ) ? $p->cert_name : spl_holder_name( $p ) );
+	return function_exists( 'mb_strtoupper' ) ? mb_strtoupper( $name, 'UTF-8' ) : strtoupper( $name );
+}
+
+/**
+ * The certificate name on rows. One word stays on one row. Two or more words go on two rows, split where the
+ * two rows are closest in length. Returns the rows joined by "\n".
+ */
+function spl_cert_name_rows( $p ) {
+	$name  = trim( spl_cert_name( $p ) );
+	$words = preg_split( '/\s+/u', $name, -1, PREG_SPLIT_NO_EMPTY );
+	if ( ! is_array( $words ) || count( $words ) < 2 ) {
+		return $name;
+	}
+	$len  = function ( $s ) {
+		return function_exists( 'mb_strlen' ) ? mb_strlen( $s, 'UTF-8' ) : strlen( $s );
+	};
+	$cut  = 1;
+	$best = null;
+	for ( $i = 1; $i < count( $words ); $i++ ) {
+		$left  = implode( ' ', array_slice( $words, 0, $i ) );
+		$right = implode( ' ', array_slice( $words, $i ) );
+		$diff  = abs( $len( $left ) - $len( $right ) );
+		if ( $best === null || $diff < $best ) {
+			$best = $diff;
+			$cut  = $i;
+		}
+	}
+	return implode( ' ', array_slice( $words, 0, $cut ) ) . "\n" . implode( ' ', array_slice( $words, $cut ) );
+}
+
+/** The certificate date in German, "05. November 2026" (day with two digits, full month name). */
+function spl_cert_date( $ts ) {
+	$months = array( 'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember' );
+	return wp_date( 'd', $ts ) . '. ' . $months[ (int) wp_date( 'n', $ts ) - 1 ] . ' ' . wp_date( 'Y', $ts );
 }
 
 /** Placeholder values for the certificate texts. */
@@ -158,11 +192,11 @@ function spl_cert_tokens( $p ) {
 	$order   = ! empty( $p->order_id ) ? wc_get_order( $p->order_id ) : null;
 	$ts      = ! empty( $p->reviewed_at ) ? strtotime( $p->reviewed_at . ' UTC' ) : time();
 	return array(
-		'{certificate_name}' => spl_cert_name( $p ),
+		'{certificate_name}' => spl_cert_name_rows( $p ),
 		'{name}'             => spl_holder_name( $p ),
 		'{product}'          => $product ? $product->get_name() : ( isset( $p->product_name ) ? $p->product_name : '' ),
 		'{code}'             => $p->code,
-		'{date}'             => wp_date( get_option( 'date_format' ), $ts ),
+		'{date}'             => spl_cert_date( $ts ),
 		'{buyer_name}'       => $p->buyer_name,
 		'{order_number}'     => $order ? $order->get_order_number() : '',
 	);
@@ -250,7 +284,7 @@ function spl_build_certificate_pdf( $p ) {
 	spl_cert_pdf_divider( $pdf, $W / 2, $y + 2, $accent );
 
 	$y = $pdf->paragraph( $m, $y + 36, $inner, spl_cert_text( 'cert_presented', $p ), 13, 'italic', 'center', 1.3, $muted );
-	$y = $pdf->paragraph( $m, $y + 22, $inner, spl_cert_name( $p ), 30, true, 'center', 1.2, $text );
+	$y = $pdf->paragraph( $m, $y + 22, $inner, spl_cert_name_rows( $p ), 30, true, 'center', 1.2, $text );
 	$pdf->line( $W / 2 - 150, $y - 24, $W / 2 + 150, $y - 24, $accent, 0.8 );
 	$y = $pdf->paragraph( $m + 10, $y + 14, $inner - 20, spl_cert_text( 'pdf_cert_text', $p ), 12.5, false, 'center', 1.5, $text );
 
@@ -551,7 +585,7 @@ function spl_cert_email_html( $p ) {
 	$html .= '<tr><td style="' . $cell . 'color:' . $muted . ';font-size:14px;letter-spacing:3px;text-transform:uppercase;font-family:Helvetica,Arial,sans-serif">' . esc_html( wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES ) ) . '</td></tr>';
 	$html .= '<tr><td style="' . $cell . 'color:' . $accent . ';font-size:32px;font-weight:bold;line-height:1.2;padding-top:14px">' . esc_html( spl_cert_text( 'pdf_cert_title', $p ) ) . $divider . '</td></tr>';
 	$html .= '<tr><td style="' . $cell . 'color:' . $muted . ';font-size:16px;font-style:italic;padding-top:22px">' . esc_html( spl_cert_text( 'cert_presented', $p ) ) . '</td></tr>';
-	$html .= '<tr><td style="' . $cell . 'color:' . $text . ';font-size:34px;font-weight:bold;line-height:1.2;padding:10px 0 12px"><span style="display:inline-block;padding:0 18px 10px;font-size:34px;font-weight:bold;color:' . $text . ';border-bottom:1px solid ' . $accent . '">' . esc_html( spl_cert_name( $p ) ) . '</span></td></tr>';
+	$html .= '<tr><td style="' . $cell . 'color:' . $text . ';font-size:34px;font-weight:bold;line-height:1.2;padding:10px 0 12px"><span style="display:inline-block;padding:0 18px 10px;font-size:34px;font-weight:bold;color:' . $text . ';border-bottom:1px solid ' . $accent . '">' . nl2br( esc_html( spl_cert_name_rows( $p ) ) ) . '</span></td></tr>';
 	$html .= '<tr><td style="' . $cell . 'color:' . $text . ';font-size:16px;line-height:1.6;padding:6px 10px 0">' . nl2br( esc_html( spl_cert_text( 'pdf_cert_text', $p ) ) ) . '</td></tr>';
 	$html .= $image;
 	$html .= '<tr><td style="padding-top:28px"><table role="presentation" width="100%" cellspacing="0" cellpadding="0"><tr>'

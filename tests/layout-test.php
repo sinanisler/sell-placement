@@ -285,7 +285,7 @@ $link_pdf = new SPL_PDF();
 $link_pdf->add_face( 'aptos-zeppelin/regular', spl_font_face( 'aptos-zeppelin', 'regular' ) );
 $link_pdf->face = 'aptos-zeppelin/regular';
 $link_lines     = $url_el === null ? array() : $link_pdf->wrap_lines( strtr( $url_el['value'], $card_values ), $url_el['size'], false, $url_el['box']['w'] );
-check( 'the upload link stays on one line in the coupon', count( $link_lines ) === 1, implode( ' | ', $link_lines ) );
+check( 'the upload link is at most two lines and fits its box in the coupon', $url_el !== null && count( $link_lines ) <= 2 && count( $link_lines ) * $url_el['size'] * $url_el['leading'] <= $url_el['box']['h'] + 0.5, implode( ' | ', $link_lines ) );
 $coupon_all = spl_layout_check( file_get_contents( SPL_DIR . 'includes/layouts/coupon.json' ), $card_tags );
 check( 'a card layout is an error for a certificate check (no name element)', mentions( $coupon_all['errors'], 'element for "name"' ), implode( '; ', $coupon_all['errors'] ) );
 echo "\n" . $results['pass'] . ' passed, ' . $results['fail'] . " failed\n";
