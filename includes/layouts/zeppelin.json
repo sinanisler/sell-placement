@@ -1,0 +1,17 @@
+{
+	"version": 1,
+	"background": { "color": "#fff2bb", "image": "file:zeppelin-background.jpg" },
+	"elements": [
+		{ "id": "photo", "type": "image", "role": "photo", "source": "approved", "box": { "x": 171.6, "y": 134, "w": 252, "h": 250 } },
+		{ "id": "presented", "type": "text", "family": "aptos-zeppelin", "box": { "x": 47.6, "y": 420.8, "w": 500, "h": 21.5 }, "value": "Dieses Zertifikat wird mit Stolz überreicht an", "size": 16.5, "color": "#575757", "align": "center", "leading": 1.3 },
+		{ "id": "name", "type": "text", "role": "name", "family": "aptos-zeppelin", "box": { "x": 147.6, "y": 458.6, "w": 300, "h": 77 }, "value": "{certificate_name}", "size": 35.5, "bold": true, "color": "#003d8d", "align": "center", "leading": 1.03, "fit": { "min": 22 } },
+		{ "id": "body", "type": "text", "family": "aptos-zeppelin", "box": { "x": 47.6, "y": 554.4, "w": 500, "h": 66 }, "value": "für den persönlichen Beitrag zur Geburtstagsbotschaft\n„75 Jahre Baden-Württemberg“\nmit dem hier gezeigten Foto auf dem HÄPPY-Zeppelin NT.", "size": 16.5, "color": "#575757", "align": "center", "leading": 1.32, "fit": { "min": 12 } },
+		{ "id": "tagline", "type": "text", "family": "aptos-zeppelin", "box": { "x": 47.6, "y": 634.9, "w": 500, "h": 43 }, "value": "HÄPPY BIRTHDAY,\nBADEN-WÜRTTEMBERG!", "size": 23, "bold": true, "color": "#003d8d", "align": "center", "leading": 0.92 },
+		{ "id": "rule", "type": "line", "from": [45.2, 736], "to": [430.5, 736], "color": "#003d8d", "width": 1 },
+		{ "id": "label_date", "type": "text", "family": "aptos-zeppelin", "box": { "x": 45.2, "y": 755.2, "w": 100, "h": 15 }, "value": "Freigegeben am", "size": 12.5, "color": "#003d8d", "leading": 1.2 },
+		{ "id": "date", "type": "text", "role": "date", "family": "aptos-zeppelin", "box": { "x": 135.6, "y": 755.2, "w": 150, "h": 15 }, "value": "{date}", "size": 12.5, "bold": true, "color": "#003d8d", "leading": 1.2 },
+		{ "id": "label_id", "type": "text", "family": "aptos-zeppelin", "box": { "x": 45.2, "y": 771.2, "w": 100, "h": 15 }, "value": "Teilnehmer-ID:", "size": 12.5, "color": "#003d8d", "leading": 1.2 },
+		{ "id": "code", "type": "text", "role": "code", "family": "aptos-zeppelin", "box": { "x": 135.6, "y": 771.2, "w": 150, "h": 15 }, "value": "{code}", "size": 12.5, "bold": true, "color": "#003d8d", "leading": 1.2 },
+		{ "id": "website", "type": "text", "family": "aptos-zeppelin", "box": { "x": 421.4, "y": 784, "w": 150, "h": 20.4 }, "value": "wirsind-BW.de", "size": 17, "bold": true, "color": "#003d8d", "align": "center", "leading": 1.2 }
+	]
+}

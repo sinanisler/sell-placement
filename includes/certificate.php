@@ -19,6 +19,7 @@ function spl_cert_presets() {
 		'classic' => array(
 			'label'  => __( 'Classic gold', SPL_TD ),
 			'values' => array(
+				'cert_layout'      => '',
 				'cert_font'         => 'serif',
 				'cert_bg_color'     => '#fffdf6',
 				'cert_accent_color' => '#9a7a26',
@@ -32,6 +33,7 @@ function spl_cert_presets() {
 		'elegant' => array(
 			'label'  => __( 'Elegant burgundy', SPL_TD ),
 			'values' => array(
+				'cert_layout'      => '',
 				'cert_font'         => 'serif',
 				'cert_bg_color'     => '#fbf8f3',
 				'cert_accent_color' => '#6b2737',
@@ -45,6 +47,7 @@ function spl_cert_presets() {
 		'royal'   => array(
 			'label'  => __( 'Royal night', SPL_TD ),
 			'values' => array(
+				'cert_layout'      => '',
 				'cert_font'         => 'serif',
 				'cert_bg_color'     => '#10213f',
 				'cert_accent_color' => '#d4af37',
@@ -58,6 +61,7 @@ function spl_cert_presets() {
 		'modern'  => array(
 			'label'  => __( 'Modern blue', SPL_TD ),
 			'values' => array(
+				'cert_layout'      => '',
 				'cert_font'         => 'sans',
 				'cert_bg_color'     => '#ffffff',
 				'cert_accent_color' => '#1f4fd1',
@@ -71,6 +75,7 @@ function spl_cert_presets() {
 		'festive' => array(
 			'label'  => __( 'Festive', SPL_TD ),
 			'values' => array(
+				'cert_layout'      => '',
 				'cert_font'         => 'sans',
 				'cert_bg_color'     => '#fff8ee',
 				'cert_accent_color' => '#e4572e',
@@ -84,6 +89,7 @@ function spl_cert_presets() {
 		'minimal' => array(
 			'label'  => __( 'Minimal', SPL_TD ),
 			'values' => array(
+				'cert_layout'      => '',
 				'cert_font'         => 'sans',
 				'cert_bg_color'     => '#ffffff',
 				'cert_accent_color' => '#111111',
@@ -91,6 +97,20 @@ function spl_cert_presets() {
 				'cert_muted_color'  => '#777777',
 				'cert_pdf_border'   => 'single',
 				'cert_email_border' => 'single',
+				'cert_show_seal'    => 0,
+			),
+		),
+		'zeppelin' => array(
+			'label'  => __( 'Zeppelin 75 (fixed layout)', SPL_TD ),
+			'values' => array(
+				'cert_layout'       => 'zeppelin',
+				'cert_font'         => 'sans',
+				'cert_bg_color'     => '#fff2bb',
+				'cert_accent_color' => '#003d8d',
+				'cert_text_color'   => '#003d8d',
+				'cert_muted_color'  => '#575757',
+				'cert_pdf_border'   => 'none',
+				'cert_email_border' => 'none',
 				'cert_show_seal'    => 0,
 			),
 		),
@@ -192,8 +212,56 @@ function spl_cert_design() {
  * PDF.
  * ---------------------------------------------------------------------- */
 
+/**
+ * The PDF from the fixed layout chosen in the "Layout" setting (includes/layouts/<key>.json). False when no
+ * layout is chosen or the layout has errors, so the standard design is used.
+ *
+ * @return string|false PDF bytes
+ */
+function spl_build_layout_certificate_pdf( $p ) {
+	$key = (string) spl_opt( 'cert_layout' );
+	if ( $key === '' || ! preg_match( '/^[a-z0-9-]+$/', $key ) ) {
+		return false;
+	}
+	$file = SPL_DIR . 'includes/layouts/' . $key . '.json';
+	if ( ! is_readable( $file ) ) {
+		return false;
+	}
+	$checked = spl_layout_check( (string) file_get_contents( $file ), spl_cert_token_list() ); // phpcs:ignore WordPress.WP.AlternativeFunctions
+	if ( $checked['errors'] ) {
+		return false;
+	}
+
+	$values                = spl_cert_tokens( $p );
+	$values['{site_name}'] = wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES );
+	$values['{site_url}']  = preg_replace( '#^https?://#', '', home_url() );
+	$show_image            = (bool) spl_opt( 'cert_show_image' );
+	$ctx                   = array(
+		'image' => function ( $source ) use ( $p, $show_image ) {
+			if ( $source === 'approved' ) {
+				return $show_image && ! empty( $p->attachment_id ) ? spl_attachment_jpeg( $p->attachment_id, 1400 ) : false;
+			}
+			if ( strpos( $source, 'media:' ) === 0 ) {
+				return spl_attachment_jpeg( (int) substr( $source, 6 ), 2480 );
+			}
+			$path = SPL_DIR . 'assets/certificate/' . basename( substr( $source, 5 ) );
+			return is_readable( $path ) ? file_get_contents( $path ) : false; // phpcs:ignore WordPress.WP.AlternativeFunctions
+		},
+		'font'  => function ( $family, $style ) {
+			return spl_font_face( $family, $style );
+		},
+	);
+
+	$pdf = new SPL_PDF();
+	spl_layout_render( $pdf, $checked['layout'], $values, $ctx );
+	return $pdf->output();
+}
 /** @return string|false PDF bytes */
 function spl_build_certificate_pdf( $p ) {
+	$fixed = spl_build_layout_certificate_pdf( $p );
+	if ( $fixed !== false ) {
+		return $fixed;
+	}
 	$d      = spl_cert_design();
 	$pdf    = new SPL_PDF();
 	$W      = SPL_PDF::W;

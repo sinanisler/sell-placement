@@ -23,6 +23,12 @@ class SPL_PDF {
 	/** Use Times instead of Helvetica for text drawn from now on. */
 	public $serif = false;
 
+	/** Key of a custom face (see add_face()) for text drawn from now on, or null for the standard fonts. */
+	public $face = null;
+
+	/** Custom faces: key => array( 'font' => parsed font, 'name' => resource name, 'used' => glyph id => code point ). */
+	private $faces = array();
+
 	private static $widths = array(
 		'F1' => array( 278, 278, 355, 556, 556, 889, 667, 191, 333, 333, 389, 584, 278, 333, 278, 278, 556, 556, 556, 556, 556, 556, 556, 556, 556, 556, 278, 278, 584, 584, 584, 556, 1015, 667, 667, 722, 722, 667, 611, 778, 722, 278, 500, 667, 556, 833, 722, 778, 667, 778, 722, 667, 611, 722, 667, 944, 667, 667, 611, 278, 278, 278, 469, 556, 333, 556, 556, 500, 556, 556, 278, 556, 556, 222, 222, 500, 222, 833, 556, 556, 556, 556, 333, 500, 278, 556, 500, 722, 500, 500, 500, 334, 260, 334, 584 ),
 		'F2' => array( 278, 333, 474, 556, 556, 889, 722, 238, 333, 333, 389, 584, 278, 333, 278, 278, 556, 556, 556, 556, 556, 556, 556, 556, 556, 556, 333, 333, 584, 584, 584, 611, 975, 722, 722, 722, 722, 667, 611, 778, 722, 278, 556, 722, 611, 833, 722, 778, 667, 778, 722, 667, 611, 722, 667, 944, 667, 667, 611, 333, 278, 333, 584, 556, 333, 556, 611, 556, 611, 556, 333, 611, 611, 278, 278, 556, 278, 889, 611, 611, 611, 611, 389, 556, 333, 611, 556, 778, 556, 556, 500, 389, 280, 389, 584 ),
@@ -53,7 +59,77 @@ class SPL_PDF {
 		return $bold === 'italic' ? 'F6' : ( $bold ? 'F2' : 'F1' );
 	}
 
+	/** Makes a parsed TrueType face (see fonts.php) available under $key. Setting $face = $key draws with it. */
+	public function add_face( $key, $font ) {
+		if ( ! isset( $this->faces[ $key ] ) ) {
+			$this->faces[ $key ] = array( 'font' => $font, 'name' => 'FC' . ( count( $this->faces ) + 1 ), 'used' => array() );
+		}
+	}
+
+	/** Advance width of $text in the current custom face, in points. */
+	private function face_width( $text, $size ) {
+		$f = $this->faces[ $this->face ]['font'];
+		$w = 0;
+		foreach ( self::code_points( $text ) as $cp ) {
+			$gid = isset( $f['cmap'][ $cp ] ) ? $f['cmap'][ $cp ] : 0;
+			$w  += isset( $f['advance'][ $gid ] ) ? $f['advance'][ $gid ] : 0;
+		}
+		return $w * $size / $f['upm'];
+	}
+
+	/** Glyph ids of $text in the current custom face, as a hex string. Records which glyphs are used. */
+	private function face_hex( $text ) {
+		$key = $this->face;
+		$f   = $this->faces[ $key ]['font'];
+		$hex = '';
+		foreach ( self::code_points( $text ) as $cp ) {
+			$gid = isset( $f['cmap'][ $cp ] ) ? $f['cmap'][ $cp ] : 0;
+			if ( ! isset( $this->faces[ $key ]['used'][ $gid ] ) ) {
+				$this->faces[ $key ]['used'][ $gid ] = $cp;
+			}
+			$hex .= sprintf( '%04X', $gid );
+		}
+		return '<' . $hex . '>';
+	}
+
+	/** Unicode code points of a UTF-8 string. */
+	private static function code_points( $text ) {
+		$out = array();
+		foreach ( self::split_chars( $text ) as $ch ) {
+			$cp    = mb_ord( $ch, 'UTF-8' );
+			$out[] = $cp === false ? 0xFFFD : $cp;
+		}
+		return $out;
+	}
+
+	/** The characters of a UTF-8 string, so that a cut never splits one. */
+	private static function split_chars( $text ) {
+		$parts = preg_split( '//u', (string) $text, -1, PREG_SPLIT_NO_EMPTY );
+		return is_array( $parts ) ? $parts : array( (string) $text );
+	}
+
+	private static function char_count( $text ) {
+		return count( self::split_chars( $text ) );
+	}
+
+	/** ToUnicode CMap: glyph id to code point, so the text can be copied and searched. */
+	private static function to_unicode_cmap( $used ) {
+		$out  = "/CIDInit /ProcSet findresource begin\n12 dict begin\nbegincmap\n";
+		$out .= "/CIDSystemInfo << /Registry (Adobe) /Ordering (UCS) /Supplement 0 >> def\n/CMapName /Adobe-Identity-UCS def\n/CMapType 2 def\n";
+		$out .= "1 begincodespacerange\n<0000> <FFFF>\nendcodespacerange\n";
+		$pairs = array();
+		foreach ( $used as $gid => $cp ) {
+			$pairs[] = sprintf( '<%04X> <%s>', $gid, strtoupper( bin2hex( mb_convert_encoding( mb_chr( $cp, 'UTF-8' ), 'UTF-16BE', 'UTF-8' ) ) ) );
+		}
+		foreach ( array_chunk( $pairs, 100 ) as $chunk ) {
+			$out .= count( $chunk ) . " beginbfchar\n" . implode( "\n", $chunk ) . "\nendbfchar\n";
+		}
+		return $out . "endcmap\nCMapName currentdict /CMap defineresource pop\nend\nend";
+	}
 	public function width( $text, $size, $bold = false ) {
+		if ( $this->face !== null ) {
+			return $this->face_width( $text, $size );
+		}
 		$font = $this->font( $bold );
 		$map  = self::$widths[ $font === 'F6' ? 'F1' : $font ];
 		$w   = 0;
@@ -77,48 +153,93 @@ class SPL_PDF {
 		} elseif ( $align === 'right' ) {
 			$x -= $this->width( $text, $size, $bold );
 		}
+		if ( $this->face !== null ) {
+			$this->ops[] = sprintf( '%.3F %.3F %.3F rg BT /%s %.2F Tf %.2F %.2F Td %s Tj ET', $color[0], $color[1], $color[2], $this->faces[ $this->face ]['name'], $size, $x, self::H - $y, $this->face_hex( $text ) );
+			return;
+		}
 		$this->ops[] = sprintf( '%.3F %.3F %.3F rg BT /%s %.2F Tf %.2F %.2F Td (%s) Tj ET', $color[0], $color[1], $color[2], $this->font( $bold ), $size, $x, self::H - $y, self::esc( $text ) );
 	}
 
-	/** Wrapped text; returns the y below the last line. */
-	public function paragraph( $x, $y, $maxw, $text, $size = 11, $bold = false, $align = 'left', $leading = 1.4, $color = array( 0.15, 0.15, 0.15 ) ) {
+	/**
+	 * The lines paragraph() draws: the text of each line, or null for a blank line. Long words are broken.
+	 * The certificate layouts use this to measure text before drawing it.
+	 */
+	public function wrap_lines( $text, $size, $bold, $maxw ) {
+		$lines = array();
 		foreach ( preg_split( '/\r\n|\r|\n/', (string) $text ) as $para ) {
 			if ( trim( $para ) === '' ) {
-				$y += $size * $leading * 0.6;
+				$lines[] = null;
 				continue;
 			}
 			$line = '';
 			foreach ( preg_split( '/\s+/', trim( $para ) ) as $word ) {
 				$try = $line === '' ? $word : $line . ' ' . $word;
 				if ( $this->width( $try, $size, $bold ) > $maxw && $line !== '' ) {
-					$this->text( $align === 'center' ? $x + $maxw / 2 : $x, $y, $line, $size, $bold, $align, $color );
-					$y   += $size * $leading;
-					$line = $word;
+					$lines[] = $line;
+					$line    = $word;
 				} else {
 					$line = $try;
 				}
 				// Break words longer than the line (e.g. URLs).
-				while ( $this->width( $line, $size, $bold ) > $maxw && strlen( $line ) > 1 ) {
-					$cut = strlen( $line );
-					while ( $cut > 1 && $this->width( substr( $line, 0, $cut ), $size, $bold ) > $maxw ) {
+				while ( $this->width( $line, $size, $bold ) > $maxw && self::char_count( $line ) > 1 ) {
+					$parts = self::split_chars( $line );
+					$cut   = count( $parts );
+					while ( $cut > 1 && $this->width( implode( '', array_slice( $parts, 0, $cut ) ), $size, $bold ) > $maxw ) {
 						$cut--;
 					}
-					$this->text( $align === 'center' ? $x + $maxw / 2 : $x, $y, substr( $line, 0, $cut ), $size, $bold, $align, $color );
-					$y   += $size * $leading;
-					$line = substr( $line, $cut );
+					$lines[] = implode( '', array_slice( $parts, 0, $cut ) );
+					$line    = implode( '', array_slice( $parts, $cut ) );
 				}
 			}
 			if ( $line !== '' ) {
-				$this->text( $align === 'center' ? $x + $maxw / 2 : $x, $y, $line, $size, $bold, $align, $color );
-				$y += $size * $leading;
+				$lines[] = $line;
 			}
+		}
+		return $lines;
+	}
+
+	/** Wrapped text; returns the y below the last line. */
+	public function paragraph( $x, $y, $maxw, $text, $size = 11, $bold = false, $align = 'left', $leading = 1.4, $color = array( 0.15, 0.15, 0.15 ) ) {
+		$tx = $align === 'center' ? $x + $maxw / 2 : $x;
+		foreach ( $this->wrap_lines( $text, $size, $bold, $maxw ) as $line ) {
+			if ( $line === null ) {
+				$y += $size * $leading * 0.6;
+				continue;
+			}
+			$this->text( $tx, $y, $line, $size, $bold, $align, $color );
+			$y += $size * $leading;
 		}
 		return $y;
 	}
-
 	/** A null $stroke fills only. */
 	public function rect( $x, $y, $w, $h, $stroke = array( 0.8, 0.8, 0.8 ), $fill = null, $lw = 1 ) {
 		$this->ops[] = $this->paint( $stroke, $fill, $lw ) . sprintf( '%.2F %.2F %.2F %.2F re ', $x, self::H - $y - $h, $w, $h ) . $this->paint_op( $stroke, $fill );
+	}
+
+	/**
+	 * Rectangle with rounded corners whose top-left corner is ($x, $y); $r is the corner radius in points.
+	 * Stroke and fill work as in rect().
+	 */
+	public function round_rect( $x, $y, $w, $h, $r, $stroke = array( 0.8, 0.8, 0.8 ), $fill = null, $lw = 1 ) {
+		if ( ! $stroke && ! $fill ) {
+			return;
+		}
+		$r = max( 0, min( $r, $w / 2, $h / 2 ) );
+		$k = 0.5523 * $r; // Bezier handle length for a quarter circle.
+		$p = function ( $px, $py ) {
+			return sprintf( '%.2F %.2F', $px, self::H - $py );
+		};
+		$op  = $this->paint( $stroke, $fill, $lw );
+		$op .= $p( $x + $r, $y ) . ' m ';
+		$op .= $p( $x + $w - $r, $y ) . ' l ';
+		$op .= $p( $x + $w - $r + $k, $y ) . ' ' . $p( $x + $w, $y + $r - $k ) . ' ' . $p( $x + $w, $y + $r ) . ' c ';
+		$op .= $p( $x + $w, $y + $h - $r ) . ' l ';
+		$op .= $p( $x + $w, $y + $h - $r + $k ) . ' ' . $p( $x + $w - $r + $k, $y + $h ) . ' ' . $p( $x + $w - $r, $y + $h ) . ' c ';
+		$op .= $p( $x + $r, $y + $h ) . ' l ';
+		$op .= $p( $x + $r - $k, $y + $h ) . ' ' . $p( $x, $y + $h - $r + $k ) . ' ' . $p( $x, $y + $h - $r ) . ' c ';
+		$op .= $p( $x, $y + $r ) . ' l ';
+		$op .= $p( $x, $y + $r - $k ) . ' ' . $p( $x + $r - $k, $y ) . ' ' . $p( $x + $r, $y ) . ' c ';
+		$this->ops[] = $op . 'h ' . $this->paint_op( $stroke, $fill );
 	}
 
 	private function paint( $stroke, $fill, $lw ) {
@@ -213,7 +334,40 @@ class SPL_PDF {
 			$annots[] = $next . ' 0 R';
 			$next++;
 		}
-		$objs[3] = sprintf( '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 %.2F %.2F] /Resources << /Font << /F1 5 0 R /F2 6 0 R /F3 7 0 R /F4 8 0 R /F5 9 0 R /F6 10 0 R >>%s >> /Contents 4 0 R%s >>', self::W, self::H, $xobj, $annots ? ' /Annots [' . implode( ' ', $annots ) . ']' : '' );
+		// Custom faces: a Type 0 font with the whole TrueType file embedded. Widths come from the file.
+		$fontRefs = '';
+		foreach ( $this->faces as $face ) {
+			$f     = $face['font'];
+			$k     = $f['upm'] / 1000;
+			$base  = $next;
+			$cid   = $next + 1;
+			$desc  = $next + 2;
+			$file  = $next + 3;
+			$tu    = $next + 4;
+			$next += 5;
+			$used  = array_keys( $face['used'] );
+			sort( $used );
+			$widths = '';
+			foreach ( $used as $gid ) {
+				$widths .= ' ' . $gid . ' [' . (int) round( ( isset( $f['advance'][ $gid ] ) ? $f['advance'][ $gid ] : 0 ) / $k ) . ']';
+			}
+			$bb    = array_map( function ( $v ) use ( $f ) {
+				return (int) round( $v * 1000 / $f['upm'] );
+			}, $f['bbox'] );
+			$flags = 32 | ( $f['italic'] ? 64 : 0 );
+			$ps    = $f['ps_name'];
+			$objs[ $base ] = "<< /Type /Font /Subtype /Type0 /BaseFont /$ps /Encoding /Identity-H /DescendantFonts [$cid 0 R] /ToUnicode $tu 0 R >>";
+			$objs[ $cid ]  = "<< /Type /Font /Subtype /CIDFontType2 /BaseFont /$ps /CIDSystemInfo << /Registry (Adobe) /Ordering (Identity) /Supplement 0 >> /FontDescriptor $desc 0 R /DW 1000 /W [$widths ] /CIDToGIDMap /Identity >>";
+			$objs[ $desc ] = sprintf( '<< /Type /FontDescriptor /FontName /%s /Flags %d /FontBBox [%d %d %d %d] /ItalicAngle %.1F /Ascent %d /Descent %d /CapHeight %d /StemV 80 /FontFile2 %d 0 R >>',
+				$ps, $flags, $bb[0], $bb[1], $bb[2], $bb[3], $f['italic_angle'],
+				round( $f['ascent'] * 1000 / $f['upm'] ), round( $f['descent'] * 1000 / $f['upm'] ), round( $f['cap'] * 1000 / $f['upm'] ), $file );
+			$z             = gzcompress( $f['data'], 9 );
+			$objs[ $file ] = '<< /Length ' . strlen( $z ) . ' /Length1 ' . strlen( $f['data'] ) . " /Filter /FlateDecode >>\nstream\n" . $z . "\nendstream";
+			$map           = self::to_unicode_cmap( $face['used'] );
+			$objs[ $tu ]   = '<< /Length ' . strlen( $map ) . " >>\nstream\n" . $map . "\nendstream";
+			$fontRefs     .= ' /' . $face['name'] . ' ' . $base . ' 0 R';
+		}
+		$objs[3] = sprintf( '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 %.2F %.2F] /Resources << /Font << /F1 5 0 R /F2 6 0 R /F3 7 0 R /F4 8 0 R /F5 9 0 R /F6 10 0 R%s >>%s >> /Contents 4 0 R%s >>', self::W, self::H, $fontRefs, $xobj, $annots ? ' /Annots [' . implode( ' ', $annots ) . ']' : '' );
 		ksort( $objs );
 
 		$out     = "%PDF-1.4\n%\xE2\xE3\xCF\xD3\n";

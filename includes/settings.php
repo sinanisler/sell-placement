@@ -404,6 +404,16 @@ function spl_settings_schema() {
 					'choices' => wp_list_pluck( spl_cert_presets(), 'label' ),
 					'desc'    => __( '"Apply" fills in the colors, font, borders and seal below. Your texts are kept.', SPL_TD ),
 				),
+				'cert_layout' => array(
+					'type'    => 'select',
+					'label'   => __( 'Layout', SPL_TD ),
+					'default' => '',
+					'choices' => array(
+						''        => __( 'Standard design (the settings below)', SPL_TD ),
+						'zeppelin' => __( 'Zeppelin 75 (fixed layout, Aptos Zeppelin NT)', SPL_TD ),
+					),
+					'desc'    => __( 'A fixed layout replaces the standard design for the PDF, with its own texts, font and artwork. The colors, borders and texts below then do not apply to the PDF. The approved email keeps its own design.', SPL_TD ),
+				),
 				'cert_font' => array(
 					'type'    => 'select',
 					'label'   => __( 'Font', SPL_TD ),
