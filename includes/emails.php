@@ -93,19 +93,21 @@ function spl_email_types() {
 
 /**
  * Wider, tighter layout for this plugin's emails than WooCommerce's 600px template with its tall top
- * padding: 70% of the window up to 1200px on desktop, full width on phones. Covers the classic and the
- * newer WooCommerce email templates.
+ * padding. WooCommerce caps the email at 600px in three places: #wrapper (max-width), the middle table
+ * cell (width="600", marked .spl-email-col in spl_send_email) and the template container. Only the
+ * container is widened here, the others are lifted too. Result: 70% of the window on desktop, at most
+ * 1200px and centred; full width on phones.
  */
 function spl_email_layout_css( $css ) {
 	return $css . '
-		#wrapper { padding-top: 12px !important; padding-bottom: 24px !important; }
+		#wrapper { max-width: 1200px !important; padding-top: 12px !important; padding-bottom: 24px !important; }
 		#template_header_image, #template_header_image p { margin: 0 !important; padding-top: 0 !important; }
-		#template_container, .email-container { width: 70% !important; max-width: 1200px !important; }
+		#template_container, .email-container { width: 100% !important; }
 		#template_header, #template_body, #template_footer, #body_content, #inner_wrapper { width: 100% !important; }
 		#header_wrapper { padding-top: 16px !important; padding-bottom: 16px !important; }
 		#body_content img { max-width: 100% !important; height: auto !important; }
 		@media screen and (max-width: 700px) {
-			#template_container, .email-container { width: 100% !important; }
+			.spl-email-col { width: 100% !important; }
 		}
 	';
 }
@@ -164,6 +166,8 @@ function spl_send_email( $type, $to, $tokens, $attachments = array(), $override 
 
 	$mailer = WC()->mailer();
 	$html   = $mailer->wrap_message( wp_strip_all_tags( $heading ), wpautop( $body ) );
+	// WooCommerce's header has one fixed 600px cell (the first match). Mark it so the layout CSS can widen it.
+	$html = preg_replace( '/<td width="600">/', '<td class="spl-email-col" width="70%">', $html, 1 );
 	add_filter( 'woocommerce_email_styles', 'spl_email_layout_css', 100 ); // only around our own send
 	$sent = $mailer->send( $to, wp_strip_all_tags( $subject ), $html, "Content-Type: text/html\r\n", $attachments );
 	remove_filter( 'woocommerce_email_styles', 'spl_email_layout_css', 100 );
