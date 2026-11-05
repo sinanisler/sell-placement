@@ -357,12 +357,25 @@ function spl_query_placements( $args = array() ) {
 	);
 }
 
-/** @return array<string,int> status => count */
-function spl_status_counts() {
+/**
+ * @param array $filters Optional search, product_id and order_id, as spl_query_placements() takes them.
+ *                       With filters, the counts are for the matching placements only.
+ * @return array<string,int> status => count
+ */
+function spl_status_counts( $filters = array() ) {
 	global $wpdb;
-	$out = array_fill_keys( array_keys( spl_statuses() ), 0 );
-	foreach ( $wpdb->get_results( 'SELECT status, COUNT(*) n FROM ' . spl_table() . ' GROUP BY status' ) as $r ) {
-		$out[ $r->status ] = (int) $r->n;
+	$out    = array_fill_keys( array_keys( spl_statuses() ), 0 );
+	$active = array_filter( $filters, function ( $v ) {
+		return $v !== '' && $v !== 0; // not a plain truthiness test: a search for "0" is still a filter
+	} );
+	if ( ! $active ) {
+		foreach ( $wpdb->get_results( 'SELECT status, COUNT(*) n FROM ' . spl_table() . ' GROUP BY status' ) as $r ) {
+			$out[ $r->status ] = (int) $r->n;
+		}
+		return $out;
+	}
+	foreach ( array_keys( $out ) as $status ) {
+		$out[ $status ] = spl_query_placements( array_merge( $filters, array( 'status' => $status, 'per_page' => 1 ) ) )['total'];
 	}
 	return $out;
 }

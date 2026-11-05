@@ -76,6 +76,7 @@ require_once SPL_DIR . 'includes/rest.php';
 if ( is_admin() ) {
 	require_once SPL_DIR . 'includes/admin-menu.php';
 	require_once SPL_DIR . 'includes/admin-approvals.php';
+	require_once SPL_DIR . 'includes/admin-export.php';
 	require_once SPL_DIR . 'includes/admin-media.php';
 	require_once SPL_DIR . 'includes/admin-settings.php';
 }

@@ -5,7 +5,8 @@
 .spl-muted{color:#646970;font-size:14px}
 .spl-warn{color:#b32d2e}
 .spl-code{font-family:Menlo,Consolas,monospace;font-weight:600;letter-spacing:.03em;text-decoration:none}
-.spl-pill{display:inline-block;padding:2px 9px;border-radius:99px;font-size:14px;font-weight:600;line-height:18px;background:#f0f0f1;color:#50575e;white-space:nowrap;vertical-align:middle}
+.spl-pill{display:inline-block;padding:2px 9px;border-radius:99px;font-size:14px;font-weight:600;line-height:18px;background:#f0f0f1;color:#50575e;white-space:nowrap;vertical-align:middle;text-decoration:none}
+a.spl-pill:hover{filter:brightness(.94)}
 .spl-pill-awaiting{background:#e2e4e7;color:#1d2327}
 .spl-pill-review{background:#ec7220;color:#fff}
 .spl-pill-approved{background:#d6f2df;color:#135e2c}
@@ -13,6 +14,8 @@
 .spl-pill-suspended{background:#b63d3d;color:#fff}
 .spl-pill-cancelled{background:#f0f0f1;color:#8c8f94;text-decoration:line-through}
 .column-spl_placements .spl-pill{margin:1px 0}
+.column-spl_placements .spl-order-links{display:flex;flex-wrap:wrap;gap:4px;align-items:center}
+.column-spl_placements .spl-order-all{flex-basis:100%;font-size:14px;font-weight:600;margin-top:2px}
 
 .spl-wrap .wp-heading-inline .spl-pill{margin-left:6px}
 .spl-view-toggle{display:inline-flex;gap:2px;margin-left:12px;vertical-align:middle}
@@ -20,6 +23,9 @@
 .spl-view-toggle a.is-active{background:#2271b1;border-color:#2271b1;color:#fff}
 .spl-filters{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:10px 0 12px;clear:both}
 .spl-filters input[type=search]{min-width:240px}
+.spl-filters .dashicons{vertical-align:text-bottom}
+.spl-summary{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 16px;margin:12px 0 0;padding:10px 14px;background:#f0f6fc;border:1px solid #c5d9ed;border-left:4px solid #2271b1;border-radius:4px;color:#1d2327}
+.spl-summary a{font-weight:600}
 .spl-select-all{margin-right:10px}
 .spl-empty{text-align:center;padding:60px 20px;color:#646970;background:#fff;border:1px solid #dcdcde;border-radius:4px}
 .spl-empty .dashicons{font-size:40px;width:40px;height:40px;color:#00a32a}
@@ -144,3 +150,8 @@ details.spl-box[open]>summary h2::before{content:"▾ "}
 .spl-cert-test-result{flex-basis:100%}
 .spl-cert-test-result.is-ok{color:#007017}
 .spl-cert-test-result.is-error{color:#b32d2e;font-weight:600}
+
+/* Placement card tab (PDF): the live preview frame beside the form, and the explanation on top. */
+.spl-settings .spl-intro{font-size:14px}
+.spl-card-frame{display:block;width:100%;max-width:560px;height:auto;aspect-ratio:595.28/841.89;border:1px solid #dcdcde;background:#fff}
+.spl-card-frame.is-loading{opacity:.6}

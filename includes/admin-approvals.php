@@ -314,31 +314,116 @@ function spl_render_approvals_page() {
 	spl_render_queue();
 }
 
-function spl_render_queue() {
+/**
+ * The Approvals list as the URL describes it: the status tab and the filters. The list, its tabs, the
+ * summary and the CSV export all read it here, so they always agree.
+ *
+ * @return array{status:string,filters:array{search:string,product_id:int,order_id:int}}
+ */
+function spl_queue_state() {
 	// phpcs:disable WordPress.Security.NonceVerification.Recommended
-	$counts  = spl_status_counts();
-	$status  = isset( $_GET['status'] ) ? sanitize_key( $_GET['status'] ) : ( $counts['review'] ? 'review' : 'all' );
-	$search  = isset( $_GET['s'] ) ? sanitize_text_field( wp_unslash( $_GET['s'] ) ) : '';
-	$product = isset( $_GET['product'] ) ? absint( $_GET['product'] ) : 0;
-	$paged   = max( 1, isset( $_GET['paged'] ) ? absint( $_GET['paged'] ) : 1 );
-	$view    = isset( $_GET['view'] ) ? sanitize_key( $_GET['view'] ) : get_user_meta( get_current_user_id(), 'spl_view', true );
-	$view    = in_array( $view, array( 'list', 'grid', 'compact' ), true ) ? $view : 'compact';
+	$filters = array(
+		'search'     => isset( $_GET['s'] ) ? sanitize_text_field( wp_unslash( $_GET['s'] ) ) : '',
+		'product_id' => isset( $_GET['product'] ) ? absint( $_GET['product'] ) : 0,
+		'order_id'   => isset( $_GET['order_id'] ) ? absint( $_GET['order_id'] ) : 0,
+	);
+	// Opened for one order (from the WooCommerce order list): show all of its placements, not the review queue.
+	$default = 'all';
+	if ( ! $filters['order_id'] ) {
+		$default = spl_status_counts()['review'] ? 'review' : 'all';
+	}
+	$status = isset( $_GET['status'] ) ? sanitize_key( $_GET['status'] ) : $default;
+	// phpcs:enable
+	return array( 'status' => $status, 'filters' => $filters );
+}
+
+/** Arguments for spl_query_placements() that match the state of the list. */
+function spl_queue_args( $status, $filters ) {
+	return array_merge( array( 'status' => $status ), $filters );
+}
+
+/** Sort order of the list and of its export: the review queue oldest upload first, otherwise latest change first. */
+function spl_queue_sort( $status ) {
+	return $status === 'review' ? array( 'orderby' => 'uploaded_at', 'order' => 'ASC' ) : array( 'orderby' => 'updated_at', 'order' => 'DESC' );
+}
+
+/** The list's URL arguments. Empty filters are left out of the URL. */
+function spl_queue_url_args( $status, $filters = array() ) {
+	$filters = wp_parse_args( $filters, array( 'search' => '', 'product_id' => 0, 'order_id' => 0 ) );
+	return array_filter( array(
+		'status'   => $status,
+		's'        => $filters['search'],
+		'product'  => $filters['product_id'],
+		'order_id' => $filters['order_id'],
+	), function ( $v ) {
+		return $v !== '' && $v !== 0;
+	} );
+}
+
+/** Link to the Approvals list in one status, with the given filters. */
+function spl_queue_url( $status = 'all', $filters = array() ) {
+	return add_query_arg( spl_queue_url_args( $status, $filters ), admin_url( 'admin.php?page=spl-approvals' ) );
+}
+
+/**
+ * Above the list: which order, product or search it is limited to. A filtered view must never look like
+ * the full list, so the filters are named and can be cleared in one click.
+ */
+function spl_render_queue_summary( $status, $filters, $total ) {
+	if ( ! $filters['order_id'] && ! $filters['product_id'] && $filters['search'] === '' ) {
+		return;
+	}
+	$parts = array();
+	if ( $filters['order_id'] ) {
+		$order = wc_get_order( $filters['order_id'] );
+		if ( $order ) {
+			$buyer   = trim( $order->get_billing_first_name() . ' ' . $order->get_billing_last_name() );
+			$parts[] = '<strong>' . esc_html( sprintf( /* translators: %s: order number */ __( 'Order #%s', SPL_TD ), $order->get_order_number() ) ) . '</strong>'
+				. ( $buyer !== '' ? ' <span class="spl-muted">' . esc_html( $buyer ) . '</span>' : '' )
+				. ' <a href="' . esc_url( $order->get_edit_order_url() ) . '">' . esc_html__( 'Open order', SPL_TD ) . '</a>';
+		} else {
+			$parts[] = '<strong>' . esc_html( sprintf( /* translators: %d: order number */ __( 'Order #%d', SPL_TD ), $filters['order_id'] ) ) . '</strong> <span class="spl-muted">' . esc_html__( '(order not found)', SPL_TD ) . '</span>';
+		}
+	}
+	if ( $filters['product_id'] ) {
+		$product = wc_get_product( $filters['product_id'] );
+		$parts[] = esc_html__( 'Product', SPL_TD ) . ': <strong>' . esc_html( $product ? $product->get_name() : '#' . $filters['product_id'] ) . '</strong>';
+	}
+	if ( $filters['search'] !== '' ) {
+		$parts[] = esc_html__( 'Search', SPL_TD ) . ': <strong>' . esc_html( $filters['search'] ) . '</strong>';
+	}
+	$count = sprintf( _n( '%s placement', '%s placements', $total, SPL_TD ), number_format_i18n( $total ) );
+	if ( $status !== 'all' ) {
+		$count .= ' (' . spl_status_label( $status ) . ')';
+	}
+	?>
+	<div class="spl-summary">
+		<div><?php esc_html_e( 'Showing', SPL_TD ); ?>: <?php echo implode( ' · ', $parts ); // phpcs:ignore ?></div>
+		<div>
+			<?php echo esc_html( $count ); ?>
+			· <a href="<?php echo esc_url( spl_queue_url( 'all' ) ); ?>"><?php esc_html_e( 'Clear filters', SPL_TD ); ?></a>
+		</div>
+	</div>
+	<?php
+}
+
+function spl_render_queue() {
+	$state   = spl_queue_state();
+	$status  = $state['status'];
+	$filters = $state['filters'];
+	// phpcs:disable WordPress.Security.NonceVerification.Recommended
+	$paged = max( 1, isset( $_GET['paged'] ) ? absint( $_GET['paged'] ) : 1 );
+	$view  = isset( $_GET['view'] ) ? sanitize_key( $_GET['view'] ) : get_user_meta( get_current_user_id(), 'spl_view', true );
+	$view  = in_array( $view, array( 'list', 'grid', 'compact' ), true ) ? $view : 'compact';
 	if ( isset( $_GET['view'] ) ) {
 		update_user_meta( get_current_user_id(), 'spl_view', $view );
 	}
 	// phpcs:enable
-	$per_page = array( 'list' => 25, 'grid' => 48, 'compact' => 96 )[ $view ];
-	$res      = spl_query_placements( array(
-		'status'     => $status,
-		'search'     => $search,
-		'product_id' => $product,
-		'page'       => $paged,
-		'per_page'   => $per_page,
-		'orderby'    => $status === 'review' ? 'uploaded_at' : 'updated_at',
-		'order'      => $status === 'review' ? 'ASC' : 'DESC',
-	) );
-	$base     = admin_url( 'admin.php?page=spl-approvals' );
-	$here     = spl_current_admin_url();
+	$per_page   = array( 'list' => 25, 'grid' => 48, 'compact' => 96 )[ $view ];
+	$res        = spl_query_placements( spl_queue_args( $status, $filters ) + spl_queue_sort( $status ) + array( 'page' => $paged, 'per_page' => $per_page ) );
+	$tab_counts = spl_status_counts( $filters );
+	$here       = spl_current_admin_url();
+	$export_url = wp_nonce_url( add_query_arg( array_merge( array( 'action' => 'spl_export_csv' ), spl_queue_url_args( $status, $filters ) ), admin_url( 'admin-post.php' ) ), 'spl_export_csv' );
 
 	$products = get_posts( array(
 		'post_type'   => 'product',
@@ -363,24 +448,31 @@ function spl_render_queue() {
 			$tabs = array( 'all' => __( 'All', SPL_TD ), 'review' => spl_status_label( 'review' ), 'awaiting' => spl_status_label( 'awaiting' ), 'declined' => spl_status_label( 'declined' ), 'approved' => spl_status_label( 'approved' ), 'suspended' => spl_status_label( 'suspended' ), 'cancelled' => spl_status_label( 'cancelled' ) );
 			$links = array();
 			foreach ( $tabs as $key => $label ) {
-				$n       = $key === 'all' ? array_sum( $counts ) : $counts[ $key ];
-				$links[] = '<li><a href="' . esc_url( add_query_arg( array( 'status' => $key ), $base ) ) . '" class="' . ( $status === $key ? 'current' : '' ) . '">' . esc_html( $label ) . ' <span class="count">(' . number_format_i18n( $n ) . ')</span></a>';
+				// The tabs keep the filters: they change the status only.
+				$n       = $key === 'all' ? array_sum( $tab_counts ) : $tab_counts[ $key ];
+				$links[] = '<li><a href="' . esc_url( spl_queue_url( $key, $filters ) ) . '" class="' . ( $status === $key ? 'current' : '' ) . '">' . esc_html( $label ) . ' <span class="count">(' . number_format_i18n( $n ) . ')</span></a>';
 			}
 			echo implode( ' |</li>', $links ) . '</li>'; // phpcs:ignore
 			?>
 		</ul>
 
+		<?php spl_render_queue_summary( $status, $filters, $res['total'] ); ?>
+
 		<form method="get" class="spl-filters">
 			<input type="hidden" name="page" value="spl-approvals" />
 			<input type="hidden" name="status" value="<?php echo esc_attr( $status ); ?>" />
+			<?php if ( $filters['order_id'] ) : ?>
+				<input type="hidden" name="order_id" value="<?php echo (int) $filters['order_id']; ?>" />
+			<?php endif; ?>
 			<select name="product">
 				<option value=""><?php esc_html_e( 'All products', SPL_TD ); ?></option>
 				<?php foreach ( $products as $prod ) : ?>
-					<option value="<?php echo (int) $prod->ID; ?>" <?php selected( $product, $prod->ID ); ?>><?php echo esc_html( $prod->post_title ); ?></option>
+					<option value="<?php echo (int) $prod->ID; ?>" <?php selected( $filters['product_id'], $prod->ID ); ?>><?php echo esc_html( $prod->post_title ); ?></option>
 				<?php endforeach; ?>
 			</select>
-			<input type="search" name="s" value="<?php echo esc_attr( $search ); ?>" placeholder="<?php esc_attr_e( 'ID, email, name, order #', SPL_TD ); ?>" />
+			<input type="search" name="s" value="<?php echo esc_attr( $filters['search'] ); ?>" placeholder="<?php esc_attr_e( 'ID, email, name, order #', SPL_TD ); ?>" />
 			<button class="button"><?php esc_html_e( 'Filter', SPL_TD ); ?></button>
+			<a class="button" href="<?php echo esc_url( $export_url ); ?>" title="<?php esc_attr_e( 'Download every placement in this list as a CSV file, not only the page on screen', SPL_TD ); ?>"><span class="dashicons dashicons-download"></span> <?php echo esc_html( sprintf( /* translators: %s: number of placements */ __( 'Export CSV (%s)', SPL_TD ), number_format_i18n( $res['total'] ) ) ); ?></a>
 		</form>
 
 		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="spl-bulk-form">

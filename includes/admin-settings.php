@@ -65,10 +65,10 @@ function spl_render_settings_page() {
 			<br class="clear">
 		<?php endif; ?>
 
-		<?php if ( $tab === 'certificate' ) : ?>
+		<?php if ( $tab === 'certificate' || $tab === 'pdf' ) : ?>
 			<div class="spl-cert-layout">
 		<?php endif; ?>
-		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"<?php echo $tab === 'certificate' ? ' class="spl-cert-form" data-spl-cert-form' : ''; ?>>
+		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"<?php echo $tab === 'certificate' ? ' class="spl-cert-form" data-spl-cert-form' : ( $tab === 'pdf' ? ' data-spl-card-form' : '' ); ?>>
 			<?php wp_nonce_field( 'spl_save_settings' ); ?>
 			<input type="hidden" name="action" value="spl_save_settings" />
 			<input type="hidden" name="sections" value="<?php echo esc_attr( implode( ',', $sections ) ); ?>" />
@@ -79,7 +79,9 @@ function spl_render_settings_page() {
 					<h2><?php echo esc_html( $section['title'] ); ?></h2>
 				<?php endif; ?>
 				<?php if ( ! empty( $section['intro'] ) ) : ?>
-					<p class="description"><?php echo esc_html( $section['intro'] ); ?></p>
+					<?php foreach ( (array) $section['intro'] as $line ) : ?>
+						<p class="description spl-intro"><?php echo esc_html( $line ); ?></p>
+					<?php endforeach; ?>
 				<?php endif; ?>
 				<table class="form-table" role="presentation">
 					<?php foreach ( $section['fields'] as $key => $field ) : ?>
@@ -102,6 +104,17 @@ function spl_render_settings_page() {
 			</p>
 		</form>
 
+		<?php if ( $tab === 'pdf' ) : ?>
+				<aside class="spl-cert-aside">
+					<div class="spl-cert-aside-head">
+						<h2><?php esc_html_e( 'Live preview', SPL_TD ); ?></h2>
+						<button type="button" class="button" data-spl-card-open><?php esc_html_e( 'Open PDF', SPL_TD ); ?></button>
+					</div>
+					<p class="description spl-intro"><?php esc_html_e( 'Updates as you edit, before saving. Shows the newest approved placement, or example values.', SPL_TD ); ?></p>
+					<iframe name="spl-card-frame" class="spl-card-frame is-loading" title="<?php esc_attr_e( 'Placement card preview', SPL_TD ); ?>" data-spl-card-frame data-pdf="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'spl_card_preview' ) ); ?>"></iframe>
+				</aside>
+			</div>
+		<?php endif; ?>
 		<?php if ( $tab === 'certificate' ) : ?>
 				<aside class="spl-cert-aside">
 					<div class="spl-cert-aside-head">
@@ -122,6 +135,30 @@ function spl_render_settings_page() {
 	</div>
 	<?php
 }
+
+/**
+ * Live preview of the placement card on the PDF tab: the card built from the unsaved values, shown in the
+ * frame beside the form. "Open PDF" shows the same file in a new tab.
+ */
+add_action( 'admin_post_spl_card_preview', function () {
+	if ( ! current_user_can( 'spl_settings' ) ) {
+		wp_die( esc_html__( 'Sorry, you are not allowed to do that.', SPL_TD ) );
+	}
+	check_admin_referer( 'spl_card_preview' );
+	if ( isset( $_POST['spl'] ) && is_array( $_POST['spl'] ) ) { // phpcs:ignore -- sanitised per field by spl_preview_settings()
+		spl_preview_settings( wp_unslash( $_POST['spl'] ), array( 'pdf' ) );
+	}
+	$data = spl_build_pdf( spl_cert_sample_placement(), 'card' );
+	if ( ! $data ) {
+		wp_die( esc_html__( 'The placement card could not be built.', SPL_TD ) );
+	}
+	nocache_headers();
+	header( 'Content-Type: application/pdf' );
+	header( 'Content-Disposition: inline; filename="placement-card-preview.pdf"' );
+	header( 'Content-Length: ' . strlen( $data ) );
+	echo $data; // phpcs:ignore -- binary PDF
+	exit;
+} );
 
 function spl_render_setting_field( $key, $field ) {
 	$id    = 'spl_' . $key;

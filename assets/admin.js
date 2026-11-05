@@ -124,6 +124,35 @@ jQuery(function ($) {
 		$f.appendTo('body').trigger('submit').remove();
 	});
 
+	// Placement card tab: the card PDF built from the unsaved values is shown in the frame on the right.
+	var $cardForm = $('[data-spl-card-form]');
+	var $cardFrame = $('[data-spl-card-frame]');
+	var cardTimer = null;
+	function cardPost($f) {
+		$f.append($('<input type="hidden" name="action" value="spl_card_preview">'));
+		$f.append($('<input type="hidden" name="_wpnonce">').val($cardFrame.data('nonce')));
+		$.each($cardForm.serializeArray(), function (i, f) {
+			if (f.name.indexOf('spl[') === 0) { $f.append($('<input type="hidden">').attr('name', f.name).val(f.value)); }
+		});
+		return $f.appendTo('body');
+	}
+	function refreshCardPreview() {
+		if (!$cardFrame.length) { return; }
+		clearTimeout(cardTimer);
+		cardTimer = setTimeout(function () {
+			$cardFrame.addClass('is-loading');
+			var $f = $('<form method="post">').attr({ action: $cardFrame.data('pdf'), target: $cardFrame.attr('name') }).css('display', 'none');
+			cardPost($f).trigger('submit').remove();
+		}, 500);
+	}
+	$cardFrame.on('load', function () { $cardFrame.removeClass('is-loading'); });
+	$cardForm.on('input change', refreshCardPreview);
+	$(document).on('click', '[data-spl-card-open]', function () {
+		var $f = $('<form method="post" target="_blank">').attr('action', $cardFrame.data('pdf')).css('display', 'none');
+		cardPost($f).trigger('submit').remove();
+	});
+	refreshCardPreview();
+
 	if ($.fn.wpColorPicker) {
 		// The picker updates the field after its change callback, so the preview waits a moment.
 		$('.spl-color').wpColorPicker({ change: function () { setTimeout(refreshPreview, 0); }, clear: function () { setTimeout(refreshPreview, 0); } });

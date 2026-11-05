@@ -228,11 +228,19 @@ function spl_render_orders_column( $column, $order_or_id ) {
 		echo '<span aria-hidden="true">–</span>';
 		return;
 	}
+	// Each count opens that status for this order. From two placements up, "View all" opens every one of them,
+	// so a split order (some approved, some not) is seen in one click.
 	$parts = array();
 	foreach ( $counts as $status => $n ) {
-		$parts[] = '<span class="spl-pill spl-pill-' . esc_attr( $status ) . '">' . (int) $n . ' ' . esc_html( spl_status_label( $status ) ) . '</span>';
+		$parts[] = '<a class="spl-pill spl-pill-' . esc_attr( $status ) . '" href="' . esc_url( spl_queue_url( $status, array( 'order_id' => $order_id ) ) ) . '">' . (int) $n . ' ' . esc_html( spl_status_label( $status ) ) . '</a>';
 	}
-	echo '<a href="' . esc_url( admin_url( 'admin.php?page=spl-approvals&status=all&s=' . $order_id ) ) . '">' . implode( ' ', $parts ) . '</a>'; // phpcs:ignore
+	$total = array_sum( $counts );
+	echo '<div class="spl-order-links">' . implode( ' ', $parts ); // phpcs:ignore
+	if ( $total > 1 ) {
+		/* translators: %d: number of placements in the order */
+		echo '<a class="spl-order-all" href="' . esc_url( spl_queue_url( 'all', array( 'order_id' => $order_id ) ) ) . '">' . esc_html( sprintf( __( 'View all %d', SPL_TD ), $total ) ) . ' →</a>';
+	}
+	echo '</div>';
 }
 add_action( 'manage_shop_order_posts_custom_column', 'spl_render_orders_column', 20, 2 );
 add_action( 'manage_woocommerce_page_wc-orders_custom_column', 'spl_render_orders_column', 20, 2 );

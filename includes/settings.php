@@ -369,7 +369,11 @@ function spl_settings_schema() {
 
 		'pdf' => array(
 			'title'  => __( 'PDF', SPL_TD ),
-			'intro'  => __( 'The printable placement card, sent with upload links and handy as a gift. Plain text; placeholders are filled in. The certificate has its own tab.', SPL_TD ),
+			'intro'  => array(
+				__( 'The placement card is the printable PDF of one placement. It shows the placement code and the upload link, so whoever holds it can upload the image. Every placement gets one.', SPL_TD ),
+				__( 'It is attached to the order email (one per placement, except gifts that go straight to a recipient), to the gift email sent to that recipient, and to upload-link emails. Gift placements can also download it from the account.', SPL_TD ),
+				__( 'This is not the certificate. The certificate is the PDF sent after an image is approved, and it has its own tab.', SPL_TD ),
+			),
 			'fields' => array(
 				'card_layout' => array(
 					'type'    => 'select',
@@ -379,7 +383,7 @@ function spl_settings_schema() {
 						'coupon' => __( 'Coupon (fixed design with QR code)', SPL_TD ),
 						''       => __( 'Standard card (the texts below)', SPL_TD ),
 					),
-					'desc'    => __( 'The PDF sent with upload links and gifts, and downloadable from the upload page and the account. The fixed design uses its own texts and ignores the texts below.', SPL_TD ),
+					'desc'    => __( 'Coupon is a fixed design with a QR code and ignores the texts below. The standard card uses the texts below.', SPL_TD ),
 				),
 				'pdf_card_title' => array(
 					'type'    => 'text',
