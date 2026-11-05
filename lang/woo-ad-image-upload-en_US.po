@@ -1847,6 +1847,14 @@ msgstr "Before payment (order pages)"
 msgid "Your upload links appear here as soon as the payment is confirmed."
 msgstr "Your upload links appear here as soon as the payment is confirmed."
 
+#: includes/settings.php:561
+msgid "Order received message (thank-you page)"
+msgstr "Order received message (thank-you page)"
+
+#: includes/settings.php:563
+msgid "The notice at the top of the order-received page, shown when the order contains image placements. Leave empty to restore the WooCommerce wording."
+msgstr "The notice at the top of the order-received page, shown when the order contains image placements. Leave empty to restore the WooCommerce wording."
+
 #: includes/settings.php:514
 msgid "Enabled"
 msgstr "Enabled"

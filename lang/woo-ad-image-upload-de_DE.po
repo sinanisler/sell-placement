@@ -1848,6 +1848,14 @@ msgstr "Vor der Zahlung (Bestellseiten)"
 msgid "Your upload links appear here as soon as the payment is confirmed."
 msgstr "Ihre Upload-Links erscheinen hier, sobald die Zahlung bestätigt ist."
 
+#: includes/settings.php:561
+msgid "Order received message (thank-you page)"
+msgstr "Hinweis nach der Bestellung (Dankeseite)"
+
+#: includes/settings.php:563
+msgid "The notice at the top of the order-received page, shown when the order contains image placements. Leave empty to restore the WooCommerce wording."
+msgstr "Der Hinweis oben auf der Bestellbestätigung, wenn die Bestellung Bildplatzierungen enthält. Leer lassen stellt den WooCommerce-Text wieder her."
+
 #: includes/settings.php:514
 msgid "Enabled"
 msgstr "Aktiviert"

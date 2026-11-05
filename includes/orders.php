@@ -146,6 +146,15 @@ add_action( 'woocommerce_view_order', function ( $order_id ) {
 	spl_order_panel( $order_id, false );
 }, 5 );
 
+// WooCommerce's notice at the top of the order-received page ("Thank you. Your order has been received.").
+// Only orders with placements get the wording from the settings; every other order keeps WooCommerce's text.
+add_filter( 'woocommerce_thankyou_order_received_text', function ( $text, $order ) {
+	if ( ! $order || ! spl_order_has_placements( $order ) ) {
+		return $text;
+	}
+	return esc_html( spl_text( 'order_received_text' ) );
+}, 10, 2 );
+
 /* ------------------------------------------------------------------------
  * wp-admin order screen: a box listing the order's placements.
  * ---------------------------------------------------------------------- */

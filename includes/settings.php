@@ -558,6 +558,12 @@ function spl_settings_schema() {
 					'label'   => __( 'Before payment (order pages)', SPL_TD ),
 					'default' => __( 'Your upload links appear here as soon as the payment is confirmed.', SPL_TD ),
 				),
+				'order_received_text' => array(
+					'type'    => 'text',
+					'label'   => __( 'Order received message (thank-you page)', SPL_TD ),
+					'default' => __( 'Thank you. Your order has been received.', 'woocommerce' ),
+					'desc'    => __( 'The notice at the top of the order-received page, shown when the order contains image placements. Leave empty to restore the WooCommerce wording.', SPL_TD ),
+				),
 			),
 		),
 	);
