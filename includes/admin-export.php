@@ -25,6 +25,7 @@ function spl_export_columns() {
 		__( 'Gift recipient name', SPL_TD ),
 		__( 'Gift recipient email', SPL_TD ),
 		__( 'Upload link', SPL_TD ),
+		__( 'QR code link', SPL_TD ),
 		__( 'Gift PDF link', SPL_TD ),
 		__( 'Image URL', SPL_TD ),
 		__( 'Uploaded by', SPL_TD ),
@@ -35,7 +36,7 @@ function spl_export_columns() {
 }
 
 /**
- * One placement as a row. Upload and gift PDF links are left empty for cancelled placements: those links
+ * One placement as a row. Upload, QR and gift PDF links are left empty for cancelled placements: those links
  * are closed. The gift PDF is only for gifts; the image URL only once an image exists.
  *
  * @param object $p     Placement.
@@ -66,6 +67,7 @@ function spl_export_row( $p, &$cache ) {
 		$gift ? $p->recipient_name : '',
 		$gift ? $p->recipient_email : '',
 		$cancelled ? '' : spl_upload_url( $p ),
+		$cancelled ? '' : spl_qr_url( $p ),
 		$gift && ! $cancelled ? spl_pdf_url( $p, 'card' ) : '',
 		$p->attachment_id ? spl_image_src_url( $p->attachment_id ) : '',
 		$p->uploader_name,

@@ -405,3 +405,57 @@ function spl_qr_penalty( $m ) {
 	$penalty += 10 * $k;
 	return $penalty;
 }
+
+
+/* ------------------------------------------------------------------------
+ * QR code link: the upload link of a placement as an image, to print or to scan from the screen.
+ * ---------------------------------------------------------------------- */
+
+/**
+ * The QR code of $text as an SVG image, with a quiet zone of four modules. Each dark module is one square in a
+ * single path, so the file stays small and prints sharp at any size.
+ *
+ * @return string|null SVG markup, or null when the text is too long for a QR code.
+ */
+function spl_qr_svg( $text ) {
+	$m = spl_qr_matrix( $text );
+	if ( $m === null ) {
+		return null;
+	}
+	$n    = count( $m );
+	$size = $n + 8;
+	$d    = '';
+	for ( $y = 0; $y < $n; $y++ ) {
+		for ( $x = 0; $x < $n; $x++ ) {
+			if ( $m[ $y ][ $x ] ) {
+				$d .= 'M' . ( $x + 4 ) . ' ' . ( $y + 4 ) . 'h1v1h-1z';
+			}
+		}
+	}
+	return '<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 ' . $size . ' ' . $size . '" shape-rendering="crispEdges">'
+		. '<rect width="' . $size . '" height="' . $size . '" fill="#fff"/>'
+		. '<path fill="#000" d="' . $d . '"/></svg>';
+}
+
+/** Link to the QR code of a placement's upload link. It carries the same secret token as the upload link. */
+function spl_qr_url( $p ) {
+	return add_query_arg( 'spl_qr', $p->token, home_url( '/' ) );
+}
+
+/** Serves the QR code image. A cancelled placement has no working upload link, so it gets no code either. */
+add_action( 'template_redirect', function () {
+	if ( empty( $_GET['spl_qr'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+		return;
+	}
+	$p   = spl_get_by_token( sanitize_text_field( wp_unslash( $_GET['spl_qr'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification
+	$svg = $p && $p->status !== 'cancelled' ? spl_qr_svg( spl_upload_url( $p ) ) : null;
+	if ( ! $svg ) {
+		wp_die( esc_html( spl_text( 'invalid_link' ) ), '', array( 'response' => 404 ) );
+	}
+	nocache_headers();
+	header( 'Content-Type: image/svg+xml; charset=utf-8' );
+	header( 'Content-Disposition: inline; filename="qr-' . sanitize_file_name( strtolower( $p->code ) ) . '.svg"' );
+	header( 'X-Robots-Tag: noindex', true );
+	echo $svg; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	exit;
+}, 5 );

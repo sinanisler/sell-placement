@@ -842,6 +842,9 @@ function spl_render_detail( $p ) {
 					</p>
 					<p class="spl-actions">
 						<a class="button" href="<?php echo esc_url( spl_upload_url( $p ) ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Open upload page', SPL_TD ); ?></a>
+						<?php if ( $p->status !== 'cancelled' ) : ?>
+							<a class="button" href="<?php echo esc_url( spl_qr_url( $p ) ); ?>" target="_blank" rel="noopener" title="<?php esc_attr_e( 'QR code of the upload link, to print or scan', SPL_TD ); ?>"><?php esc_html_e( 'QR code', SPL_TD ); ?></a>
+						<?php endif; ?>
 						<a class="button" href="<?php echo esc_url( spl_pdf_url( $p, 'card' ) ); ?>"><?php esc_html_e( 'Card PDF', SPL_TD ); ?></a>
 						<?php if ( $p->status === 'approved' ) : ?>
 							<a class="button" href="<?php echo esc_url( spl_pdf_url( $p, 'certificate' ) ); ?>"><?php esc_html_e( 'Certificate PDF', SPL_TD ); ?></a>
