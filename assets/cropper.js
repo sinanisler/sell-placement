@@ -354,6 +354,10 @@
 				var res = null;
 				try { res = JSON.parse(xhr.responseText); } catch (err) { /* not JSON */ }
 				if (res && res.success) {
+					// The reloaded page shows the "received" heading at the top. Without this the browser restores
+					// the scroll position of the form, so the person lands at the bottom and has to scroll up.
+					if ('scrollRestoration' in history) { history.scrollRestoration = 'manual'; }
+					window.scrollTo(0, 0);
 					window.location.reload();
 					return;
 				}
