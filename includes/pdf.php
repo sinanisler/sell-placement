@@ -488,8 +488,16 @@ function spl_pdf_to_file( $p, $type ) {
 	return file_put_contents( $file, $data ) ? $file : false; // phpcs:ignore
 }
 
+/** File name of a PDF: HAPPY-Zeppelin-gift-CODE.pdf for a gift card, placement-CODE.pdf for other cards, HAPPY-Zeppelin-zertifikat-CODE.pdf for the certificate. */
 function spl_pdf_filename( $p, $type ) {
-	return sanitize_file_name( strtolower( ( $type === 'certificate' ? 'certificate-' : 'placement-' ) . $p->code ) ) . '.pdf';
+	if ( $type === 'certificate' ) {
+		$prefix = 'HAPPY-Zeppelin-zertifikat-';
+	} elseif ( ! empty( $p->is_gift ) ) {
+		$prefix = 'HAPPY-Zeppelin-gift-';
+	} else {
+		$prefix = 'placement-';
+	}
+	return sanitize_file_name( $prefix . strtolower( $p->code ) ) . '.pdf';
 }
 
 /** @return string|false PDF bytes */
