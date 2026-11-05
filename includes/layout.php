@@ -48,9 +48,10 @@ function spl_layout_source_ok( $source ) {
  *
  * @param array|string $layout Layout as an array, or as JSON text.
  * @param string[]     $tags   The tags the certificate can fill. Anything else in a text gets a warning.
+ * @param string[]     $required Roles the layout must contain (see spl_layout_roles()).
  * @return array{layout:?array,errors:string[],warnings:string[]}
  */
-function spl_layout_check( $layout, $tags = array() ) {
+function spl_layout_check( $layout, $tags = array(), $required = array( 'name', 'code', 'date' ) ) {
 	$errors   = array();
 	$warnings = array();
 
@@ -97,9 +98,9 @@ function spl_layout_check( $layout, $tags = array() ) {
 			return $el['role'] === $role;
 		} ) );
 		if ( ! $found ) {
-			if ( $rule['required'] ) {
+			if ( in_array( $role, $required, true ) ) {
 				$errors[] = sprintf( __( 'The layout needs an element for "%s".', SPL_TD ), $role );
-			} else {
+			} elseif ( $role === 'photo' && in_array( 'name', $required, true ) ) {
 				$warnings[] = __( 'Without a photo element, approved images are not shown on the certificate.', SPL_TD );
 			}
 		}
@@ -138,7 +139,7 @@ function spl_layout_element( $raw, $index, $tags, &$errors, &$warnings ) {
 		return null;
 	}
 	$type = isset( $raw['type'] ) ? $raw['type'] : '';
-	if ( ! in_array( $type, array( 'text', 'image', 'rect', 'line' ), true ) ) {
+	if ( ! in_array( $type, array( 'text', 'image', 'rect', 'line', 'qr' ), true ) ) {
 		$bad( sprintf( __( 'unknown type "%s". Use text, image, rect or line.', SPL_TD ), (string) $type ) );
 		return null;
 	}
@@ -189,6 +190,23 @@ function spl_layout_element( $raw, $index, $tags, &$errors, &$warnings ) {
 		if ( ! $el['fill'] && ! $el['stroke'] ) {
 			$warnings[] = sprintf( __( 'Element %d: a rectangle with no fill or stroke is not drawn.', SPL_TD ), $n );
 		}
+		return $el;
+	}
+
+	if ( $type === 'qr' ) {
+		$data = isset( $raw['data'] ) ? (string) $raw['data'] : '';
+		if ( $data === '' ) {
+			$bad( __( 'a QR code needs "data", such as {upload_url}.', SPL_TD ) );
+		}
+		foreach ( spl_layout_tags_in( $data ) as $tag ) {
+			if ( $tags && ! in_array( $tag, $tags, true ) ) {
+				$warnings[] = sprintf( __( 'Element %1$d: unknown tag %2$s.', SPL_TD ), $n, $tag );
+			}
+		}
+		$el += array(
+			'data'  => $data,
+			'color' => spl_layout_color( isset( $raw['color'] ) ? $raw['color'] : null, '#000000', $bad ),
+		);
 		return $el;
 	}
 
@@ -380,6 +398,9 @@ function spl_layout_render( $pdf, $layout, $values, $ctx = array() ) {
 			case 'line':
 				$pdf->line( $el['from'][0], $el['from'][1], $el['to'][0], $el['to'][1], spl_layout_rgb( $el['color'] ), $el['width'] );
 				break;
+			case 'qr':
+				$warnings = array_merge( $warnings, spl_layout_draw_qr( $pdf, $el, $values ) );
+				break;
 			case 'image':
 				$warnings = array_merge( $warnings, spl_layout_draw_image( $pdf, $el, $image_cb, false ) );
 				break;
@@ -525,5 +546,31 @@ function spl_layout_draw_image( $pdf, $el, $image_cb, $stretch ) {
 		);
 	}
 	$pdf->jpeg( $jpeg, $x, $y, $w, $h );
+	return array();
+}
+
+/**
+ * A QR code with the text of $el['data'] (a tag such as {upload_url}), centred in its box with a quiet zone of
+ * four modules on each side.
+ */
+function spl_layout_draw_qr( $pdf, $el, $values ) {
+	$m = spl_qr_matrix( strtr( $el['data'], $values ) );
+	if ( $m === null ) {
+		return array( sprintf( __( 'Element "%s": the text is too long for a QR code.', SPL_TD ), $el['id'] ) );
+	}
+	$n     = count( $m );
+	$b     = $el['box'];
+	$ms    = min( $b['w'], $b['h'] ) / ( $n + 8 );
+	$x0    = $b['x'] + ( $b['w'] - $n * $ms ) / 2;
+	$y0    = $b['y'] + ( $b['h'] - $n * $ms ) / 2;
+	$rects = array();
+	for ( $y = 0; $y < $n; $y++ ) {
+		for ( $x = 0; $x < $n; $x++ ) {
+			if ( $m[ $y ][ $x ] ) {
+				$rects[] = array( $x0 + $x * $ms, $y0 + $y * $ms, $ms, $ms );
+			}
+		}
+	}
+	$pdf->fill_rects( $rects, spl_layout_rgb( $el['color'] ) );
 	return array();
 }

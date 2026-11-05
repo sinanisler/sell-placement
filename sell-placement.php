@@ -67,6 +67,7 @@ require_once SPL_DIR . 'includes/upload-page.php';
 require_once SPL_DIR . 'includes/emails.php';
 require_once SPL_DIR . 'includes/pdf.php';
 require_once SPL_DIR . 'includes/fonts.php';
+require_once SPL_DIR . 'includes/qr.php';
 require_once SPL_DIR . 'includes/layout.php';
 require_once SPL_DIR . 'includes/certificate.php';
 require_once SPL_DIR . 'includes/account.php';

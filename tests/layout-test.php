@@ -18,6 +18,7 @@ function __( $text ) {
 
 require SPL_DIR . 'includes/pdf.php';
 require SPL_DIR . 'includes/fonts.php';
+require SPL_DIR . 'includes/qr.php';
 require SPL_DIR . 'includes/layout.php';
 
 $out = isset( $argv[1] ) ? rtrim( $argv[1], '/\\' ) : sys_get_temp_dir();
@@ -59,8 +60,9 @@ $ctx   = array(
 		if ( $source === 'approved' ) {
 			return $photo;
 		}
-		if ( $source === 'file:zeppelin-background.jpg' ) {
-			return file_get_contents( SPL_DIR . 'assets/certificate/zeppelin-background.jpg' );
+		if ( strpos( $source, 'file:' ) === 0 ) {
+			$path = SPL_DIR . 'assets/certificate/' . basename( substr( $source, 5 ) );
+			return is_readable( $path ) ? file_get_contents( $path ) : false;
 		}
 		return false;
 	},
@@ -237,5 +239,42 @@ $lines     = $pdf->wrap_lines( 'Äußerst lange Wörter brechen zwischen Zeichen
 $joined    = str_replace( ' ', '', implode( '', array_filter( $lines, 'is_string' ) ) ); // line breaks drop the spaces
 check( 'long UTF-8 words are broken between characters', $joined === str_replace( ' ', '', 'Äußerst lange Wörter brechen zwischen Zeichen, nicht zwischen Bytes' ) && count( $lines ) > 3, implode( ' | ', $lines ) );
 
+// 9. QR codes: the upload link is a version 5 symbol with a finder pattern in each corner; too long text gives none.
+$qr = spl_qr_matrix( 'https://shop.wirsind-bw.de/?spl_upload=eb8028e1ed3fd5b8dcd66b2c6b8aa7b53543ee7e' );
+check( 'QR code of an upload link is version 5 (37 modules)', is_array( $qr ) && count( $qr ) === 37 );
+check( 'QR finder pattern in the top-left corner', is_array( $qr ) && $qr[0][0] && $qr[0][6] && $qr[6][0] && $qr[3][3] && ! $qr[1][1] );
+check( 'QR text that is too long gives no matrix', spl_qr_matrix( str_repeat( 'A', 300 ) ) === null );
+$checked = spl_layout_check( array( 'elements' => array( array( 'id' => 'q', 'type' => 'qr', 'box' => array( 'x' => 0, 'y' => 0, 'w' => 50, 'h' => 50 ) ) ) ), $tags );
+check( 'QR element without data is an error', mentions( $checked['errors'], 'QR code needs "data"' ), implode( '; ', $checked['errors'] ) );
+
+// 10. Font subset: the same glyphs and widths, far fewer bytes.
+$reg    = spl_font_face( 'aptos-zeppelin', 'regular' );
+$gids   = array();
+foreach ( preg_split( '//u', 'GUTSCHEIN', -1, PREG_SPLIT_NO_EMPTY ) as $ch ) {
+	$gids[] = $reg['cmap'][ mb_ord( $ch, 'UTF-8' ) ];
+}
+$sub    = spl_font_subset( $reg, $gids );
+$parsed = spl_font_parse( $sub );
+check( 'font subset parses as a font', $parsed !== null );
+check( 'font subset keeps the widths of the used glyphs', $parsed !== null && $parsed['advance'][ $gids[0] ] === $reg['advance'][ $gids[0] ] );
+check( 'font subset is much smaller than the font', strlen( $sub ) * 2 < strlen( $reg['data'] ), strlen( $sub ) . ' of ' . strlen( $reg['data'] ) );
+
+// 11. The GUTSCHEIN voucher: the card's own tags, only the code required, a QR code with the upload link.
+$card_tags   = array( '{code}', '{upload_url}', '{product}', '{buyer_name}', '{recipient_name}', '{event_end}', '{site_name}', '{site_url}' );
+$card_values = array(
+	'{code}'         => 'SPXAE96',
+	'{upload_url}'   => 'https://shop.wirsind-bw.de/?spl_upload=eb8028e1ed3fd5b8dcd66b2c6b8aa7b53543ee7e',
+	'{product}'      => 'HÄPPY-Ticket',
+	'{buyer_name}'   => 'Alex',
+	'{event_end}'    => '28. Februar 2027',
+	'{site_name}'    => 'Wirsind BW',
+	'{site_url}'     => 'shop.wirsind-bw.de',
+);
+$gut = spl_layout_check( file_get_contents( SPL_DIR . 'includes/layouts/gutschein.json' ), $card_tags, array( 'code' ) );
+check( 'GUTSCHEIN layout has no errors when only the code is required', $gut['errors'] === array(), implode( '; ', $gut['errors'] ) );
+$warnings = render_to( $gut['layout'], $card_values, $ctx, $out . '/gutschein-sample.pdf' );
+check( 'GUTSCHEIN renders without warnings', $warnings === array(), implode( '; ', $warnings ) );
+$gut_all = spl_layout_check( file_get_contents( SPL_DIR . 'includes/layouts/gutschein.json' ), $card_tags );
+check( 'a card layout is an error for a certificate check (no name element)', mentions( $gut_all['errors'], 'element for "name"' ), implode( '; ', $gut_all['errors'] ) );
 echo "\n" . $results['pass'] . ' passed, ' . $results['fail'] . " failed\n";
 exit( $results['fail'] ? 1 : 0 );

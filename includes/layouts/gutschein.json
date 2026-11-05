@@ -1,0 +1,23 @@
+{
+	"version": 1,
+	"background": { "color": "#c9dff0", "image": "file:gutschein-background.jpg" },
+	"elements": [
+		{ "id": "headline", "type": "text", "family": "aptos-zeppelin", "box": { "x": 19.7, "y": 14.6, "w": 560, "h": 82 }, "value": "GUTSCHEIN", "size": 68, "bold": true, "color": "#e8f0fa", "leading": 1.2 },
+		{ "id": "title", "type": "text", "family": "aptos-zeppelin", "box": { "x": 44.4, "y": 298.9, "w": 520, "h": 76 }, "value": "BADEN-WÜRTTEMBERG\nFEIERT DEN 75. GEBURTSTAG\nUND DU BIST DABEI!", "size": 24.5, "bold": true, "color": "#003d8d", "leading": 0.97 },
+		{ "id": "intro", "type": "text", "family": "aptos-zeppelin", "box": { "x": 44.4, "y": 387.2, "w": 520, "h": 64 }, "value": "Dieser Gutschein schenkt Dir einen Platz auf dem HÄPPY-Zeppelin NT.\nMit Deinem persönlichen Bild wirst Du Teil der größten fliegenden Gruß-\nbotschaft zum 75. Geburtstag Baden-Württembergs.", "size": 15.5, "color": "#3d3d3d", "leading": 1.32, "fit": { "min": 12 } },
+		{ "id": "includes_head", "type": "text", "family": "aptos-zeppelin", "box": { "x": 44.4, "y": 452.6, "w": 400, "h": 20 }, "value": "Dein Gutschein beinhaltet:", "size": 16.5, "bold": true, "color": "#003d8d", "leading": 1.2 },
+		{ "id": "includes", "type": "text", "family": "aptos-zeppelin", "box": { "x": 44.4, "y": 473.8, "w": 520, "h": 80 }, "value": "· Ein Foto Deiner Wahl gedruckt auf dem HÄPPY-Zeppelin NT (ca. 11 x 11cm)\n· Zwei Tickets für das Enthüllungs-Event\n· Offizielles personalisiertes Teilnahmezertifikat von Zeppelin NT\n· Optionaler Eintrag auf der digitalen Teilnehmerwand", "size": 15.5, "color": "#3d3d3d", "leading": 1.28, "fit": { "min": 13 } },
+		{ "id": "qr", "type": "qr", "box": { "x": 46.3, "y": 574.0, "w": 88.5, "h": 88.5 }, "data": "{upload_url}", "color": "#003d8d" },
+		{ "id": "how_head", "type": "text", "family": "aptos-zeppelin", "box": { "x": 148.8, "y": 572.4, "w": 420, "h": 18 }, "value": "So löst Du Deinen Gutschein ein:", "size": 14.5, "bold": true, "color": "#003d8d", "leading": 1.2 },
+		{ "id": "how_scan", "type": "text", "family": "aptos-zeppelin", "box": { "x": 148.8, "y": 589.9, "w": 420, "h": 16 }, "value": "· Scanne Deinen persönlichen QR-Code oder nutze folgenden", "size": 13.5, "color": "#003d8d", "leading": 1.15 },
+		{ "id": "upload_label", "type": "text", "family": "aptos-zeppelin", "box": { "x": 153.8, "y": 605.4, "w": 80, "h": 16 }, "value": "Upload-Link:", "size": 13.5, "color": "#003d8d", "leading": 1.15 },
+		{ "id": "upload_url", "type": "text", "family": "aptos-zeppelin", "box": { "x": 234.6, "y": 605.4, "w": 276, "h": 32 }, "value": "{upload_url}", "size": 13.5, "color": "#003d8d", "leading": 1.15 },
+		{ "id": "how_steps", "type": "text", "family": "aptos-zeppelin", "box": { "x": 148.8, "y": 636.4, "w": 430, "h": 32 }, "value": "· Lade ein Foto Deiner Wahl hoch\n· Werde Teil der fliegenden Grußbotschaft und feiere mit dem Ländle!", "size": 13.5, "color": "#003d8d", "leading": 1.15, "fit": { "min": 11 } },
+		{ "id": "id_label", "type": "text", "family": "aptos-zeppelin", "box": { "x": 44.4, "y": 688.2, "w": 120, "h": 20 }, "value": "Teilnehmer-ID:", "size": 16.5, "bold": true, "color": "#003d8d", "leading": 1.2 },
+		{ "id": "code", "type": "text", "role": "code", "family": "aptos-zeppelin", "box": { "x": 159.7, "y": 688.2, "w": 200, "h": 20 }, "value": "{code}", "size": 16.5, "bold": true, "color": "#003d8d", "leading": 1.2 },
+		{ "id": "valid", "type": "text", "family": "aptos-zeppelin", "box": { "x": 44.4, "y": 704.7, "w": 360, "h": 20 }, "value": "Einzulösen bis 28. Februar 2027*", "size": 16.5, "bold": true, "color": "#003d8d", "leading": 1.2 },
+		{ "id": "rule", "type": "line", "from": [45.3, 738.9], "to": [430.7, 738.9], "color": "#003d8d", "width": 0.8 },
+		{ "id": "terms", "type": "text", "family": "aptos-zeppelin", "box": { "x": 44.4, "y": 746.1, "w": 380, "h": 50 }, "value": "* Der Gutschein ist einmalig bis einschließlich 28.02.2027 einlösbar. Wird der Gutschein nicht fristgerecht eingelöst, verfällt der Anspruch auf die enthaltenen Leistungen ersatzlos. Eine Barauszahlung, Rückerstattung oder Übertragung auf andere Leistungen ist ausgeschlossen. Für die Bildnutzung und die Eventteilnahme gelten die Teilnahmebedingungen auf wirsind-BW.de.", "size": 9.5, "color": "#2a2a2a", "leading": 0.95, "fit": { "min": 8 } },
+		{ "id": "website", "type": "text", "family": "aptos-zeppelin", "box": { "x": 421.8, "y": 778, "w": 150, "h": 21 }, "value": "wirsind-BW.de", "size": 17, "bold": true, "color": "#003d8d", "align": "center", "leading": 1.2 }
+	]
+}

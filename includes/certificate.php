@@ -219,42 +219,7 @@ function spl_cert_design() {
  * @return string|false PDF bytes
  */
 function spl_build_layout_certificate_pdf( $p ) {
-	$key = (string) spl_opt( 'cert_layout' );
-	if ( $key === '' || ! preg_match( '/^[a-z0-9-]+$/', $key ) ) {
-		return false;
-	}
-	$file = SPL_DIR . 'includes/layouts/' . $key . '.json';
-	if ( ! is_readable( $file ) ) {
-		return false;
-	}
-	$checked = spl_layout_check( (string) file_get_contents( $file ), spl_cert_token_list() ); // phpcs:ignore WordPress.WP.AlternativeFunctions
-	if ( $checked['errors'] ) {
-		return false;
-	}
-
-	$values                = spl_cert_tokens( $p );
-	$values['{site_name}'] = wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES );
-	$values['{site_url}']  = preg_replace( '#^https?://#', '', home_url() );
-	$show_image            = (bool) spl_opt( 'cert_show_image' );
-	$ctx                   = array(
-		'image' => function ( $source ) use ( $p, $show_image ) {
-			if ( $source === 'approved' ) {
-				return $show_image && ! empty( $p->attachment_id ) ? spl_attachment_jpeg( $p->attachment_id, 1400 ) : false;
-			}
-			if ( strpos( $source, 'media:' ) === 0 ) {
-				return spl_attachment_jpeg( (int) substr( $source, 6 ), 2480 );
-			}
-			$path = SPL_DIR . 'assets/certificate/' . basename( substr( $source, 5 ) );
-			return is_readable( $path ) ? file_get_contents( $path ) : false; // phpcs:ignore WordPress.WP.AlternativeFunctions
-		},
-		'font'  => function ( $family, $style ) {
-			return spl_font_face( $family, $style );
-		},
-	);
-
-	$pdf = new SPL_PDF();
-	spl_layout_render( $pdf, $checked['layout'], $values, $ctx );
-	return $pdf->output();
+	return spl_build_layout_document( (string) spl_opt( 'cert_layout' ), $p, spl_cert_tokens( $p ), spl_cert_token_list(), (bool) spl_opt( 'cert_show_image' ) );
 }
 /** @return string|false PDF bytes */
 function spl_build_certificate_pdf( $p ) {

@@ -211,6 +211,18 @@ class SPL_PDF {
 		}
 		return $y;
 	}
+	/** Filled rectangles drawn as one path, e.g. the modules of a QR code: [ [ x, y, w, h ], ... ] from the top left. */
+	public function fill_rects( $rects, $color ) {
+		if ( ! $rects ) {
+			return;
+		}
+		$op = sprintf( '%.3F %.3F %.3F rg ', $color[0], $color[1], $color[2] );
+		foreach ( $rects as $r ) {
+			$op .= sprintf( '%.2F %.2F %.2F %.2F re ', $r[0], self::H - $r[1] - $r[3], $r[2], $r[3] );
+		}
+		$this->ops[] = $op . 'f';
+	}
+
 	/** A null $stroke fills only. */
 	public function rect( $x, $y, $w, $h, $stroke = array( 0.8, 0.8, 0.8 ), $fill = null, $lw = 1 ) {
 		$this->ops[] = $this->paint( $stroke, $fill, $lw ) . sprintf( '%.2F %.2F %.2F %.2F re ', $x, self::H - $y - $h, $w, $h ) . $this->paint_op( $stroke, $fill );
@@ -361,8 +373,8 @@ class SPL_PDF {
 			$objs[ $desc ] = sprintf( '<< /Type /FontDescriptor /FontName /%s /Flags %d /FontBBox [%d %d %d %d] /ItalicAngle %.1F /Ascent %d /Descent %d /CapHeight %d /StemV 80 /FontFile2 %d 0 R >>',
 				$ps, $flags, $bb[0], $bb[1], $bb[2], $bb[3], $f['italic_angle'],
 				round( $f['ascent'] * 1000 / $f['upm'] ), round( $f['descent'] * 1000 / $f['upm'] ), round( $f['cap'] * 1000 / $f['upm'] ), $file );
-			$z             = gzcompress( $f['data'], 9 );
-			$objs[ $file ] = '<< /Length ' . strlen( $z ) . ' /Length1 ' . strlen( $f['data'] ) . " /Filter /FlateDecode >>\nstream\n" . $z . "\nendstream";
+			$z             = gzcompress( ( $sub = spl_font_subset( $f, array_keys( $face['used'] ) ) ), 9 );
+			$objs[ $file ] = '<< /Length ' . strlen( $z ) . ' /Length1 ' . strlen( $sub ) . " /Filter /FlateDecode >>\nstream\n" . $z . "\nendstream";
 			$map           = self::to_unicode_cmap( $face['used'] );
 			$objs[ $tu ]   = '<< /Length ' . strlen( $map ) . " >>\nstream\n" . $map . "\nendstream";
 			$fontRefs     .= ' /' . $face['name'] . ' ' . $base . ' 0 R';
@@ -385,6 +397,72 @@ class SPL_PDF {
 		$out .= 'trailer << /Size ' . ( $max + 1 ) . " /Root 1 0 R >>\nstartxref\n" . $xref . "\n%%EOF";
 		return $out;
 	}
+}
+
+/**
+ * A PDF from a fixed layout (includes/layouts/<key>.json) filled with $values, with the site tags added. False when
+ * the key is empty or invalid, the file is missing, or the layout has errors, so the caller can fall back.
+ *
+ * @param string   $key      Layout key, e.g. "zeppelin" or "gutschein".
+ * @param object   $p        The placement (for its approved image).
+ * @param array    $values   Tag => text.
+ * @param string[] $tags     Tags the layout may use.
+ * @param bool     $photo    Whether the approved image may be drawn.
+ * @param string[] $required Roles the layout must contain.
+ * @return string|false PDF bytes
+ */
+function spl_build_layout_document( $key, $p, $values, $tags, $photo, $required = array( 'name', 'code', 'date' ) ) {
+	$key = (string) $key;
+	if ( $key === '' || ! preg_match( '/^[a-z0-9-]+$/', $key ) ) {
+		return false;
+	}
+	$file = SPL_DIR . 'includes/layouts/' . $key . '.json';
+	if ( ! is_readable( $file ) ) {
+		return false;
+	}
+	$checked = spl_layout_check( (string) file_get_contents( $file ), $tags, $required ); // phpcs:ignore WordPress.WP.AlternativeFunctions
+	if ( $checked['errors'] ) {
+		return false;
+	}
+	$values['{site_name}'] = wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES );
+	$values['{site_url}']  = preg_replace( '#^https?://#', '', home_url() );
+	$ctx = array(
+		'image' => function ( $source ) use ( $p, $photo ) {
+			if ( $source === 'approved' ) {
+				return $photo && ! empty( $p->attachment_id ) ? spl_attachment_jpeg( $p->attachment_id, 1400 ) : false;
+			}
+			if ( strpos( $source, 'media:' ) === 0 ) {
+				return spl_attachment_jpeg( (int) substr( $source, 6 ), 2480 );
+			}
+			$path = SPL_DIR . 'assets/certificate/' . basename( substr( $source, 5 ) );
+			return is_readable( $path ) ? file_get_contents( $path ) : false; // phpcs:ignore WordPress.WP.AlternativeFunctions
+		},
+		'font'  => function ( $family, $style ) {
+			return spl_font_face( $family, $style );
+		},
+	);
+	$pdf = new SPL_PDF();
+	spl_layout_render( $pdf, $checked['layout'], $values, $ctx );
+	return $pdf->output();
+}
+
+/** Tag values for the placement card: the GUTSCHEIN voucher and the standard card. */
+function spl_card_tokens( $p ) {
+	$product = ! empty( $p->product_id ) ? wc_get_product( $p->product_id ) : null;
+	$rules   = spl_product_rules( $p->product_id );
+	return array(
+		'{code}'           => (string) $p->code,
+		'{upload_url}'     => spl_upload_url( $p ),
+		'{product}'        => $product ? $product->get_name() : '',
+		'{buyer_name}'     => (string) $p->buyer_name,
+		'{recipient_name}' => (string) $p->recipient_name,
+		'{event_end}'      => $rules['event_end'] ? spl_format_datetime( $rules['event_end'] ) : '',
+	);
+}
+
+/** The tags a card layout may use. */
+function spl_card_token_list() {
+	return array( '{code}', '{upload_url}', '{product}', '{buyer_name}', '{recipient_name}', '{event_end}', '{site_name}', '{site_url}' );
 }
 
 function spl_pdf_url( $p, $type = 'card' ) {
@@ -418,6 +496,13 @@ function spl_pdf_filename( $p, $type ) {
 function spl_build_pdf( $p, $type ) {
 	if ( $type === 'certificate' ) {
 		return $p->status === 'approved' ? spl_build_certificate_pdf( $p ) : false;
+	}
+	if ( $type === 'card' ) {
+		// The design chosen in the settings (GUTSCHEIN by default), when it is valid. Otherwise the standard card below.
+		$fixed = spl_build_layout_document( (string) spl_opt( 'card_layout' ), $p, spl_card_tokens( $p ), spl_card_token_list(), false, array( 'code' ) );
+		if ( $fixed !== false ) {
+			return $fixed;
+		}
 	}
 	$product = wc_get_product( $p->product_id );
 	$pname   = $product ? $product->get_name() : '';

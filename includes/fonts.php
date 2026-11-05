@@ -284,3 +284,135 @@ function spl_font_i32( $d, $o ) {
 	$v = spl_font_u32( $d, $o );
 	return $v >= 0x80000000 ? $v - 0x100000000 : $v;
 }
+
+/** The tables of an sfnt file: tag => array( offset, length ). */
+function spl_font_directory( $d ) {
+	$t = array();
+	$n = spl_font_u16( $d, 4 );
+	for ( $i = 0; $i < $n; $i++ ) {
+		$o                        = 12 + 16 * $i;
+		$t[ substr( $d, $o, 4 ) ] = array( spl_font_u32( $d, $o + 8 ), spl_font_u32( $d, $o + 12 ) );
+	}
+	return $t;
+}
+
+/** Sum of the big-endian 32-bit words of a table, as the sfnt format defines it. */
+function spl_font_checksum( $s ) {
+	$s   = str_pad( $s, ( strlen( $s ) + 3 ) & ~3, "\0" );
+	$sum = 0;
+	for ( $i = 0; $i < strlen( $s ); $i += 4 ) {
+		$sum = ( $sum + unpack( 'N', substr( $s, $i, 4 ) )[1] ) & 0xFFFFFFFF;
+	}
+	return $sum;
+}
+
+/**
+ * A smaller copy of the font for the glyphs in $gids. Glyph ids stay the same, so the PDF text needs no change.
+ * Glyphs that are not used are left empty, composite glyphs bring their parts along, and tables a PDF viewer does
+ * not need are left out.
+ *
+ * @param array $font Parsed font (see spl_font_parse()).
+ * @param int[] $gids Glyph ids in use.
+ * @return string sfnt bytes
+ */
+function spl_font_subset( $font, $gids ) {
+	$d   = $font['data'];
+	$dir = spl_font_directory( $d );
+	if ( ! isset( $dir['glyf'], $dir['loca'], $dir['head'], $dir['maxp'] ) ) {
+		return $d;
+	}
+	$glyphs  = spl_font_u16( $d, $dir['maxp'][0] + 4 );
+	$long    = spl_font_i16( $d, $dir['head'][0] + 50 ) === 1;
+	$loca_at = $dir['loca'][0];
+	$glyf_at = $dir['glyf'][0];
+	$loc     = function ( $i ) use ( $d, $long, $loca_at ) {
+		return $long ? spl_font_u32( $d, $loca_at + 4 * $i ) : 2 * spl_font_u16( $d, $loca_at + 2 * $i );
+	};
+
+	// Glyphs needed: the requested ones, .notdef, and the parts of composite glyphs.
+	$need = array();
+	$todo = array_map( 'intval', array_merge( array( 0 ), $gids ) );
+	while ( $todo ) {
+		$g = array_pop( $todo );
+		if ( $g < 0 || $g >= $glyphs || isset( $need[ $g ] ) ) {
+			continue;
+		}
+		$need[ $g ] = true;
+		$start      = $loc( $g );
+		$end        = $loc( $g + 1 );
+		if ( $end <= $start || spl_font_i16( $d, $glyf_at + $start ) >= 0 ) {
+			continue;
+		}
+		$p = $glyf_at + $start + 10;
+		do {
+			$flags  = spl_font_u16( $d, $p );
+			$todo[] = spl_font_u16( $d, $p + 2 );
+			$p     += 4 + ( ( $flags & 0x0001 ) ? 4 : 2 );
+			if ( $flags & 0x0008 ) {
+				$p += 2;
+			}
+			if ( $flags & 0x0040 ) {
+				$p += 4;
+			}
+			if ( $flags & 0x0080 ) {
+				$p += 8;
+			}
+		} while ( $flags & 0x0020 );
+	}
+
+	$glyf = '';
+	$offs = array();
+	for ( $g = 0; $g < $glyphs; $g++ ) {
+		$offs[ $g ] = strlen( $glyf );
+		if ( isset( $need[ $g ] ) ) {
+			$start = $loc( $g );
+			$end   = $loc( $g + 1 );
+			if ( $end > $start ) {
+				$glyf .= substr( $d, $glyf_at + $start, $end - $start );
+				$glyf .= str_repeat( "\0", ( 4 - strlen( $glyf ) % 4 ) % 4 );
+			}
+		}
+	}
+	$offs[ $glyphs ] = strlen( $glyf );
+	$loca            = pack( 'N*', ...$offs );
+
+	$head = substr( $d, $dir['head'][0], $dir['head'][1] );
+	$head = substr_replace( $head, "\x00\x01", 50, 2 );  // long location format
+	$head = substr_replace( $head, "\0\0\0\0", 8, 4 );  // checksum adjustment, set below
+
+	$tables = array();
+	foreach ( array( 'hhea', 'maxp', 'OS/2', 'hmtx', 'cmap', 'name', 'cvt ', 'fpgm', 'prep', 'gasp' ) as $tag ) {
+		if ( isset( $dir[ $tag ] ) ) {
+			$tables[ $tag ] = substr( $d, $dir[ $tag ][0], $dir[ $tag ][1] );
+		}
+	}
+	$tables['head'] = $head;
+	$tables['glyf'] = $glyf;
+	$tables['loca'] = $loca;
+	ksort( $tables, SORT_STRING );
+
+	$n   = count( $tables );
+	$pow = 1;
+	$log = 0;
+	while ( $pow * 2 <= $n ) {
+		$pow *= 2;
+		$log++;
+	}
+	$out     = substr( $d, 0, 4 ) . pack( 'nnnn', $n, $pow * 16, $log, $n * 16 - $pow * 16 );
+	$body    = '';
+	$offset  = 12 + 16 * $n;
+	$head_at = 0;
+	foreach ( $tables as $tag => $data ) {
+		$padded = $data . str_repeat( "\0", ( 4 - strlen( $data ) % 4 ) % 4 );
+		$out   .= $tag . pack( 'NNN', spl_font_checksum( $padded ), $offset, strlen( $data ) );
+		if ( $tag === 'head' ) {
+			$head_at = $offset;
+		}
+		$body   .= $padded;
+		$offset += strlen( $padded );
+	}
+	$font = $out . $body;
+	// The checksum adjustment makes the whole file add up to 0xB1B0AFBA.
+	$adjust = ( 0xB1B0AFBA - spl_font_checksum( $font ) ) & 0xFFFFFFFF;
+	return substr_replace( $font, pack( 'N', $adjust ), $head_at + 8, 4 );
+}

@@ -371,6 +371,16 @@ function spl_settings_schema() {
 			'title'  => __( 'PDF', SPL_TD ),
 			'intro'  => __( 'The printable placement card, sent with upload links and handy as a gift. Plain text; placeholders are filled in. The certificate has its own tab.', SPL_TD ),
 			'fields' => array(
+				'card_layout' => array(
+					'type'    => 'select',
+					'label'   => __( 'Design', SPL_TD ),
+					'default' => 'gutschein',
+					'choices' => array(
+						'gutschein' => __( 'GUTSCHEIN voucher (fixed design with QR code)', SPL_TD ),
+						''          => __( 'Standard card (the texts below)', SPL_TD ),
+					),
+					'desc'    => __( 'The PDF sent with upload links and gifts, and downloadable from the upload page and the account. The fixed design uses its own texts and ignores the texts below.', SPL_TD ),
+				),
 				'pdf_card_title' => array(
 					'type'    => 'text',
 					'label'   => __( 'Card title', SPL_TD ),

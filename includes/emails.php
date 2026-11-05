@@ -272,10 +272,10 @@ function spl_send_buyer_overview( $order, $placements ) {
 		$account = '<a href="' . esc_url( wc_get_account_endpoint_url( SPL_ENDPOINT ) ) . '">' . esc_html__( 'Manage your placements in your account', SPL_TD ) . '</a>';
 	}
 
-	// Cards only for gifts the buyer passes on; recipients entered later get theirs in their own email.
+	// Every card the buyer keeps is attached, for download and print. A gift with a recipient email goes to the recipient.
 	$attachments = array();
 	foreach ( $placements as $p ) {
-		if ( $p->is_gift && ! $p->recipient_email && count( $attachments ) < 10 ) {
+		if ( ! ( $p->is_gift && $p->recipient_email ) && count( $attachments ) < 20 ) {
 			$pdf = spl_pdf_to_file( $p, 'card' );
 			if ( $pdf ) {
 				$attachments[] = $pdf;
