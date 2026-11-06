@@ -201,7 +201,7 @@ add_action( 'admin_post_spl_action', function () {
 			if ( isset( $_POST['max_rejections'] ) ) {
 				$data['max_rejections'] = max( 1, absint( $_POST['max_rejections'] ) );
 			}
-			$data['is_gift'] = ! empty( $data['recipient_email'] ) ? 1 : 0;
+			// is_gift is not touched here. It comes from the purchase: a gift keeps its gift status even with no recipient email yet.
 			spl_update_placement( $p->id, $data );
 			$changes = array();
 			foreach ( $data as $k => $v ) {
@@ -528,7 +528,10 @@ function spl_row_actions( $p ) {
 	if ( $p->attachment_id ) {
 		$out[] = '<a class="button button-small" href="' . esc_url( spl_download_url( $p->attachment_id ) ) . '" title="' . esc_attr__( 'Download image', SPL_TD ) . '"><span class="dashicons dashicons-download"></span> ' . esc_html__( 'Download', SPL_TD ) . '</a>';
 	}
-	$out[] = '<a class="button button-small" href="' . esc_url( spl_pdf_url( $p, $p->status === 'approved' ? 'certificate' : 'card' ) ) . '" title="' . esc_attr( $p->status === 'approved' ? __( 'Certificate PDF', SPL_TD ) : __( 'Placement card PDF', SPL_TD ) ) . '">PDF</a>';
+	// Tickets have a PDF only once approved (the certificate). Gifts always have their voucher PDF.
+	if ( $p->status === 'approved' || $p->is_gift ) {
+		$out[] = '<a class="button button-small" href="' . esc_url( spl_pdf_url( $p, $p->status === 'approved' ? 'certificate' : 'card' ) ) . '" title="' . esc_attr( $p->status === 'approved' ? __( 'Certificate PDF', SPL_TD ) : __( 'Gift PDF', SPL_TD ) ) . '">PDF</a>';
+	}
 	if ( $p->status !== 'cancelled' ) {
 		$out[] = '<a class="button button-small" href="' . esc_url( spl_action_url( 'resend', $p ) ) . '" title="' . esc_attr__( 'Email again (the email matching the current status)', SPL_TD ) . '"><span class="dashicons dashicons-email-alt"></span> ' . esc_html__( 'Email again', SPL_TD ) . '</a>';
 	}
@@ -846,7 +849,9 @@ function spl_render_detail( $p ) {
 						<?php if ( $p->status !== 'cancelled' ) : ?>
 							<a class="button" href="<?php echo esc_url( spl_qr_url( $p ) ); ?>" target="_blank" rel="noopener" title="<?php esc_attr_e( 'QR code of the upload link, to print or scan', SPL_TD ); ?>"><?php esc_html_e( 'QR code', SPL_TD ); ?></a>
 						<?php endif; ?>
-						<a class="button" href="<?php echo esc_url( spl_pdf_url( $p, 'card' ) ); ?>"><?php esc_html_e( 'Card PDF', SPL_TD ); ?></a>
+						<?php if ( $p->is_gift ) : ?>
+							<a class="button" href="<?php echo esc_url( spl_pdf_url( $p, 'card' ) ); ?>"><?php esc_html_e( 'Gift PDF', SPL_TD ); ?></a>
+						<?php endif; ?>
 						<?php if ( $p->status === 'approved' ) : ?>
 							<a class="button" href="<?php echo esc_url( spl_pdf_url( $p, 'certificate' ) ); ?>"><?php esc_html_e( 'Certificate PDF', SPL_TD ); ?></a>
 						<?php endif; ?>
@@ -878,8 +883,8 @@ function spl_render_detail( $p ) {
 							'quicktags'     => true,
 						) );
 						?>
-						<p><label><input type="checkbox" name="attach_card" value="1" <?php checked( ! empty( reset( $templates )['card'] ) ); ?> /> <?php esc_html_e( 'Attach placement card PDF', SPL_TD ); ?></label>
-							<?php if ( $p->status === 'approved' ) : ?><br><label><input type="checkbox" name="attach_cert" value="1" /> <?php esc_html_e( 'Attach certificate PDF', SPL_TD ); ?></label><?php endif; ?></p>
+						<p><?php if ( $p->is_gift ) : // only gifts have a card PDF ?><label><input type="checkbox" name="attach_card" value="1" <?php checked( ! empty( reset( $templates )['card'] ) ); ?> /> <?php esc_html_e( 'Attach placement card PDF', SPL_TD ); ?></label><?php endif; ?>
+							<?php if ( $p->status === 'approved' ) : ?><?php echo $p->is_gift ? '<br>' : ''; ?><label><input type="checkbox" name="attach_cert" value="1" /> <?php esc_html_e( 'Attach certificate PDF', SPL_TD ); ?></label><?php endif; ?></p>
 						<p><button class="button button-primary"><?php esc_html_e( 'Send email', SPL_TD ); ?></button></p>
 					</form>
 				</details>
@@ -893,7 +898,7 @@ function spl_render_detail( $p ) {
 							'buyer_name'      => __( 'Buyer name', SPL_TD ),
 							'buyer_email'     => __( 'Buyer email', SPL_TD ),
 							'recipient_name'  => __( 'Recipient name', SPL_TD ),
-							'recipient_email' => __( 'Recipient email (empty = not a gift)', SPL_TD ),
+							'recipient_email' => __( 'Recipient email', SPL_TD ),
 							'uploader_name'   => __( 'Uploader name', SPL_TD ),
 							'uploader_email'  => __( 'Uploader email', SPL_TD ),
 							'cert_name'       => __( 'Name(s) on the certificate', SPL_TD ),

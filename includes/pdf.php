@@ -505,8 +505,12 @@ function spl_build_pdf( $p, $type ) {
 	if ( $type === 'certificate' ) {
 		return $p->status === 'approved' ? spl_build_certificate_pdf( $p ) : false;
 	}
+	if ( $type === 'card' && empty( $p->is_gift ) ) {
+		// Tickets get no card PDF at all. Only gifts (HÄPPY-Gutschein) have one, so every email, download and button that asks for it gets nothing here.
+		return false;
+	}
 	if ( $type === 'card' && ! empty( $p->is_gift ) ) {
-		// Gifts get the design chosen in the settings (coupon by default), when it is valid. Other placements, and a gift whose design is invalid, get the standard card below.
+		// Gifts get the design chosen in the settings (coupon by default), when it is valid. A gift whose design is invalid gets the standard card below.
 		$fixed = spl_build_layout_document( (string) spl_opt( 'card_layout' ), $p, spl_card_tokens( $p ), spl_card_token_list(), false, array( 'code' ) );
 		if ( $fixed !== false ) {
 			return $fixed;
@@ -607,7 +611,7 @@ add_action( 'template_redirect', function () {
 	}
 	$data = spl_build_pdf( $p, $type );
 	if ( ! $data ) {
-		wp_die( esc_html__( 'The certificate is available once the image has been approved.', SPL_TD ), '', array( 'response' => 404 ) );
+		wp_die( esc_html( $type === 'certificate' ? __( 'The certificate is available once the image has been approved.', SPL_TD ) : __( 'Only gift placements have a PDF.', SPL_TD ) ), '', array( 'response' => 404 ) );
 	}
 	nocache_headers();
 	header( 'Content-Type: application/pdf' );

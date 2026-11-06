@@ -27,6 +27,7 @@ function spl_log_table() {
 
 function spl_install_tables() {
 	global $wpdb;
+	$from = (int) get_option( 'spl_db_version', 0 );
 	require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 	$charset = $wpdb->get_charset_collate();
 	$t       = spl_table();
@@ -97,7 +98,29 @@ function spl_install_tables() {
 	}
 	spl_ensure_upload_dir();
 
+	if ( $from < 5 ) {
+		spl_restore_gift_flags();
+	}
+
 	update_option( 'spl_db_version', SPL_DB_VERSION );
+}
+
+/**
+ * Version 5. An admin save of the contacts used to set "gift" from the recipient email, so a gift bought without a
+ * recipient email became a ticket. Gift status comes from the purchase, so it is put back from the order line
+ * (the item meta _spl_mode, written at checkout).
+ */
+function spl_restore_gift_flags() {
+	global $wpdb;
+	$ids = $wpdb->get_col( $wpdb->prepare(
+		'SELECT id FROM ' . spl_table() . ' WHERE is_gift = 0 AND order_item_id IN (SELECT order_item_id FROM ' . $wpdb->prefix . 'woocommerce_order_itemmeta WHERE meta_key = %s AND meta_value = %s)', // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+		'_spl_mode',
+		'gift'
+	) );
+	foreach ( $ids as $id ) {
+		spl_update_placement( (int) $id, array( 'is_gift' => 1 ) );
+		spl_log( (int) $id, 'note', __( 'Gift status restored from the order. An earlier edit of the contacts had cleared it.', SPL_TD ), 0, 'system' );
+	}
 }
 
 /** @return array<string,string> */

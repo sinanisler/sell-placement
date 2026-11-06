@@ -38,7 +38,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 define( 'SPL_VERSION', '1.0.0' );
-define( 'SPL_DB_VERSION', '4' );
+define( 'SPL_DB_VERSION', '5' );
 define( 'SPL_FILE', __FILE__ );
 define( 'SPL_DIR', plugin_dir_path( __FILE__ ) );
 define( 'SPL_URL', plugin_dir_url( __FILE__ ) );

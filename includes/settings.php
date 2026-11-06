@@ -370,8 +370,8 @@ function spl_settings_schema() {
 		'pdf' => array(
 			'title'  => __( 'PDF', SPL_TD ),
 			'intro'  => array(
-				__( 'The placement card is the printable PDF of one placement. It shows the placement code and the upload link, so whoever holds it can upload the image. Every placement gets one.', SPL_TD ),
-				__( 'It is attached to the order email (one per placement, except gifts that go straight to a recipient), to the gift email sent to that recipient, and to upload-link emails. Gift placements can also download it from the account. The design below applies to gifts only. Other placements always get the standard card.', SPL_TD ),
+				__( 'The gift PDF is the printable voucher of one HÄPPY-Gutschein. It shows the placement code and the upload link, so whoever holds it can upload the image. Tickets get no PDF at all.', SPL_TD ),
+				__( 'It is attached to the buyer\'s order email (one per gift), to the gift email sent to a recipient, and to upload-link emails. Gift placements can also download it from the account, and the buyer can email it on from there. The design below is used for it.', SPL_TD ),
 				__( 'This is not the certificate. The certificate is the PDF sent after an image is approved, and it has its own tab.', SPL_TD ),
 			),
 			'fields' => array(
@@ -383,7 +383,7 @@ function spl_settings_schema() {
 						'coupon' => __( 'Coupon (fixed design with QR code)', SPL_TD ),
 						''       => __( 'Standard card (the texts below)', SPL_TD ),
 					),
-					'desc'    => __( 'Coupon is a fixed design with a QR code and ignores the texts below. The standard card uses the texts below. It applies to gift placements only; other placements always get the standard card.', SPL_TD ),
+					'desc'    => __( 'Coupon is the fixed voucher design with a QR code and ignores the texts below. The standard card uses the texts below. It is used for gift placements only.', SPL_TD ),
 				),
 				'pdf_card_title' => array(
 					'type'    => 'text',

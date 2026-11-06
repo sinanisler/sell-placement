@@ -521,8 +521,20 @@ msgid "Recipient name"
 msgstr "Name des Empfängers"
 
 #: includes/admin-approvals.php:798
-msgid "Recipient email (empty = not a gift)"
-msgstr "E-Mail des Empfängers (leer = kein Geschenk)"
+msgid "Recipient email"
+msgstr "E-Mail des Empfängers"
+
+#: includes/admin-approvals.php
+msgid "Gift PDF"
+msgstr "Gutschein-PDF"
+
+#: includes/pdf.php
+msgid "Only gift placements have a PDF."
+msgstr "Nur Gutschein-Platzierungen haben ein PDF."
+
+#: includes/db.php
+msgid "Gift status restored from the order. An earlier edit of the contacts had cleared it."
+msgstr "Gutscheinstatus aus der Bestellung wiederhergestellt. Eine frühere Änderung der Kontaktdaten hatte ihn entfernt."
 
 #: includes/admin-approvals.php:799
 msgid "Uploader name"
