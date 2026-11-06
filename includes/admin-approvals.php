@@ -285,6 +285,12 @@ function spl_badge( $status ) {
 	return '<span class="spl-pill spl-pill-' . esc_attr( $status ) . '">' . esc_html( spl_status_label( $status ) ) . '</span>';
 }
 
+/** Which option was bought, with the names the product page uses: the gift (HÄPPY-Gutschein) or the ticket. */
+function spl_kind_html( $p ) {
+	$gift = ! empty( $p->is_gift );
+	return '<span class="spl-kind spl-kind-' . ( $gift ? 'gift' : 'ticket' ) . '">' . esc_html( spl_text( $gift ? 'mode_gift_label' : 'mode_self_label' ) ) . '</span>';
+}
+
 function spl_admin_date( $mysql_gmt ) {
 	if ( ! $mysql_gmt ) {
 		return '–';
@@ -572,7 +578,7 @@ function spl_render_queue_table( $items, $status ) {
 				<td>
 					<a href="<?php echo esc_url( spl_detail_url( $p ) ); ?>" class="spl-code"><?php echo esc_html( $p->code ); ?></a>
 					<div class="spl-muted">#<?php echo (int) $p->id; ?><?php echo $p->attachment_id ? ' · ' . esc_html__( 'image', SPL_TD ) . ' #' . (int) $p->attachment_id : ''; ?></div>
-					<div><?php echo esc_html( $product ? $product->get_name() : '–' ); ?></div>
+					<div><?php echo esc_html( $product ? $product->get_name() : '–' ); ?> <?php echo spl_kind_html( $p ); // phpcs:ignore ?></div>
 					<?php if ( $order ) : ?>
 						<a href="<?php echo esc_url( $order->get_edit_order_url() ); ?>"><?php /* translators: %s: order number */ echo esc_html( sprintf( __( 'Order #%s', SPL_TD ), $order->get_order_number() ) ); ?></a>
 					<?php endif; ?>
@@ -608,7 +614,7 @@ function spl_render_queue_grid( $items, $status ) {
 			<?php echo spl_thumb_html( $p, 240 ); // phpcs:ignore ?>
 			<div class="spl-card-body">
 				<div class="spl-card-head"><a class="spl-code" href="<?php echo esc_url( spl_detail_url( $p ) ); ?>"><?php echo esc_html( $p->code ); ?></a> <?php echo spl_badge( $p->status ); // phpcs:ignore ?></div>
-				<div class="spl-muted"><?php echo esc_html( $product ? $product->get_name() : '' ); ?></div>
+				<div class="spl-muted"><?php echo esc_html( $product ? $product->get_name() : '' ); ?> <?php echo spl_kind_html( $p ); // phpcs:ignore ?></div>
 				<div class="spl-muted"><?php echo esc_html( $p->uploader_email ? $p->uploader_email : spl_holder_email( $p ) ); ?></div>
 				<?php echo spl_row_actions( $p ); // phpcs:ignore ?>
 			</div>
@@ -641,7 +647,7 @@ function spl_render_queue_compact( $items, $status ) {
 				<?php echo spl_thumb_html( $p, 80 ); // phpcs:ignore ?>
 				<div class="spl-compact-cell-placement">
 					<a class="spl-code" href="<?php echo esc_url( spl_detail_url( $p ) ); ?>"><?php echo esc_html( $p->code ); ?></a>
-					<div class="spl-muted"><?php echo esc_html( $product ? $product->get_name() : '–' ); ?></div>
+					<div class="spl-muted"><?php echo esc_html( $product ? $product->get_name() : '–' ); ?> <?php echo spl_kind_html( $p ); // phpcs:ignore ?></div>
 				</div>
 				<div class="spl-compact-cell-buyer"><?php echo spl_person_html( $p->buyer_name, $p->buyer_email ); // phpcs:ignore ?></div>
 				<div class="spl-compact-cell-status">

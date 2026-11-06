@@ -14,6 +14,9 @@ a.spl-pill:hover{filter:brightness(.94)}
 .spl-pill-suspended{background:#b63d3d;color:#fff}
 .spl-pill-cancelled{background:#f0f0f1;color:#8c8f94;text-decoration:line-through}
 .column-spl_placements .spl-pill{margin:1px 0}
+.spl-kind{display:inline-block;margin-left:4px;padding:1px 8px;border-radius:99px;font-size:14px;font-weight:600;line-height:20px;white-space:nowrap;vertical-align:middle}
+.spl-kind-ticket{background:#e0ecff;color:#1e3a8a}
+.spl-kind-gift{background:#fff1c2;color:#7a4b00}
 .column-spl_placements .spl-order-links{display:flex;flex-wrap:wrap;gap:4px;align-items:center}
 .column-spl_placements .spl-order-all{flex-basis:100%;font-size:14px;font-weight:600;margin-top:2px}
 
