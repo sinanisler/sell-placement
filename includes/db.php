@@ -56,6 +56,7 @@ function spl_install_tables() {
 		max_rejections int(11) NOT NULL DEFAULT 2,
 		last_reason text NULL,
 		consent tinyint(1) NOT NULL DEFAULT 0,
+		gallery_consent tinyint(1) NOT NULL DEFAULT 0,
 		link_sent_count int(11) NOT NULL DEFAULT 0,
 		link_sent_at datetime NULL DEFAULT NULL,
 		created_at datetime NOT NULL,
@@ -129,7 +130,7 @@ function spl_cast( $row ) {
 	if ( ! $row ) {
 		return null;
 	}
-	foreach ( array( 'id', 'order_id', 'order_item_id', 'product_id', 'unit_index', 'customer_id', 'is_gift', 'attachment_id', 'rejections', 'max_rejections', 'consent', 'link_sent_count', 'reviewed_by' ) as $k ) {
+	foreach ( array( 'id', 'order_id', 'order_item_id', 'product_id', 'unit_index', 'customer_id', 'is_gift', 'attachment_id', 'rejections', 'max_rejections', 'consent', 'gallery_consent', 'link_sent_count', 'reviewed_by' ) as $k ) {
 		$row->$k = (int) $row->$k;
 	}
 	return $row;
@@ -232,6 +233,22 @@ function spl_get_log( $placement_id ) {
 	return $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM ' . spl_log_table() . ' WHERE placement_id = %d ORDER BY id DESC', $placement_id ) );
 }
 
+/**
+ * Records the consent given at upload: the wording shown for each checkbox and what was ticked. The wording is
+ * kept as it was shown, so the record still holds if the texts are edited later.
+ */
+function spl_log_consent( $p, $gallery_given, $actor = '' ) {
+	$required = trim( wp_strip_all_tags( (string) spl_opt( 'consent_label' ) ) );
+	$extra    = trim( wp_strip_all_tags( (string) spl_product_rules( $p->product_id )['consent_extra'] ) );
+	if ( $extra === '' ) {
+		$gallery_line = __( 'Gallery wall: not offered for this product', SPL_TD );
+	} else {
+		$gallery_line = $gallery_given ? __( 'Gallery wall: given', SPL_TD ) : __( 'Gallery wall: not given', SPL_TD );
+	}
+	$note = __( 'Required consent: given', SPL_TD ) . "\n" . $required . "\n" . $gallery_line . ( $extra !== '' ? "\n" . $extra : '' );
+	spl_log( $p->id, 'consent', $note, 0, $actor );
+}
+
 function spl_log_labels() {
 	return array(
 		'created'     => __( 'Placement created', SPL_TD ),
@@ -239,6 +256,7 @@ function spl_log_labels() {
 		'gift_sent'   => __( 'Sent to recipient', SPL_TD ),
 		'reassigned'  => __( 'Passed on to someone else', SPL_TD ),
 		'uploaded'    => __( 'Image uploaded', SPL_TD ),
+		'consent'     => __( 'Consent recorded', SPL_TD ),
 		'approved'    => __( 'Approved', SPL_TD ),
 		'declined'    => __( 'Declined', SPL_TD ),
 		'suspended'   => __( 'Suspended', SPL_TD ),

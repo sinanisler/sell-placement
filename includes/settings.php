@@ -333,7 +333,7 @@ function spl_settings_schema() {
 
 		'wall' => array(
 			'title'  => __( 'Public wall', SPL_TD ),
-			'intro'  => __( 'Shows approved images on any page with the shortcode [spl_wall]. An image appears only while it is approved and its uploader gave consent on the upload page. That consent says the image is shown publicly, so keep that wording in the required consent text. Declining, suspending or refunding takes an image off the wall at once. Attributes: product (ID or slug), sort (newest, oldest or code), per_page, search and filter (yes or no).', SPL_TD ),
+			'intro'  => __( 'Shows approved images on any page with the shortcode [spl_wall]. An image appears only while it is approved and its uploader ticked the gallery wall checkbox on the upload page. Keep the wording of that checkbox clear that the image is shown publicly. Declining, suspending or refunding takes an image off the wall at once. Attributes: product (ID or slug), sort (newest, oldest or code), per_page, search and filter (yes or no).', SPL_TD ),
 			'fields' => array(
 				'wall_default_sort' => array(
 					'type'    => 'select',

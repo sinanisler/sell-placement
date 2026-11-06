@@ -117,9 +117,12 @@ function spl_rest_action( WP_REST_Request $r ) {
 				'cert_name'      => trim( sanitize_text_field( (string) $r['cert_name'] ) ),
 				'uploaded_at'    => spl_now(),
 				'consent'        => 1,
+				'gallery_consent' => ! empty( $r['gallery_consent'] ) && spl_product_rules( $p->product_id )['consent_extra'] !== '' ? 1 : 0,
 			) );
 			$meta = wp_get_attachment_metadata( $att );
 			spl_log( $p->id, 'uploaded', $meta ? $meta['width'] . ' × ' . $meta['height'] . ' px' : '', $att );
+			$fresh = spl_get_placement( $p->id );
+			spl_log_consent( $fresh, (bool) $fresh->gallery_consent );
 			break;
 
 		case 'approve':

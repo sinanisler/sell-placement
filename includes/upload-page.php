@@ -235,10 +235,10 @@ function spl_render_upload_page_body( $p ) {
 		$consent = trim( (string) spl_opt( 'consent_label' ) );
 		if ( $consent !== '' ) :
 			?>
-			<p class="spl-check"><label><input type="checkbox" name="consent" value="1" required /> <span><?php echo wp_kses_post( $consent ); ?></span></label></p>
+			<p class="spl-check"><label><input type="checkbox" name="consent" value="1" required /> <span><span class="spl-req" aria-hidden="true">*</span> <?php echo wp_kses_post( $consent ); ?></span></label></p>
 		<?php endif; ?>
 		<?php if ( $rules['consent_extra'] !== '' ) : ?>
-			<p class="spl-check"><label><input type="checkbox" name="consent_extra" value="1" required /> <span><?php echo wp_kses_post( $rules['consent_extra'] ); ?></span></label></p>
+			<p class="spl-check"><label><input type="checkbox" name="consent_extra" value="1" /> <span><?php echo wp_kses_post( $rules['consent_extra'] ); ?></span></label></p>
 		<?php endif; ?>
 
 		<div class="spl-status" data-spl-status role="status" aria-live="polite"></div>
@@ -287,7 +287,8 @@ function spl_ajax_upload() {
 		wp_send_json_error( array( 'message' => __( 'Please enter the name or names for the certificate.', SPL_TD ) ) );
 	}
 	$rules = spl_product_rules( $p->product_id );
-	if ( ( trim( (string) spl_opt( 'consent_label' ) ) !== '' && empty( $_POST['consent'] ) ) || ( $rules['consent_extra'] !== '' && empty( $_POST['consent_extra'] ) ) ) {
+	$gallery_given = $rules['consent_extra'] !== '' && ! empty( $_POST['consent_extra'] ); // optional: the gallery wall permission
+	if ( trim( (string) spl_opt( 'consent_label' ) ) !== '' && empty( $_POST['consent'] ) ) {
 		wp_send_json_error( array( 'message' => __( 'Please tick the required checkboxes.', SPL_TD ) ) );
 	}
 
@@ -318,10 +319,12 @@ function spl_ajax_upload() {
 		'cert_name'      => $cert_name,
 		'uploaded_at'    => spl_now(),
 		'consent'        => 1,
+		'gallery_consent' => $gallery_given ? 1 : 0,
 	) );
 	$meta = wp_get_attachment_metadata( $attachment_id );
 	$dims = $meta ? $meta['width'] . ' × ' . $meta['height'] . ' px' : '';
 	spl_log( $p->id, 'uploaded', $dims, $attachment_id, $email );
+	spl_log_consent( $p, $gallery_given, $email );
 
 	$p = spl_get_placement( $p->id );
 	spl_send_placement_email( $p, 'received' );

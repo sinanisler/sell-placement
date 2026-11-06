@@ -264,8 +264,8 @@ function spl_product_upload_texts() {
 		),
 		'consent_extra' => array(
 			'meta'  => '_spl_consent_extra',
-			'label' => __( 'Extra consent checkbox', SPL_TD ),
-			'desc'  => __( 'Optional. A second required checkbox on the upload page, just for this product (e.g. "I agree that my image is shown on the Zeppelin").', SPL_TD ),
+			'label' => __( 'Gallery wall checkbox (optional)', SPL_TD ),
+			'desc'  => __( 'Optional. A second checkbox on the upload page for this product. Only when it is ticked is the image shown on the public wall (e.g. "I agree that my image is shown on the gallery wall").', SPL_TD ),
 		),
 	);
 }

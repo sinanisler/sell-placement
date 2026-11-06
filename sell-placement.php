@@ -30,7 +30,7 @@
  * 7. Placements > Images lists every uploaded image (hidden from the normal Media Library), and
  *    Placements > Settings holds the emails, presets, PDF texts, page texts and page access roles.
  * 8. Approved images can be shown publicly with the [spl_wall] shortcode (includes/wall.php). Only images
- *    that are approved AND whose uploader gave consent with the required checkbox are ever shown.
+ *    that are approved AND whose uploader ticked the gallery wall checkbox are ever shown.
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -38,7 +38,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 define( 'SPL_VERSION', '1.0.0' );
-define( 'SPL_DB_VERSION', '3' );
+define( 'SPL_DB_VERSION', '4' );
 define( 'SPL_FILE', __FILE__ );
 define( 'SPL_DIR', plugin_dir_path( __FILE__ ) );
 define( 'SPL_URL', plugin_dir_url( __FILE__ ) );

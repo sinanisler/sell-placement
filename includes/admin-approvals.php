@@ -827,6 +827,7 @@ function spl_render_detail( $p ) {
 						<tr><th><?php esc_html_e( 'Uploaded by', SPL_TD ); ?></th><td><?php echo spl_person_html( $p->uploader_name, $p->uploader_email ); // phpcs:ignore ?></td></tr>
 						<tr><th><?php esc_html_e( 'On the certificate', SPL_TD ); ?></th><td><?php echo $p->cert_name !== '' ? esc_html( $p->cert_name ) : '–'; ?></td></tr>
 						<tr><th><?php esc_html_e( 'Consent', SPL_TD ); ?></th><td><?php echo $p->consent ? esc_html__( 'Given at upload', SPL_TD ) : '–'; ?></td></tr>
+							<tr><th><?php esc_html_e( 'Gallery wall', SPL_TD ); ?></th><td><?php echo $p->gallery_consent ? esc_html__( 'Given at upload', SPL_TD ) : esc_html__( 'Not given', SPL_TD ); ?></td></tr>
 						<tr><th><?php esc_html_e( 'Public wall', SPL_TD ); ?></th><td><?php echo spl_wall_is_visible( $p ) ? esc_html__( 'Shown on the wall', SPL_TD ) : esc_html__( 'Not on the wall', SPL_TD ); ?></td></tr>
 						<tr><th><?php esc_html_e( 'Created', SPL_TD ); ?></th><td><?php echo spl_admin_date( $p->created_at ); // phpcs:ignore ?></td></tr>
 						<tr><th><?php esc_html_e( 'Uploaded', SPL_TD ); ?></th><td><?php echo spl_admin_date( $p->uploaded_at ); // phpcs:ignore ?></td></tr>
