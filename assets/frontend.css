@@ -17,7 +17,7 @@
 .spl-sales-notice{margin:.5em 0 1em}
 
 .spl-main{padding:2rem 1rem 4rem}
-.spl-page{max-width:640px;margin:0 auto}
+.spl-page{max-width:960px;margin:0 auto}
 .spl-page h1{margin:.2em 0 .5em;font-size:clamp(1.6rem,4vw,2.2rem);line-height:1.15}
 .spl-eyebrow{margin:0;font-size:max(14px,.85em);opacity:.7}
 .spl-eyebrow code{font-size:1em;letter-spacing:.04em}
