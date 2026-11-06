@@ -276,10 +276,10 @@ function spl_send_buyer_overview( $order, $placements ) {
 		$account = '<a href="' . esc_url( wc_get_account_endpoint_url( SPL_ENDPOINT ) ) . '">' . esc_html__( 'Manage your placements in your account', SPL_TD ) . '</a>';
 	}
 
-	// Only a gift bought without a recipient email gets its card here, so the buyer can pass it on. Normal tickets get the upload link only.
+	// Every gift's card goes to the buyer too, so they can print or pass it on, even when a recipient email is set. Normal tickets get the upload link only.
 	$attachments = array();
 	foreach ( $placements as $p ) {
-		if ( $p->is_gift && ! $p->recipient_email && count( $attachments ) < 20 ) {
+		if ( $p->is_gift && count( $attachments ) < 20 ) {
 			$pdf = spl_pdf_to_file( $p, 'card' );
 			if ( $pdf ) {
 				$attachments[] = $pdf;
