@@ -253,6 +253,12 @@ function spl_send_buyer_overview( $order, $placements ) {
 	if ( ! $placements ) {
 		return false;
 	}
+	// Tickets and gifts usually share one product, so each row names its option instead ("HÄPPY-Ticket" or
+	// "HÄPPY-Gutschein", the same names the product page shows). The product name is added only when the order mixes products.
+	$product_ids = array();
+	foreach ( $placements as $p ) {
+		$product_ids[ $p->product_id ] = true;
+	}
 	$rows = '';
 	foreach ( $placements as $p ) {
 		$product = wc_get_product( $p->product_id );
@@ -266,8 +272,15 @@ function spl_send_buyer_overview( $order, $placements ) {
 		} else {
 			$who = spl_email_button( spl_upload_url( $p ), __( 'Upload image', SPL_TD ) );
 		}
-		$rows .= '<tr><td style="padding:8px;border:1px solid #e5e5e5"><strong>' . esc_html( $p->code ) . '</strong><br><small>' . esc_html( $product ? $product->get_name() : '' ) . '</small></td>'
-			. '<td style="padding:8px;border:1px solid #e5e5e5">' . $who . ( $sent_to ? '' : '<br><small style="word-break:break-all">' . esc_html( spl_upload_url( $p ) ) . '</small>' ) . '</td></tr>';
+		$kind_color = $p->is_gift ? get_option( 'woocommerce_email_base_color', '#7f54b3' ) : '#333333';
+		$first      = '<span style="display:block;font-size:16px;font-weight:bold;color:' . esc_attr( $kind_color ) . '">' . esc_html( spl_text( $p->is_gift ? 'mode_gift_label' : 'mode_self_label' ) ) . '</span>';
+		if ( count( $product_ids ) > 1 && $product ) {
+			$first .= '<span style="display:block;font-size:14px;color:#666666">' . esc_html( $product->get_name() ) . '</span>';
+		}
+		$first .= '<span style="display:block;font-size:14px;margin-top:4px"><strong>' . esc_html( $p->code ) . '</strong></span>';
+
+		$rows .= '<tr><td style="padding:10px;border:1px solid #e5e5e5;vertical-align:top">' . $first . '</td>'
+			. '<td style="padding:10px;border:1px solid #e5e5e5;vertical-align:top">' . $who . ( $sent_to ? '' : '<span style="display:block;margin-top:8px;font-size:14px;word-break:break-all">' . esc_html( spl_upload_url( $p ) ) . '</span>' ) . '</td></tr>';
 	}
 	$table = '<table cellspacing="0" cellpadding="0" style="width:100%;border-collapse:collapse;margin:0 0 16px">' . $rows . '</table>';
 

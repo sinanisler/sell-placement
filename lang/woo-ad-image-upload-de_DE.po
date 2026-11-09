@@ -20,11 +20,11 @@ msgstr "Sie haben noch keine Platzierungen."
 
 #: includes/account.php:111
 msgid "Gift for %1$s (%2$s)"
-msgstr "Geschenk für %1$s (%2$s)"
+msgstr "Gutschein für %1$s (%2$s)"
 
 #: includes/account.php:113
 msgid "Gift, not passed on yet"
-msgstr "Geschenk, noch nicht weitergegeben"
+msgstr "Gutschein, noch nicht weitergegeben"
 
 #: includes/account.php:115
 msgid "For you"
@@ -920,7 +920,7 @@ msgstr "E-Mail: Käufer, nach Zahlung"
 
 #: includes/emails.php:16
 msgid "One email per paid order listing every placement with its upload link. Gift placements get their card attached as a PDF. When it is sent: once, when the order reaches one of the statuses chosen under Placements > Settings > General (by default Processing or Completed). Only new placements trigger it, so a later status change does not send it again."
-msgstr "Eine E-Mail pro bezahlter Bestellung mit allen Platzierungen und ihren Upload-Links. Für Geschenke wird die Karte als PDF angehängt. Wann sie gesendet wird: einmal, sobald die Bestellung einen der Status erreicht, die unter Platzierungen > Einstellungen > Allgemein gewählt sind (standardmäßig „In Bearbeitung“ oder „Abgeschlossen“). Nur neue Platzierungen lösen sie aus, ein späterer Statuswechsel sendet sie nicht erneut."
+msgstr "Eine E-Mail pro bezahlter Bestellung mit allen Platzierungen und ihren Upload-Links. Für Gutscheine wird die Karte als PDF angehängt. Wann sie gesendet wird: einmal, sobald die Bestellung einen der Status erreicht, die unter Platzierungen > Einstellungen > Allgemein gewählt sind (standardmäßig „In Bearbeitung“ oder „Abgeschlossen“). Nur neue Platzierungen lösen sie aus, ein späterer Statuswechsel sendet sie nicht erneut."
 
 #: includes/emails.php:18
 msgid "Your placements for order #{order_number}"
@@ -944,11 +944,11 @@ msgstr ""
 
 #: includes/emails.php:24
 msgid "Email: gift recipient"
-msgstr "E-Mail: Geschenkempfänger"
+msgstr "E-Mail: Gutscheinempfänger"
 
 #: includes/emails.php:25
 msgid "Sent to the person a gift placement is passed on to. The placement card is attached as a PDF. When it is sent: automatically after payment, if the buyer entered the recipient's email address at checkout. Also when a gift is handed over with \"Send Email\" in My Account, and from Approvals with \"Email again\"."
-msgstr "Geht an die Person, an die ein Geschenk weitergegeben wird. Die Platzierungskarte ist als PDF angehängt. Wann sie gesendet wird: automatisch nach der Zahlung, wenn bei der Bestellung die E-Mail-Adresse des Empfängers angegeben wurde. Außerdem, wenn ein Geschenk über „E-Mail senden“ im Konto weitergegeben wird, und in der Freigabe über „Erneut mailen“."
+msgstr "Geht an die Person, an die ein Gutschein weitergegeben wird. Die Platzierungskarte ist als PDF angehängt. Wann sie gesendet wird: automatisch nach der Zahlung, wenn bei der Bestellung die E-Mail-Adresse des Empfängers angegeben wurde. Außerdem, wenn ein Gutschein über „E-Mail senden“ im Konto weitergegeben wird, und in der Freigabe über „Erneut mailen“."
 
 #: includes/emails.php:27
 msgid "{buyer_name} has given you an image placement"
@@ -980,7 +980,7 @@ msgstr "E-Mail: Upload-Link"
 
 #: includes/emails.php:34
 msgid "A single upload link for one placement that is still waiting for its image. When it is sent: from Approvals with \"Email again\" (a gift without a recipient email goes to the buyer, who passes it on), or when staff write an email by hand for a placement. Normal tickets already get their link in the buyer email, so this one is for sending it again."
-msgstr "Ein einzelner Upload-Link für eine Platzierung, die noch auf ihr Bild wartet. Wann sie gesendet wird: in der Freigabe über „Erneut mailen“ (ein Geschenk ohne E-Mail-Adresse des Empfängers geht an den Käufer, der es weitergibt), oder wenn das Team eine E-Mail von Hand zu einer Platzierung verfasst. Tickets bekommen den Link schon in der Bestell-E-Mail. Diese E-Mail dient dazu, ihn erneut zu senden."
+msgstr "Ein einzelner Upload-Link für eine Platzierung, die noch auf ihr Bild wartet. Wann sie gesendet wird: in der Freigabe über „Erneut mailen“ (ein Gutschein ohne E-Mail-Adresse des Empfängers geht an den Käufer, der es weitergibt), oder wenn das Team eine E-Mail von Hand zu einer Platzierung verfasst. Tickets bekommen den Link schon in der Bestell-E-Mail. Diese E-Mail dient dazu, ihn erneut zu senden."
 
 #: includes/emails.php:36
 msgid "Your upload link for {product}"
@@ -1140,7 +1140,7 @@ msgstr "Gesendet an %s"
 
 #: includes/emails.php:235
 msgid "Gift"
-msgstr "Geschenk"
+msgstr "Gutschein"
 
 #: includes/emails.php:235
 msgid "pass the attached PDF or this link on to the recipient:"
@@ -1240,11 +1240,11 @@ msgstr "Obergrenze des Zoom-Reglers. Der Zoom stoppt außerdem dort, wo der Zusc
 
 #: includes/product.php:159
 msgid "Gift option"
-msgstr "Geschenkoption"
+msgstr "Gutscheinoption"
 
 #: includes/product.php:160
 msgid "Offer \"As a gift\" on the product page. The buyer gets a printable PDF per gift and can email the upload link to the recipient from their account."
-msgstr "„Als Geschenk“ auf der Produktseite anbieten. Der Käufer erhält pro Geschenk ein druckbares PDF und kann den Upload-Link aus seinem Konto an die beschenkte Person mailen."
+msgstr "„Als Gutschein“ auf der Produktseite anbieten. Der Käufer erhält pro Gutschein ein druckbares PDF und kann den Upload-Link aus seinem Konto an die beschenkte Person mailen."
 
 #: includes/product.php:170
 msgid "After this many declined images the placement is suspended."
@@ -1316,7 +1316,7 @@ msgstr "In Wartestellung"
 
 #: includes/settings.php:40
 msgid "Upload links and gift emails go out at this point. \"On hold\" usually means the money has not arrived yet (e.g. bank transfer), so it is off by default."
-msgstr "Zu diesem Zeitpunkt gehen Upload-Links und Geschenk-E-Mails raus. „In Wartestellung“ heißt meist, dass das Geld noch nicht da ist (z. B. Überweisung), daher ist es standardmäßig aus."
+msgstr "Zu diesem Zeitpunkt gehen Upload-Links und Gutschein-E-Mails raus. „In Wartestellung“ heißt meist, dass das Geld noch nicht da ist (z. B. Überweisung), daher ist es standardmäßig aus."
 
 #: includes/settings.php:45
 msgid "Default minimum width (px)"
@@ -1464,19 +1464,19 @@ msgstr "Nach der Zahlung erhalten Sie pro Platzierung einen privaten Link zum Ho
 
 #: includes/settings.php:190
 msgid "\"Gift\" option"
-msgstr "Option „Geschenk“"
+msgstr "Option „Gutschein“"
 
 #: includes/settings.php:191
 msgid "As a gift"
-msgstr "Als Geschenk"
+msgstr "Als Gutschein"
 
 #: includes/settings.php:195
 msgid "\"Gift\" hint"
-msgstr "Hinweis zu „Geschenk“"
+msgstr "Hinweis zu „Gutschein“"
 
 #: includes/settings.php:196
 msgid "After payment you get a printable gift PDF per placement, and you can email each upload link to its recipient from your account."
-msgstr "Nach der Zahlung erhalten Sie pro Platzierung ein druckbares Geschenk-PDF und können jeden Upload-Link aus Ihrem Konto an die beschenkte Person mailen."
+msgstr "Nach der Zahlung erhalten Sie pro Platzierung ein druckbares Gutschein-PDF und können jeden Upload-Link aus Ihrem Konto an die beschenkte Person mailen."
 
 #: includes/settings.php:200
 msgid "Recipient name label (\"Send Email\" form)"
@@ -1496,7 +1496,7 @@ msgstr "E-Mail des Empfängers"
 
 #: includes/settings.php:210
 msgid "Gift message label"
-msgstr "Beschriftung Geschenknachricht"
+msgstr "Beschriftung Nachricht zum Gutschein"
 
 #: includes/settings.php:211
 msgid "Personal message (optional)"
@@ -1672,7 +1672,7 @@ msgstr "Dieses Bild ist zu klein ({width} × {height} px). Die Mindestgröße be
 
 #: includes/settings.php:336
 msgid "The printable placement card, sent with upload links and handy as a gift. Plain text; placeholders are filled in. The certificate has its own tab."
-msgstr "Die druckbare Platzierungskarte, die mit Upload-Links verschickt wird und sich als Geschenk eignet. Reiner Text; Platzhalter werden ersetzt. Das Zertifikat hat einen eigenen Tab."
+msgstr "Die druckbare Platzierungskarte, die mit Upload-Links verschickt wird und sich als Gutschein eignet. Reiner Text; Platzhalter werden ersetzt. Das Zertifikat hat einen eigenen Tab."
 
 #: includes/settings.php:340
 msgid "Card title"
