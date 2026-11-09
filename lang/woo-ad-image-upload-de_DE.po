@@ -919,8 +919,8 @@ msgid "Email: buyer, after payment"
 msgstr "E-Mail: Käufer, nach Zahlung"
 
 #: includes/emails.php:16
-msgid "One email per paid order listing every placement with its upload link. Gift placements get their card attached as a PDF."
-msgstr "Eine E-Mail pro bezahlter Bestellung mit allen Platzierungen und ihren Upload-Links. Für Geschenke wird die Karte als PDF angehängt."
+msgid "One email per paid order listing every placement with its upload link. Gift placements get their card attached as a PDF. When it is sent: once, when the order reaches one of the statuses chosen under Placements > Settings > General (by default Processing or Completed). Only new placements trigger it, so a later status change does not send it again."
+msgstr "Eine E-Mail pro bezahlter Bestellung mit allen Platzierungen und ihren Upload-Links. Für Geschenke wird die Karte als PDF angehängt. Wann sie gesendet wird: einmal, sobald die Bestellung einen der Status erreicht, die unter Platzierungen > Einstellungen > Allgemein gewählt sind (standardmäßig „In Bearbeitung“ oder „Abgeschlossen“). Nur neue Platzierungen lösen sie aus, ein späterer Statuswechsel sendet sie nicht erneut."
 
 #: includes/emails.php:18
 msgid "Your placements for order #{order_number}"
@@ -947,8 +947,8 @@ msgid "Email: gift recipient"
 msgstr "E-Mail: Geschenkempfänger"
 
 #: includes/emails.php:25
-msgid "Sent to the person a gift placement is passed on to with \"Send Email\" in the account. The placement card is attached as a PDF."
-msgstr "Geht an die Person, an die ein Geschenk über „E-Mail senden“ im Konto weitergegeben wird. Die Platzierungskarte ist als PDF angehängt."
+msgid "Sent to the person a gift placement is passed on to. The placement card is attached as a PDF. When it is sent: automatically after payment, if the buyer entered the recipient's email address at checkout. Also when a gift is handed over with \"Send Email\" in My Account, and from Approvals with \"Email again\"."
+msgstr "Geht an die Person, an die ein Geschenk weitergegeben wird. Die Platzierungskarte ist als PDF angehängt. Wann sie gesendet wird: automatisch nach der Zahlung, wenn bei der Bestellung die E-Mail-Adresse des Empfängers angegeben wurde. Außerdem, wenn ein Geschenk über „E-Mail senden“ im Konto weitergegeben wird, und in der Freigabe über „Erneut mailen“."
 
 #: includes/emails.php:27
 msgid "{buyer_name} has given you an image placement"
@@ -979,8 +979,8 @@ msgid "Email: upload link"
 msgstr "E-Mail: Upload-Link"
 
 #: includes/emails.php:34
-msgid "A single upload link, sent from the approval screen (\"Email again\") when a placement is still waiting for its image."
-msgstr "Ein einzelner Upload-Link, gesendet aus der Freigabe-Ansicht („Erneut mailen“), solange eine Platzierung noch auf ihr Bild wartet."
+msgid "A single upload link for one placement that is still waiting for its image. When it is sent: from Approvals with \"Email again\" (a gift without a recipient email goes to the buyer, who passes it on), or when staff write an email by hand for a placement. Normal tickets already get their link in the buyer email, so this one is for sending it again."
+msgstr "Ein einzelner Upload-Link für eine Platzierung, die noch auf ihr Bild wartet. Wann sie gesendet wird: in der Freigabe über „Erneut mailen“ (ein Geschenk ohne E-Mail-Adresse des Empfängers geht an den Käufer, der es weitergibt), oder wenn das Team eine E-Mail von Hand zu einer Platzierung verfasst. Tickets bekommen den Link schon in der Bestell-E-Mail. Diese E-Mail dient dazu, ihn erneut zu senden."
 
 #: includes/emails.php:36
 msgid "Your upload link for {product}"
@@ -1003,8 +1003,8 @@ msgid "Email: image received"
 msgstr "E-Mail: Bild erhalten"
 
 #: includes/emails.php:43
-msgid "Sent to the uploader right after an image arrives."
-msgstr "Geht an die hochladende Person, sobald ein Bild eingetroffen ist."
+msgid "Sent to the uploader right after an image arrives. When it is sent: automatically, as soon as the upload is submitted on the upload page. The staff email goes out at the same moment."
+msgstr "Geht an die hochladende Person, sobald ein Bild eingetroffen ist. Wann sie gesendet wird: automatisch, sobald der Upload auf der Upload-Seite abgeschickt wurde. Die E-Mail an das Team geht im selben Moment raus."
 
 #: includes/emails.php:45
 msgid "Your image is being reviewed"
@@ -1027,8 +1027,8 @@ msgid "Email: new upload (staff)"
 msgstr "E-Mail: neuer Upload (Team)"
 
 #: includes/emails.php:52
-msgid "Sent to the addresses under General when an image is waiting for review."
-msgstr "Geht an die Adressen unter „Allgemein“, wenn ein Bild auf Prüfung wartet."
+msgid "Sent to the addresses under General when an image is waiting for review. When it is sent: automatically after every upload, together with the \"image received\" email. If no address is set under General, the site admin email is used."
+msgstr "Geht an die Adressen unter „Allgemein“, wenn ein Bild auf Prüfung wartet. Wann sie gesendet wird: automatisch nach jedem Upload, zusammen mit der E-Mail „Bild erhalten“. Ist unter „Allgemein“ keine Adresse eingetragen, wird die Admin-E-Mail der Website verwendet."
 
 #: includes/emails.php:54
 msgid "New image to review: {code}"
@@ -1053,8 +1053,8 @@ msgid "Email: approved"
 msgstr "E-Mail: freigegeben"
 
 #: includes/emails.php:61
-msgid "Sent when an image is approved. The certificate PDF is attached."
-msgstr "Geht raus, wenn ein Bild freigegeben wird. Das Zertifikat ist als PDF angehängt."
+msgid "Sent when an image is approved. The certificate PDF is attached. When it is sent: when staff approve a placement in Approvals. Also with \"Email again\" on an approved placement."
+msgstr "Geht raus, wenn ein Bild freigegeben wird. Das Zertifikat ist als PDF angehängt. Wann sie gesendet wird: wenn das Team eine Platzierung in der Freigabe freigibt. Außerdem über „Erneut mailen“ bei einer freigegebenen Platzierung."
 
 #: includes/emails.php:63 includes/settings.php:292
 msgid "Your image has been approved"
@@ -1081,8 +1081,8 @@ msgid "Email: declined"
 msgstr "E-Mail: abgelehnt"
 
 #: includes/emails.php:70
-msgid "Sent when an image is declined and a new one may be uploaded."
-msgstr "Geht raus, wenn ein Bild abgelehnt wird und ein neues hochgeladen werden darf."
+msgid "Sent when an image is declined and a new one may be uploaded. When it is sent: when staff decline an image in Approvals. If that decline reaches the decline limit (General), the suspended email goes out instead. Also with \"Email again\" on a declined placement."
+msgstr "Geht raus, wenn ein Bild abgelehnt wird und ein neues hochgeladen werden darf. Wann sie gesendet wird: wenn das Team ein Bild in der Freigabe ablehnt. Erreicht die Ablehnung das Ablehnungslimit (Allgemein), geht stattdessen die Sperr-E-Mail raus. Außerdem über „Erneut mailen“ bei einer abgelehnten Platzierung."
 
 #: includes/emails.php:72
 msgid "Please upload a new image for {product}"
@@ -1111,8 +1111,8 @@ msgid "Email: suspended"
 msgstr "E-Mail: gesperrt"
 
 #: includes/emails.php:79
-msgid "Sent when a placement is suspended, by hand or after too many declines."
-msgstr "Geht raus, wenn eine Platzierung gesperrt wird, von Hand oder nach zu vielen Ablehnungen."
+msgid "Sent when a placement is suspended, by hand or after too many declines. When it is sent: when staff suspend a placement in Approvals, or automatically when a decline reaches the decline limit (General), in place of the declined email. Also with \"Email again\" on a suspended placement."
+msgstr "Geht raus, wenn eine Platzierung gesperrt wird, von Hand oder nach zu vielen Ablehnungen. Wann sie gesendet wird: wenn das Team eine Platzierung in der Freigabe sperrt, oder automatisch, wenn eine Ablehnung das Ablehnungslimit (Allgemein) erreicht, dann anstelle der Ablehnungs-E-Mail. Außerdem über „Erneut mailen“ bei einer gesperrten Platzierung."
 
 #: includes/emails.php:81
 msgid "Your placement {code} has been suspended"

@@ -902,7 +902,7 @@ msgid "Email: buyer, after payment"
 msgstr ""
 
 #: includes/emails.php:16
-msgid "One email per paid order listing every placement with its upload link. Gift placements get their card attached as a PDF."
+msgid "One email per paid order listing every placement with its upload link. Gift placements get their card attached as a PDF. When it is sent: once, when the order reaches one of the statuses chosen under Placements > Settings > General (by default Processing or Completed). Only new placements trigger it, so a later status change does not send it again."
 msgstr ""
 
 #: includes/emails.php:18
@@ -926,7 +926,7 @@ msgid "Email: gift recipient"
 msgstr ""
 
 #: includes/emails.php:25
-msgid "Sent to the person a gift placement is passed on to with \"Send Email\" in the account. The placement card is attached as a PDF."
+msgid "Sent to the person a gift placement is passed on to. The placement card is attached as a PDF. When it is sent: automatically after payment, if the buyer entered the recipient's email address at checkout. Also when a gift is handed over with \"Send Email\" in My Account, and from Approvals with \"Email again\"."
 msgstr ""
 
 #: includes/emails.php:27
@@ -952,7 +952,7 @@ msgid "Email: upload link"
 msgstr ""
 
 #: includes/emails.php:34
-msgid "A single upload link, sent from the approval screen (\"Email again\") when a placement is still waiting for its image."
+msgid "A single upload link for one placement that is still waiting for its image. When it is sent: from Approvals with \"Email again\" (a gift without a recipient email goes to the buyer, who passes it on), or when staff write an email by hand for a placement. Normal tickets already get their link in the buyer email, so this one is for sending it again."
 msgstr ""
 
 #: includes/emails.php:36
@@ -972,7 +972,7 @@ msgid "Email: image received"
 msgstr ""
 
 #: includes/emails.php:43
-msgid "Sent to the uploader right after an image arrives."
+msgid "Sent to the uploader right after an image arrives. When it is sent: automatically, as soon as the upload is submitted on the upload page. The staff email goes out at the same moment."
 msgstr ""
 
 #: includes/emails.php:45
@@ -994,7 +994,7 @@ msgid "Email: new upload (staff)"
 msgstr ""
 
 #: includes/emails.php:52
-msgid "Sent to the addresses under General when an image is waiting for review."
+msgid "Sent to the addresses under General when an image is waiting for review. When it is sent: automatically after every upload, together with the \"image received\" email. If no address is set under General, the site admin email is used."
 msgstr ""
 
 #: includes/emails.php:54
@@ -1017,7 +1017,7 @@ msgid "Email: approved"
 msgstr ""
 
 #: includes/emails.php:61
-msgid "Sent when an image is approved. The certificate PDF is attached."
+msgid "Sent when an image is approved. The certificate PDF is attached. When it is sent: when staff approve a placement in Approvals. Also with \"Email again\" on an approved placement."
 msgstr ""
 
 #: includes/emails.php:63 includes/settings.php:292
@@ -1041,7 +1041,7 @@ msgid "Email: declined"
 msgstr ""
 
 #: includes/emails.php:70
-msgid "Sent when an image is declined and a new one may be uploaded."
+msgid "Sent when an image is declined and a new one may be uploaded. When it is sent: when staff decline an image in Approvals. If that decline reaches the decline limit (General), the suspended email goes out instead. Also with \"Email again\" on a declined placement."
 msgstr ""
 
 #: includes/emails.php:72
@@ -1066,7 +1066,7 @@ msgid "Email: suspended"
 msgstr ""
 
 #: includes/emails.php:79
-msgid "Sent when a placement is suspended, by hand or after too many declines."
+msgid "Sent when a placement is suspended, by hand or after too many declines. When it is sent: when staff suspend a placement in Approvals, or automatically when a decline reaches the decline limit (General), in place of the declined email. Also with \"Email again\" on a suspended placement."
 msgstr ""
 
 #: includes/emails.php:81

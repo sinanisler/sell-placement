@@ -18,7 +18,7 @@ function spl_email_types() {
 	return array(
 		'buyer'     => array(
 			'title'   => __( 'Email: buyer, after payment', SPL_TD ),
-			'desc'    => __( 'One email per paid order listing every placement with its upload link. Gift placements get their card attached as a PDF.', SPL_TD ),
+			'desc'    => __( 'One email per paid order listing every placement with its upload link. Gift placements get their card attached as a PDF. When it is sent: once, when the order reaches one of the statuses chosen under Placements > Settings > General (by default Processing or Completed). Only new placements trigger it, so a later status change does not send it again.', SPL_TD ),
 			'to'      => 'buyer',
 			'subject' => __( 'Your placements for order #{order_number}', SPL_TD ),
 			'heading' => __( 'Thank you for your order', SPL_TD ),
@@ -27,7 +27,7 @@ function spl_email_types() {
 		),
 		'gift'      => array(
 			'title'   => __( 'Email: gift recipient', SPL_TD ),
-			'desc'    => __( 'Sent to the person a gift placement is passed on to with "Send Email" in the account. The placement card is attached as a PDF.', SPL_TD ),
+			'desc'    => __( 'Sent to the person a gift placement is passed on to. The placement card is attached as a PDF. When it is sent: automatically after payment, if the buyer entered the recipient\'s email address at checkout. Also when a gift is handed over with "Send Email" in My Account, and from Approvals with "Email again".', SPL_TD ),
 			'to'      => 'recipient',
 			'subject' => __( '{buyer_name} has given you an image placement', SPL_TD ),
 			'heading' => __( 'A placement for you', SPL_TD ),
@@ -36,7 +36,7 @@ function spl_email_types() {
 		),
 		'link'      => array(
 			'title'   => __( 'Email: upload link', SPL_TD ),
-			'desc'    => __( 'A single upload link, sent from the approval screen ("Email again") when a placement is still waiting for its image.', SPL_TD ),
+			'desc'    => __( 'A single upload link for one placement that is still waiting for its image. When it is sent: from Approvals with "Email again" (a gift without a recipient email goes to the buyer, who passes it on), or when staff write an email by hand for a placement. Normal tickets already get their link in the buyer email, so this one is for sending it again.', SPL_TD ),
 			'to'      => 'holder',
 			'subject' => __( 'Your upload link for {product}', SPL_TD ),
 			'heading' => __( 'Upload your image', SPL_TD ),
@@ -45,7 +45,7 @@ function spl_email_types() {
 		),
 		'received'  => array(
 			'title'   => __( 'Email: image received', SPL_TD ),
-			'desc'    => __( 'Sent to the uploader right after an image arrives.', SPL_TD ),
+			'desc'    => __( 'Sent to the uploader right after an image arrives. When it is sent: automatically, as soon as the upload is submitted on the upload page. The staff email goes out at the same moment.', SPL_TD ),
 			'to'      => 'uploader',
 			'subject' => __( 'Your image is being reviewed', SPL_TD ),
 			'heading' => __( 'Image received', SPL_TD ),
@@ -54,7 +54,7 @@ function spl_email_types() {
 		),
 		'admin'     => array(
 			'title'   => __( 'Email: new upload (staff)', SPL_TD ),
-			'desc'    => __( 'Sent to the addresses under General when an image is waiting for review.', SPL_TD ),
+			'desc'    => __( 'Sent to the addresses under General when an image is waiting for review. When it is sent: automatically after every upload, together with the "image received" email. If no address is set under General, the site admin email is used.', SPL_TD ),
 			'to'      => 'admin',
 			'subject' => __( 'New image to review: {code}', SPL_TD ),
 			'heading' => __( 'New image to review', SPL_TD ),
@@ -63,7 +63,7 @@ function spl_email_types() {
 		),
 		'approved'  => array(
 			'title'   => __( 'Email: approved', SPL_TD ),
-			'desc'    => __( 'Sent when an image is approved. The certificate PDF is attached.', SPL_TD ),
+			'desc'    => __( 'Sent when an image is approved. The certificate PDF is attached. When it is sent: when staff approve a placement in Approvals. Also with "Email again" on an approved placement.', SPL_TD ),
 			'to'      => 'uploader',
 			'subject' => __( 'Your image has been approved', SPL_TD ),
 			'heading' => __( 'You are in!', SPL_TD ),
@@ -72,7 +72,7 @@ function spl_email_types() {
 		),
 		'declined'  => array(
 			'title'   => __( 'Email: declined', SPL_TD ),
-			'desc'    => __( 'Sent when an image is declined and a new one may be uploaded.', SPL_TD ),
+			'desc'    => __( 'Sent when an image is declined and a new one may be uploaded. When it is sent: when staff decline an image in Approvals. If that decline reaches the decline limit (General), the suspended email goes out instead. Also with "Email again" on a declined placement.', SPL_TD ),
 			'to'      => 'uploader',
 			'subject' => __( 'Please upload a new image for {product}', SPL_TD ),
 			'heading' => __( 'We need a new image', SPL_TD ),
@@ -81,7 +81,7 @@ function spl_email_types() {
 		),
 		'suspended' => array(
 			'title'   => __( 'Email: suspended', SPL_TD ),
-			'desc'    => __( 'Sent when a placement is suspended, by hand or after too many declines.', SPL_TD ),
+			'desc'    => __( 'Sent when a placement is suspended, by hand or after too many declines. When it is sent: when staff suspend a placement in Approvals, or automatically when a decline reaches the decline limit (General), in place of the declined email. Also with "Email again" on a suspended placement.', SPL_TD ),
 			'to'      => 'uploader',
 			'subject' => __( 'Your placement {code} has been suspended', SPL_TD ),
 			'heading' => __( 'Placement suspended', SPL_TD ),
