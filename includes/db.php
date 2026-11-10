@@ -284,6 +284,7 @@ function spl_log_labels() {
 		'declined'    => __( 'Declined', SPL_TD ),
 		'suspended'   => __( 'Suspended', SPL_TD ),
 		'reopened'    => __( 'Reopened for upload', SPL_TD ),
+		'wall_removed' => __( 'Removed from the gallery wall', SPL_TD ),
 		'cancelled'   => __( 'Cancelled', SPL_TD ),
 		'email'       => __( 'Email sent', SPL_TD ),
 		'note'        => __( 'Note', SPL_TD ),

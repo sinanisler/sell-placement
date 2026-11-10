@@ -119,6 +119,7 @@ details.spl-box[open]>summary h2::before{content:"▾ "}
 .spl-history .spl-history-declined::before{background:#d63638}
 .spl-history .spl-history-suspended::before{background:#1d2327}
 .spl-history .spl-history-uploaded::before{background:#2271b1}
+.spl-history .spl-history-wall_removed::before{background:#dba617}
 .spl-history-head{display:flex;flex-wrap:wrap;gap:8px;align-items:baseline}
 .spl-history-note{margin-top:3px;white-space:normal;color:#3c434a}
 .spl-history-thumb{width:60px;height:60px;object-fit:cover;border-radius:3px;margin-top:4px}

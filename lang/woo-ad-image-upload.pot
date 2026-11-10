@@ -2019,3 +2019,36 @@ msgstr ""
 #: includes/admin-approvals.php:738
 msgid "Not on the wall"
 msgstr ""
+
+#: includes/db.php:287
+msgid "Removed from the gallery wall"
+msgstr ""
+
+#: includes/admin-approvals.php:988
+#: includes/admin-approvals.php:990
+msgid "Remove from wall"
+msgstr ""
+
+#: includes/admin-approvals.php:988
+msgid "The image leaves the wall at once. Print and certificate stay."
+msgstr ""
+
+#: includes/admin-approvals.php:989
+msgid "Reason – kept in the history, not emailed"
+msgstr ""
+
+#: includes/admin-approvals.php:985
+msgid "Remove this image from the gallery wall? Print and certificate are not affected."
+msgstr ""
+
+#: includes/admin-approvals.php:241
+msgid "This image is not on the gallery wall."
+msgstr ""
+
+#: includes/admin-approvals.php:245
+msgid "%s removed from the gallery wall."
+msgstr ""
+
+#: includes/admin-approvals.php:970
+msgid "Withdrawn %s"
+msgstr ""

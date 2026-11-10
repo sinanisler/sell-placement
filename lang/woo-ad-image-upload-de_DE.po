@@ -2071,3 +2071,36 @@ msgstr "In der Galerie gezeigt"
 #: includes/admin-approvals.php:738
 msgid "Not on the wall"
 msgstr "Nicht in der Galerie"
+
+#: includes/db.php:287
+msgid "Removed from the gallery wall"
+msgstr "Aus der Galerie entfernt"
+
+#: includes/admin-approvals.php:988
+#: includes/admin-approvals.php:990
+msgid "Remove from wall"
+msgstr "Aus der Galerie entfernen"
+
+#: includes/admin-approvals.php:988
+msgid "The image leaves the wall at once. Print and certificate stay."
+msgstr "Das Bild verschwindet sofort aus der Galerie. Druck und Zertifikat bleiben erhalten."
+
+#: includes/admin-approvals.php:989
+msgid "Reason – kept in the history, not emailed"
+msgstr "Grund – wird im Verlauf festgehalten, nicht per E-Mail versendet"
+
+#: includes/admin-approvals.php:985
+msgid "Remove this image from the gallery wall? Print and certificate are not affected."
+msgstr "Dieses Bild aus der Galerie entfernen? Druck und Zertifikat bleiben davon unberührt."
+
+#: includes/admin-approvals.php:241
+msgid "This image is not on the gallery wall."
+msgstr "Dieses Bild ist nicht in der Galerie."
+
+#: includes/admin-approvals.php:245
+msgid "%s removed from the gallery wall."
+msgstr "%s wurde aus der Galerie entfernt."
+
+#: includes/admin-approvals.php:970
+msgid "Withdrawn %s"
+msgstr "Zurückgezogen %s"

@@ -72,6 +72,16 @@ function spl_reopen( $p, $reset_count = false ) {
 	spl_log( $p->id, 'reopened', $reset_count ? __( 'Decline count reset.', SPL_TD ) : '' );
 }
 
+/**
+ * Takes one image off the gallery wall. Only the wall flag changes, so the wall stops showing the image at once
+ * while the print export and the certificate (both keyed on the approved status) stay as they are. The consent
+ * entry from the upload stays in the history; this adds a line with the reason. Nothing here turns the flag back on.
+ */
+function spl_remove_from_wall( $p, $reason ) {
+	spl_update_placement( $p->id, array( 'gallery_consent' => 0 ) );
+	spl_log( $p->id, 'wall_removed', $reason, $p->attachment_id );
+}
+
 /* ------------------------------------------------------------------------
  * Action handler (admin-post.php?action=spl_action).
  * ---------------------------------------------------------------------- */
@@ -221,6 +231,18 @@ add_action( 'admin_post_spl_action', function () {
 				spl_log( $p->id, 'note', $note );
 			}
 			spl_redirect_with_notice( $back, __( 'Note added.', SPL_TD ) );
+			break;
+
+		case 'wall_remove':
+			if ( $reason === '' ) {
+				spl_redirect_with_notice( $back, __( 'Please give a reason.', SPL_TD ), 'error' );
+			}
+			if ( ! $p->gallery_consent ) {
+				spl_redirect_with_notice( $back, __( 'This image is not on the gallery wall.', SPL_TD ), 'error' );
+			}
+			spl_remove_from_wall( $p, $reason );
+			/* translators: %s: code */
+			spl_redirect_with_notice( $back, sprintf( __( '%s removed from the gallery wall.', SPL_TD ), $p->code ) );
 			break;
 	}
 	spl_redirect_with_notice( $back, __( 'Unknown action.', SPL_TD ), 'error' );
@@ -818,6 +840,8 @@ function spl_render_detail( $p ) {
 						</form>
 					<?php endif; ?>
 
+					<?php spl_wall_remove_form( $p, $here ); ?>
+
 					<?php if ( $p->status === 'awaiting' ) : ?>
 						<p class="spl-muted"><?php esc_html_e( 'Waiting for the image. Use "Email again" below to remind the person.', SPL_TD ); ?></p>
 					<?php endif; ?>
@@ -836,7 +860,7 @@ function spl_render_detail( $p ) {
 						<tr><th><?php esc_html_e( 'Uploaded by', SPL_TD ); ?></th><td><?php echo spl_person_html( $p->uploader_name, $p->uploader_email ); // phpcs:ignore ?></td></tr>
 						<tr><th><?php esc_html_e( 'On the certificate', SPL_TD ); ?></th><td><?php echo $p->cert_name !== '' ? esc_html( $p->cert_name ) : '–'; ?></td></tr>
 						<tr><th><?php esc_html_e( 'Consent', SPL_TD ); ?></th><td><?php echo $p->consent ? esc_html__( 'Given at upload', SPL_TD ) : '–'; ?></td></tr>
-							<tr><th><?php esc_html_e( 'Gallery wall', SPL_TD ); ?></th><td><?php echo $p->gallery_consent ? esc_html__( 'Given at upload', SPL_TD ) : esc_html__( 'Not given', SPL_TD ); ?></td></tr>
+							<tr><th><?php esc_html_e( 'Gallery wall', SPL_TD ); ?></th><td><?php echo spl_wall_consent_html( $p, $log ); // phpcs:ignore -- escaped inside ?></td></tr>
 						<tr><th><?php esc_html_e( 'Public wall', SPL_TD ); ?></th><td><?php echo spl_wall_is_visible( $p ) ? esc_html__( 'Shown on the wall', SPL_TD ) : esc_html__( 'Not on the wall', SPL_TD ); ?></td></tr>
 						<tr><th><?php esc_html_e( 'Created', SPL_TD ); ?></th><td><?php echo spl_admin_date( $p->created_at ); // phpcs:ignore ?></td></tr>
 						<tr><th><?php esc_html_e( 'Uploaded', SPL_TD ); ?></th><td><?php echo spl_admin_date( $p->uploaded_at ); // phpcs:ignore ?></td></tr>
@@ -930,6 +954,43 @@ function spl_action_fields( $op, $p, $back ) {
 	echo '<input type="hidden" name="id" value="' . (int) $p->id . '" />';
 	echo '<input type="hidden" name="back" value="' . esc_attr( $back ) . '" />';
 	echo '<input type="hidden" name="has_send" value="1" />';
+}
+
+/**
+ * "Gallery wall" in the details: given at upload, withdrawn (with how long ago), or not given. $log is newest first.
+ * Returns escaped HTML.
+ */
+function spl_wall_consent_html( $p, $log ) {
+	if ( $p->gallery_consent ) {
+		return esc_html__( 'Given at upload', SPL_TD );
+	}
+	foreach ( $log as $entry ) {
+		if ( $entry->action === 'wall_removed' ) {
+			/* translators: %s: how long ago, e.g. "2 hours ago" */
+			return sprintf( esc_html__( 'Withdrawn %s', SPL_TD ), spl_admin_date( $entry->created_at ) );
+		}
+	}
+	return esc_html__( 'Not given', SPL_TD );
+}
+
+/**
+ * "Remove from wall" in the decision box, while the uploader's wall consent stands. The reason is required and
+ * kept in the history; nothing is emailed. There is no undo here: a new wall consent needs a new upload.
+ */
+function spl_wall_remove_form( $p, $back ) {
+	if ( ! $p->gallery_consent ) {
+		return;
+	}
+	?>
+	<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="spl-decision spl-decision-wall_remove" onsubmit="return confirm('<?php echo esc_js( __( 'Remove this image from the gallery wall? Print and certificate are not affected.', SPL_TD ) ); ?>');">
+		<?php spl_action_fields( 'wall_remove', $p, $back ); ?>
+		<details>
+			<summary><strong><?php esc_html_e( 'Remove from wall', SPL_TD ); ?></strong> <span class="spl-muted">– <?php esc_html_e( 'The image leaves the wall at once. Print and certificate stay.', SPL_TD ); ?></span></summary>
+			<textarea name="reason" rows="3" class="widefat" placeholder="<?php esc_attr_e( 'Reason – kept in the history, not emailed', SPL_TD ); ?>" required></textarea>
+			<p><button class="button"><?php esc_html_e( 'Remove from wall', SPL_TD ); ?></button></p>
+		</details>
+	</form>
+	<?php
 }
 
 function spl_reason_form( $op, $p, $back, $label, $presets, $hint ) {
