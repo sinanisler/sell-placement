@@ -100,8 +100,9 @@
 .spl-send form{display:grid;gap:.4em;margin-top:.6em;max-width:420px}
 .spl-send input,.spl-send textarea{width:100%;box-sizing:border-box;font:inherit}
 .spl-send-result{font-size:max(14px,.9em)}
-/* The Senden button: full width, yellow with black text, text centred. Uses the site's --yellow and --black. */
-.spl-send-submit{width:100%;background:var(--yellow,#FFDD00);border-color:var(--yellow,#FFDD00);color:var(--black,#0C0400);text-align:center}
+/* The Senden button: full width, yellow with black text, text centred. Uses the site's --yellow and --black.
+   Background and text colour are !important because the Bricks element rule "#brxe-xxx button" (black background, white text) uses an ID selector and would otherwise win. */
+.spl-send-submit{width:100%;background:var(--yellow,#FFDD00)!important;border-color:var(--yellow,#FFDD00);color:var(--black,#0C0400)!important;text-align:center}
 /* Copy link: no outline. The border keeps its width, so the button lines up with the others. */
 .spl-btn-copy{border-color:transparent}
 .spl-copied{font-size:max(14px,.85em);opacity:.8}
