@@ -123,7 +123,7 @@ function spl_render_placements_list( $placements, $order_key = '' ) {
 				</p>
 				<div class="spl-actions">
 					<?php if ( $is_buyer && spl_can_upload_status( $p->status ) && ! $closed ) : ?>
-						<a class="spl-btn spl-btn-primary spl-btn-small" href="<?php echo esc_url( $link ); ?>"><?php echo $p->status === 'declined' ? esc_html__( 'Upload a new image', SPL_TD ) : esc_html__( 'Upload image', SPL_TD ); ?></a>
+						<a class="spl-btn spl-btn-primary spl-btn-small" href="<?php echo esc_url( $link ); ?>" target="_blank" rel="noopener"><?php echo $p->status === 'declined' ? esc_html__( 'Upload a new image', SPL_TD ) : esc_html__( 'Upload image', SPL_TD ); ?></a>
 					<?php elseif ( $is_buyer && in_array( $p->status, array( 'review', 'approved' ), true ) ) : ?>
 						<a class="spl-btn spl-btn-small" href="<?php echo esc_url( $link ); ?>"><?php esc_html_e( 'View', SPL_TD ); ?></a>
 					<?php endif; ?>
