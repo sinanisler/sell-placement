@@ -142,7 +142,6 @@ function spl_render_upload_page_body( $p ) {
 	} else {
 		echo '<h1>' . esc_html( spl_text( 'page_heading' ) ) . '</h1>';
 		if ( $p->is_gift && $p->buyer_name ) {
-			echo '<p class="spl-gift-line">' . esc_html( spl_text( 'page_intro_gift', array( '{buyer_name}' => $p->buyer_name ) ) ) . '</p>';
 			if ( $p->gift_message ) {
 				echo '<blockquote class="spl-gift-message">' . nl2br( esc_html( $p->gift_message ) ) . '</blockquote>';
 			}
@@ -156,11 +155,6 @@ function spl_render_upload_page_body( $p ) {
 		/* translators: %s: date */
 		echo '<p class="spl-deadline">' . esc_html( sprintf( __( 'Uploads close on %s.', SPL_TD ), spl_format_datetime( $rules['event_end'] ) ) ) . '</p>';
 	}
-
-	// Prefill with what we know about the person most likely holding this link.
-	$name  = $p->uploader_name ? $p->uploader_name : ( $p->is_gift ? $p->recipient_name : $p->buyer_name );
-	$email = $p->uploader_email ? $p->uploader_email : ( $p->is_gift ? $p->recipient_email : $p->buyer_email );
-	$cert  = $p->cert_name !== '' ? $p->cert_name : $name;
 
 	$heic_exts = array_intersect( array( 'jpg', 'jpeg' ), spl_allowed_types() ) ? array( 'heic', 'heif' ) : array();
 	// HEIC/HEIF photos (iPhone) are converted to JPEG in the browser first, so they are accepted whenever JPEG is.
@@ -198,12 +192,12 @@ function spl_render_upload_page_body( $p ) {
 	<form class="spl-upload-form" novalidate data-spl-config="<?php echo esc_attr( wp_json_encode( $config ) ); ?>">
 		<div class="spl-row">
 			<p class="spl-field"><label for="spl_name"><?php echo esc_html( spl_text( 'upload_name_label' ) ); ?> <abbr class="required">*</abbr></label>
-				<input type="text" id="spl_name" name="name" value="<?php echo esc_attr( $name ); ?>" required autocomplete="name" /></p>
+				<input type="text" id="spl_name" name="name" required autocomplete="name" /></p>
 			<p class="spl-field"><label for="spl_email"><?php echo esc_html( spl_text( 'upload_email_label' ) ); ?> <abbr class="required">*</abbr></label>
-				<input type="email" id="spl_email" name="email" value="<?php echo esc_attr( $email ); ?>" required autocomplete="email" /></p>
+				<input type="email" id="spl_email" name="email" required autocomplete="email" /></p>
 		</div>
 		<p class="spl-field"><label for="spl_cert_name"><?php echo esc_html( spl_text( 'cert_name_label' ) ); ?> <abbr class="required">*</abbr></label>
-			<input type="text" id="spl_cert_name" name="cert_name" value="<?php echo esc_attr( $cert ); ?>" required maxlength="120" autocomplete="off" aria-describedby="spl_cert_name_hint" />
+			<input type="text" id="spl_cert_name" name="cert_name" required maxlength="120" autocomplete="off" aria-describedby="spl_cert_name_hint" />
 			<small id="spl_cert_name_hint" class="spl-hint"><?php echo esc_html( spl_text( 'cert_name_hint' ) ); ?></small></p>
 
 		<div class="spl-picker" data-spl-picker>

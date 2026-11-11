@@ -244,12 +244,6 @@ function spl_settings_schema() {
 					'label'   => __( 'Intro', SPL_TD ),
 					'default' => __( 'Choose an image, then zoom and move it until the frame shows exactly what should be printed. The frame has the final shape.', SPL_TD ),
 				),
-				'page_intro_gift' => array(
-					'type'    => 'textarea',
-					'label'   => __( 'Intro line for gift recipients', SPL_TD ),
-					'default' => __( '{buyer_name} has given you this placement.', SPL_TD ),
-					'tokens'  => array( '{buyer_name}' ),
-				),
 				'upload_name_label' => array(
 					'type'    => 'text',
 					'label'   => __( 'Name field label', SPL_TD ),
