@@ -349,3 +349,39 @@ add_action( 'woocommerce_checkout_create_order_line_item', function ( $item, $ca
 		$item->add_meta_data( __( 'Type', SPL_TD ), spl_text( 'mode_gift_label' ), true );
 	}
 }, 10, 3 );
+
+/* ------------------------------------------------------------------------
+ * Cart: each option's own picture (Product page > Cart images).
+ * ---------------------------------------------------------------------- */
+
+/**
+ * The block cart and the mini cart read their pictures from the Store API, so the image is swapped
+ * there. An option with no picture set keeps the product image.
+ */
+add_filter( 'woocommerce_store_api_cart_item_images', function ( $images, $cart_item ) {
+	$mode = isset( $cart_item['spl']['mode'] ) ? $cart_item['spl']['mode'] : '';
+	if ( $mode !== 'gift' && $mode !== 'self' ) {
+		return $images;
+	}
+	$id = (int) spl_opt( $mode === 'gift' ? 'cart_image_gift' : 'cart_image_self' );
+	if ( ! $id || ! wp_attachment_is_image( $id ) ) {
+		return $images;
+	}
+	$full  = wp_get_attachment_image_src( $id, 'full' );
+	$thumb = wp_get_attachment_image_src( $id, 'woocommerce_thumbnail' );
+	if ( ! $full || ! $thumb ) {
+		return $images;
+	}
+	// Same fields as the product images WooCommerce builds itself (ImageAttachmentSchema).
+	return array( (object) array(
+		'id'               => $id,
+		'src'              => $full[0],
+		'thumbnail'        => $thumb[0],
+		'srcset'           => (string) wp_get_attachment_image_srcset( $id, 'full' ),
+		'sizes'            => (string) wp_get_attachment_image_sizes( $id, 'full' ),
+		'thumbnail_srcset' => (string) wp_get_attachment_image_srcset( $id, 'woocommerce_thumbnail' ),
+		'thumbnail_sizes'  => (string) wp_get_attachment_image_sizes( $id, 'woocommerce_thumbnail' ),
+		'name'             => get_the_title( $id ),
+		'alt'              => get_post_meta( $id, '_wp_attachment_image_alt', true ),
+	) );
+}, 10, 2 );

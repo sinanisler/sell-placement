@@ -230,6 +230,26 @@ function spl_settings_schema() {
 			),
 		),
 
+		'product_cart' => array(
+			'title'  => __( 'Cart images', SPL_TD ),
+			'group'  => 'product',
+			'intro'  => __( 'The picture shown in the cart and mini cart for each option of the product. An empty field keeps the product image.', SPL_TD ),
+			'fields' => array(
+				'cart_image_self' => array(
+					'type'    => 'media',
+					'label'   => __( '"For me" option', SPL_TD ),
+					'default' => 0,
+					'desc'    => __( 'Picture for the "For me" option. Empty keeps the product image.', SPL_TD ),
+				),
+				'cart_image_gift' => array(
+					'type'    => 'media',
+					'label'   => __( '"As a gift" option', SPL_TD ),
+					'default' => 0,
+					'desc'    => __( 'Picture for the "As a gift" option. Empty keeps the product image.', SPL_TD ),
+				),
+			),
+		),
+
 		'page' => array(
 			'title'  => __( 'Upload page', SPL_TD ),
 			'intro'  => __( 'The page behind every private upload link. No account or login is needed.', SPL_TD ),

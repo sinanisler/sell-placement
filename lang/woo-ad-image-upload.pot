@@ -1482,6 +1482,26 @@ msgid "Available until {date}."
 msgstr ""
 
 #: includes/settings.php:234
+msgid "Cart images"
+msgstr ""
+
+#: includes/settings.php:236
+msgid "The picture shown in the cart and mini cart for each option of the product. An empty field keeps the product image."
+msgstr ""
+
+#: includes/settings.php:242
+msgid "Picture for the \"For me\" option. Empty keeps the product image."
+msgstr ""
+
+#: includes/settings.php:246
+msgid "\"As a gift\" option"
+msgstr ""
+
+#: includes/settings.php:248
+msgid "Picture for the \"As a gift\" option. Empty keeps the product image."
+msgstr ""
+
+#: includes/settings.php:234
 msgid "Upload page"
 msgstr ""
 
