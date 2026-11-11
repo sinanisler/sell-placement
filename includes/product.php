@@ -354,17 +354,32 @@ add_action( 'woocommerce_checkout_create_order_line_item', function ( $item, $ca
  * Cart: each option's own picture (Product page > Cart images).
  * ---------------------------------------------------------------------- */
 
-/**
- * The block cart and the mini cart read their pictures from the Store API, so the image is swapped
- * there. An option with no picture set keeps the product image.
- */
-add_filter( 'woocommerce_store_api_cart_item_images', function ( $images, $cart_item ) {
+/** The picture set for a cart line's option, or 0 for none (then the product image stays). */
+function spl_cart_item_image_id( $cart_item ) {
 	$mode = isset( $cart_item['spl']['mode'] ) ? $cart_item['spl']['mode'] : '';
 	if ( $mode !== 'gift' && $mode !== 'self' ) {
-		return $images;
+		return 0;
 	}
 	$id = (int) spl_opt( $mode === 'gift' ? 'cart_image_gift' : 'cart_image_self' );
-	if ( ! $id || ! wp_attachment_is_image( $id ) ) {
+	return $id && wp_attachment_is_image( $id ) ? $id : 0;
+}
+
+/** Classic cart and mini cart (Bricks cart elements and the cart fragments use these templates). */
+add_filter( 'woocommerce_cart_item_thumbnail', function ( $thumbnail, $cart_item ) {
+	$id = spl_cart_item_image_id( $cart_item );
+	if ( ! $id ) {
+		return $thumbnail;
+	}
+	$img = wp_get_attachment_image( $id, 'woocommerce_thumbnail', false, array( 'class' => 'attachment-woocommerce_thumbnail size-woocommerce_thumbnail' ) );
+	return $img ? $img : $thumbnail;
+}, 10, 2 );
+
+/**
+ * Block cart and block mini cart read their pictures from the Store API.
+ */
+add_filter( 'woocommerce_store_api_cart_item_images', function ( $images, $cart_item ) {
+	$id = spl_cart_item_image_id( $cart_item );
+	if ( ! $id ) {
 		return $images;
 	}
 	$full  = wp_get_attachment_image_src( $id, 'full' );
