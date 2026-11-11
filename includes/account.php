@@ -128,7 +128,7 @@ function spl_render_placements_list( $placements, $order_key = '' ) {
 						<a class="spl-btn spl-btn-small" href="<?php echo esc_url( $link ); ?>"><?php esc_html_e( 'View', SPL_TD ); ?></a>
 					<?php endif; ?>
 					<?php if ( $is_buyer && $p->status !== 'cancelled' ) : ?>
-						<button type="button" class="spl-btn spl-btn-small" data-spl-copy="<?php echo esc_attr( $link ); ?>"><?php esc_html_e( 'Copy link', SPL_TD ); ?></button>
+						<button type="button" class="spl-btn spl-btn-small spl-btn-copy" data-spl-copy="<?php echo esc_attr( $link ); ?>"><?php esc_html_e( 'Copy link', SPL_TD ); ?></button>
 						<?php if ( $p->is_gift ) : // the printable card only makes sense for a gift ?>
 							<a class="spl-btn spl-btn-small" href="<?php echo esc_url( spl_pdf_url( $p, 'card' ) ); ?>"><?php esc_html_e( 'PDF', SPL_TD ); ?></a>
 						<?php endif; ?>
@@ -144,7 +144,7 @@ function spl_render_placements_list( $placements, $order_key = '' ) {
 							<input type="text" name="name" placeholder="<?php echo esc_attr( spl_text( 'gift_name_label' ) ); ?>" required />
 							<input type="email" name="email" placeholder="<?php echo esc_attr( spl_text( 'gift_email_label' ) ); ?>" required />
 							<textarea name="message" rows="2" maxlength="500" placeholder="<?php echo esc_attr( spl_text( 'gift_message_label' ) ); ?>"></textarea>
-							<button type="submit" class="spl-btn spl-btn-primary spl-btn-small"><?php esc_html_e( 'Send', SPL_TD ); ?></button>
+							<button type="submit" class="spl-btn spl-btn-primary spl-btn-small spl-send-submit"><?php esc_html_e( 'Send', SPL_TD ); ?></button>
 							<span class="spl-send-result" role="status"></span>
 						</form>
 					</details>
