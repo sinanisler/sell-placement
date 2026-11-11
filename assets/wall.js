@@ -5,23 +5,116 @@
 (function () {
 	'use strict';
 
-	/* One lightbox per page, made the first time an image is opened. A click anywhere on it closes it. */
-	function lightbox(label) {
-		var dialog = document.querySelector('[data-spl-lightbox]');
-		if (dialog) { return dialog; }
-		dialog = document.createElement('dialog');
+	/*
+	 * One lightbox per page, made the first time an image is opened. It shows the clicked picture at once (the
+	 * tile's copy is already in memory) and swaps in the full file only when the browser has decoded it, so an
+	 * earlier picture never shows. Buttons, arrow keys and swipes step through the tiles of the wall.
+	 */
+	var box = null;
+
+	function button(cls, label) {
+		var b = document.createElement('button');
+		b.type = 'button';
+		b.className = cls;
+		b.title = label;
+		b.setAttribute('aria-label', label);
+		return b;
+	}
+
+	function makeLightbox(cfg) {
+		var dialog = document.createElement('dialog');
 		dialog.className = 'spl-lightbox';
 		dialog.setAttribute('data-spl-lightbox', '');
-		var close = document.createElement('button');
-		close.type = 'button';
-		close.className = 'spl-lightbox-close';
-		close.title = label;
-		close.setAttribute('aria-label', label);
-		dialog.appendChild(close);
-		dialog.appendChild(document.createElement('img'));
-		dialog.addEventListener('click', function () { dialog.close(); });
+		var img = document.createElement('img');
+		var prev = button('spl-lightbox-prev', cfg.prev);
+		var next = button('spl-lightbox-next', cfg.next);
+		dialog.appendChild(button('spl-lightbox-close', cfg.close));
+		dialog.appendChild(prev);
+		dialog.appendChild(next);
+		dialog.appendChild(img);
 		document.body.appendChild(dialog);
-		return dialog;
+		box = { dialog: dialog, img: img, prev: prev, next: next, grid: null, tile: null, seq: 0 };
+
+		// A click on the picture or the backdrop closes it; the arrows stop the click so they do not.
+		dialog.addEventListener('click', function () { dialog.close(); });
+		prev.addEventListener('click', function (e) { e.stopPropagation(); step(-1); });
+		next.addEventListener('click', function (e) { e.stopPropagation(); step(1); });
+		// On the document, not the dialog: a step to the last image hides the arrow that had focus, and the keys must keep working.
+		document.addEventListener('keydown', function (e) {
+			if (!dialog.open) { return; }
+			if (e.key === 'ArrowLeft') { e.preventDefault(); step(-1); }
+			if (e.key === 'ArrowRight') { e.preventDefault(); step(1); }
+		});
+		var startX = null;
+		dialog.addEventListener('touchstart', function (e) {
+			startX = e.touches.length === 1 ? e.touches[0].clientX : null;
+		}, { passive: true });
+		dialog.addEventListener('touchend', function (e) {
+			if (startX === null) { return; }
+			var dx = e.changedTouches[0].clientX - startX;
+			startX = null;
+			if (Math.abs(dx) > 50) { step(dx < 0 ? 1 : -1); }
+		});
+		// However it is closed, a full image still on its way must not be shown later.
+		dialog.addEventListener('close', function () { box.seq++; });
+		return box;
+	}
+
+	/* The tiles of the wall the lightbox was opened from, in on-screen order. Load more adds to the end. */
+	function tiles() {
+		return box.grid ? Array.prototype.slice.call(box.grid.querySelectorAll('[data-spl-wall-zoom]')) : [];
+	}
+
+	function warm(tile) {
+		if (tile) {
+			var pic = new Image();
+			pic.src = tile.querySelector('img').src;
+		}
+	}
+
+	function decoded(img) {
+		if (img.decode) { return img.decode(); }
+		return new Promise(function (ok, fail) { img.onload = ok; img.onerror = fail; });
+	}
+
+	function show(tile) {
+		var seq = ++box.seq; // only the newest request may change the picture
+		var thumb = tile.querySelector('img');
+		var full = tile.getAttribute('data-full');
+		var list = tiles();
+		var i = list.indexOf(tile);
+		box.tile = tile;
+		box.img.alt = thumb.alt;
+		// The box takes the picture's shape and the full file's width, so the swap does not move anything.
+		box.img.style.removeProperty('--spl-cap');
+		if (thumb.naturalWidth) {
+			box.img.style.setProperty('--spl-ratio', String(thumb.naturalWidth / thumb.naturalHeight));
+		} else {
+			box.img.style.removeProperty('--spl-ratio');
+		}
+		box.img.classList.add('is-loading');
+		box.img.src = thumb.src;
+		box.prev.hidden = i <= 0;
+		box.next.hidden = i < 0 || i >= list.length - 1;
+		warm(list[i - 1]);
+		warm(list[i + 1]);
+
+		var pic = new Image();
+		pic.src = full;
+		decoded(pic).then(function () {
+			if (seq !== box.seq) { return; }
+			box.img.style.setProperty('--spl-cap', pic.naturalWidth + 'px');
+			box.img.src = full;
+			box.img.classList.remove('is-loading');
+		}, function () {
+			if (seq === box.seq) { box.img.classList.remove('is-loading'); }
+		});
+	}
+
+	function step(dir) {
+		var list = tiles();
+		var target = list[list.indexOf(box.tile) + dir];
+		if (target) { show(target); }
 	}
 
 	function init(root) {
@@ -91,11 +184,10 @@
 		grid.addEventListener('click', function (e) {
 			var zoom = e.target.closest('[data-spl-wall-zoom]');
 			if (!zoom) { return; }
-			var dialog = lightbox(cfg.close);
-			var full = dialog.querySelector('img');
-			full.src = zoom.getAttribute('data-full');
-			full.alt = zoom.querySelector('img').alt;
-			dialog.showModal();
+			if (!box) { makeLightbox(cfg); }
+			box.grid = grid;
+			show(zoom);
+			if (!box.dialog.open) { box.dialog.showModal(); }
 		});
 	}
 

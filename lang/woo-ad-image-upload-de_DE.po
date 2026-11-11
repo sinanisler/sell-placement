@@ -2012,6 +2012,14 @@ msgstr "Alle Bilder anzeigen"
 msgid "Close"
 msgstr "Schließen"
 
+#: includes/wall.php:218
+msgid "Previous image"
+msgstr "Vorheriges Bild"
+
+#: includes/wall.php:219
+msgid "Next image"
+msgstr "Nächstes Bild"
+
 #: includes/wall.php:240
 msgid "Sort order"
 msgstr "Sortierung"

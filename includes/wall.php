@@ -215,6 +215,8 @@ function spl_wall_shortcode( $atts ) {
 		'perPage' => $per,
 		'error'   => __( 'Something went wrong. Please try again.', SPL_TD ),
 		'close'   => __( 'Close', SPL_TD ),
+		'prev'    => __( 'Previous image', SPL_TD ),
+		'next'    => __( 'Next image', SPL_TD ),
 	);
 
 	ob_start();

@@ -1960,6 +1960,14 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
+#: includes/wall.php:218
+msgid "Previous image"
+msgstr ""
+
+#: includes/wall.php:219
+msgid "Next image"
+msgstr ""
+
 #: includes/wall.php:240
 msgid "Sort order"
 msgstr ""
