@@ -1147,8 +1147,8 @@ msgid "Gift"
 msgstr "Gutschein"
 
 #: includes/emails.php:235
-msgid "pass the attached PDF or this link on to the recipient:"
-msgstr "geben Sie das angehängte PDF oder diesen Link an die beschenkte Person weiter:"
+msgid "The gift PDF is attached – or pass this link on to the recipient."
+msgstr "Die Gutschein-PDF findest du im Anhang – oder gib diesen Link an die beschenkte Person weiter."
 
 #: includes/emails.php:271
 msgid "Order overview"

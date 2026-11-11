@@ -1098,7 +1098,7 @@ msgid "Gift"
 msgstr ""
 
 #: includes/emails.php:235
-msgid "pass the attached PDF or this link on to the recipient:"
+msgid "The gift PDF is attached – or pass this link on to the recipient."
 msgstr ""
 
 #: includes/emails.php:271

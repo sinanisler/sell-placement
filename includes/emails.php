@@ -113,8 +113,8 @@ function spl_email_layout_css( $css ) {
 }
 
 function spl_email_button( $url, $label ) {
-	$color = get_option( 'woocommerce_email_base_color', '#7f54b3' );
-	return '<a href="' . esc_url( $url ) . '" style="display:inline-block;padding:12px 22px;background:' . esc_attr( $color ) . ';color:#ffffff;text-decoration:none;border-radius:4px;font-weight:bold">' . esc_html( $label ) . '</a>';
+	// Black pill with white text, the same as the buttons on the site (the site's --black is #0C0400).
+	return '<a href="' . esc_url( $url ) . '" style="display:inline-block;padding:12px 22px;background:#0c0400;color:#ffffff;text-decoration:none;border-radius:100px;font-weight:bold">' . esc_html( $label ) . '</a>';
 }
 
 /** Placeholder values for one placement. */
@@ -268,12 +268,12 @@ function spl_send_buyer_overview( $order, $placements ) {
 			$who = sprintf( __( 'Sent to %s', SPL_TD ), esc_html( $p->recipient_name . ' <' . $p->recipient_email . '>' ) );
 		} elseif ( $p->is_gift ) {
 			// Gift bought without a recipient: the buyer passes it on (attached PDF, copied link or "Send Email" in the account).
-			$who = '<strong>' . esc_html__( 'Gift', SPL_TD ) . '</strong> – ' . esc_html__( 'pass the attached PDF or this link on to the recipient:', SPL_TD );
+			$who = '<strong>' . esc_html__( 'Gift', SPL_TD ) . '</strong> – ' . esc_html__( 'The gift PDF is attached – or pass this link on to the recipient.', SPL_TD );
 		} else {
 			$who = spl_email_button( spl_upload_url( $p ), __( 'Upload image', SPL_TD ) );
 		}
-		$kind_color = $p->is_gift ? get_option( 'woocommerce_email_base_color', '#7f54b3' ) : '#333333';
-		$first      = '<span style="display:block;font-size:16px;font-weight:bold;color:' . esc_attr( $kind_color ) . '">' . esc_html( spl_text( $p->is_gift ? 'mode_gift_label' : 'mode_self_label' ) ) . '</span>';
+		// Ticket and Gutschein labels share one colour, so the two boxes look alike.
+		$first      = '<span style="display:block;font-size:16px;font-weight:bold;color:#333333">' . esc_html( spl_text( $p->is_gift ? 'mode_gift_label' : 'mode_self_label' ) ) . '</span>';
 		if ( count( $product_ids ) > 1 && $product ) {
 			$first .= '<span style="display:block;font-size:14px;color:#666666">' . esc_html( $product->get_name() ) . '</span>';
 		}
