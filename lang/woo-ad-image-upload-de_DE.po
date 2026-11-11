@@ -2156,3 +2156,69 @@ msgstr "Lädt jede Platzierung dieser Liste als Excel-Datei herunter, jede Spalt
 #: includes/admin-export.php
 msgid "The Excel file could not be created. Please use the CSV export."
 msgstr "Die Excel-Datei konnte nicht erstellt werden. Bitte nutzen Sie den CSV-Export."
+
+#: includes/db.php
+msgid "Newsletter: not offered"
+msgstr "Newsletter: nicht angeboten"
+
+#: includes/db.php
+msgid "Newsletter: given"
+msgstr "Newsletter: erteilt"
+
+#: includes/db.php
+msgid "Newsletter: not given"
+msgstr "Newsletter: nicht erteilt"
+
+#: includes/settings.php
+msgid "Newsletter"
+msgstr "Newsletter"
+
+#: includes/settings.php
+msgid "An optional third checkbox on the upload page asks for permission to send the newsletter. It is never required. Every upload records in the image history whether the permission was given, with the exact wording shown. Below is everyone who gave it, ready to export as CSV for Brevo or another newsletter tool."
+msgstr "Eine optionale dritte Checkbox auf der Upload-Seite fragt die Erlaubnis für den Newsletter ab. Sie ist nie Pflicht. Jeder Upload hält im Verlauf des Bildes fest, ob die Erlaubnis erteilt wurde, mit dem genauen angezeigten Wortlaut. Darunter stehen alle, die sie erteilt haben, bereit zum CSV-Export für Brevo oder ein anderes Newsletter-Tool."
+
+#: includes/settings.php
+msgid "Newsletter checkbox"
+msgstr "Newsletter-Checkbox"
+
+#: includes/settings.php
+msgid "Show the optional newsletter checkbox on the upload page"
+msgstr "Die optionale Newsletter-Checkbox auf der Upload-Seite anzeigen"
+
+#: includes/settings.php
+msgid "Newsletter checkbox text"
+msgstr "Text der Newsletter-Checkbox"
+
+#: includes/settings.php
+msgid "Yes, I would like to receive the newsletter by email. I can unsubscribe at any time."
+msgstr "Ja, ich möchte den Newsletter per E-Mail erhalten. Ich kann mich jederzeit wieder abmelden."
+
+#: includes/settings.php
+msgid "Optional for the customer. Say clearly what they sign up for and that they can unsubscribe."
+msgstr "Für den Kunden freiwillig. Sagen Sie klar, wofür man sich anmeldet und dass man sich abmelden kann."
+
+#: includes/admin-approvals.php
+msgid "Permission given"
+msgstr "Erlaubnis erteilt"
+
+#: includes/admin-approvals.php
+msgid "Not given"
+msgstr "Nicht erteilt"
+
+#: includes/admin-settings.php
+msgid "Newsletter subscribers"
+msgstr "Newsletter-Abonnenten"
+
+#: includes/admin-settings.php
+msgid "%d person gave newsletter permission."
+msgid_plural "%d people gave newsletter permission."
+msgstr[0] "%d Person hat die Newsletter-Erlaubnis erteilt."
+msgstr[1] "%d Personen haben die Newsletter-Erlaubnis erteilt."
+
+#: includes/admin-settings.php
+msgid "Export CSV"
+msgstr "CSV exportieren"
+
+#: includes/admin-settings.php
+msgid "Name"
+msgstr "Name"

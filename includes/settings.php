@@ -381,6 +381,25 @@ function spl_settings_schema() {
 			),
 		),
 
+		'newsletter' => array(
+			'title'  => __( 'Newsletter', SPL_TD ),
+			'intro'  => __( 'An optional third checkbox on the upload page asks for permission to send the newsletter. It is never required. Every upload records in the image history whether the permission was given, with the exact wording shown. Below is everyone who gave it, ready to export as CSV for Brevo or another newsletter tool.', SPL_TD ),
+			'fields' => array(
+				'newsletter_enabled' => array(
+					'type'    => 'checkbox',
+					'label'   => __( 'Newsletter checkbox', SPL_TD ),
+					'default' => 1,
+					'desc'    => __( 'Show the optional newsletter checkbox on the upload page', SPL_TD ),
+				),
+				'newsletter_label' => array(
+					'type'    => 'textarea',
+					'label'   => __( 'Newsletter checkbox text', SPL_TD ),
+					'default' => __( 'Yes, I would like to receive the newsletter by email. I can unsubscribe at any time.', SPL_TD ),
+					'desc'    => __( 'Optional for the customer. Say clearly what they sign up for and that they can unsubscribe.', SPL_TD ),
+				),
+			),
+		),
+
 		'pdf' => array(
 			'title'  => __( 'PDF', SPL_TD ),
 			'intro'  => array(

@@ -107,6 +107,7 @@ function spl_rest_action( WP_REST_Request $r ) {
 			if ( is_wp_error( $att ) ) {
 				return $fail( $att->get_error_message() );
 			}
+			$news  = ! empty( $r['newsletter_consent'] ) && spl_newsletter_label() !== '';
 			$name  = trim( sanitize_text_field( (string) $r['name'] ) );
 			$email = sanitize_email( (string) $r['email'] );
 			spl_update_placement( $p->id, array(
@@ -118,6 +119,8 @@ function spl_rest_action( WP_REST_Request $r ) {
 				'uploaded_at'    => spl_now(),
 				'consent'        => 1,
 				'gallery_consent' => ! empty( $r['gallery_consent'] ) && spl_product_rules( $p->product_id )['consent_extra'] !== '' ? 1 : 0,
+				'newsletter_consent' => $news ? 1 : 0,
+				'newsletter_at'   => $news ? spl_now() : null,
 			) );
 			$meta = wp_get_attachment_metadata( $att );
 			spl_log( $p->id, 'uploaded', $meta ? $meta['width'] . ' × ' . $meta['height'] . ' px' : '', $att );

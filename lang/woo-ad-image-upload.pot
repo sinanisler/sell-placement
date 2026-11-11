@@ -2104,3 +2104,69 @@ msgstr ""
 #: includes/admin-export.php
 msgid "The Excel file could not be created. Please use the CSV export."
 msgstr ""
+
+#: includes/db.php
+msgid "Newsletter: not offered"
+msgstr ""
+
+#: includes/db.php
+msgid "Newsletter: given"
+msgstr ""
+
+#: includes/db.php
+msgid "Newsletter: not given"
+msgstr ""
+
+#: includes/settings.php
+msgid "Newsletter"
+msgstr ""
+
+#: includes/settings.php
+msgid "An optional third checkbox on the upload page asks for permission to send the newsletter. It is never required. Every upload records in the image history whether the permission was given, with the exact wording shown. Below is everyone who gave it, ready to export as CSV for Brevo or another newsletter tool."
+msgstr ""
+
+#: includes/settings.php
+msgid "Newsletter checkbox"
+msgstr ""
+
+#: includes/settings.php
+msgid "Show the optional newsletter checkbox on the upload page"
+msgstr ""
+
+#: includes/settings.php
+msgid "Newsletter checkbox text"
+msgstr ""
+
+#: includes/settings.php
+msgid "Yes, I would like to receive the newsletter by email. I can unsubscribe at any time."
+msgstr ""
+
+#: includes/settings.php
+msgid "Optional for the customer. Say clearly what they sign up for and that they can unsubscribe."
+msgstr ""
+
+#: includes/admin-approvals.php
+msgid "Permission given"
+msgstr ""
+
+#: includes/admin-approvals.php
+msgid "Not given"
+msgstr ""
+
+#: includes/admin-settings.php
+msgid "Newsletter subscribers"
+msgstr ""
+
+#: includes/admin-settings.php
+msgid "%d person gave newsletter permission."
+msgid_plural "%d people gave newsletter permission."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/admin-settings.php
+msgid "Export CSV"
+msgstr ""
+
+#: includes/admin-settings.php
+msgid "Name"
+msgstr ""

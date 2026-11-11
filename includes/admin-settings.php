@@ -104,6 +104,8 @@ function spl_render_settings_page() {
 			</p>
 		</form>
 
+		<?php if ( $tab === 'newsletter' ) : spl_render_newsletter_list(); endif; ?>
+
 		<?php if ( $tab === 'pdf' ) : ?>
 				<aside class="spl-cert-aside">
 					<div class="spl-cert-aside-head">
@@ -385,4 +387,53 @@ add_action( 'admin_post_spl_test_email', function () {
 	$ok = spl_send_email( $type, $to, $tokens, array(), array(), true );
 	/* translators: %s: email */
 	spl_redirect_with_notice( $back, $ok ? sprintf( __( 'Test sent to %s.', SPL_TD ), $to ) : __( 'The email could not be sent.', SPL_TD ), $ok ? 'success' : 'error' );
+} );
+
+/**
+ * Newsletter tab: how many people gave permission, the list, and the CSV export.
+ */
+function spl_render_newsletter_list() {
+	$subs = spl_newsletter_subscribers();
+	?>
+	<h2><?php esc_html_e( 'Newsletter subscribers', SPL_TD ); ?></h2>
+	<p><?php /* translators: %d: number of people */ echo esc_html( sprintf( _n( '%d person gave newsletter permission.', '%d people gave newsletter permission.', count( $subs ), SPL_TD ), count( $subs ) ) ); ?>
+		<?php if ( $subs ) : ?>
+			<a class="button button-primary" href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=spl_newsletter_csv' ), 'spl_newsletter_csv' ) ); ?>"><?php esc_html_e( 'Export CSV', SPL_TD ); ?></a>
+		<?php endif; ?></p>
+	<?php if ( $subs ) : ?>
+		<table class="widefat striped">
+			<thead><tr><th><?php esc_html_e( 'Name', SPL_TD ); ?></th><th><?php esc_html_e( 'Email', SPL_TD ); ?></th><th><?php esc_html_e( 'Permission given', SPL_TD ); ?></th><th><?php esc_html_e( 'Placement', SPL_TD ); ?></th></tr></thead>
+			<tbody>
+			<?php foreach ( $subs as $s ) : ?>
+				<tr>
+					<td><?php echo esc_html( $s->name ); ?></td>
+					<td><?php echo esc_html( $s->email ); ?></td>
+					<td><?php echo spl_admin_date( $s->consent_at ); // phpcs:ignore ?></td>
+					<td><a href="<?php echo esc_url( admin_url( 'admin.php?page=spl-approvals&placement=' . $s->placement_id ) ); ?>"><?php echo esc_html( $s->code ); ?></a></td>
+				</tr>
+			<?php endforeach; ?>
+			</tbody>
+		</table>
+	<?php endif; ?>
+	<?php
+}
+
+/** CSV for Brevo and similar tools: EMAIL, FIRSTNAME, LASTNAME, then the consent date and placement code. */
+add_action( 'admin_post_spl_newsletter_csv', function () {
+	if ( ! current_user_can( 'spl_settings' ) ) {
+		wp_die( esc_html__( 'Sorry, you are not allowed to do that.', SPL_TD ) );
+	}
+	check_admin_referer( 'spl_newsletter_csv' );
+	nocache_headers();
+	header( 'Content-Type: text/csv; charset=utf-8' );
+	header( 'Content-Disposition: attachment; filename="newsletter-' . wp_date( 'Y-m-d-Hi' ) . '.csv"' );
+	$out = fopen( 'php://output', 'w' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen
+	fwrite( $out, "\xEF\xBB\xBF" ); // phpcs:ignore -- byte order mark, so Excel shows umlauts
+	fputcsv( $out, array( 'EMAIL', 'FIRSTNAME', 'LASTNAME', 'CONSENT_DATE', 'PLACEMENT' ), ';' );
+	foreach ( spl_newsletter_subscribers() as $s ) {
+		$parts = preg_split( '/\s+/', trim( (string) $s->name ), 2 );
+		fputcsv( $out, array_map( 'spl_export_cell', array( $s->email, $parts[0], isset( $parts[1] ) ? $parts[1] : '', $s->consent_at, $s->code ) ), ';' );
+	}
+	fclose( $out ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose
+	exit;
 } );

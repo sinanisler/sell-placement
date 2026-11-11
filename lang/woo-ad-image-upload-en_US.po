@@ -2102,3 +2102,69 @@ msgstr "Download every placement in this list as an Excel file, with every colum
 #: includes/admin-export.php
 msgid "The Excel file could not be created. Please use the CSV export."
 msgstr "The Excel file could not be created. Please use the CSV export."
+
+#: includes/db.php
+msgid "Newsletter: not offered"
+msgstr "Newsletter: not offered"
+
+#: includes/db.php
+msgid "Newsletter: given"
+msgstr "Newsletter: given"
+
+#: includes/db.php
+msgid "Newsletter: not given"
+msgstr "Newsletter: not given"
+
+#: includes/settings.php
+msgid "Newsletter"
+msgstr "Newsletter"
+
+#: includes/settings.php
+msgid "An optional third checkbox on the upload page asks for permission to send the newsletter. It is never required. Every upload records in the image history whether the permission was given, with the exact wording shown. Below is everyone who gave it, ready to export as CSV for Brevo or another newsletter tool."
+msgstr "An optional third checkbox on the upload page asks for permission to send the newsletter. It is never required. Every upload records in the image history whether the permission was given, with the exact wording shown. Below is everyone who gave it, ready to export as CSV for Brevo or another newsletter tool."
+
+#: includes/settings.php
+msgid "Newsletter checkbox"
+msgstr "Newsletter checkbox"
+
+#: includes/settings.php
+msgid "Show the optional newsletter checkbox on the upload page"
+msgstr "Show the optional newsletter checkbox on the upload page"
+
+#: includes/settings.php
+msgid "Newsletter checkbox text"
+msgstr "Newsletter checkbox text"
+
+#: includes/settings.php
+msgid "Yes, I would like to receive the newsletter by email. I can unsubscribe at any time."
+msgstr "Yes, I would like to receive the newsletter by email. I can unsubscribe at any time."
+
+#: includes/settings.php
+msgid "Optional for the customer. Say clearly what they sign up for and that they can unsubscribe."
+msgstr "Optional for the customer. Say clearly what they sign up for and that they can unsubscribe."
+
+#: includes/admin-approvals.php
+msgid "Permission given"
+msgstr "Permission given"
+
+#: includes/admin-approvals.php
+msgid "Not given"
+msgstr "Not given"
+
+#: includes/admin-settings.php
+msgid "Newsletter subscribers"
+msgstr "Newsletter subscribers"
+
+#: includes/admin-settings.php
+msgid "%d person gave newsletter permission."
+msgid_plural "%d people gave newsletter permission."
+msgstr[0] "%d person gave newsletter permission."
+msgstr[1] "%d people gave newsletter permission."
+
+#: includes/admin-settings.php
+msgid "Export CSV"
+msgstr "Export CSV"
+
+#: includes/admin-settings.php
+msgid "Name"
+msgstr "Name"

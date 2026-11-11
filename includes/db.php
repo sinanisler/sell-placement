@@ -58,6 +58,8 @@ function spl_install_tables() {
 		last_reason text NULL,
 		consent tinyint(1) NOT NULL DEFAULT 0,
 		gallery_consent tinyint(1) NOT NULL DEFAULT 0,
+		newsletter_consent tinyint(1) NOT NULL DEFAULT 0,
+		newsletter_at datetime NULL DEFAULT NULL,
 		link_sent_count int(11) NOT NULL DEFAULT 0,
 		link_sent_at datetime NULL DEFAULT NULL,
 		created_at datetime NOT NULL,
@@ -153,7 +155,7 @@ function spl_cast( $row ) {
 	if ( ! $row ) {
 		return null;
 	}
-	foreach ( array( 'id', 'order_id', 'order_item_id', 'product_id', 'unit_index', 'customer_id', 'is_gift', 'attachment_id', 'rejections', 'max_rejections', 'consent', 'gallery_consent', 'link_sent_count', 'reviewed_by' ) as $k ) {
+	foreach ( array( 'id', 'order_id', 'order_item_id', 'product_id', 'unit_index', 'customer_id', 'is_gift', 'attachment_id', 'rejections', 'max_rejections', 'consent', 'gallery_consent', 'newsletter_consent', 'link_sent_count', 'reviewed_by' ) as $k ) {
 		$row->$k = (int) $row->$k;
 	}
 	return $row;
@@ -260,7 +262,7 @@ function spl_get_log( $placement_id ) {
  * Records the consent given at upload: the wording shown for each checkbox and what was ticked. The wording is
  * kept as it was shown, so the record still holds if the texts are edited later.
  */
-function spl_log_consent( $p, $gallery_given, $actor = '' ) {
+function spl_log_consent( $p, $gallery_given, $actor = '', $newsletter_given = null ) {
 	$required = trim( wp_strip_all_tags( (string) spl_opt( 'consent_label' ) ) );
 	$extra    = trim( wp_strip_all_tags( (string) spl_product_rules( $p->product_id )['consent_extra'] ) );
 	if ( $extra === '' ) {
@@ -269,7 +271,47 @@ function spl_log_consent( $p, $gallery_given, $actor = '' ) {
 		$gallery_line = $gallery_given ? __( 'Gallery wall: given', SPL_TD ) : __( 'Gallery wall: not given', SPL_TD );
 	}
 	$note = __( 'Required consent: given', SPL_TD ) . "\n" . $required . "\n" . $gallery_line . ( $extra !== '' ? "\n" . $extra : '' );
+	$news = spl_newsletter_label();
+	if ( $news === '' ) {
+		$note .= "\n" . __( 'Newsletter: not offered', SPL_TD );
+	} else {
+		$given = $newsletter_given === null ? ! empty( $p->newsletter_consent ) : (bool) $newsletter_given;
+		$note .= "\n" . ( $given ? __( 'Newsletter: given', SPL_TD ) : __( 'Newsletter: not given', SPL_TD ) ) . "\n" . $news;
+	}
 	spl_log( $p->id, 'consent', $note, 0, $actor );
+}
+
+/** The newsletter checkbox wording as plain text, or '' when the checkbox is switched off. */
+function spl_newsletter_label() {
+	if ( ! spl_opt( 'newsletter_enabled' ) ) {
+		return '';
+	}
+	return trim( wp_strip_all_tags( (string) spl_opt( 'newsletter_label' ) ) );
+}
+
+/**
+ * Everyone who gave newsletter permission at upload, one row per email (the newest permission wins).
+ *
+ * @return object[] email, name, consent_at, code, placement_id
+ */
+function spl_newsletter_subscribers() {
+	global $wpdb;
+	$rows = $wpdb->get_results( 'SELECT id, code, uploader_name, uploader_email, newsletter_at FROM ' . spl_table() . " WHERE newsletter_consent = 1 AND uploader_email <> '' ORDER BY newsletter_at DESC, id DESC" ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+	$out  = array();
+	foreach ( $rows as $r ) {
+		$key = strtolower( $r->uploader_email );
+		if ( isset( $out[ $key ] ) ) {
+			continue;
+		}
+		$out[ $key ] = (object) array(
+			'email'        => $r->uploader_email,
+			'name'         => $r->uploader_name,
+			'consent_at'   => $r->newsletter_at,
+			'code'         => $r->code,
+			'placement_id' => (int) $r->id,
+		);
+	}
+	return array_values( $out );
 }
 
 function spl_log_labels() {

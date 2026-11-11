@@ -234,6 +234,9 @@ function spl_render_upload_page_body( $p ) {
 		<?php if ( $rules['consent_extra'] !== '' ) : ?>
 			<p class="spl-check"><label><input type="checkbox" name="consent_extra" value="1" /> <span><?php echo wp_kses_post( $rules['consent_extra'] ); ?></span></label></p>
 		<?php endif; ?>
+		<?php if ( spl_newsletter_label() !== '' ) : ?>
+			<p class="spl-check"><label><input type="checkbox" name="newsletter" value="1" /> <span><?php echo wp_kses_post( spl_opt( 'newsletter_label' ) ); ?></span></label></p>
+		<?php endif; ?>
 
 		<div class="spl-status" data-spl-status role="status" aria-live="polite"></div>
 		<div class="spl-progress" data-spl-progress hidden><span></span></div>
@@ -282,6 +285,7 @@ function spl_ajax_upload() {
 	}
 	$rules = spl_product_rules( $p->product_id );
 	$gallery_given = $rules['consent_extra'] !== '' && ! empty( $_POST['consent_extra'] ); // optional: the gallery wall permission
+	$newsletter_given = spl_newsletter_label() !== '' && ! empty( $_POST['newsletter'] ); // optional: the newsletter permission
 	if ( trim( (string) spl_opt( 'consent_label' ) ) !== '' && empty( $_POST['consent'] ) ) {
 		wp_send_json_error( array( 'message' => __( 'Please tick the required checkboxes.', SPL_TD ) ) );
 	}
@@ -314,11 +318,13 @@ function spl_ajax_upload() {
 		'uploaded_at'    => spl_now(),
 		'consent'        => 1,
 		'gallery_consent' => $gallery_given ? 1 : 0,
+		'newsletter_consent' => $newsletter_given ? 1 : 0,
+		'newsletter_at'   => $newsletter_given ? spl_now() : null,
 	) );
 	$meta = wp_get_attachment_metadata( $attachment_id );
 	$dims = $meta ? $meta['width'] . ' × ' . $meta['height'] . ' px' : '';
 	spl_log( $p->id, 'uploaded', $dims, $attachment_id, $email );
-	spl_log_consent( $p, $gallery_given, $email );
+	spl_log_consent( $p, $gallery_given, $email, $newsletter_given );
 
 	$p = spl_get_placement( $p->id );
 	spl_send_placement_email( $p, 'received' );
