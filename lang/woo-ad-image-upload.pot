@@ -291,6 +291,10 @@ msgstr ""
 msgid "Placement"
 msgstr ""
 
+#: includes/product.php:336 includes/product.php:349
+msgid "Type"
+msgstr ""
+
 #: includes/admin-approvals.php:461 includes/admin-approvals.php:533 includes/admin-approvals.php:731
 msgid "Buyer"
 msgstr ""

@@ -333,7 +333,7 @@ add_filter( 'woocommerce_get_item_data', function ( $item_data, $cart_item ) {
 		return $item_data;
 	}
 	$item_data[] = array(
-		'key'   => __( 'Placement', SPL_TD ),
+		'key'   => __( 'Type', SPL_TD ),
 		'value' => spl_text( $cart_item['spl']['mode'] === 'gift' ? 'mode_gift_label' : 'mode_self_label' ),
 	);
 	return $item_data;
@@ -346,6 +346,6 @@ add_action( 'woocommerce_checkout_create_order_line_item', function ( $item, $ca
 	$s = $values['spl'];
 	$item->add_meta_data( '_spl_mode', $s['mode'], true );
 	if ( $s['mode'] === 'gift' ) {
-		$item->add_meta_data( __( 'Placement', SPL_TD ), spl_text( 'mode_gift_label' ), true );
+		$item->add_meta_data( __( 'Type', SPL_TD ), spl_text( 'mode_gift_label' ), true );
 	}
 }, 10, 3 );
