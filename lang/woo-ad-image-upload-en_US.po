@@ -2062,3 +2062,23 @@ msgstr "Shown on the wall"
 #: includes/admin-approvals.php:738
 msgid "Not on the wall"
 msgstr "Not on the wall"
+
+#: includes/admin-approvals.php
+msgid "Export CSV (%s)"
+msgstr "Export CSV (%s)"
+
+#: includes/admin-approvals.php
+msgid "Download every placement in this list as a CSV file, not only the page on screen"
+msgstr "Download every placement in this list as a CSV file, not only the page on screen"
+
+#: includes/admin-approvals.php
+msgid "Export Excel (%s)"
+msgstr "Export Excel (%s)"
+
+#: includes/admin-approvals.php
+msgid "Download every placement in this list as an Excel file, with every column as wide as its content, not only the page on screen"
+msgstr "Download every placement in this list as an Excel file, with every column as wide as its content, not only the page on screen"
+
+#: includes/admin-export.php
+msgid "The Excel file could not be created. Please use the CSV export."
+msgstr "The Excel file could not be created. Please use the CSV export."

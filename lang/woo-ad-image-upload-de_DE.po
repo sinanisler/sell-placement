@@ -2116,3 +2116,23 @@ msgstr "%s wurde aus der Galerie entfernt."
 #: includes/admin-approvals.php:970
 msgid "Withdrawn %s"
 msgstr "Zurückgezogen %s"
+
+#: includes/admin-approvals.php
+msgid "Export CSV (%s)"
+msgstr "CSV-Export (%s)"
+
+#: includes/admin-approvals.php
+msgid "Download every placement in this list as a CSV file, not only the page on screen"
+msgstr "Lädt jede Platzierung dieser Liste als CSV-Datei herunter, nicht nur die Seite auf dem Bildschirm"
+
+#: includes/admin-approvals.php
+msgid "Export Excel (%s)"
+msgstr "Excel-Export (%s)"
+
+#: includes/admin-approvals.php
+msgid "Download every placement in this list as an Excel file, with every column as wide as its content, not only the page on screen"
+msgstr "Lädt jede Platzierung dieser Liste als Excel-Datei herunter, jede Spalte so breit wie ihr Inhalt, nicht nur die Seite auf dem Bildschirm"
+
+#: includes/admin-export.php
+msgid "The Excel file could not be created. Please use the CSV export."
+msgstr "Die Excel-Datei konnte nicht erstellt werden. Bitte nutzen Sie den CSV-Export."

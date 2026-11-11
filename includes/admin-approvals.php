@@ -452,6 +452,7 @@ function spl_render_queue() {
 	$tab_counts = spl_status_counts( $filters );
 	$here       = spl_current_admin_url();
 	$export_url = wp_nonce_url( add_query_arg( array_merge( array( 'action' => 'spl_export_csv' ), spl_queue_url_args( $status, $filters ) ), admin_url( 'admin-post.php' ) ), 'spl_export_csv' );
+	$export_xlsx_url = add_query_arg( 'format', 'xlsx', $export_url );
 
 	$products = get_posts( array(
 		'post_type'   => 'product',
@@ -501,6 +502,7 @@ function spl_render_queue() {
 			<input type="search" name="s" value="<?php echo esc_attr( $filters['search'] ); ?>" placeholder="<?php esc_attr_e( 'ID, email, name, order #', SPL_TD ); ?>" />
 			<button class="button"><?php esc_html_e( 'Filter', SPL_TD ); ?></button>
 			<a class="button" href="<?php echo esc_url( $export_url ); ?>" title="<?php esc_attr_e( 'Download every placement in this list as a CSV file, not only the page on screen', SPL_TD ); ?>"><span class="dashicons dashicons-download"></span> <?php echo esc_html( sprintf( /* translators: %s: number of placements */ __( 'Export CSV (%s)', SPL_TD ), number_format_i18n( $res['total'] ) ) ); ?></a>
+			<a class="button" href="<?php echo esc_url( $export_xlsx_url ); ?>" title="<?php esc_attr_e( 'Download every placement in this list as an Excel file, with every column as wide as its content, not only the page on screen', SPL_TD ); ?>"><span class="dashicons dashicons-download"></span> <?php echo esc_html( sprintf( /* translators: %s: number of placements */ __( 'Export Excel (%s)', SPL_TD ), number_format_i18n( $res['total'] ) ) ); ?></a>
 		</form>
 
 		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="spl-bulk-form">
