@@ -364,6 +364,22 @@ function spl_cart_item_image_id( $cart_item ) {
 	return $id && wp_attachment_is_image( $id ) ? $id : 0;
 }
 
+/** Order emails: the line keeps its option in _spl_mode, so it gets the same picture as in the cart. */
+add_filter( 'woocommerce_order_item_thumbnail', function ( $image, $item ) {
+	if ( ! $item instanceof WC_Order_Item_Product ) {
+		return $image;
+	}
+	$id = spl_cart_item_image_id( array( 'spl' => array( 'mode' => (string) $item->get_meta( '_spl_mode' ) ) ) );
+	if ( ! $id ) {
+		return $image;
+	}
+	// Keep the size the email chose for the product image.
+	$w = preg_match( '/\swidth="(\d+)"/', (string) $image, $m ) ? (int) $m[1] : 48;
+	$h = preg_match( '/\sheight="(\d+)"/', (string) $image, $m ) ? (int) $m[1] : $w;
+	$img = wp_get_attachment_image( $id, array( $w, $h ), false, array( 'width' => $w, 'height' => $h, 'style' => 'width:' . $w . 'px;height:' . $h . 'px;object-fit:cover' ) );
+	return $img ? $img : $image;
+}, 10, 2 );
+
 /** Classic cart and mini cart (Bricks cart elements and the cart fragments use these templates). */
 add_filter( 'woocommerce_cart_item_thumbnail', function ( $thumbnail, $cart_item ) {
 	$id = spl_cart_item_image_id( $cart_item );
