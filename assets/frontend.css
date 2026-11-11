@@ -68,6 +68,8 @@
 .spl-status{display:none;padding:.7em 1em;border-radius:8px;background:rgba(0,0,0,.05)}
 .spl-status.is-on{display:block}
 .spl-status.is-err{background:#fdecec;color:#b42318;font-weight:700;border:2px solid #e5484d}
+/* On phones the error (for example an unticked checkbox) is large enough to notice. */
+@media (max-width:559px){.spl-status.is-err{font-size:18px;line-height:1.4;padding:1em 1.1em;border-width:3px}}
 .spl-progress{height:6px;border-radius:3px;background:rgba(0,0,0,.1);overflow:hidden}
 .spl-progress span{display:block;height:100%;width:0;background:currentColor;transition:width .2s}
 
