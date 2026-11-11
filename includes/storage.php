@@ -59,6 +59,7 @@ function spl_store_cropped_image( $file, $crop, $rules, $p ) {
 		return new WP_Error( 'spl_upload', sprintf( __( 'This file type is not allowed. Please use %s.', SPL_TD ), spl_formats_sentence() ) );
 	}
 
+	wp_raise_memory_limit( 'image' ); // large phone photos need more than the default memory
 	$editor = wp_get_image_editor( $file['tmp_name'] );
 	if ( is_wp_error( $editor ) ) {
 		return new WP_Error( 'spl_upload', __( 'This image could not be read. Please try another file.', SPL_TD ) );

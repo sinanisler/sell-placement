@@ -156,8 +156,8 @@ function spl_render_upload_page_body( $p ) {
 		echo '<p class="spl-deadline">' . esc_html( sprintf( __( 'Uploads close on %s.', SPL_TD ), spl_format_datetime( $rules['event_end'] ) ) ) . '</p>';
 	}
 
-	$heic_exts = array_intersect( array( 'jpg', 'jpeg' ), spl_allowed_types() ) ? array( 'heic', 'heif' ) : array();
-	// HEIC/HEIF photos (iPhone) are converted to JPEG in the browser first, so they are accepted whenever JPEG is.
+	// Phone formats (HEIC/HEIF, AVIF, GIF, BMP, TIFF) are turned into JPEG in the browser first, so they are accepted whenever JPEG is.
+	$heic_exts = array_intersect( array( 'jpg', 'jpeg' ), spl_allowed_types() ) ? array( 'heic', 'heif', 'hif', 'avif', 'gif', 'bmp', 'tif', 'tiff', 'jfif' ) : array();
 	$config = array(
 		'ajaxUrl'  => admin_url( 'admin-ajax.php' ),
 		'nonce'    => wp_create_nonce( 'spl_upload_' . $p->token ),
@@ -185,7 +185,8 @@ function spl_render_upload_page_body( $p ) {
 			'pickFirst'  => __( 'Please choose an image first.', SPL_TD ),
 		),
 	);
-	$accept = implode( ',', array_map( function ( $e ) {
+	// image/* lets phones offer every photo; the extensions cover pickers that ignore it.
+	$accept = 'image/*,' . implode( ',', array_map( function ( $e ) {
 		return '.' . $e;
 	}, array_merge( spl_allowed_types(), $heic_exts ) ) );
 	?>

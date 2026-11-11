@@ -761,6 +761,9 @@ function spl_max_file_bytes() {
 
 function spl_formats_sentence() {
 	$types = array_map( 'strtoupper', array_diff( spl_allowed_types(), array( 'jpeg' ) ) );
+	if ( array_intersect( array( 'jpg', 'jpeg' ), spl_allowed_types() ) ) {
+		$types[] = 'HEIC'; // iPhone photos, converted to JPEG in the browser
+	}
 	return implode( ', ', $types );
 }
 
