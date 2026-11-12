@@ -305,7 +305,7 @@ function spl_save_product_texts( $posted ) {
 		}
 		foreach ( $products as $p ) {
 			if ( isset( $posted[ $key ][ $p->ID ] ) ) {
-				update_post_meta( $p->ID, $text['meta'], sanitize_textarea_field( (string) $posted[ $key ][ $p->ID ] ) );
+				update_post_meta( $p->ID, $text['meta'], wp_kses_post( trim( (string) $posted[ $key ][ $p->ID ] ) ) );
 			}
 		}
 	}
