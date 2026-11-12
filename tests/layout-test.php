@@ -281,9 +281,11 @@ foreach ( $coupon['layout']['elements'] as $el ) {
 		$url_el = $el;
 	}
 }
-$link_pdf = new SPL_PDF();
-$link_pdf->add_face( 'aptos-zeppelin/regular', spl_font_face( 'aptos-zeppelin', 'regular' ) );
-$link_pdf->face = 'aptos-zeppelin/regular';
+$link_style = $url_el !== null && $url_el['bold'] ? 'bold' : 'regular';
+$link_pdf   = new SPL_PDF();
+$link_pdf->add_face( 'aptos-zeppelin/' . $link_style, spl_font_face( 'aptos-zeppelin', $link_style ) );
+$link_pdf->face     = 'aptos-zeppelin/' . $link_style;
+$link_pdf->tracking = $url_el === null ? 0 : $url_el['letter_spacing'] / 100;
 $link_size  = $url_el === null ? 0 : $url_el['size'];
 $link_lines = array();
 if ( $url_el !== null ) {
@@ -296,6 +298,35 @@ if ( $url_el !== null ) {
 	} while ( count( $link_lines ) > 1 && $link_size > $url_el['fit_min'] );
 }
 check( 'the upload link stays on one line in the coupon', $url_el !== null && count( $link_lines ) === 1 && count( $link_lines ) * $link_size * $url_el['leading'] <= $url_el['box']['h'] + 0.5, implode( ' | ', $link_lines ) . ' at ' . $link_size . ' pt' );
+// The client asked for the link on a line of its own under "Upload-Link:", so it gets the full width and a readable size.
+$label_el = null;
+foreach ( $coupon['layout']['elements'] as $el ) {
+	if ( $el['id'] === 'upload_label' ) {
+		$label_el = $el;
+	}
+}
+check( 'the upload link starts under the "Upload-Link:" label, on the next line', $url_el !== null && $label_el !== null && abs( $url_el['box']['x'] - $label_el['box']['x'] ) < 0.5 && $url_el['box']['y'] >= $label_el['box']['y'] + $label_el['size'] * 0.9 );
+check( 'the upload link is at least 8.5 pt', $link_size >= 8.5, $link_size . ' pt' );
+
+// 12. Letter spacing: wider measuring, a Tc operator on the text, and nothing left over for the next element.
+$ls_pdf = new SPL_PDF();
+$plain  = $ls_pdf->width( 'ABCD', 10 );
+$ls_pdf->tracking = 0.02;
+check( 'letter spacing adds 2% of the size between characters', abs( $ls_pdf->width( 'ABCD', 10 ) - ( $plain + 3 * 0.2 ) ) < 0.001 );
+$ls_layout = spl_layout_check( json_encode( array( 'version' => 1, 'elements' => array(
+	array( 'id' => 'a', 'type' => 'text', 'role' => 'code', 'box' => array( 'x' => 10, 'y' => 10, 'w' => 300, 'h' => 20 ), 'value' => '{code}', 'letter_spacing' => 2 ),
+	array( 'id' => 'b', 'type' => 'text', 'box' => array( 'x' => 10, 'y' => 40, 'w' => 300, 'h' => 20 ), 'value' => 'plain' ),
+) ) ), array( '{code}' ), array( 'code' ) );
+check( 'a layout with letter_spacing has no errors', $ls_layout['errors'] === array(), implode( '; ', $ls_layout['errors'] ) );
+$ls_pdf = new SPL_PDF();
+spl_layout_render( $ls_pdf, $ls_layout['layout'], array( '{code}' => 'X' ), $ctx );
+$ls_out = $ls_pdf->output();
+check( 'spaced text gets a Tc operator and the next text resets it', strpos( $ls_out, '0.240 Tc' ) !== false && strpos( $ls_out, '0.000 Tc' ) !== false );
+$ls_bad = spl_layout_check( json_encode( array( 'version' => 1, 'elements' => array(
+	array( 'id' => 'a', 'type' => 'text', 'role' => 'code', 'box' => array( 'x' => 10, 'y' => 10, 'w' => 300, 'h' => 20 ), 'value' => '{code}', 'letter_spacing' => 'wide' ),
+) ) ), array( '{code}' ), array( 'code' ) );
+check( 'letter_spacing that is not a number is an error', mentions( $ls_bad['errors'], 'letter_spacing' ), implode( '; ', $ls_bad['errors'] ) );
+
 $coupon_all = spl_layout_check( file_get_contents( SPL_DIR . 'includes/layouts/coupon.json' ), $card_tags );
 check( 'a card layout is an error for a certificate check (no name element)', mentions( $coupon_all['errors'], 'element for "name"' ), implode( '; ', $coupon_all['errors'] ) );
 echo "\n" . $results['pass'] . ' passed, ' . $results['fail'] . " failed\n";

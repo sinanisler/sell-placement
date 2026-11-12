@@ -258,6 +258,8 @@ function spl_layout_element( $raw, $index, $tags, &$errors, &$warnings ) {
 		'valign'  => spl_layout_choice( isset( $raw['valign'] ) ? $raw['valign'] : null, array( 'top', 'middle', 'bottom' ), 'top', 'valign', $bad ),
 		'leading' => spl_layout_number( isset( $raw['leading'] ) ? $raw['leading'] : null, 1.3, 0.8, 'leading', $bad ),
 		'fit_min' => $fit,
+		// Percent of the font size, as Figma shows it.
+		'letter_spacing' => spl_layout_number( isset( $raw['letter_spacing'] ) ? $raw['letter_spacing'] : null, 0.0, -20.0, 'letter_spacing', $bad ),
 	);
 	return $el;
 }
@@ -463,6 +465,8 @@ function spl_layout_draw_text( $pdf, $el, $values, $font_cb ) {
 		}
 	}
 
+	$pdf->tracking = $el['letter_spacing'] / 100;
+
 	$text  = strtr( $el['value'], $values );
 	$box   = $el['box'];
 	$size  = $el['size'];
@@ -500,8 +504,9 @@ function spl_layout_draw_text( $pdf, $el, $values, $font_cb ) {
 		}
 		$pdf->text( $x, $top + $i * $lh + $size * 0.8, $line, $size, $bold, $el['align'], $color );
 	}
-	$pdf->face  = null;
-	$pdf->serif = false;
+	$pdf->face     = null;
+	$pdf->serif    = false;
+	$pdf->tracking = 0.0;
 	return $warnings;
 }
 

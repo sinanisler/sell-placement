@@ -15,9 +15,11 @@ function spl_font_registry() {
 	return array(
 		'aptos-zeppelin' => array(
 			'label' => __( 'Aptos Zeppelin NT', SPL_TD ),
+			// The Figma designs set body text in Aptos SemiBold and headings in Aptos ExtraBold, so those are this family's
+			// regular and bold faces. Their glyph widths match the designs exactly.
 			'faces' => array(
-				'regular' => 'AptosRegular.woff',
-				'bold'    => 'AptosBold.ttf',
+				'regular' => 'AptosSemiBold.ttf',
+				'bold'    => 'AptosExtraBold.ttf',
 				'italic'  => 'AptosItalic.ttf',
 			),
 		),

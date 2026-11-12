@@ -26,6 +26,9 @@ class SPL_PDF {
 	/** Key of a custom face (see add_face()) for text drawn from now on, or null for the standard fonts. */
 	public $face = null;
 
+	/** Extra space after every character for text drawn and measured from now on, as a fraction of the font size (0.02 = 2%). */
+	public $tracking = 0.0;
+
 	/** Custom faces: key => array( 'font' => parsed font, 'name' => resource name, 'used' => glyph id => code point ). */
 	private $faces = array();
 
@@ -127,8 +130,10 @@ class SPL_PDF {
 		return $out . "endcmap\nCMapName currentdict /CMap defineresource pop\nend\nend";
 	}
 	public function width( $text, $size, $bold = false ) {
+		// The spacing after the last character is left out, so centred and right-aligned text lines up on its letters.
+		$extra = $this->tracking ? $this->tracking * $size * max( 0, self::char_count( $text ) - 1 ) : 0;
 		if ( $this->face !== null ) {
-			return $this->face_width( $text, $size );
+			return $this->face_width( $text, $size ) + $extra;
 		}
 		$font = $this->font( $bold );
 		$map  = self::$widths[ $font === 'F6' ? 'F1' : $font ];
@@ -139,7 +144,7 @@ class SPL_PDF {
 			$c  = ord( $s[ $i ] );
 			$w += ( $c >= 32 && $c <= 126 ) ? $map[ $c - 32 ] : 556;
 		}
-		return $w * $size / 1000;
+		return $w * $size / 1000 + $extra;
 	}
 
 	private static function esc( $s ) {
@@ -153,11 +158,13 @@ class SPL_PDF {
 		} elseif ( $align === 'right' ) {
 			$x -= $this->width( $text, $size, $bold );
 		}
+		// Character spacing stays in the graphics state after ET, so it is set on every text, 0 included.
+		$tc = sprintf( '%.3F Tc ', $this->tracking * $size );
 		if ( $this->face !== null ) {
-			$this->ops[] = sprintf( '%.3F %.3F %.3F rg BT /%s %.2F Tf %.2F %.2F Td %s Tj ET', $color[0], $color[1], $color[2], $this->faces[ $this->face ]['name'], $size, $x, self::H - $y, $this->face_hex( $text ) );
+			$this->ops[] = sprintf( '%.3F %.3F %.3F rg BT %s/%s %.2F Tf %.2F %.2F Td %s Tj ET', $color[0], $color[1], $color[2], $tc, $this->faces[ $this->face ]['name'], $size, $x, self::H - $y, $this->face_hex( $text ) );
 			return;
 		}
-		$this->ops[] = sprintf( '%.3F %.3F %.3F rg BT /%s %.2F Tf %.2F %.2F Td (%s) Tj ET', $color[0], $color[1], $color[2], $this->font( $bold ), $size, $x, self::H - $y, self::esc( $text ) );
+		$this->ops[] = sprintf( '%.3F %.3F %.3F rg BT %s/%s %.2F Tf %.2F %.2F Td (%s) Tj ET', $color[0], $color[1], $color[2], $tc, $this->font( $bold ), $size, $x, self::H - $y, self::esc( $text ) );
 	}
 
 	/**
