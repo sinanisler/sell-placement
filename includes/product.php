@@ -283,11 +283,11 @@ add_action( 'woocommerce_before_add_to_cart_button', function () {
 		<?php if ( $r['allow_gift'] ) : ?>
 			<p class="spl-buy-heading"><strong><?php echo esc_html( spl_text( 'product_heading' ) ); ?></strong></p>
 			<div class="spl-modes" role="radiogroup">
-				<label class="spl-mode">
+				<label class="spl-mode spl-mode--self">
 					<input type="radio" name="spl_mode" value="self" <?php checked( $posted !== 'gift' ); ?> />
 					<span><strong><?php echo esc_html( spl_text( 'mode_self_label' ) ); ?></strong><small><?php echo esc_html( spl_text( 'mode_self_hint' ) ); ?></small></span>
 				</label>
-				<label class="spl-mode">
+				<label class="spl-mode spl-mode--gift">
 					<input type="radio" name="spl_mode" value="gift" <?php checked( $posted === 'gift' ); ?> />
 					<span><strong><?php echo esc_html( spl_text( 'mode_gift_label' ) ); ?></strong><small><?php echo esc_html( spl_text( 'mode_gift_hint' ) ); ?></small></span>
 				</label>
