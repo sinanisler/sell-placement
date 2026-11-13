@@ -2170,3 +2170,121 @@ msgstr ""
 #: includes/admin-settings.php
 msgid "Name"
 msgstr ""
+
+msgid "Email logs"
+msgstr ""
+
+msgid "Store email content in the log"
+msgstr ""
+
+msgid "Keeps the full email in Placements > Email logs, so you can see what was sent and resend it. The content includes codes and upload links. Off logs only the date, type, recipient, subject and result."
+msgstr ""
+
+msgid "Keep email logs for (days)"
+msgstr ""
+
+msgid "Older entries are deleted once a day. 0 keeps them forever."
+msgstr ""
+
+msgid "The mailer refused the email."
+msgstr ""
+
+msgid "Log entry not found."
+msgstr ""
+
+msgid "This email cannot be resent: its content was not stored."
+msgstr ""
+
+msgid "The email could not be sent. The new log entry shows the error."
+msgstr ""
+
+msgid "You are not allowed to view this page."
+msgstr ""
+
+msgid "You are not allowed to do this."
+msgstr ""
+
+msgid "Every email this plugin sends. \"Sent\" means the mail server accepted it; whether it reached the inbox (or the spam folder) cannot be seen from here."
+msgstr ""
+
+msgid "Entries are kept forever."
+msgstr ""
+
+msgid "Change in Settings"
+msgstr ""
+
+msgid "All types"
+msgstr ""
+
+msgid "Sent and failed"
+msgstr ""
+
+msgid "Sent"
+msgstr ""
+
+msgid "Failed"
+msgstr ""
+
+msgid "Email, subject, ID, order #"
+msgstr ""
+
+msgid "Show all placements"
+msgstr ""
+
+msgid "No emails logged yet."
+msgstr ""
+
+msgid "Recipient"
+msgstr ""
+
+msgid "Placement / order"
+msgstr ""
+
+msgid "resend"
+msgstr ""
+
+msgid "Builds the email again from the current template, with fresh PDFs, and sends it to the placement's current contact."
+msgstr ""
+
+msgid "Sends the stored email again to the same address. Attachments are not included."
+msgstr ""
+
+msgid "Resend"
+msgstr ""
+
+msgid "Send this email again?"
+msgstr ""
+
+msgid "Back to email logs"
+msgstr ""
+
+msgid "Attachments"
+msgstr ""
+
+msgid "Triggered by"
+msgstr ""
+
+msgid "Automatic / customer"
+msgstr ""
+
+msgid "Resend of"
+msgstr ""
+
+msgid "Content"
+msgstr ""
+
+msgid "The content was not stored (Settings > General > \"Store email content in the log\" was off)."
+msgstr ""
+
+msgid "Email sent again. It is listed as a new entry."
+msgstr ""
+
+msgid "Entries are kept for %d day."
+msgid_plural "Entries are kept for %d days."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "%s email"
+msgid_plural "%s emails"
+msgstr[0] ""
+msgstr[1] ""

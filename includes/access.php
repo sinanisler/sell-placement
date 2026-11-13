@@ -4,7 +4,8 @@
  * so nothing is written into the roles themselves and unticking a role takes effect immediately:
  *   spl_approvals - Placements > Approvals (default: administrator, shop_manager)
  *   spl_images    - Placements > Images    (default: administrator)
- *   spl_settings  - Placements > Settings  (default: administrator; administrators always keep it)
+ *   spl_email_logs - Placements > Email logs (default: administrator)
+ *   spl_settings  -Placements > Settings  (default: administrator; administrators always keep it)
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -15,6 +16,7 @@ function spl_caps_roles() {
 	return array(
 		'spl_approvals' => 'roles_approvals',
 		'spl_images'    => 'roles_images',
+		'spl_email_logs' => 'roles_email_logs',
 		'spl_settings'  => 'roles_settings',
 	);
 }

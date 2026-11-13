@@ -21,6 +21,8 @@ foreach ( $attachments as $id ) {
 
 $wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}spl_placements" ); // phpcs:ignore
 $wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}spl_log" ); // phpcs:ignore
+$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}spl_email_log" ); // phpcs:ignore
+wp_clear_scheduled_hook( 'spl_email_log_cleanup' );
 $wpdb->query( "DELETE FROM {$wpdb->postmeta} WHERE meta_key LIKE '\_spl\_%'" ); // phpcs:ignore
 $wpdb->query( "DELETE FROM {$wpdb->usermeta} WHERE meta_key = 'spl_view'" ); // phpcs:ignore
 

@@ -11,6 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 add_action( 'admin_menu', function () {
 	$pages = array(
 		'spl-approvals' => array( 'spl_approvals', __( 'Approvals', SPL_TD ), 'spl_render_approvals_page' ),
+		'spl-email-logs' => array( 'spl_email_logs', __( 'Email logs', SPL_TD ), 'spl_render_email_logs_page' ),
 		'spl-settings'  => array( 'spl_settings', __( 'Settings', SPL_TD ), 'spl_render_settings_page' ),
 	);
 

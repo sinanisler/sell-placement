@@ -38,7 +38,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 define( 'SPL_VERSION', '1.0.0' );
-define( 'SPL_DB_VERSION', '6' );
+define( 'SPL_DB_VERSION', '7' );
 define( 'SPL_FILE', __FILE__ );
 define( 'SPL_DIR', plugin_dir_path( __FILE__ ) );
 define( 'SPL_URL', plugin_dir_url( __FILE__ ) );
@@ -65,6 +65,7 @@ require_once SPL_DIR . 'includes/images.php';
 require_once SPL_DIR . 'includes/wall.php';
 require_once SPL_DIR . 'includes/upload-page.php';
 require_once SPL_DIR . 'includes/emails.php';
+require_once SPL_DIR . 'includes/email-log.php';
 require_once SPL_DIR . 'includes/pdf.php';
 require_once SPL_DIR . 'includes/fonts.php';
 require_once SPL_DIR . 'includes/qr.php';
@@ -79,6 +80,7 @@ if ( is_admin() ) {
 	require_once SPL_DIR . 'includes/admin-export.php';
 	require_once SPL_DIR . 'includes/admin-media.php';
 	require_once SPL_DIR . 'includes/admin-settings.php';
+	require_once SPL_DIR . 'includes/admin-email-logs.php';
 }
 
 add_action( 'init', function () {
@@ -92,6 +94,7 @@ register_activation_hook( __FILE__, function () {
 } );
 
 register_deactivation_hook( __FILE__, function () {
+	wp_clear_scheduled_hook( 'spl_email_log_cleanup' );
 	flush_rewrite_rules();
 } );
 

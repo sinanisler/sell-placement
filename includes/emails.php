@@ -253,8 +253,25 @@ function spl_send_email( $type, $to, $tokens, $attachments = array(), $override 
 	// WooCommerce's header has one fixed 600px cell (the first match). Mark it so the layout CSS can widen it.
 	$html = preg_replace( '/<td width="600">/', '<td class="spl-email-col" width="70%">', $html, 1 );
 	add_filter( 'woocommerce_email_styles', 'spl_email_layout_css', 100 ); // only around our own send
+	$error = '';
+	$catch = function ( $e ) use ( &$error ) {
+		$error = $e->get_error_message();
+	};
+	add_action( 'wp_mail_failed', $catch );
 	$sent = $mailer->send( $to, wp_strip_all_tags( $subject ), $html, "Content-Type: text/html\r\n", $attachments );
+	remove_action( 'wp_mail_failed', $catch );
 	remove_filter( 'woocommerce_email_styles', 'spl_email_layout_css', 100 );
+
+	spl_email_log_add( array(
+		'type'         => $type,
+		'recipient'    => is_array( $to ) ? implode( ', ', $to ) : (string) $to,
+		'subject'      => wp_strip_all_tags( $subject ),
+		'status'       => $sent ? 'sent' : 'failed',
+		'error'        => $sent ? '' : ( $error !== '' ? $error : __( 'The mailer refused the email.', SPL_TD ) ),
+		'tokens'       => $tokens,
+		'attachments'  => $attachments,
+		'body'         => $html,
+	) );
 
 	foreach ( $attachments as $file ) {
 		if ( strpos( $file, spl_tmp_dir() ) === 0 ) {

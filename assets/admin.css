@@ -159,3 +159,13 @@ details.spl-box[open]>summary h2::before{content:"▾ "}
 .spl-settings .spl-intro{font-size:14px}
 .spl-card-frame{display:block;width:100%;max-width:560px;height:auto;aspect-ratio:595.28/841.89;border:1px solid #dcdcde;background:#fff}
 .spl-card-frame.is-loading{opacity:.6}
+
+/* Email logs */
+.spl-email-log-table th,
+.spl-email-log-table td { font-size: 14px; vertical-align: top; }
+.spl-email-log-meta { max-width: 900px; }
+.spl-email-log-meta th { width: 180px; font-weight: 600; }
+.spl-pill--sent { background: #e7f6ec; color: #1a7f37; }
+.spl-pill--failed { background: #fcebea; color: #b32d2e; }
+.spl-email-log-error { margin-top: 6px; color: #b32d2e; font-size: 14px; }
+.spl-email-log-frame { width: 100%; max-width: 900px; height: 720px; border: 1px solid #dcdcde; background: #fff; }

@@ -105,6 +105,20 @@ function spl_settings_schema() {
 					'default' => '',
 					'desc'    => __( 'Comma-separated addresses. Empty uses the site admin email. Turn the email itself off under Emails.', SPL_TD ),
 				),
+				'email_log_body' => array(
+					'type'    => 'checkbox',
+					'label'   => __( 'Store email content in the log', SPL_TD ),
+					'default' => 1,
+					'desc'    => __( 'Keeps the full email in Placements > Email logs, so you can see what was sent and resend it. The content includes codes and upload links. Off logs only the date, type, recipient, subject and result.', SPL_TD ),
+				),
+				'email_log_days' => array(
+					'type'    => 'number',
+					'min'     => '0',
+					'max'     => '3650',
+					'label'   => __( 'Keep email logs for (days)', SPL_TD ),
+					'default' => 90,
+					'desc'    => __( 'Older entries are deleted once a day. 0 keeps them forever.', SPL_TD ),
+				),
 				'delete_data' => array(
 					'type'    => 'checkbox',
 					'label'   => __( 'Delete data on uninstall', SPL_TD ),
@@ -127,6 +141,12 @@ function spl_settings_schema() {
 				'roles_images' => array(
 					'type'    => 'checkboxes',
 					'label'   => __( 'Images', SPL_TD ),
+					'default' => array( 'administrator' ),
+					'choices' => $roles,
+				),
+				'roles_email_logs' => array(
+					'type'    => 'checkboxes',
+					'label'   => __( 'Email logs', SPL_TD ),
 					'default' => array( 'administrator' ),
 					'choices' => $roles,
 				),

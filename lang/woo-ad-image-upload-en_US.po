@@ -2168,3 +2168,121 @@ msgstr "Export CSV"
 #: includes/admin-settings.php
 msgid "Name"
 msgstr "Name"
+
+msgid "Email logs"
+msgstr "Email logs"
+
+msgid "Store email content in the log"
+msgstr "Store email content in the log"
+
+msgid "Keeps the full email in Placements > Email logs, so you can see what was sent and resend it. The content includes codes and upload links. Off logs only the date, type, recipient, subject and result."
+msgstr "Keeps the full email in Placements > Email logs, so you can see what was sent and resend it. The content includes codes and upload links. Off logs only the date, type, recipient, subject and result."
+
+msgid "Keep email logs for (days)"
+msgstr "Keep email logs for (days)"
+
+msgid "Older entries are deleted once a day. 0 keeps them forever."
+msgstr "Older entries are deleted once a day. 0 keeps them forever."
+
+msgid "The mailer refused the email."
+msgstr "The mailer refused the email."
+
+msgid "Log entry not found."
+msgstr "Log entry not found."
+
+msgid "This email cannot be resent: its content was not stored."
+msgstr "This email cannot be resent: its content was not stored."
+
+msgid "The email could not be sent. The new log entry shows the error."
+msgstr "The email could not be sent. The new log entry shows the error."
+
+msgid "You are not allowed to view this page."
+msgstr "You are not allowed to view this page."
+
+msgid "You are not allowed to do this."
+msgstr "You are not allowed to do this."
+
+msgid "Every email this plugin sends. \"Sent\" means the mail server accepted it; whether it reached the inbox (or the spam folder) cannot be seen from here."
+msgstr "Every email this plugin sends. \"Sent\" means the mail server accepted it; whether it reached the inbox (or the spam folder) cannot be seen from here."
+
+msgid "Entries are kept forever."
+msgstr "Entries are kept forever."
+
+msgid "Change in Settings"
+msgstr "Change in Settings"
+
+msgid "All types"
+msgstr "All types"
+
+msgid "Sent and failed"
+msgstr "Sent and failed"
+
+msgid "Sent"
+msgstr "Sent"
+
+msgid "Failed"
+msgstr "Failed"
+
+msgid "Email, subject, ID, order #"
+msgstr "Email, subject, ID, order #"
+
+msgid "Show all placements"
+msgstr "Show all placements"
+
+msgid "No emails logged yet."
+msgstr "No emails logged yet."
+
+msgid "Recipient"
+msgstr "Recipient"
+
+msgid "Placement / order"
+msgstr "Placement / order"
+
+msgid "resend"
+msgstr "resend"
+
+msgid "Builds the email again from the current template, with fresh PDFs, and sends it to the placement's current contact."
+msgstr "Builds the email again from the current template, with fresh PDFs, and sends it to the placement's current contact."
+
+msgid "Sends the stored email again to the same address. Attachments are not included."
+msgstr "Sends the stored email again to the same address. Attachments are not included."
+
+msgid "Resend"
+msgstr "Resend"
+
+msgid "Send this email again?"
+msgstr "Send this email again?"
+
+msgid "Back to email logs"
+msgstr "Back to email logs"
+
+msgid "Attachments"
+msgstr "Attachments"
+
+msgid "Triggered by"
+msgstr "Triggered by"
+
+msgid "Automatic / customer"
+msgstr "Automatic / customer"
+
+msgid "Resend of"
+msgstr "Resend of"
+
+msgid "Content"
+msgstr "Content"
+
+msgid "The content was not stored (Settings > General > \"Store email content in the log\" was off)."
+msgstr "The content was not stored (Settings > General > \"Store email content in the log\" was off)."
+
+msgid "Email sent again. It is listed as a new entry."
+msgstr "Email sent again. It is listed as a new entry."
+
+msgid "Entries are kept for %d day."
+msgid_plural "Entries are kept for %d days."
+msgstr[0] "Entries are kept for %d day."
+msgstr[1] "Entries are kept for %d days."
+
+msgid "%s email"
+msgid_plural "%s emails"
+msgstr[0] "%s email"
+msgstr[1] "%s emails"

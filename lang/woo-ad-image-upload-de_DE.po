@@ -2222,3 +2222,121 @@ msgstr "CSV exportieren"
 #: includes/admin-settings.php
 msgid "Name"
 msgstr "Name"
+
+msgid "Email logs"
+msgstr "E-Mail-Logs"
+
+msgid "Store email content in the log"
+msgstr "E-Mail-Inhalt im Log speichern"
+
+msgid "Keeps the full email in Placements > Email logs, so you can see what was sent and resend it. The content includes codes and upload links. Off logs only the date, type, recipient, subject and result."
+msgstr "Speichert die vollständige E-Mail unter Platzierungen > E-Mail-Logs, damit Sie sehen, was gesendet wurde, und sie erneut senden können. Der Inhalt enthält Codes und Upload-Links. Ausgeschaltet werden nur Datum, Typ, Empfänger, Betreff und Ergebnis protokolliert."
+
+msgid "Keep email logs for (days)"
+msgstr "E-Mail-Logs aufbewahren (Tage)"
+
+msgid "Older entries are deleted once a day. 0 keeps them forever."
+msgstr "Ältere Einträge werden einmal täglich gelöscht. 0 bewahrt sie für immer auf."
+
+msgid "The mailer refused the email."
+msgstr "Der Mailer hat die E-Mail abgelehnt."
+
+msgid "Log entry not found."
+msgstr "Log-Eintrag nicht gefunden."
+
+msgid "This email cannot be resent: its content was not stored."
+msgstr "Diese E-Mail kann nicht erneut gesendet werden: Ihr Inhalt wurde nicht gespeichert."
+
+msgid "The email could not be sent. The new log entry shows the error."
+msgstr "Die E-Mail konnte nicht gesendet werden. Der neue Log-Eintrag zeigt den Fehler."
+
+msgid "You are not allowed to view this page."
+msgstr "Sie dürfen diese Seite nicht aufrufen."
+
+msgid "You are not allowed to do this."
+msgstr "Sie dürfen das nicht tun."
+
+msgid "Every email this plugin sends. \"Sent\" means the mail server accepted it; whether it reached the inbox (or the spam folder) cannot be seen from here."
+msgstr "Jede E-Mail, die dieses Plugin sendet. „Gesendet“ bedeutet, dass der Mailserver sie angenommen hat. Ob sie im Posteingang (oder im Spam-Ordner) angekommen ist, lässt sich hier nicht sehen."
+
+msgid "Entries are kept forever."
+msgstr "Einträge werden für immer aufbewahrt."
+
+msgid "Change in Settings"
+msgstr "In den Einstellungen ändern"
+
+msgid "All types"
+msgstr "Alle Typen"
+
+msgid "Sent and failed"
+msgstr "Gesendet und fehlgeschlagen"
+
+msgid "Sent"
+msgstr "Gesendet"
+
+msgid "Failed"
+msgstr "Fehlgeschlagen"
+
+msgid "Email, subject, ID, order #"
+msgstr "E-Mail, Betreff, ID, Bestell-Nr."
+
+msgid "Show all placements"
+msgstr "Alle Platzierungen zeigen"
+
+msgid "No emails logged yet."
+msgstr "Noch keine E-Mails protokolliert."
+
+msgid "Recipient"
+msgstr "Empfänger"
+
+msgid "Placement / order"
+msgstr "Platzierung / Bestellung"
+
+msgid "resend"
+msgstr "erneut gesendet"
+
+msgid "Builds the email again from the current template, with fresh PDFs, and sends it to the placement's current contact."
+msgstr "Erstellt die E-Mail neu aus der aktuellen Vorlage, mit neuen PDFs, und sendet sie an den aktuellen Kontakt der Platzierung."
+
+msgid "Sends the stored email again to the same address. Attachments are not included."
+msgstr "Sendet die gespeicherte E-Mail erneut an dieselbe Adresse. Anhänge sind nicht enthalten."
+
+msgid "Resend"
+msgstr "Erneut senden"
+
+msgid "Send this email again?"
+msgstr "Diese E-Mail erneut senden?"
+
+msgid "Back to email logs"
+msgstr "Zurück zu den E-Mail-Logs"
+
+msgid "Attachments"
+msgstr "Anhänge"
+
+msgid "Triggered by"
+msgstr "Ausgelöst von"
+
+msgid "Automatic / customer"
+msgstr "Automatisch / Kunde"
+
+msgid "Resend of"
+msgstr "Erneuter Versand von"
+
+msgid "Content"
+msgstr "Inhalt"
+
+msgid "The content was not stored (Settings > General > \"Store email content in the log\" was off)."
+msgstr "Der Inhalt wurde nicht gespeichert (Einstellungen > Allgemein > „E-Mail-Inhalt im Log speichern“ war aus)."
+
+msgid "Email sent again. It is listed as a new entry."
+msgstr "E-Mail erneut gesendet. Sie erscheint als neuer Eintrag."
+
+msgid "Entries are kept for %d day."
+msgid_plural "Entries are kept for %d days."
+msgstr[0] "Einträge werden %d Tag aufbewahrt."
+msgstr[1] "Einträge werden %d Tage aufbewahrt."
+
+msgid "%s email"
+msgid_plural "%s emails"
+msgstr[0] "%s E-Mail"
+msgstr[1] "%s E-Mails"
