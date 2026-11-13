@@ -50,6 +50,7 @@ function spl_render_email_logs_page() {
 				<a href="<?php echo esc_url( admin_url( 'admin.php?page=spl-settings' ) ); ?>"><?php esc_html_e( 'Change in Settings', SPL_TD ); ?></a>
 			<?php endif; ?>
 		</p>
+		<p class="spl-muted"><?php esc_html_e( 'Good to know: emails go out through wp_mail(). "Failed" means WordPress could not hand the email to the mail server (for example SMTP down or a wrong password); a bounce or the spam folder later on is not visible here. Failed emails are not retried automatically, use Resend. The daily cleanup runs on WP-Cron, which only fires when someone visits the site, so on a quiet site it can run late unless the server calls wp-cron.php with a real cron job.', SPL_TD ); ?></p>
 
 		<form method="get" class="spl-filters">
 			<input type="hidden" name="page" value="spl-email-logs" />

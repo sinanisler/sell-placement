@@ -2340,3 +2340,6 @@ msgid "%s email"
 msgid_plural "%s emails"
 msgstr[0] "%s E-Mail"
 msgstr[1] "%s E-Mails"
+
+msgid "Good to know: emails go out through wp_mail(). \"Failed\" means WordPress could not hand the email to the mail server (for example SMTP down or a wrong password); a bounce or the spam folder later on is not visible here. Failed emails are not retried automatically, use Resend. The daily cleanup runs on WP-Cron, which only fires when someone visits the site, so on a quiet site it can run late unless the server calls wp-cron.php with a real cron job."
+msgstr "Gut zu wissen: E-Mails werden über wp_mail() versendet. „Fehlgeschlagen“ bedeutet, dass WordPress die E-Mail nicht an den Mailserver übergeben konnte (zum Beispiel SMTP nicht erreichbar oder ein falsches Passwort). Ein späterer Bounce oder der Spam-Ordner ist hier nicht sichtbar. Fehlgeschlagene E-Mails werden nicht automatisch erneut gesendet, nutzen Sie „Erneut senden“. Die tägliche Bereinigung läuft über WP-Cron, das nur bei einem Seitenaufruf startet. Auf einer ruhigen Website kann sie daher später laufen, außer der Server ruft wp-cron.php über einen echten Cron-Job auf."
