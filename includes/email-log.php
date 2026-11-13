@@ -304,6 +304,23 @@ function spl_email_log_resend( $id ) {
 	return $sent ? true : new WP_Error( 'spl_failed', __( 'The email could not be sent. The new log entry shows the error.', SPL_TD ) );
 }
 
+/**
+ * Failed emails that never got through: original sends (not a retry or a manual resend themselves) that failed,
+ * are not waiting for a retry, and have no later successful retry or resend.
+ *
+ * @return object[]
+ */
+function spl_email_log_undelivered( $limit = 50 ) {
+	global $wpdb;
+	$t = spl_email_log_table();
+	return $wpdb->get_results( $wpdb->prepare( // phpcs:ignore
+		"SELECT f.* FROM $t f WHERE f.status = 'failed' AND f.retry_of = 0 AND f.resent_from = 0 AND f.retry_state NOT IN ('pending', 'recovered')
+		AND NOT EXISTS (SELECT 1 FROM $t s WHERE (s.resent_from = f.id OR s.retry_of = f.id) AND s.status = 'sent')
+		ORDER BY f.id ASC LIMIT %d",
+		$limit
+	) );
+}
+
 /* ---------- Automatic retry ---------- */
 
 function spl_email_retry_set_state( $root, $state, $only_if_pending = false ) {

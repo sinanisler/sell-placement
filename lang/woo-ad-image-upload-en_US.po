@@ -2340,3 +2340,18 @@ msgstr "An email from Sell Placement failed, and %d automatic retries failed too
 
 msgid "Error"
 msgstr "Error"
+
+msgid "Sends every failed email that has still not gone out, once each (up to 50 per click). Emails that were already delivered by an automatic retry or a manual resend, and emails still waiting for an automatic retry, are skipped, so nobody gets an email twice."
+msgstr "Sends every failed email that has still not gone out, once each (up to 50 per click). Emails that were already delivered by an automatic retry or a manual resend, and emails still waiting for an automatic retry, are skipped, so nobody gets an email twice."
+
+msgid "Send them now?"
+msgstr "Send them now?"
+
+msgid "Resend failed (%d)"
+msgstr "Resend failed (%d)"
+
+msgid "Resend failed (0)"
+msgstr "Resend failed (0)"
+
+msgid "Resent: %1$d sent, %2$d failed again. Each one is listed as a new entry."
+msgstr "Resent: %1$d sent, %2$d failed again. Each one is listed as a new entry."

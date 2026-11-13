@@ -2394,3 +2394,18 @@ msgstr "Eine E-Mail von Sell Placement ist fehlgeschlagen, und %d automatische W
 
 msgid "Error"
 msgstr "Fehler"
+
+msgid "Sends every failed email that has still not gone out, once each (up to 50 per click). Emails that were already delivered by an automatic retry or a manual resend, and emails still waiting for an automatic retry, are skipped, so nobody gets an email twice."
+msgstr "Sendet jede fehlgeschlagene E-Mail, die noch nicht zugestellt wurde, je einmal (bis zu 50 pro Klick). E-Mails, die bereits durch eine automatische Wiederholung oder ein manuelles erneutes Senden zugestellt wurden, und E-Mails, die noch auf eine automatische Wiederholung warten, werden übersprungen. So erhält niemand eine E-Mail doppelt."
+
+msgid "Send them now?"
+msgstr "Jetzt senden?"
+
+msgid "Resend failed (%d)"
+msgstr "Fehlgeschlagene erneut senden (%d)"
+
+msgid "Resend failed (0)"
+msgstr "Fehlgeschlagene erneut senden (0)"
+
+msgid "Resent: %1$d sent, %2$d failed again. Each one is listed as a new entry."
+msgstr "Erneut gesendet: %1$d gesendet, %2$d erneut fehlgeschlagen. Jede erscheint als neuer Eintrag."

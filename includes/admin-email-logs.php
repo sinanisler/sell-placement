@@ -54,6 +54,18 @@ function spl_render_email_logs_page() {
 		<p class="spl-muted"><?php esc_html_e( 'Automatic retry: a failed email is sent again up to 4 times, after 1 minute, 1 more minute, 5 minutes and 10 minutes, word for word with fresh PDFs. Each try is a new row ("Retry 1 of 4"), and the failed row shows "Retrying", "Recovered by retry" or "Gave up". After that, Resend is still there; a staff alert can be switched on in Settings (off by default). Retries and the daily cleanup run on Action Scheduler / WP-Cron, which only fire when someone visits the site, so on a quiet site a retry can come later unless the server calls wp-cron.php every minute with a real cron job.', SPL_TD ); ?><?php echo spl_opt( 'email_retry' ) ? '' : ' <strong>' . esc_html__( 'Automatic retry is switched off in Settings.', SPL_TD ) . '</strong>'; ?></p>
 
 		<form method="get" class="spl-filters">
+			<?php
+			$undelivered = count( spl_email_log_undelivered( 50 ) );
+			$resend_all  = wp_nonce_url( add_query_arg( 'action', 'spl_email_resend_failed', admin_url( 'admin-post.php' ) ), 'spl_email_resend_failed' );
+			$tip         = __( 'Sends every failed email that has still not gone out, once each (up to 50 per click). Emails that were already delivered by an automatic retry or a manual resend, and emails still waiting for an automatic retry, are skipped, so nobody gets an email twice.', SPL_TD );
+			?>
+			<?php if ( $undelivered ) : ?>
+				<a class="button button-primary" title="<?php echo esc_attr( $tip ); ?>" onclick="return confirm(<?php echo esc_attr( wp_json_encode( $tip . "\n\n" . __( 'Send them now?', SPL_TD ) ) ); ?>)" href="<?php echo esc_url( $resend_all ); ?>">
+					<?php /* translators: %d: number of emails */ echo esc_html( sprintf( __( 'Resend failed (%d)', SPL_TD ), $undelivered ) ); ?>
+				</a>
+			<?php else : ?>
+				<button type="button" class="button" disabled title="<?php echo esc_attr( $tip ); ?>"><?php esc_html_e( 'Resend failed (0)', SPL_TD ); ?></button>
+			<?php endif; ?>
 			<input type="hidden" name="page" value="spl-email-logs" />
 			<?php if ( $placement ) : ?>
 				<input type="hidden" name="placement" value="<?php echo (int) $placement; ?>" />
@@ -220,6 +232,25 @@ function spl_render_email_log_entry( $id ) {
 	</div>
 	<?php
 }
+
+add_action( 'admin_post_spl_email_resend_failed', function () {
+	check_admin_referer( 'spl_email_resend_failed' );
+	if ( ! current_user_can( 'spl_email_logs' ) ) {
+		wp_die( esc_html__( 'You are not allowed to do this.', SPL_TD ) );
+	}
+	$ok   = 0;
+	$fail = 0;
+	foreach ( spl_email_log_undelivered( 50 ) as $row ) {
+		if ( true === spl_email_log_resend( (int) $row->id ) ) {
+			$ok++;
+		} else {
+			$fail++;
+		}
+	}
+	/* translators: 1: sent count, 2: failed count */
+	$msg = sprintf( __( 'Resent: %1$d sent, %2$d failed again. Each one is listed as a new entry.', SPL_TD ), $ok, $fail );
+	spl_redirect_with_notice( spl_email_logs_url(), $msg, $fail && ! $ok ? 'error' : 'success' );
+} );
 
 add_action( 'admin_post_spl_email_resend', function () {
 	$id = isset( $_GET['log'] ) ? absint( $_GET['log'] ) : 0;
