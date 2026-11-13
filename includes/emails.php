@@ -151,7 +151,7 @@ function spl_email_shortcode_defaults() {
 
 /** The shortcode as shown under the email editors, ready to copy. */
 function spl_email_shortcode_example() {
-	return '[spl_button url="https://shop.wirsind-bw.de/events/zeppelin-75years/?code={code}&placement_type={placement_type}&orderid={order_id}" text="Klicken Sie hier, um Ihr Ticket zu erhalten." style="padding: 20px; border-radius: 20px; background: black; color: white;"]';
+	return '[spl_button url="https://shop.wirsind-bw.de/events/zeppelin-75years/?code={code}&placement_type={placement_type}&orderid={order_id}" text="Klicken Sie hier, um Ihr Ticket zu erhalten." style="padding: 20px; border-radius: 20px; background: black; color: white;" only_ticket="yes"]';
 }
 
 /**
@@ -175,16 +175,26 @@ function spl_email_button_shortcode( $atts ) {
 }
 
 /** Expands only [spl_button] in an email body; other shortcodes stay as written. */
-function spl_email_shortcodes( $html ) {
+function spl_email_shortcodes( $html, $tokens = array() ) {
 	if ( strpos( $html, '[spl_button' ) === false ) {
 		return $html;
 	}
+	// "ticket", "gift" or "ticket,gift" (buyer email for a mixed order).
+	$types   = explode( ',', isset( $tokens['{placement_type}'] ) ? (string) $tokens['{placement_type}'] : '' );
 	$pattern = get_shortcode_regex( array( 'spl_button' ) );
-	return preg_replace_callback( '/' . $pattern . '/', function ( $m ) {
+	return preg_replace_callback( '/' . $pattern . '/', function ( $m ) use ( $types ) {
 		if ( $m[1] === '[' && $m[6] === ']' ) {
 			return substr( $m[0], 1, -1 ); // [[spl_button]] prints the shortcode itself
 		}
-		return spl_email_button_shortcode( shortcode_parse_atts( $m[3] ) );
+		$atts = shortcode_parse_atts( $m[3] );
+		$atts = is_array( $atts ) ? $atts : array();
+		// only_ticket="yes": show the button only when the email covers at least one HÄPPY-Ticket, so a
+		// Gutschein-only order gets no button, while a ticket-only or mixed order does.
+		if ( isset( $atts['only_ticket'] ) && in_array( strtolower( $atts['only_ticket'] ), array( 'yes', '1', 'true' ), true ) && ! in_array( 'ticket', $types, true ) ) {
+			return '';
+		}
+		unset( $atts['only_ticket'] );
+		return spl_email_button_shortcode( $atts );
 	}, $html );
 }
 
@@ -236,7 +246,7 @@ function spl_send_email( $type, $to, $tokens, $attachments = array(), $override 
 	if ( $type === 'approved' && ! isset( $override['body'] ) && spl_opt( 'cert_email_auto' ) && strpos( $body, '{certificate}' ) === false ) {
 		$body .= "\n{certificate}";
 	}
-	$body = spl_email_shortcodes( spl_fill( $body, $tokens ) );
+	$body = spl_email_shortcodes( spl_fill( $body, $tokens ), $tokens );
 
 	$mailer = WC()->mailer();
 	$html   = $mailer->wrap_message( wp_strip_all_tags( $heading ), wpautop( $body ) );

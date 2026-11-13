@@ -248,7 +248,7 @@ function spl_render_setting_field( $key, $field ) {
 	if ( ! empty( $field['shortcode'] ) ) {
 		echo '<p class="description spl-shortcode-help">' . esc_html__( 'Button shortcode (click to select, then copy into the message; change text and style as you like, placeholders work inside url):', SPL_TD ) . '</p>';
 		echo '<input type="text" readonly class="large-text code" onclick="this.select()" style="font-size:14px" value="' . esc_attr( spl_email_shortcode_example() ) . '" />';
-		echo '<p class="description">' . esc_html__( 'Options: url (required), text, style (CSS), bold="no" for plain text, target="_self" to open in the same tab. {placement_type} is "ticket" or "gift"; in the buyer email it lists every type in the order, e.g. "ticket,gift", and {code} lists every code, comma separated. {order_id} and {order_key} let the target page check that the order is real.', SPL_TD ) . '</p>';
+		echo '<p class="description">' . esc_html__( 'Options: url (required), text, style (CSS), bold="no" for plain text, target="_self" to open in the same tab, only_ticket="yes" to show the button only when the email covers a HÄPPY-Ticket (ticket-only or mixed orders; hidden for Gutschein-only).{placement_type} is "ticket" or "gift"; in the buyer email it lists every type in the order, e.g. "ticket,gift", and {code} lists every code, comma separated. {order_id} and {order_key} let the target page check that the order is real.', SPL_TD ) . '</p>';
 	}
 }
 
