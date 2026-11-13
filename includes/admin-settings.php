@@ -245,6 +245,11 @@ function spl_render_setting_field( $key, $field ) {
 		}
 		echo '</p>';
 	}
+	if ( ! empty( $field['shortcode'] ) ) {
+		echo '<p class="description spl-shortcode-help">' . esc_html__( 'Button shortcode (click to select, then copy into the message; change text and style as you like, placeholders work inside url):', SPL_TD ) . '</p>';
+		echo '<input type="text" readonly class="large-text code" onclick="this.select()" style="font-size:14px" value="' . esc_attr( spl_email_shortcode_example() ) . '" />';
+		echo '<p class="description">' . esc_html__( 'Options: url (required), text, style (CSS), bold="no" for plain text, target="_self" to open in the same tab. {placement_type} is "ticket" or "gift"; in the buyer email it lists every type in the order, e.g. "ticket,gift", and {code} lists every code, comma separated. {order_id} and {order_key} let the target page check that the order is real.', SPL_TD ) . '</p>';
+	}
 }
 
 /**
@@ -373,6 +378,9 @@ add_action( 'admin_post_spl_test_email', function () {
 			'{reason}'        => wpautop( __( 'Example reason: the image is too blurry for print.', SPL_TD ) ),
 			'{attempts_left}' => 1,
 			'{order_number}'  => '1234',
+			'{order_id}'      => 1234,
+			'{order_key}'     => 'wc_order_example',
+			'{placement_type}' => 'ticket,gift',
 		);
 	}
 	$tokens += array(

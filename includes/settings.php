@@ -629,6 +629,7 @@ function spl_settings_schema() {
 					'label'   => __( 'Message', SPL_TD ),
 					'default' => $email['body'],
 					'tokens'  => $email['tokens'],
+					'shortcode' => true,
 				),
 			),
 		);

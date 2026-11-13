@@ -14,7 +14,7 @@ function spl_email_card_types() {
 }
 
 function spl_email_types() {
-	$common = array( '{name}', '{code}', '{product}', '{upload_link}', '{upload_button}', '{event_end}', '{site_name}' );
+	$common = array( '{name}', '{code}', '{product}', '{upload_link}', '{upload_button}', '{event_end}', '{site_name}', '{placement_type}', '{order_id}', '{order_key}' );
 	return array(
 		'buyer'     => array(
 			'title'   => __( 'Email: buyer, after payment', SPL_TD ),
@@ -23,7 +23,7 @@ function spl_email_types() {
 			'subject' => __( 'Your placements for order #{order_number}', SPL_TD ),
 			'heading' => __( 'Thank you for your order', SPL_TD ),
 			'body'    => __( "<p>Hi {name},</p>\n<p>your payment is confirmed. Below is a private upload link for each placement. Upload yourself, or pass a link on to someone else. You can also do this any time from your account.</p>\n{placements}\n<p>{account_link}</p>", SPL_TD ),
-			'tokens'  => array( '{name}', '{order_number}', '{placements}', '{account_link}', '{site_name}' ),
+			'tokens'  => array( '{name}', '{order_number}', '{order_id}', '{order_key}', '{code}', '{placement_type}', '{placements}', '{account_link}', '{site_name}' ),
 		),
 		'gift'      => array(
 			'title'   => __( 'Email: gift recipient', SPL_TD ),
@@ -59,7 +59,7 @@ function spl_email_types() {
 			'subject' => __( 'New image to review: {code}', SPL_TD ),
 			'heading' => __( 'New image to review', SPL_TD ),
 			'body'    => __( "<p>{name} ({uploader_email}) uploaded an image for <strong>{product}</strong>, placement {code}, order #{order_number}.</p>\n<p>{image}</p>\n<p><a href=\"{review_link}\">Review it now</a></p>", SPL_TD ),
-			'tokens'  => array( '{name}', '{uploader_email}', '{code}', '{product}', '{order_number}', '{image}', '{review_link}' ),
+			'tokens'  => array( '{name}', '{uploader_email}', '{code}', '{product}', '{order_number}', '{order_id}', '{order_key}', '{placement_type}', '{image}', '{review_link}' ),
 		),
 		'approved'  => array(
 			'title'   => __( 'Email: approved', SPL_TD ),
@@ -117,6 +117,77 @@ function spl_email_button( $url, $label ) {
 	return '<a href="' . esc_url( $url ) . '" style="display:inline-block;padding:12px 22px;background:#0c0400;color:#ffffff;text-decoration:none;border-radius:100px;font-weight:bold">' . esc_html( $label ) . '</a>';
 }
 
+/**
+ * The placement type as a short word for links: "ticket" (normal placement) or "gift" (Gutschein).
+ */
+function spl_placement_type_slug( $p ) {
+	return $p->is_gift ? 'gift' : 'ticket';
+}
+
+/** Every type in a list of placements, comma separated, e.g. "ticket,gift" for an order with both. */
+function spl_placement_types_of( $placements ) {
+	$types = array();
+	foreach ( array( 'ticket', 'gift' ) as $t ) {
+		foreach ( $placements as $p ) {
+			if ( spl_placement_type_slug( $p ) === $t ) {
+				$types[] = $t;
+				break;
+			}
+		}
+	}
+	return implode( ',', $types );
+}
+
+/** Default look of the [spl_button] email shortcode. */
+function spl_email_shortcode_defaults() {
+	return array(
+		'url'    => '',
+		'text'   => 'Klicken Sie hier, um Ihr Ticket zu erhalten.',
+		'style'  => 'padding: 20px; border-radius: 20px; background: black; color: white;',
+		'bold'   => 'yes',
+		'target' => '_blank',
+	);
+}
+
+/** The shortcode as shown under the email editors, ready to copy. */
+function spl_email_shortcode_example() {
+	return '[spl_button url="https://shop.wirsind-bw.de/events/zeppelin-75years/?code={code}&placement_type={placement_type}&orderid={order_id}" text="Klicken Sie hier, um Ihr Ticket zu erhalten." style="padding: 20px; border-radius: 20px; background: black; color: white;"]';
+}
+
+/**
+ * [spl_button url="" text="" style="" bold="yes|no" target="_blank|_self"] → a styled link. Placeholders in the
+ * attributes are filled before this runs, so url can carry {code}, {placement_type}, {order_id} and so on.
+ */
+function spl_email_button_shortcode( $atts ) {
+	$a = shortcode_atts( spl_email_shortcode_defaults(), is_array( $atts ) ? $atts : array(), 'spl_button' );
+	if ( $a['url'] === '' ) {
+		return '';
+	}
+	// The editor may store & as &amp; inside the attribute; decode so esc_url gets the real link.
+	$url   = esc_url( html_entity_decode( $a['url'], ENT_QUOTES, 'UTF-8' ) );
+	$style = safecss_filter_attr( html_entity_decode( $a['style'], ENT_QUOTES, 'UTF-8' ) );
+	$text  = esc_html( html_entity_decode( $a['text'], ENT_QUOTES, 'UTF-8' ) );
+	if ( ! in_array( strtolower( $a['bold'] ), array( 'no', '0', 'false' ), true ) ) {
+		$text = '<strong>' . $text . '</strong>';
+	}
+	$target = $a['target'] === '_self' ? '_self' : '_blank';
+	return '<a style="' . esc_attr( $style ) . '" href="' . $url . '" target="' . $target . '" rel="noopener">' . $text . '</a>';
+}
+
+/** Expands only [spl_button] in an email body; other shortcodes stay as written. */
+function spl_email_shortcodes( $html ) {
+	if ( strpos( $html, '[spl_button' ) === false ) {
+		return $html;
+	}
+	$pattern = get_shortcode_regex( array( 'spl_button' ) );
+	return preg_replace_callback( '/' . $pattern . '/', function ( $m ) {
+		if ( $m[1] === '[' && $m[6] === ']' ) {
+			return substr( $m[0], 1, -1 ); // [[spl_button]] prints the shortcode itself
+		}
+		return spl_email_button_shortcode( shortcode_parse_atts( $m[3] ) );
+	}, $html );
+}
+
 /** Placeholder values for one placement. */
 function spl_placement_tokens( $p, $extra = array() ) {
 	$product = wc_get_product( $p->product_id );
@@ -136,6 +207,9 @@ function spl_placement_tokens( $p, $extra = array() ) {
 		'{reason}'         => $p->last_reason ? wpautop( esc_html( $p->last_reason ) ) : '',
 		'{attempts_left}'  => max( 0, $p->max_rejections - $p->rejections ),
 		'{order_number}'   => $order ? $order->get_order_number() : $p->order_id,
+		'{order_id}'       => (int) $p->order_id,
+		'{order_key}'      => $order ? $order->get_order_key() : '',
+		'{placement_type}' => spl_placement_type_slug( $p ),
 		'{event_end}'      => spl_format_datetime( $rules['event_end'] ),
 		'{certificate_name}' => spl_cert_name( $p ),
 		'{certificate}'    => $p->status === 'approved' ? spl_cert_email_html( $p ) : '',
@@ -162,7 +236,7 @@ function spl_send_email( $type, $to, $tokens, $attachments = array(), $override 
 	if ( $type === 'approved' && ! isset( $override['body'] ) && spl_opt( 'cert_email_auto' ) && strpos( $body, '{certificate}' ) === false ) {
 		$body .= "\n{certificate}";
 	}
-	$body = spl_fill( $body, $tokens );
+	$body = spl_email_shortcodes( spl_fill( $body, $tokens ) );
 
 	$mailer = WC()->mailer();
 	$html   = $mailer->wrap_message( wp_strip_all_tags( $heading ), wpautop( $body ) );
@@ -302,7 +376,11 @@ function spl_send_buyer_overview( $order, $placements ) {
 
 	$tokens = array(
 		'{name}'         => $order->get_billing_first_name() ? $order->get_billing_first_name() : $order->get_billing_email(),
-		'{order_number}' => $order->get_order_number(),
+		'{order_number}'   => $order->get_order_number(),
+		'{order_id}'       => $order->get_id(),
+		'{order_key}'      => $order->get_order_key(),
+		'{code}'           => implode( ',', wp_list_pluck( $placements, 'code' ) ),
+		'{placement_type}' => spl_placement_types_of( $placements ),
 		'{placements}'   => $table,
 		'{account_link}' => $account,
 	);
