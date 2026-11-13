@@ -163,6 +163,8 @@ details.spl-box[open]>summary h2::before{content:"▾ "}
 /* Email logs */
 .spl-email-log-table th,
 .spl-email-log-table td { font-size: 14px; vertical-align: top; }
+.spl-email-log-table:not(.spl-email-log-meta) td:nth-child(6) { max-width: 420px; }
+.spl-email-log-table td { overflow-wrap: anywhere; }
 .spl-email-log-meta { max-width: 900px; }
 .spl-email-log-meta th { width: 180px; font-weight: 600; }
 .spl-pill--sent { background: #e7f6ec; color: #1a7f37; }

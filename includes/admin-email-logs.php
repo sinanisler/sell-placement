@@ -176,11 +176,13 @@ function spl_email_log_status_pill( $row ) {
 }
 
 function spl_email_log_refs( $row ) {
-	$out = array();
+	$out   = array();
+	$codes = array_filter( array_map( 'trim', explode( ',', (string) $row->codes ) ) );
+	$codes = implode( ', ', array_map( 'esc_html', $codes ) );
 	if ( (int) $row->placement_id ) {
-		$out[] = '<a class="spl-code" href="' . esc_url( admin_url( 'admin.php?page=spl-approvals&placement=' . (int) $row->placement_id ) ) . '">' . esc_html( $row->codes ) . '</a>';
-	} elseif ( $row->codes !== '' ) {
-		$out[] = esc_html( $row->codes );
+		$out[] = '<a class="spl-code" href="' . esc_url( admin_url( 'admin.php?page=spl-approvals&placement=' . (int) $row->placement_id ) ) . '">' . $codes . '</a>';
+	} elseif ( $codes !== '' ) {
+		$out[] = '<span class="spl-email-log-codes">' . $codes . '</span>';
 	}
 	if ( (int) $row->order_id ) {
 		$order = function_exists( 'wc_get_order' ) ? wc_get_order( (int) $row->order_id ) : null;
