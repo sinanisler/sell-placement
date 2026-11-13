@@ -128,7 +128,12 @@ function spl_email_log_add( $e ) {
 
 function spl_email_log_get( $id ) {
 	global $wpdb;
-	return $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM ' . spl_email_log_table() . ' WHERE id = %d', $id ) );
+	$row = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM ' . spl_email_log_table() . ' WHERE id = %d', $id ) );
+	if ( $row ) {
+		// The first later try (retry or manual resend) that got through, if any.
+		$row->delivered_by = $wpdb->get_var( $wpdb->prepare( 'SELECT id FROM ' . spl_email_log_table() . " WHERE (resent_from = %d OR retry_of = %d) AND status = 'sent' ORDER BY id LIMIT 1", $id, $id ) ); // phpcs:ignore
+	}
+	return $row;
 }
 
 /**
@@ -168,7 +173,8 @@ function spl_email_log_query( $args ) {
 	$table  = spl_email_log_table();
 	$w      = implode( ' AND ', $where );
 	$count  = "SELECT COUNT(*) FROM $table WHERE $w";
-	$list   = "SELECT id, created_at, type, recipient, subject, status, error, placement_id, order_id, codes, attachments, user_id, resent_from, retry_of, attempt, retry_state, next_retry_at, body IS NOT NULL AS has_body FROM $table WHERE $w ORDER BY id DESC LIMIT $limit OFFSET $offset";
+	$later  = "(SELECT s.id FROM $table s WHERE (s.resent_from = $table.id OR s.retry_of = $table.id) AND s.status = 'sent' ORDER BY s.id LIMIT 1) AS delivered_by";
+	$list   = "SELECT $later, id, created_at, type, recipient, subject, status, error, placement_id, order_id, codes, attachments, user_id, resent_from, retry_of, attempt, retry_state, next_retry_at, body IS NOT NULL AS has_body FROM $table WHERE $w ORDER BY id DESC LIMIT $limit OFFSET $offset";
 	if ( $params ) {
 		$count = $wpdb->prepare( $count, $params ); // phpcs:ignore
 		$list  = $wpdb->prepare( $list, $params ); // phpcs:ignore

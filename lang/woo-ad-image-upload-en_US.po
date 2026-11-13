@@ -2355,3 +2355,9 @@ msgstr "Resend failed (0)"
 
 msgid "Resent: %1$d sent, %2$d failed again. Each one is listed as a new entry."
 msgstr "Resent: %1$d sent, %2$d failed again. Each one is listed as a new entry."
+
+msgid "Sent later"
+msgstr "Sent later"
+
+msgid "First try failed, sent by %s"
+msgstr "First try failed, sent by %s"

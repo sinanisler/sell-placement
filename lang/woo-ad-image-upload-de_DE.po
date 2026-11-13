@@ -2409,3 +2409,9 @@ msgstr "Fehlgeschlagene erneut senden (0)"
 
 msgid "Resent: %1$d sent, %2$d failed again. Each one is listed as a new entry."
 msgstr "Erneut gesendet: %1$d gesendet, %2$d erneut fehlgeschlagen. Jede erscheint als neuer Eintrag."
+
+msgid "Sent later"
+msgstr "Später gesendet"
+
+msgid "First try failed, sent by %s"
+msgstr "Erster Versuch fehlgeschlagen, gesendet durch %s"

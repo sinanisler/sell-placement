@@ -139,6 +139,11 @@ function spl_render_email_logs_page() {
 function spl_email_log_status_pill( $row ) {
 	if ( $row->status === 'sent' ) {
 		echo '<span class="spl-pill spl-pill--sent">' . esc_html__( 'Sent', SPL_TD ) . '</span>';
+	} elseif ( ! empty( $row->delivered_by ) ) {
+		// The first try failed, but a retry or a manual resend got it out: the email reached the server after all.
+		echo '<span class="spl-pill spl-pill--sent" title="' . esc_attr( (string) $row->error ) . '">' . esc_html__( 'Sent later', SPL_TD ) . '</span>';
+		/* translators: %s: link to the log entry that got through */
+		echo '<div class="spl-muted">' . sprintf( esc_html__( 'First try failed, sent by %s', SPL_TD ), '<a href="' . esc_url( spl_email_logs_url( array( 'log' => (int) $row->delivered_by ) ) ) . '">#' . (int) $row->delivered_by . '</a>' ) . '</div>';
 	} else {
 		echo '<span class="spl-pill spl-pill--failed" title="' . esc_attr( (string) $row->error ) . '">' . esc_html__( 'Failed', SPL_TD ) . '</span>';
 	}
@@ -157,12 +162,15 @@ function spl_email_log_status_pill( $row ) {
 		case 'recovered':
 			echo '<div class="spl-email-retry spl-email-retry--ok">' . esc_html__( 'Recovered by retry', SPL_TD ) . '</div>';
 			break;
+		case 'cancelled':
+			if ( ! empty( $row->delivered_by ) ) {
+				break; // "Sent later" already says it
+			}
+			echo '<div class="spl-muted">' . esc_html__( 'Retries stopped (resent by hand)', SPL_TD ) . '</div>';
+			break;
 		case 'gave_up':
 			/* translators: %d: number of retries */
 			echo '<div class="spl-email-retry spl-email-retry--bad">' . esc_html( sprintf( __( 'Gave up after %d retries', SPL_TD ), $max ) ) . '</div>';
-			break;
-		case 'cancelled':
-			echo '<div class="spl-muted">' . esc_html__( 'Retries stopped (resent by hand)', SPL_TD ) . '</div>';
 			break;
 	}
 }
