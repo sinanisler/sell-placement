@@ -169,3 +169,7 @@ details.spl-box[open]>summary h2::before{content:"▾ "}
 .spl-pill--failed { background: #fcebea; color: #b32d2e; }
 .spl-email-log-error { margin-top: 6px; color: #b32d2e; font-size: 14px; }
 .spl-email-log-frame { width: 100%; max-width: 900px; height: 720px; border: 1px solid #dcdcde; background: #fff; }
+.spl-email-retry { margin-top: 4px; font-size: 14px; font-weight: 600; }
+.spl-email-retry--pending { color: #996800; }
+.spl-email-retry--ok { color: #1a7f37; }
+.spl-email-retry--bad { color: #b32d2e; }

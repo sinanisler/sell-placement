@@ -50,7 +50,8 @@ function spl_render_email_logs_page() {
 				<a href="<?php echo esc_url( admin_url( 'admin.php?page=spl-settings' ) ); ?>"><?php esc_html_e( 'Change in Settings', SPL_TD ); ?></a>
 			<?php endif; ?>
 		</p>
-		<p class="spl-muted"><?php esc_html_e( 'Good to know: emails go out through wp_mail(). "Failed" means WordPress could not hand the email to the mail server (for example SMTP down or a wrong password); a bounce or the spam folder later on is not visible here. Failed emails are not retried automatically, use Resend. The daily cleanup runs on WP-Cron, which only fires when someone visits the site, so on a quiet site it can run late unless the server calls wp-cron.php with a real cron job.', SPL_TD ); ?></p>
+		<p class="spl-muted"><?php esc_html_e( 'Good to know: emails go out through wp_mail(). "Failed" means WordPress could not hand the email to the mail server (for example SMTP down or a wrong password); a bounce or the spam folder later on is not visible here. WordPress and WooCommerce never retry a failed email themselves.', SPL_TD ); ?></p>
+		<p class="spl-muted"><?php esc_html_e( 'Automatic retry: a failed email is sent again up to 4 times, after 1 minute, 1 more minute, 5 minutes and 10 minutes, word for word with fresh PDFs. Each try is a new row ("Retry 1 of 4"), and the failed row shows "Retrying", "Recovered by retry" or "Gave up". After that, Resend is still there; a staff alert can be switched on in Settings (off by default). Retries and the daily cleanup run on Action Scheduler / WP-Cron, which only fire when someone visits the site, so on a quiet site a retry can come later unless the server calls wp-cron.php every minute with a real cron job.', SPL_TD ); ?><?php echo spl_opt( 'email_retry' ) ? '' : ' <strong>' . esc_html__( 'Automatic retry is switched off in Settings.', SPL_TD ) . '</strong>'; ?></p>
 
 		<form method="get" class="spl-filters">
 			<input type="hidden" name="page" value="spl-email-logs" />
@@ -129,8 +130,28 @@ function spl_email_log_status_pill( $row ) {
 	} else {
 		echo '<span class="spl-pill spl-pill--failed" title="' . esc_attr( (string) $row->error ) . '">' . esc_html__( 'Failed', SPL_TD ) . '</span>';
 	}
-	if ( (int) $row->resent_from ) {
-		echo ' <span class="spl-muted">' . esc_html__( 'resend', SPL_TD ) . '</span>';
+	$max = count( spl_email_retry_delays() );
+	if ( (int) $row->attempt ) {
+		/* translators: 1: retry number, 2: number of retries */
+		echo '<div class="spl-muted">' . esc_html( sprintf( __( 'Retry %1$d of %2$d', SPL_TD ), (int) $row->attempt, $max ) ) . ' · <a href="' . esc_url( spl_email_logs_url( array( 'log' => (int) $row->retry_of ) ) ) . '">#' . (int) $row->retry_of . '</a></div>';
+	} elseif ( (int) $row->resent_from ) {
+		echo '<div class="spl-muted">' . esc_html__( 'resend', SPL_TD ) . '</div>';
+	}
+	switch ( $row->retry_state ) {
+		case 'pending':
+			/* translators: %s: time */
+			echo '<div class="spl-email-retry spl-email-retry--pending">' . esc_html( sprintf( __( 'Retrying, next try %s', SPL_TD ), $row->next_retry_at ? get_date_from_gmt( $row->next_retry_at, 'H:i:s' ) : '' ) ) . '</div>';
+			break;
+		case 'recovered':
+			echo '<div class="spl-email-retry spl-email-retry--ok">' . esc_html__( 'Recovered by retry', SPL_TD ) . '</div>';
+			break;
+		case 'gave_up':
+			/* translators: %d: number of retries */
+			echo '<div class="spl-email-retry spl-email-retry--bad">' . esc_html( sprintf( __( 'Gave up after %d retries', SPL_TD ), $max ) ) . '</div>';
+			break;
+		case 'cancelled':
+			echo '<div class="spl-muted">' . esc_html__( 'Retries stopped (resent by hand)', SPL_TD ) . '</div>';
+			break;
 	}
 }
 
@@ -157,8 +178,8 @@ function spl_email_log_resend_button( $row ) {
 	}
 	$url   = wp_nonce_url( add_query_arg( array( 'action' => 'spl_email_resend', 'log' => (int) $row->id ), admin_url( 'admin-post.php' ) ), 'spl_email_resend_' . (int) $row->id );
 	$title = $mode === 'rebuild'
-		? __( 'Builds the email again from the current template, with fresh PDFs, and sends it to the placement\'s current contact.', SPL_TD )
-		: __( 'Sends the stored email again to the same address. Attachments are not included.', SPL_TD );
+		? __( 'The content was not stored, so the email is built again from the current template, with fresh PDFs, and sent to the current contact.', SPL_TD )
+		: __( 'Sends the stored email again to the same address, with its PDFs made fresh.', SPL_TD );
 	echo '<a class="button button-small" onclick="return confirm(' . esc_attr( wp_json_encode( __( 'Send this email again?', SPL_TD ) ) ) . ')" href="' . esc_url( $url ) . '" title="' . esc_attr( $title ) . '">' . esc_html__( 'Resend', SPL_TD ) . '</a>';
 }
 

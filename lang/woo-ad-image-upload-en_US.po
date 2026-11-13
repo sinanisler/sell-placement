@@ -2289,3 +2289,54 @@ msgstr[1] "%s emails"
 
 msgid "Good to know: emails go out through wp_mail(). \"Failed\" means WordPress could not hand the email to the mail server (for example SMTP down or a wrong password); a bounce or the spam folder later on is not visible here. Failed emails are not retried automatically, use Resend. The daily cleanup runs on WP-Cron, which only fires when someone visits the site, so on a quiet site it can run late unless the server calls wp-cron.php with a real cron job."
 msgstr "Good to know: emails go out through wp_mail(). \"Failed\" means WordPress could not hand the email to the mail server (for example SMTP down or a wrong password); a bounce or the spam folder later on is not visible here. Failed emails are not retried automatically, use Resend. The daily cleanup runs on WP-Cron, which only fires when someone visits the site, so on a quiet site it can run late unless the server calls wp-cron.php with a real cron job."
+
+msgid "Good to know: emails go out through wp_mail(). \"Failed\" means WordPress could not hand the email to the mail server (for example SMTP down or a wrong password); a bounce or the spam folder later on is not visible here. WordPress and WooCommerce never retry a failed email themselves."
+msgstr "Good to know: emails go out through wp_mail(). \"Failed\" means WordPress could not hand the email to the mail server (for example SMTP down or a wrong password); a bounce or the spam folder later on is not visible here. WordPress and WooCommerce never retry a failed email themselves."
+
+msgid "Automatic retry: a failed email is sent again up to 4 times, after 1 minute, 1 more minute, 5 minutes and 10 minutes, word for word with fresh PDFs. Each try is a new row (\"Retry 1 of 4\"), and the failed row shows \"Retrying\", \"Recovered by retry\" or \"Gave up\". After that, Resend is still there; a staff alert can be switched on in Settings (off by default). Retries and the daily cleanup run on Action Scheduler / WP-Cron, which only fire when someone visits the site, so on a quiet site a retry can come later unless the server calls wp-cron.php every minute with a real cron job."
+msgstr "Automatic retry: a failed email is sent again up to 4 times, after 1 minute, 1 more minute, 5 minutes and 10 minutes, word for word with fresh PDFs. Each try is a new row (\"Retry 1 of 4\"), and the failed row shows \"Retrying\", \"Recovered by retry\" or \"Gave up\". After that, Resend is still there; a staff alert can be switched on in Settings (off by default). Retries and the daily cleanup run on Action Scheduler / WP-Cron, which only fire when someone visits the site, so on a quiet site a retry can come later unless the server calls wp-cron.php every minute with a real cron job."
+
+msgid "Automatic retry is switched off in Settings."
+msgstr "Automatic retry is switched off in Settings."
+
+msgid "Retry %1$d of %2$d"
+msgstr "Retry %1$d of %2$d"
+
+msgid "Retrying, next try %s"
+msgstr "Retrying, next try %s"
+
+msgid "Recovered by retry"
+msgstr "Recovered by retry"
+
+msgid "Gave up after %d retries"
+msgstr "Gave up after %d retries"
+
+msgid "Retries stopped (resent by hand)"
+msgstr "Retries stopped (resent by hand)"
+
+msgid "The content was not stored, so the email is built again from the current template, with fresh PDFs, and sent to the current contact."
+msgstr "The content was not stored, so the email is built again from the current template, with fresh PDFs, and sent to the current contact."
+
+msgid "Sends the stored email again to the same address, with its PDFs made fresh."
+msgstr "Sends the stored email again to the same address, with its PDFs made fresh."
+
+msgid "Retry failed emails automatically"
+msgstr "Retry failed emails automatically"
+
+msgid "A failed email is sent again up to 4 times: after 1 minute, 1 more minute, 5 minutes and 10 minutes."
+msgstr "A failed email is sent again up to 4 times: after 1 minute, 1 more minute, 5 minutes and 10 minutes."
+
+msgid "Alert staff when every retry failed"
+msgstr "Alert staff when every retry failed"
+
+msgid "Emails the address under \"Notify about new uploads\" (or the site admin email) when an email still failed after all retries. Off by default so the inbox is not flooded."
+msgstr "Emails the address under \"Notify about new uploads\" (or the site admin email) when an email still failed after all retries. Off by default so the inbox is not flooded."
+
+msgid "Email could not be sent: %s"
+msgstr "Email could not be sent: %s"
+
+msgid "An email from Sell Placement failed, and %d automatic retries failed too. Please check the mail setup and resend it from the email log."
+msgstr "An email from Sell Placement failed, and %d automatic retries failed too. Please check the mail setup and resend it from the email log."
+
+msgid "Error"
+msgstr "Error"

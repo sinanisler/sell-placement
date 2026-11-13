@@ -2343,3 +2343,54 @@ msgstr[1] "%s E-Mails"
 
 msgid "Good to know: emails go out through wp_mail(). \"Failed\" means WordPress could not hand the email to the mail server (for example SMTP down or a wrong password); a bounce or the spam folder later on is not visible here. Failed emails are not retried automatically, use Resend. The daily cleanup runs on WP-Cron, which only fires when someone visits the site, so on a quiet site it can run late unless the server calls wp-cron.php with a real cron job."
 msgstr "Gut zu wissen: E-Mails werden über wp_mail() versendet. „Fehlgeschlagen“ bedeutet, dass WordPress die E-Mail nicht an den Mailserver übergeben konnte (zum Beispiel SMTP nicht erreichbar oder ein falsches Passwort). Ein späterer Bounce oder der Spam-Ordner ist hier nicht sichtbar. Fehlgeschlagene E-Mails werden nicht automatisch erneut gesendet, nutzen Sie „Erneut senden“. Die tägliche Bereinigung läuft über WP-Cron, das nur bei einem Seitenaufruf startet. Auf einer ruhigen Website kann sie daher später laufen, außer der Server ruft wp-cron.php über einen echten Cron-Job auf."
+
+msgid "Good to know: emails go out through wp_mail(). \"Failed\" means WordPress could not hand the email to the mail server (for example SMTP down or a wrong password); a bounce or the spam folder later on is not visible here. WordPress and WooCommerce never retry a failed email themselves."
+msgstr "Gut zu wissen: E-Mails werden über wp_mail() versendet. „Fehlgeschlagen“ bedeutet, dass WordPress die E-Mail nicht an den Mailserver übergeben konnte (zum Beispiel SMTP nicht erreichbar oder ein falsches Passwort). Ein späterer Bounce oder der Spam-Ordner ist hier nicht sichtbar. WordPress und WooCommerce senden eine fehlgeschlagene E-Mail selbst nie erneut."
+
+msgid "Automatic retry: a failed email is sent again up to 4 times, after 1 minute, 1 more minute, 5 minutes and 10 minutes, word for word with fresh PDFs. Each try is a new row (\"Retry 1 of 4\"), and the failed row shows \"Retrying\", \"Recovered by retry\" or \"Gave up\". After that, Resend is still there; a staff alert can be switched on in Settings (off by default). Retries and the daily cleanup run on Action Scheduler / WP-Cron, which only fire when someone visits the site, so on a quiet site a retry can come later unless the server calls wp-cron.php every minute with a real cron job."
+msgstr "Automatische Wiederholung: Eine fehlgeschlagene E-Mail wird bis zu 4-mal erneut gesendet, nach 1 Minute, 1 weiteren Minute, 5 Minuten und 10 Minuten, wortgleich mit neu erstellten PDFs. Jeder Versuch ist eine neue Zeile („Wiederholung 1 von 4“), und die fehlgeschlagene Zeile zeigt „Wird wiederholt“, „Durch Wiederholung zugestellt“ oder „Aufgegeben“. Danach steht „Erneut senden“ weiter zur Verfügung; eine Benachrichtigung an das Team lässt sich in den Einstellungen einschalten (standardmäßig aus). Wiederholungen und die tägliche Bereinigung laufen über Action Scheduler / WP-Cron, die nur bei einem Seitenaufruf starten. Auf einer ruhigen Website kann eine Wiederholung daher später kommen, außer der Server ruft wp-cron.php jede Minute über einen echten Cron-Job auf."
+
+msgid "Automatic retry is switched off in Settings."
+msgstr "Die automatische Wiederholung ist in den Einstellungen ausgeschaltet."
+
+msgid "Retry %1$d of %2$d"
+msgstr "Wiederholung %1$d von %2$d"
+
+msgid "Retrying, next try %s"
+msgstr "Wird wiederholt, nächster Versuch %s"
+
+msgid "Recovered by retry"
+msgstr "Durch Wiederholung zugestellt"
+
+msgid "Gave up after %d retries"
+msgstr "Nach %d Wiederholungen aufgegeben"
+
+msgid "Retries stopped (resent by hand)"
+msgstr "Wiederholungen gestoppt (von Hand erneut gesendet)"
+
+msgid "The content was not stored, so the email is built again from the current template, with fresh PDFs, and sent to the current contact."
+msgstr "Der Inhalt wurde nicht gespeichert. Die E-Mail wird daher aus der aktuellen Vorlage neu erstellt, mit neuen PDFs, und an den aktuellen Kontakt gesendet."
+
+msgid "Sends the stored email again to the same address, with its PDFs made fresh."
+msgstr "Sendet die gespeicherte E-Mail erneut an dieselbe Adresse, mit neu erstellten PDFs."
+
+msgid "Retry failed emails automatically"
+msgstr "Fehlgeschlagene E-Mails automatisch wiederholen"
+
+msgid "A failed email is sent again up to 4 times: after 1 minute, 1 more minute, 5 minutes and 10 minutes."
+msgstr "Eine fehlgeschlagene E-Mail wird bis zu 4-mal erneut gesendet: nach 1 Minute, 1 weiteren Minute, 5 Minuten und 10 Minuten."
+
+msgid "Alert staff when every retry failed"
+msgstr "Team benachrichtigen, wenn alle Wiederholungen fehlschlagen"
+
+msgid "Emails the address under \"Notify about new uploads\" (or the site admin email) when an email still failed after all retries. Off by default so the inbox is not flooded."
+msgstr "Sendet eine E-Mail an die Adresse unter „Über neue Uploads benachrichtigen“ (oder die Admin-E-Mail der Website), wenn eine E-Mail auch nach allen Wiederholungen fehlgeschlagen ist. Standardmäßig aus, damit das Postfach nicht überläuft."
+
+msgid "Email could not be sent: %s"
+msgstr "E-Mail konnte nicht gesendet werden: %s"
+
+msgid "An email from Sell Placement failed, and %d automatic retries failed too. Please check the mail setup and resend it from the email log."
+msgstr "Eine E-Mail von Sell Placement ist fehlgeschlagen, und %d automatische Wiederholungen ebenfalls. Bitte prüfen Sie die Mail-Einrichtung und senden Sie sie aus dem E-Mail-Log erneut."
+
+msgid "Error"
+msgstr "Fehler"

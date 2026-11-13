@@ -111,6 +111,18 @@ function spl_settings_schema() {
 					'default' => 1,
 					'desc'    => __( 'Keeps the full email in Placements > Email logs, so you can see what was sent and resend it. The content includes codes and upload links. Off logs only the date, type, recipient, subject and result.', SPL_TD ),
 				),
+				'email_retry' => array(
+					'type'    => 'checkbox',
+					'label'   => __( 'Retry failed emails automatically', SPL_TD ),
+					'default' => 1,
+					'desc'    => __( 'A failed email is sent again up to 4 times: after 1 minute, 1 more minute, 5 minutes and 10 minutes.', SPL_TD ),
+				),
+				'email_retry_alert' => array(
+					'type'    => 'checkbox',
+					'label'   => __( 'Alert staff when every retry failed', SPL_TD ),
+					'default' => 0,
+					'desc'    => __( 'Emails the address under "Notify about new uploads" (or the site admin email) when an email still failed after all retries. Off by default so the inbox is not flooded.', SPL_TD ),
+				),
 				'email_log_days' => array(
 					'type'    => 'number',
 					'min'     => '0',
