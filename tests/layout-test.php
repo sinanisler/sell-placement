@@ -260,10 +260,11 @@ check( 'font subset keeps the widths of the used glyphs', $parsed !== null && $p
 check( 'font subset is much smaller than the font', strlen( $sub ) * 2 < strlen( $reg['data'] ), strlen( $sub ) . ' of ' . strlen( $reg['data'] ) );
 
 // 11. The coupon (placement card): the card's own tags, only the code required, a QR code with the upload link.
-$card_tags   = array( '{code}', '{upload_url}', '{product}', '{buyer_name}', '{recipient_name}', '{event_end}', '{site_name}', '{site_url}' );
+$card_tags   = array( '{code}', '{upload_url}', '{ticket_url}', '{product}', '{buyer_name}', '{recipient_name}', '{event_end}', '{site_name}', '{site_url}' );
 $card_values = array(
 	'{code}'         => 'SPXAE96',
 	'{upload_url}'   => 'https://shop.wirsind-bw.de/?spl_upload=eb8028e1ed3fd5b8dcd66b2c6b8aa7b53543ee7e',
+	'{ticket_url}'   => 'https://shop.wirsind-bw.de/events/zeppelin-75years/?code=SPXAE96',
 	'{product}'      => 'HÄPPY-Ticket',
 	'{buyer_name}'   => 'Alex',
 	'{event_end}'    => '28. Februar 2027',

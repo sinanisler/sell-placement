@@ -460,6 +460,7 @@ function spl_card_tokens( $p ) {
 	return array(
 		'{code}'           => (string) $p->code,
 		'{upload_url}'     => spl_upload_url( $p ),
+		'{ticket_url}'     => spl_ticket_url( $p ),
 		'{product}'        => $product ? $product->get_name() : '',
 		'{buyer_name}'     => (string) $p->buyer_name,
 		'{recipient_name}' => (string) $p->recipient_name,
@@ -469,7 +470,13 @@ function spl_card_tokens( $p ) {
 
 /** The tags a card layout may use. */
 function spl_card_token_list() {
-	return array( '{code}', '{upload_url}', '{product}', '{buyer_name}', '{recipient_name}', '{event_end}', '{site_name}', '{site_url}' );
+	return array( '{code}', '{upload_url}', '{ticket_url}', '{product}', '{buyer_name}', '{recipient_name}', '{event_end}', '{site_name}', '{site_url}' );
+}
+
+/** The event ticket link of a placement: the ticket page with its code, where the holder creates the event tickets. */
+function spl_ticket_url( $p ) {
+	$url = add_query_arg( 'code', rawurlencode( (string) $p->code ), 'https://shop.wirsind-bw.de/events/zeppelin-75years/' );
+	return (string) apply_filters( 'spl_ticket_url', $url, $p );
 }
 
 function spl_pdf_url( $p, $type = 'card' ) {
