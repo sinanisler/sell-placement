@@ -60,7 +60,17 @@ function spl_store_cropped_image( $file, $crop, $rules, $p ) {
 	}
 
 	wp_raise_memory_limit( 'image' ); // large phone photos need more than the default memory
+	// Use our Imagick subclass when Imagick is available, so the metadata can be stripped below.
+	$use_spl_editor = function ( $editors ) {
+		if ( in_array( 'WP_Image_Editor_Imagick', $editors, true ) && extension_loaded( 'imagick' ) ) {
+			require_once __DIR__ . '/class-spl-image-editor-imagick.php';
+			array_unshift( $editors, 'SPL_Image_Editor_Imagick' );
+		}
+		return $editors;
+	};
+	add_filter( 'wp_image_editors', $use_spl_editor );
 	$editor = wp_get_image_editor( $file['tmp_name'] );
+	remove_filter( 'wp_image_editors', $use_spl_editor );
 	if ( is_wp_error( $editor ) ) {
 		return new WP_Error( 'spl_upload', __( 'This image could not be read. Please try another file.', SPL_TD ) );
 	}
@@ -105,6 +115,10 @@ function spl_store_cropped_image( $file, $crop, $rules, $p ) {
 		return new WP_Error( 'spl_upload', __( 'The image could not be cropped. Please try another file.', SPL_TD ) );
 	}
 	$editor->set_quality( (int) spl_opt( 'jpeg_quality' ) );
+	// Remove GPS, camera and date metadata from the stored file (GD never keeps it anyway).
+	if ( method_exists( $editor, 'spl_strip_meta' ) ) {
+		$editor->spl_strip_meta();
+	}
 
 	spl_ensure_upload_dir();
 	$up  = wp_upload_dir( null, false );
