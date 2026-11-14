@@ -33,6 +33,36 @@ function spl_ensure_upload_dir() {
 }
 
 /**
+ * WordPress image editor for a placement image. On Imagick servers it is our subclass, which can
+ * remove the metadata (see class-spl-image-editor-imagick.php). Also used by the Debug tab test.
+ *
+ * @return WP_Image_Editor|WP_Error
+ */
+function spl_get_image_editor( $path ) {
+	$use_spl_editor = function ( $editors ) {
+		if ( in_array( 'WP_Image_Editor_Imagick', $editors, true ) && extension_loaded( 'imagick' ) ) {
+			require_once __DIR__ . '/class-spl-image-editor-imagick.php';
+			array_unshift( $editors, 'SPL_Image_Editor_Imagick' );
+		}
+		return $editors;
+	};
+	add_filter( 'wp_image_editors', $use_spl_editor );
+	$editor = wp_get_image_editor( $path );
+	remove_filter( 'wp_image_editors', $use_spl_editor );
+	return $editor;
+}
+
+/**
+ * Removes GPS, camera, date and other metadata before saving; the ICC colour profile stays.
+ * GD keeps no metadata when it saves, so there is nothing to do there.
+ *
+ * @return true|WP_Error
+ */
+function spl_strip_image_meta( $editor ) {
+	return method_exists( $editor, 'spl_strip_meta' ) ? $editor->spl_strip_meta() : true;
+}
+
+/**
  * @param array $file  One entry of $_FILES.
  * @param array $crop  x, y, w, h in pixels of the (orientation-corrected) original.
  * @param array $rules spl_product_rules().
@@ -60,17 +90,7 @@ function spl_store_cropped_image( $file, $crop, $rules, $p ) {
 	}
 
 	wp_raise_memory_limit( 'image' ); // large phone photos need more than the default memory
-	// Use our Imagick subclass when Imagick is available, so the metadata can be stripped below.
-	$use_spl_editor = function ( $editors ) {
-		if ( in_array( 'WP_Image_Editor_Imagick', $editors, true ) && extension_loaded( 'imagick' ) ) {
-			require_once __DIR__ . '/class-spl-image-editor-imagick.php';
-			array_unshift( $editors, 'SPL_Image_Editor_Imagick' );
-		}
-		return $editors;
-	};
-	add_filter( 'wp_image_editors', $use_spl_editor );
-	$editor = wp_get_image_editor( $file['tmp_name'] );
-	remove_filter( 'wp_image_editors', $use_spl_editor );
+	$editor = spl_get_image_editor( $file['tmp_name'] );
 	if ( is_wp_error( $editor ) ) {
 		return new WP_Error( 'spl_upload', __( 'This image could not be read. Please try another file.', SPL_TD ) );
 	}
@@ -115,10 +135,7 @@ function spl_store_cropped_image( $file, $crop, $rules, $p ) {
 		return new WP_Error( 'spl_upload', __( 'The image could not be cropped. Please try another file.', SPL_TD ) );
 	}
 	$editor->set_quality( (int) spl_opt( 'jpeg_quality' ) );
-	// Remove GPS, camera and date metadata from the stored file (GD never keeps it anyway).
-	if ( method_exists( $editor, 'spl_strip_meta' ) ) {
-		$editor->spl_strip_meta();
-	}
+	spl_strip_image_meta( $editor );
 
 	spl_ensure_upload_dir();
 	$up  = wp_upload_dir( null, false );

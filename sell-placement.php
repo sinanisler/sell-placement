@@ -80,6 +80,7 @@ if ( is_admin() ) {
 	require_once SPL_DIR . 'includes/admin-export.php';
 	require_once SPL_DIR . 'includes/admin-media.php';
 	require_once SPL_DIR . 'includes/admin-settings.php';
+	require_once SPL_DIR . 'includes/admin-debug.php';
 	require_once SPL_DIR . 'includes/admin-email-logs.php';
 }
 

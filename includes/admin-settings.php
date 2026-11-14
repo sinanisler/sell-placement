@@ -21,6 +21,11 @@ function spl_settings_tabs() {
 		}
 		$tabs[ $tab ]['sections'][] = $key;
 	}
+	// Not a settings tab: tools for checking the system (admin-debug.php).
+	$tabs['debug'] = array(
+		'title'    => __( 'Debug', SPL_TD ),
+		'sections' => array(),
+	);
 	return $tabs;
 }
 
@@ -50,6 +55,14 @@ function spl_render_settings_page() {
 				<a class="nav-tab <?php echo $key === $tab ? 'nav-tab-active' : ''; ?>" href="<?php echo esc_url( add_query_arg( 'tab', $key, $base ) ); ?>"><?php echo esc_html( $t['title'] ); ?></a>
 			<?php endforeach; ?>
 		</nav>
+
+		<?php
+		if ( $tab === 'debug' ) {
+			spl_render_debug_tab();
+			echo '</div>';
+			return;
+		}
+		?>
 
 		<?php if ( $tab === 'emails' ) : ?>
 			<ul class="subsubsub spl-email-nav">
