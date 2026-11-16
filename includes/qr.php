@@ -454,6 +454,8 @@ add_action( 'template_redirect', function () {
 	}
 	nocache_headers();
 	header( 'Content-Type: image/svg+xml; charset=utf-8' );
+	header( 'X-Content-Type-Options: nosniff' );
+	header( "Content-Security-Policy: default-src 'none'; style-src 'unsafe-inline'" );
 	header( 'Content-Disposition: inline; filename="qr-' . sanitize_file_name( strtolower( $p->code ) ) . '.svg"' );
 	header( 'X-Robots-Tag: noindex', true );
 	echo $svg; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

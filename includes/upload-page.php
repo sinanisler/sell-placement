@@ -275,10 +275,11 @@ function spl_ajax_upload() {
 	}
 	set_transient( $rate_key, $count + 1, HOUR_IN_SECONDS );
 
-	$name  = isset( $_POST['name'] ) ? trim( sanitize_text_field( wp_unslash( $_POST['name'] ) ) ) : '';
+	// The columns hold 190 characters; a longer value would make the database refuse the save after the image was already stored.
+	$name  = isset( $_POST['name'] ) ? mb_substr( trim( sanitize_text_field( wp_unslash( $_POST['name'] ) ) ), 0, 190 ) : '';
 	$email = isset( $_POST['email'] ) ? sanitize_email( wp_unslash( $_POST['email'] ) ) : '';
 	$cert_name = isset( $_POST['cert_name'] ) ? mb_substr( trim( sanitize_text_field( wp_unslash( $_POST['cert_name'] ) ) ), 0, 120 ) : '';
-	if ( $name === '' || ! is_email( $email ) ) {
+	if ( $name === '' || ! is_email( $email ) || strlen( $email ) > 190 ) {
 		wp_send_json_error( array( 'message' => __( 'Please enter your name and a valid email address.', SPL_TD ) ) );
 	}
 	if ( $cert_name === '' ) {

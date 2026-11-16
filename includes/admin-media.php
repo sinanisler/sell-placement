@@ -186,8 +186,9 @@ add_action( 'admin_post_spl_zip', function () {
 		$name = $r->code . '.' . pathinfo( $file, PATHINFO_EXTENSION );
 		$zip->addFile( $file, $name );
 		$cells = array( $r->id, $r->code, get_the_title( $r->product_id ), $r->uploader_name, $r->uploader_email, $r->buyer_email, $r->recipient_email, $r->order_id, $name );
+		// Names and emails come from the public upload form: spl_export_cell() keeps a leading = + - @ from running as a spreadsheet formula.
 		$csv  .= implode( ',', array_map( function ( $c ) {
-			return '"' . str_replace( '"', '""', (string) $c ) . '"';
+			return '"' . str_replace( '"', '""', spl_export_cell( $c ) ) . '"';
 		}, $cells ) ) . "\n";
 	}
 	$zip->addFromString( 'index.csv', $csv );

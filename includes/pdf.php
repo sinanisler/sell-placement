@@ -629,6 +629,7 @@ add_action( 'template_redirect', function () {
 	}
 	nocache_headers();
 	header( 'Content-Type: application/pdf' );
+	header( 'X-Content-Type-Options: nosniff' );
 	header( 'Content-Disposition: attachment; filename="' . spl_pdf_filename( $p, $type ) . '"' );
 	header( 'Content-Length: ' . strlen( $data ) );
 	header( 'X-Robots-Tag: noindex', true );

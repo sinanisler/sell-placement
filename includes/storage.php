@@ -89,6 +89,13 @@ function spl_store_cropped_image( $file, $crop, $rules, $p ) {
 		return new WP_Error( 'spl_upload', sprintf( __( 'This file type is not allowed. Please use %s.', SPL_TD ), spl_formats_sentence() ) );
 	}
 
+	// Refuse absurd dimensions before anything decodes the file: a tiny PNG can declare 30000 x 30000 px and
+	// exhaust the server's memory when it is opened.
+	$dims = wp_getimagesize( $file['tmp_name'] );
+	if ( ! $dims || empty( $dims[0] ) || empty( $dims[1] ) || (int) $dims[0] * (int) $dims[1] > (int) apply_filters( 'spl_max_image_pixels', 120000000 ) || max( (int) $dims[0], (int) $dims[1] ) > 20000 ) {
+		return new WP_Error( 'spl_upload', __( 'This image could not be read. Please try another file.', SPL_TD ) );
+	}
+
 	wp_raise_memory_limit( 'image' ); // large phone photos need more than the default memory
 	$editor = spl_get_image_editor( $file['tmp_name'] );
 	if ( is_wp_error( $editor ) ) {

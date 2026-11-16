@@ -157,6 +157,7 @@ function spl_serve_image() {
 	}
 
 	header( 'Content-Type: ' . $check['type'] );
+	header( 'X-Content-Type-Options: nosniff' );
 	header( 'Content-Length: ' . filesize( $path ) );
 	header( 'Cache-Control: private, max-age=3600' );
 	header( 'X-Robots-Tag: noindex, nofollow', true );
