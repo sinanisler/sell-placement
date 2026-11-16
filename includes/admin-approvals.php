@@ -832,6 +832,7 @@ function spl_render_detail( $p ) {
 							<?php $file = get_attached_file( $p->attachment_id ); echo $file && file_exists( $file ) ? ' · ' . esc_html( size_format( filesize( $file ) ) ) : ''; ?>
 							· <?php echo esc_html( sprintf( /* translators: %s: ratio */ __( 'ratio %s', SPL_TD ), $rules['ratio'] ) ); ?>
 							<?php $orig = get_post_meta( $p->attachment_id, '_spl_original_name', true ); if ( $orig ) { echo ' · ' . esc_html__( 'original:', SPL_TD ) . ' ' . esc_html( $orig . ' (' . str_replace( 'x', ' × ', get_post_meta( $p->attachment_id, '_spl_original_size', true ) ) . ')' ); } ?>
+							<?php $crop_info = get_post_meta( $p->attachment_id, '_spl_crop', true ); echo $crop_info ? ' · ' . esc_html__( 'crop:', SPL_TD ) . ' ' . esc_html( $crop_info ) : ''; ?>
 							· <?php esc_html_e( 'image', SPL_TD ); ?> #<?php echo (int) $p->attachment_id; ?></span>
 						<span>
 							<a class="button" href="<?php echo esc_url( $full ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Open full size', SPL_TD ); ?></a>

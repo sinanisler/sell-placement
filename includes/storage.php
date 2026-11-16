@@ -173,6 +173,13 @@ function spl_store_cropped_image( $file, $crop, $rules, $p ) {
 	update_post_meta( $attachment_id, SPL_ATTACHMENT_META, $p->id );
 	update_post_meta( $attachment_id, '_spl_original_name', sanitize_file_name( $file['name'] ) );
 	update_post_meta( $attachment_id, '_spl_original_size', $nw . 'x' . $nh );
+	// What the browser asked for and what was cut, so a wrong crop can be traced.
+	update_post_meta( $attachment_id, '_spl_crop', sprintf(
+		'asked %s,%s %sx%s · cut %d,%d %dx%d',
+		isset( $crop['x'] ) ? round( $crop['x'] ) : '-', isset( $crop['y'] ) ? round( $crop['y'] ) : '-',
+		isset( $crop['w'] ) ? round( $crop['w'] ) : '-', isset( $crop['h'] ) ? round( $crop['h'] ) : '-',
+		$cx, $cy, $cw, $ch
+	) );
 
 	require_once ABSPATH . 'wp-admin/includes/image.php';
 	wp_update_attachment_metadata( $attachment_id, wp_generate_attachment_metadata( $attachment_id, $path ) );
