@@ -542,7 +542,7 @@ function spl_render_queue() {
 			<a class="button" href="<?php echo esc_url( $export_xlsx_url ); ?>" title="<?php esc_attr_e( 'Download every placement in this list as an Excel file, with every column as wide as its content, not only the page on screen', SPL_TD ); ?>"><span class="dashicons dashicons-download"></span> <?php echo esc_html( sprintf( /* translators: %s: number of placements */ __( 'Export Excel (%s)', SPL_TD ), number_format_i18n( $res['total'] ) ) ); ?></a>
 		</form>
 
-		<?php if ( $status === 'cancelled' && $res['total'] ) : ?>
+		<?php if ( spl_query_placements( array( 'status' => 'cancelled', 'per_page' => 1 ) )['total'] ) : ?>
 			<?php $all_cancelled = spl_query_placements( array( 'status' => 'cancelled', 'per_page' => 1 ) )['total']; ?>
 			<p><a class="button spl-delete" style="color:#b32d2e;border-color:#b32d2e" href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=spl_action&op=delete_cancelled' ), 'spl_action' ) ); ?>" onclick="return confirm(<?php echo esc_attr( wp_json_encode( sprintf( /* translators: %d: number */ __( 'Delete all %d cancelled placements permanently, with their images and history? This cannot be undone.', SPL_TD ), $all_cancelled ) ) ); ?>);"><span class="dashicons dashicons-trash"></span> <?php echo esc_html( sprintf( /* translators: %s: number */ __( 'Delete all cancelled (%s)', SPL_TD ), number_format_i18n( $all_cancelled ) ) ); ?></a></p>
 		<?php endif; ?>
