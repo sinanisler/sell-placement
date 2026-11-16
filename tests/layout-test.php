@@ -299,14 +299,14 @@ if ( $url_el !== null ) {
 	} while ( count( $link_lines ) > 1 && $link_size > $url_el['fit_min'] );
 }
 check( 'the upload link stays on one line in the coupon', $url_el !== null && count( $link_lines ) === 1 && count( $link_lines ) * $link_size * $url_el['leading'] <= $url_el['box']['h'] + 0.5, implode( ' | ', $link_lines ) . ' at ' . $link_size . ' pt' );
-// The client asked for the link on a line of its own under "Upload-Link:", so it gets the full width and a readable size.
+// The link sits on a line of its own under the scan line ("... folgenden Upload-Link:"), so it gets the full width and a readable size.
 $label_el = null;
 foreach ( $coupon['layout']['elements'] as $el ) {
-	if ( $el['id'] === 'upload_label' ) {
+	if ( $el['id'] === 'how_scan' ) {
 		$label_el = $el;
 	}
 }
-check( 'the upload link starts under the "Upload-Link:" label, on the next line', $url_el !== null && $label_el !== null && abs( $url_el['box']['x'] - $label_el['box']['x'] ) < 0.5 && $url_el['box']['y'] >= $label_el['box']['y'] + $label_el['size'] * 0.9 );
+check( 'the upload link starts under the scan line, on the next line, indented', $url_el !== null && $label_el !== null && $url_el['box']['x'] >= $label_el['box']['x'] && $url_el['box']['y'] >= $label_el['box']['y'] + $label_el['size'] * 0.9 );
 check( 'the upload link is at least 8.5 pt', $link_size >= 8.5, $link_size . ' pt' );
 
 // 12. Letter spacing: wider measuring, a Tc operator on the text, and nothing left over for the next element.
