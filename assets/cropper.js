@@ -41,14 +41,6 @@
 		var cx = 0, cy = 0;      // crop centre in source pixels
 		var busy = false;
 
-		// Debug trace: copy the "[SPL]" lines from the browser console (F12) when a crop looks wrong.
-		function dbg(what) {
-			try {
-				var q = img ? rect() : null;
-				console.log('[SPL] ' + what, { zoom: zoom, maxZoom: maxZoom, cx: Math.round(cx), cy: Math.round(cy), nw: nw, nh: nh, baseW: Math.round(baseW), rect: q ? Math.round(q.x) + ',' + Math.round(q.y) + ' ' + Math.round(q.w) + 'x' + Math.round(q.h) : null });
-			} catch (e) { /* ignore */ }
-		}
-
 		function say(msg, kind) {
 			status.textContent = msg || '';
 			status.className = 'spl-status' + (msg ? ' is-on' : '') + (kind ? ' is-' + kind : '');
@@ -109,9 +101,7 @@
 			// Zoom around a point of the frame (0..1), so the spot under the cursor stays put.
 			z = Math.min(Math.max(z, 1), maxZoom);
 			if (px === undefined) { px = 0.5; py = 0.5; }
-			var before = rect();
-			console.log('[SPL] setZoom requested', z);
-			var sx = before.x + before.w * px, sy = before.y + before.h * py;
+			var before = rect();			var sx = before.x + before.w * px, sy = before.y + before.h * py;
 			zoom = z;
 			var w = cropW(), h = cropH();
 			cx = sx - w * px + w / 2;
@@ -121,7 +111,6 @@
 		}
 
 		function reset() {
-			console.log('[SPL] reset() called from:', new Error().stack);
 			zoom = 1;
 			cx = nw / 2;
 			cy = nh / 2;
@@ -300,7 +289,6 @@
 				picker.hidden = true;
 				cropper.hidden = false;
 				submit.disabled = false;
-				console.log('[SPL] image loaded (show)', nw + 'x' + nh, f.name, f.size);
 				reset();
 				frame.focus({ preventScroll: true });
 			};
@@ -308,7 +296,7 @@
 			im.src = objectUrl;
 		}
 
-		fileInput.addEventListener('change', function () { console.log('[SPL] file input change'); load(fileInput.files && fileInput.files[0]); });
+		fileInput.addEventListener('change', function () { load(fileInput.files && fileInput.files[0]); });
 
 		['dragenter', 'dragover'].forEach(function (ev) {
 			drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add('is-drag'); });
@@ -393,12 +381,7 @@
 		form.querySelector('[data-spl-reset]').addEventListener('click', reset);
 		form.querySelector('[data-spl-change]').addEventListener('click', function () { showPicker(); fileInput.click(); });
 
-		window.addEventListener('resize', function () { dbg('window resize'); draw(); });
-		form.addEventListener('change', function (e) { dbg('form change: ' + (e.target.name || e.target.id || e.target.tagName)); });
-		form.addEventListener('click', function (e) { dbg('form click: ' + e.target.tagName + ' ' + (e.target.className || '')); }, true);
-		form.addEventListener('reset', function () { dbg('FORM RESET EVENT'); });
-		slider.addEventListener('input', function () { dbg('slider input ' + slider.value); });
-		console.log('[SPL] cropper initialised (if this prints twice, the script runs twice)');
+		window.addEventListener('resize', draw);
 
 		form.addEventListener('submit', function (e) {
 			e.preventDefault();
@@ -406,7 +389,6 @@
 			if (!file) { say(t.pickFirst, 'err'); return; }
 			if (!form.reportValidity()) { return; }
 
-			dbg('SUBMIT');
 			var r = rect();
 			var fd = new FormData();
 			fd.append('action', 'spl_upload');
@@ -421,7 +403,6 @@
 			fd.append('crop_w', Math.round(r.w));
 			fd.append('crop_h', Math.round(Math.round(r.w) / ratio));
 			fd.append('image', file, file.name);
-			console.log('[SPL] sending crop', { x: Math.round(r.x), y: Math.round(r.y), w: Math.round(r.w), h: Math.round(Math.round(r.w) / ratio) });
 
 			busy = true;
 			submit.disabled = true;
