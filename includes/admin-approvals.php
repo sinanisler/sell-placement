@@ -262,6 +262,25 @@ add_action( 'admin_post_spl_action', function () {
 			spl_redirect_with_notice( $back, __( 'Details saved.', SPL_TD ) );
 			break;
 
+		case 'set_status':
+			$new = isset( $_POST['new_status'] ) ? sanitize_key( $_POST['new_status'] ) : '';
+			if ( ! isset( spl_statuses()[ $new ] ) ) {
+				spl_redirect_with_notice( $back, __( 'Unknown status.', SPL_TD ), 'error' );
+			}
+			if ( $new === $p->status ) {
+				spl_redirect_with_notice( $back, __( 'The status is already that.', SPL_TD ), 'error' );
+			}
+			$data = array( 'status' => $new );
+			if ( in_array( $new, array( 'approved', 'declined', 'suspended' ), true ) && empty( $p->reviewed_at ) ) {
+				$data['reviewed_at'] = spl_now();
+				$data['reviewed_by'] = get_current_user_id();
+			}
+			spl_update_placement( $p->id, $data );
+			spl_log( $p->id, 'note', sprintf( /* translators: 1: old status, 2: new status */ __( 'Status changed by hand: %1$s → %2$s', SPL_TD ), spl_status_label( $p->status ), spl_status_label( $new ) ) );
+			/* translators: 1: code, 2: status */
+			spl_redirect_with_notice( $back, sprintf( __( '%1$s is now %2$s.', SPL_TD ), $p->code, spl_status_label( $new ) ) );
+			break;
+
 		case 'note':
 			$note = isset( $_POST['note'] ) ? trim( sanitize_textarea_field( wp_unslash( $_POST['note'] ) ) ) : '';
 			if ( $note !== '' ) {
@@ -995,6 +1014,20 @@ function spl_render_detail( $p ) {
 						<?php endforeach; ?>
 						<p><label><?php esc_html_e( 'Declines before suspension', SPL_TD ); ?><br><input type="number" min="1" name="max_rejections" value="<?php echo (int) $p->max_rejections; ?>" class="small-text" /></label></p>
 						<p><button class="button"><?php esc_html_e( 'Save', SPL_TD ); ?></button></p>
+					</form>
+				</details>
+				<details class="spl-box">
+					<summary><h2><?php esc_html_e( 'Change status', SPL_TD ); ?></h2></summary>
+					<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="spl-edit" onsubmit="return confirm('<?php echo esc_js( __( 'Change the status? No email is sent.', SPL_TD ) ); ?>');">
+						<?php spl_action_fields( 'set_status', $p, $here ); ?>
+						<p class="description"><?php esc_html_e( 'Sets the status directly, whatever it is now. No email is sent and nothing else is changed. The change is written to the history.', SPL_TD ); ?></p>
+						<p><label><?php esc_html_e( 'New status', SPL_TD ); ?><br>
+							<select name="new_status">
+								<?php foreach ( spl_statuses() as $key => $label ) : ?>
+									<option value="<?php echo esc_attr( $key ); ?>" <?php selected( $p->status, $key ); ?>><?php echo esc_html( $label ); ?></option>
+								<?php endforeach; ?>
+							</select></label></p>
+						<p><button class="button"><?php esc_html_e( 'Change status', SPL_TD ); ?></button></p>
 					</form>
 				</details>
 			</aside>
