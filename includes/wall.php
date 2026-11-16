@@ -294,3 +294,21 @@ function spl_ajax_wall() {
 		'message'  => $res['code'] !== '' && ! $res['highlight'] ? spl_text( 'wall_not_found' ) : '',
 	) );
 }
+
+/* ------------------------------------------------------------------------
+ * No Visual tab on content that holds the [spl_wall] shortcode. TinyMCE rewrites the quotes and wraps
+ * the shortcode in <p> or <br>, which breaks it. Such posts open in the Code tab only.
+ * ---------------------------------------------------------------------- */
+
+add_filter( 'user_can_richedit', 'spl_wall_no_visual_editor' );
+
+function spl_wall_no_visual_editor( $can ) {
+	if ( ! $can || ! is_admin() ) {
+		return $can;
+	}
+	$post = get_post();
+	if ( $post && has_shortcode( (string) $post->post_content, 'spl_wall' ) ) {
+		return false;
+	}
+	return $can;
+}
