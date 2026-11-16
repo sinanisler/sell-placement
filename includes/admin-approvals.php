@@ -82,6 +82,23 @@ function spl_remove_from_wall( $p, $reason ) {
 	spl_log( $p->id, 'wall_removed', $reason, $p->attachment_id );
 }
 
+/**
+ * Permanently delete a placement with its log and its stored image. Only cancelled placements can be deleted
+ * (a suspended one may still be reopened). Returns false for any other status.
+ */
+function spl_delete_placement( $p ) {
+	global $wpdb;
+	if ( ! $p || $p->status !== 'cancelled' ) {
+		return false;
+	}
+	if ( $p->attachment_id ) {
+		wp_delete_attachment( (int) $p->attachment_id, true );
+	}
+	$wpdb->delete( spl_log_table(), array( 'placement_id' => (int) $p->id ), array( '%d' ) );
+	$wpdb->delete( spl_table(), array( 'id' => (int) $p->id ), array( '%d' ) );
+	return true;
+}
+
 /* ------------------------------------------------------------------------
  * Action handler (admin-post.php?action=spl_action).
  * ---------------------------------------------------------------------- */
@@ -112,12 +129,32 @@ add_action( 'admin_post_spl_action', function () {
 		spl_redirect_with_notice( $back, sprintf( _n( '%d image approved.', '%d images approved.', $n, SPL_TD ), $n ) );
 	}
 
+	if ( $op === 'delete_cancelled' ) {
+		$list = spl_query_placements( array( 'status' => 'cancelled', 'per_page' => 100000 ) );
+		$n    = 0;
+		foreach ( $list['items'] as $item ) {
+			if ( spl_delete_placement( $item ) ) {
+				$n++;
+			}
+		}
+		/* translators: %d: number */
+		spl_redirect_with_notice( admin_url( 'admin.php?page=spl-approvals&status=cancelled' ), sprintf( _n( '%d cancelled placement deleted.', '%d cancelled placements deleted.', $n, SPL_TD ), $n ) );
+	}
+
 	$p = spl_get_placement( isset( $_REQUEST['id'] ) ? absint( $_REQUEST['id'] ) : 0 );
 	if ( ! $p ) {
 		spl_redirect_with_notice( $back, __( 'Placement not found.', SPL_TD ), 'error' );
 	}
 
 	switch ( $op ) {
+		case 'delete':
+			if ( ! spl_delete_placement( $p ) ) {
+				spl_redirect_with_notice( $back, __( 'Only cancelled placements can be deleted.', SPL_TD ), 'error' );
+			}
+			/* translators: %s: code */
+			spl_redirect_with_notice( admin_url( 'admin.php?page=spl-approvals&status=cancelled' ), sprintf( __( '%s deleted.', SPL_TD ), $p->code ) );
+			break;
+
 		case 'approve':
 			if ( ! $p->attachment_id ) {
 				spl_redirect_with_notice( $back, __( 'There is no image to approve yet.', SPL_TD ), 'error' );
@@ -505,6 +542,11 @@ function spl_render_queue() {
 			<a class="button" href="<?php echo esc_url( $export_xlsx_url ); ?>" title="<?php esc_attr_e( 'Download every placement in this list as an Excel file, with every column as wide as its content, not only the page on screen', SPL_TD ); ?>"><span class="dashicons dashicons-download"></span> <?php echo esc_html( sprintf( /* translators: %s: number of placements */ __( 'Export Excel (%s)', SPL_TD ), number_format_i18n( $res['total'] ) ) ); ?></a>
 		</form>
 
+		<?php if ( $status === 'cancelled' && $res['total'] ) : ?>
+			<?php $all_cancelled = spl_query_placements( array( 'status' => 'cancelled', 'per_page' => 1 ) )['total']; ?>
+			<p><a class="button spl-delete" style="color:#b32d2e;border-color:#b32d2e" href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=spl_action&op=delete_cancelled' ), 'spl_action' ) ); ?>" onclick="return confirm(<?php echo esc_attr( wp_json_encode( sprintf( /* translators: %d: number */ __( 'Delete all %d cancelled placements permanently, with their images and history? This cannot be undone.', SPL_TD ), $all_cancelled ) ) ); ?>);"><span class="dashicons dashicons-trash"></span> <?php echo esc_html( sprintf( /* translators: %s: number */ __( 'Delete all cancelled (%s)', SPL_TD ), number_format_i18n( $all_cancelled ) ) ); ?></a></p>
+		<?php endif; ?>
+
 		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="spl-bulk-form">
 			<?php wp_nonce_field( 'spl_action' ); ?>
 			<input type="hidden" name="action" value="spl_action" />
@@ -545,6 +587,12 @@ function spl_render_queue() {
 	<?php
 }
 
+/** Delete button (link with nonce and a confirmation) for a cancelled placement. Returns escaped HTML. */
+function spl_delete_link( $p, $class = 'button' ) {
+	$msg = sprintf( /* translators: %s: code */ __( 'Delete %s permanently, with its image and history? This cannot be undone.', SPL_TD ), $p->code );
+	return '<a class="' . esc_attr( $class ) . ' spl-delete" style="color:#b32d2e;border-color:#b32d2e" href="' . esc_url( spl_action_url( 'delete', $p, admin_url( 'admin.php?page=spl-approvals&status=cancelled' ) ) ) . '" onclick="return confirm(' . esc_attr( wp_json_encode( $msg ) ) . ');" title="' . esc_attr__( 'Delete this cancelled placement permanently', SPL_TD ) . '"><span class="dashicons dashicons-trash"></span> ' . esc_html__( 'Delete', SPL_TD ) . '</a>';
+}
+
 function spl_row_actions( $p ) {
 	$out = array();
 	if ( $p->status === 'review' ) {
@@ -564,6 +612,9 @@ function spl_row_actions( $p ) {
 	}
 	if ( $p->status !== 'cancelled' ) {
 		$out[] = '<a class="button button-small" href="' . esc_url( spl_action_url( 'resend', $p ) ) . '" title="' . esc_attr__( 'Email again (the email matching the current status)', SPL_TD ) . '"><span class="dashicons dashicons-email-alt"></span> ' . esc_html__( 'Email again', SPL_TD ) . '</a>';
+	}
+	if ( $p->status === 'cancelled' ) {
+		$out[] = spl_delete_link( $p, 'button button-small' );
 	}
 	return '<div class="spl-actions">' . implode( '', $out ) . '</div>';
 }
@@ -888,6 +939,8 @@ function spl_render_detail( $p ) {
 						<?php if ( $p->status === 'approved' ) : ?>
 							<a class="button" href="<?php echo esc_url( spl_pdf_url( $p, 'certificate' ) ); ?>"><?php esc_html_e( 'Certificate PDF', SPL_TD ); ?></a>
 						<?php endif; ?>
+						<?php if ( $p->status === 'cancelled' ) { echo spl_delete_link( $p ); // phpcs:ignore
+						} ?>
 						<?php if ( $p->status !== 'cancelled' ) : ?>
 							<a class="button" href="<?php echo esc_url( spl_action_url( 'resend', $p, $here ) ); ?>"><span class="dashicons dashicons-email-alt"></span> <?php esc_html_e( 'Email again', SPL_TD ); ?></a>
 						<?php endif; ?>
