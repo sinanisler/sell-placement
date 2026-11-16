@@ -296,19 +296,53 @@ function spl_ajax_wall() {
 }
 
 /* ------------------------------------------------------------------------
- * No Visual tab anywhere in the admin. TinyMCE rewrites the quotes and wraps shortcodes such as
- * [spl_wall] in <p> or <br>, and editors who think they make a small change can break them. Every
- * classic editor opens in the Code tab with no way to switch. The first version only hid the tab on
- * posts that held the shortcode, which still left the tab clickable.
+ * No Visual tab while the content holds the [spl_wall] shortcode. TinyMCE rewrites the quotes and wraps
+ * the shortcode in <p> or <br>, which breaks it. Three layers, because the filter alone left the tab
+ * clickable: the richedit filter (post found by global or by the ?post= id), the default editor, and a
+ * small script that hides the Visual tab live, also when the shortcode is typed into an unsaved page.
  * ---------------------------------------------------------------------- */
 
-add_filter( 'user_can_richedit', 'spl_no_visual_editor', 99 );
-add_filter( 'wp_default_editor', 'spl_default_code_editor' );
+add_filter( 'user_can_richedit', 'spl_wall_no_visual_editor', 99 );
+add_filter( 'wp_default_editor', 'spl_wall_default_editor' );
+add_action( 'admin_footer-post.php', 'spl_wall_visual_tab_script' );
+add_action( 'admin_footer-post-new.php', 'spl_wall_visual_tab_script' );
 
-function spl_no_visual_editor( $can ) {
-	return is_admin() ? false : $can;
+/** True when the post being edited holds [spl_wall] in its saved content. */
+function spl_wall_editing_wall_post() {
+	if ( ! is_admin() ) {
+		return false;
+	}
+	$post = get_post();
+	if ( ! $post && isset( $_GET['post'] ) ) {
+		$post = get_post( absint( $_GET['post'] ) );
+	}
+	return $post && has_shortcode( (string) $post->post_content, 'spl_wall' );
 }
 
-function spl_default_code_editor() {
-	return 'html';
+function spl_wall_no_visual_editor( $can ) {
+	return $can && spl_wall_editing_wall_post() ? false : $can;
+}
+
+function spl_wall_default_editor( $editor ) {
+	return spl_wall_editing_wall_post() ? 'html' : $editor;
+}
+
+function spl_wall_visual_tab_script() {
+	?>
+	<script>
+	( function () {
+		var area = document.getElementById( 'content' ), tab = document.getElementById( 'content-tmce' );
+		if ( ! area || ! tab ) { return; }
+		function check() {
+			var has = /\[spl_wall[\s\]]/.test( area.value );
+			tab.style.display = has ? 'none' : '';
+		}
+		tab.addEventListener( 'click', function ( e ) {
+			if ( /\[spl_wall[\s\]]/.test( area.value ) ) { e.preventDefault(); e.stopImmediatePropagation(); }
+		}, true );
+		area.addEventListener( 'input', check );
+		check();
+	} )();
+	</script>
+	<?php
 }
