@@ -985,7 +985,7 @@ function spl_render_detail( $p ) {
 							'textarea_name' => 'body',
 							'textarea_rows' => 10,
 							'media_buttons' => true,
-							'teeny'         => true,
+							'tinymce'         => false, // Code tab only: TinyMCE breaks [spl_button]
 							'quicktags'     => true,
 						) );
 						?>

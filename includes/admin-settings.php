@@ -207,7 +207,8 @@ function spl_render_setting_field( $key, $field ) {
 				'textarea_name' => $name,
 				'textarea_rows' => 12,
 				'media_buttons' => true,
-				'teeny'         => true,
+				'tinymce'       => false, // Code tab only: TinyMCE breaks shortcodes such as [spl_button]
+				'quicktags'     => true,
 			) );
 			break;
 
