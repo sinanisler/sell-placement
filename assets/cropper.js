@@ -369,14 +369,7 @@
 		frame.addEventListener('pointerup', endPointer);
 		frame.addEventListener('pointercancel', endPointer);
 
-		frame.addEventListener('wheel', function (e) {
-			// Only Ctrl + wheel (also what a trackpad pinch sends) zooms. A plain scroll must scroll the page,
-			// otherwise scrolling down past the image silently zooms the crop out.
-			if (!img || !e.ctrlKey) { return; }
-			e.preventDefault();
-			var box = frame.getBoundingClientRect();
-			setZoom(zoom * Math.exp(-e.deltaY * 0.0015), (e.clientX - box.left) / box.width, (e.clientY - box.top) / box.height);
-		}, { passive: false });
+		// No mouse-wheel zoom on purpose: scrolling the page past the image must never change the crop.
 
 		frame.addEventListener('keydown', function (e) {
 			if (!img) { return; }
