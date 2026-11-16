@@ -296,19 +296,19 @@ function spl_ajax_wall() {
 }
 
 /* ------------------------------------------------------------------------
- * No Visual tab on content that holds the [spl_wall] shortcode. TinyMCE rewrites the quotes and wraps
- * the shortcode in <p> or <br>, which breaks it. Such posts open in the Code tab only.
+ * No Visual tab anywhere in the admin. TinyMCE rewrites the quotes and wraps shortcodes such as
+ * [spl_wall] in <p> or <br>, and editors who think they make a small change can break them. Every
+ * classic editor opens in the Code tab with no way to switch. The first version only hid the tab on
+ * posts that held the shortcode, which still left the tab clickable.
  * ---------------------------------------------------------------------- */
 
-add_filter( 'user_can_richedit', 'spl_wall_no_visual_editor' );
+add_filter( 'user_can_richedit', 'spl_no_visual_editor', 99 );
+add_filter( 'wp_default_editor', 'spl_default_code_editor' );
 
-function spl_wall_no_visual_editor( $can ) {
-	if ( ! $can || ! is_admin() ) {
-		return $can;
-	}
-	$post = get_post();
-	if ( $post && has_shortcode( (string) $post->post_content, 'spl_wall' ) ) {
-		return false;
-	}
-	return $can;
+function spl_no_visual_editor( $can ) {
+	return is_admin() ? false : $can;
+}
+
+function spl_default_code_editor() {
+	return 'html';
 }
