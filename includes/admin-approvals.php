@@ -318,6 +318,7 @@ add_action( 'admin_post_spl_download', function () {
 	}
 	$p    = spl_get_placement( $pid );
 	$name = ( $p ? $p->code : 'placement' ) . ( $p && $p->attachment_id === $att ? '' : '-' . $att ) . '.' . pathinfo( $file, PATHINFO_EXTENSION );
+	spl_discard_output_buffers();
 	nocache_headers();
 	header( 'Content-Type: ' . get_post_mime_type( $att ) );
 	header( 'Content-Disposition: attachment; filename="' . sanitize_file_name( $name ) . '"' );

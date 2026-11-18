@@ -137,6 +137,18 @@ add_action( 'template_redirect', function () {
 
 add_action( 'template_redirect', 'spl_serve_image', 2 );
 
+/**
+ * Drops every open output buffer before binary data is sent. Another plugin's buffer callback (an HTML
+ * "fixer", wpautop, entity encoding) would otherwise rewrite the JPEG bytes into escaped text.
+ */
+function spl_discard_output_buffers() {
+	while ( ob_get_level() > 0 ) {
+		if ( ! @ob_end_clean() ) { // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+			break;
+		}
+	}
+}
+
 function spl_serve_image() {
 	// phpcs:disable WordPress.Security.NonceVerification.Recommended -- access is decided by capability, token or signature.
 	if ( empty( $_GET['spl_image'] ) ) {
@@ -156,6 +168,7 @@ function spl_serve_image() {
 		wp_die( esc_html__( 'Image not found.', SPL_TD ), '', array( 'response' => 404 ) );
 	}
 
+	spl_discard_output_buffers();
 	header( 'Content-Type: ' . $check['type'] );
 	header( 'X-Content-Type-Options: nosniff' );
 	header( 'Content-Length: ' . filesize( $path ) );
